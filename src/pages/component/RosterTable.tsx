@@ -1,17 +1,7 @@
-import { useState } from 'react';
-import {
-    createStyles,
-    Table,
-    ScrollArea,
-    UnstyledButton,
-    Group,
-    Text,
-    Center,
-    TextInput,
-    rem,
-} from '@mantine/core';
-import { keys } from '@mantine/utils';
-import { IconSelector, IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons-react';
+import {useState} from 'react';
+import {Center, createStyles, Group, rem, ScrollArea, Table, Text, TextInput, UnstyledButton,} from '@mantine/core';
+import {keys} from '@mantine/utils';
+import {IconChevronDown, IconChevronUp, IconSearch, IconSelector} from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -35,9 +25,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface RowData {
-    name: string;
-    email: string;
-    company: string;
+    dutyNumber: string,
+    bNL: string,
+    bNT: string,
+    bFT: string,
+    bFL: string,
+    duration: string,
+    remarks: string,
 }
 
 interface TableSortProps {
@@ -48,11 +42,12 @@ interface ThProps {
     children: React.ReactNode;
     reversed: boolean;
     sorted: boolean;
+
     onSort(): void;
 }
 
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-    const { classes } = useStyles();
+function Th({children, reversed, sorted, onSort}: ThProps) {
+    const {classes} = useStyles();
     const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
     return (
         <th className={classes.th}>
@@ -62,7 +57,7 @@ function Th({ children, reversed, sorted, onSort }: ThProps) {
                         {children}
                     </Text>
                     <Center className={classes.icon}>
-                        <Icon size="0.9rem" stroke={1.5} />
+                        <Icon size="0.9rem" stroke={1.5}/>
                     </Center>
                 </Group>
             </UnstyledButton>
@@ -81,7 +76,7 @@ function sortData(
     data: RowData[],
     payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }
 ) {
-    const { sortBy } = payload;
+    const {sortBy} = payload;
 
     if (!sortBy) {
         return filterData(data, payload.search);
@@ -99,7 +94,7 @@ function sortData(
     );
 }
 
-export function TableSort({ data }: TableSortProps) {
+export function TableSort({data}: TableSortProps) {
     const [search, setSearch] = useState('');
     const [sortedData, setSortedData] = useState(data);
     const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
@@ -109,20 +104,24 @@ export function TableSort({ data }: TableSortProps) {
         const reversed = field === sortBy ? !reverseSortDirection : false;
         setReverseSortDirection(reversed);
         setSortBy(field);
-        setSortedData(sortData(data, { sortBy: field, reversed, search }));
+        setSortedData(sortData(data, {sortBy: field, reversed, search}));
     };
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.currentTarget;
+        const {value} = event.currentTarget;
         setSearch(value);
-        setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
+        setSortedData(sortData(data, {sortBy, reversed: reverseSortDirection, search: value}));
     };
 
     const rows = sortedData.map((row) => (
-        <tr key={row.name}>
-            <td>{row.name}</td>
-            <td>{row.email}</td>
-            <td>{row.company}</td>
+        <tr key={row.dutyNumber}>
+            <td>{row.dutyNumber}</td>
+            <td>{row.bNL}</td>
+            <td>{row.bNT}</td>
+            <td>{row.bFT}</td>
+            <td>{row.bFL}</td>
+            <td>{row.duration}</td>
+            <td>{row.remarks}</td>
         </tr>
     ));
 
@@ -131,34 +130,58 @@ export function TableSort({ data }: TableSortProps) {
             <TextInput
                 placeholder="Search by any field"
                 mb="md"
-                icon={<IconSearch size="0.9rem" stroke={1.5} />}
+                icon={<IconSearch size="0.9rem" stroke={1.5}/>}
                 value={search}
                 onChange={handleSearchChange}
             />
-            <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} sx={{ tableLayout: 'fixed' }}>
+            <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} sx={{tableLayout: 'fixed'}}>
                 <thead>
                 <tr>
                     <Th
-                        sorted={sortBy === 'name'}
+                        sorted={sortBy === 'dutyNumber'}
                         reversed={reverseSortDirection}
-                        onSort={() => setSorting('name')}
+                        onSort={() => setSorting('dutyNumber')}
                     >
-                        Name
+                        dutyNumber
                     </Th>
                     <Th
-                        sorted={sortBy === 'email'}
+                        sorted={sortBy === 'bNL'}
                         reversed={reverseSortDirection}
-                        onSort={() => setSorting('email')}
+                        onSort={() => setSorting('bNL')}
                     >
-                        Email
+                        bNL
                     </Th>
                     <Th
-                        sorted={sortBy === 'company'}
+                        sorted={sortBy === 'bNT'}
                         reversed={reverseSortDirection}
-                        onSort={() => setSorting('company')}
+                        onSort={() => setSorting('bNT')}
                     >
-                        Company
-                    </Th>
+                        bNT
+                    </Th><Th
+                    sorted={sortBy === 'bFT'}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting('bFT')}
+                >
+                    bFT
+                </Th><Th
+                    sorted={sortBy === 'bFL'}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting('bFL')}
+                >
+                    bFL
+                </Th><Th
+                    sorted={sortBy === 'duration'}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting('duration')}
+                >
+                    duration
+                </Th><Th
+                    sorted={sortBy === 'remarks'}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting('remarks')}
+                >
+                    remarks
+                </Th>
                 </tr>
                 </thead>
                 <tbody>
