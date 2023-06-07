@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <h1>Hello World</h1>
       </div>
       <p>
-        {allShifts.data ? JSON.stringify(allShifts.data) : "Loading tRPC..."}
+        {allShifts.data ? JSON.stringify(allShifts.data) : "Loading shifts..."}
       </p>
     </div>
   );
