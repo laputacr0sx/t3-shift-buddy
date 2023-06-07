@@ -1,12 +1,13 @@
-import { NextPage } from "next";
-import RosterTable from "~/pages/component/RosterTable";
-
-import { allRoster } from "~/data/allRoster";
+import { type NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <div>
-    <RosterTable data={allRoster} />
-  </div>;
+  return (
+    <div>
+      <div>
+        <h1>Hello World</h1>
+      </div>
+    </div>
+  );
 };
 
 export default Home;
