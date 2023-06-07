@@ -1,16 +1,25 @@
 import { type NextPage } from "next";
+
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const allShifts = api.getShifts.getAll.useQuery();
+  const testPrefix = api.getShifts.getPrefix.useQuery();
+  const prefixes = testPrefix.data
+    ? testPrefix.data.map((shifts) => shifts.dutyNumber.slice(0, 3))
+    : [];
+
+  const tryFindShift = api.getShifts.findShift.useQuery({ duty: "D15611" });
 
   return (
     <div>
       <div>
         <h1>Hello World</h1>
       </div>
+      <p>{JSON.stringify(prefixes)}</p>
       <p>
-        {allShifts.data ? JSON.stringify(allShifts.data) : "Loading shifts..."}
+        {tryFindShift.data
+          ? JSON.stringify(tryFindShift.data)
+          : "Loading your query..."}
       </p>
     </div>
   );
