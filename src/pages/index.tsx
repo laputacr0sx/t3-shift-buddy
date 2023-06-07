@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
-import SearchBox from "./component/SearchBox";
 
 const Home: NextPage = () => {
   const testPrefix = api.getShifts.getPrefix.useQuery();
@@ -12,17 +11,16 @@ const Home: NextPage = () => {
   const tryFindShift = api.getShifts.findShift.useQuery({ duty: "D15611" });
 
   return (
-    <div className="bg-slate-800">
+    <div>
       <div>
         <h1>Hello World</h1>
       </div>
       <p>{JSON.stringify(prefixes)}</p>
-      <p className={"text-blue-300"}>
+      <p>
         {tryFindShift.data
-          ? JSON.stringify(tryFindShift.data[0])
+          ? JSON.stringify(tryFindShift.data)
           : "Loading your query..."}
       </p>
-      <SearchBox />
     </div>
   );
 };
