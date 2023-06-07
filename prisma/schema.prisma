@@ -30,6 +30,11 @@ type Location {
   location String
 }
 
+model WeekPrefix {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId

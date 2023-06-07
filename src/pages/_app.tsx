@@ -7,13 +7,13 @@ import { MantineProvider } from "@mantine/core";
 import Head from "next/head";
 
 const MyApp: AppType<{ session: Session | null }> = ({
-                                                       Component,
-                                                       pageProps: { session, ...pageProps }
-                                                     }) => {
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Page title</title>
+        <title>V_V Shift Page</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         withNormalizeCSS
         theme={{
           /** Put your mantine theme override here */
-          colorScheme: "light"
+          colorScheme: "light",
         }}
       >
         <Component {...pageProps} />
