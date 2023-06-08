@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
+import PrefixButton from "./component/PrefixButton";
 
 const Home: NextPage = () => {
   const testPrefix = api.getShifts.getPrefix.useQuery();
@@ -21,6 +22,10 @@ const Home: NextPage = () => {
           ? JSON.stringify(tryFindShift.data)
           : "Loading your query..."}
       </p>
+
+      {prefixes.map((prefix) => {
+        return <PrefixButton name={prefix} key={prefix} />;
+      })}
     </div>
   );
 };

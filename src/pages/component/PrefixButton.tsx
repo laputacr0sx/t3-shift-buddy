@@ -1,5 +1,10 @@
 import React from "react";
 
-export default function PrefixButton() {
-  return <div>PrefixButton</div>;
+interface propType {
+  name: string;
+}
+
+export default function PrefixButton(props: propType) {
+  const { name } = props;
+  return <div>{name}</div>;
 }
