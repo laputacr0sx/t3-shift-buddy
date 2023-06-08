@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       <div>
         <h1>Hello World</h1>
       </div>
-      <p>{JSON.stringify(prefixes)}</p>
+
       <p>
         {tryFindShift.data
           ? JSON.stringify(tryFindShift.data)
