@@ -7,5 +7,5 @@ interface propType {
 export default function PrefixButton(props: propType) {
   const { name } = props;
 
-  return <div>{name}</div>;
+  return <div className="m-5 justify-center">{name}</div>;
 }

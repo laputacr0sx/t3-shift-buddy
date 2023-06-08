@@ -4,15 +4,19 @@ import { api } from "~/utils/api";
 import PrefixButton from "./component/PrefixButton";
 
 const Home: NextPage = () => {
-  const testPrefix = api.getShifts.getPrefix.useQuery();
-  const prefixes = testPrefix.data
-    ? testPrefix.data.map((shifts) => shifts.dutyNumber.slice(0, 3))
+  const {
+    data: prefixData,
+    isLoading,
+    error,
+  } = api.getShifts.getPrefix.useQuery();
+  const prefixes = prefixData
+    ? prefixData.map((shifts) => shifts.dutyNumber.slice(0, 3))
     : [];
 
   const tryFindShift = api.getShifts.findShift.useQuery({ duty: "D15611" });
 
   return (
-    <div>
+    <div className="flex flex-col ">
       <div>
         <h1>Hello World</h1>
       </div>
@@ -23,9 +27,11 @@ const Home: NextPage = () => {
           : "Loading your query..."}
       </p>
 
-      {prefixes.map((prefix) => {
-        return <PrefixButton name={prefix} key={prefix} />;
-      })}
+      <div className="m-4 flex h-auto w-auto flex-row justify-center px-5 align-middle">
+        {prefixes.map((prefix) => {
+          return <PrefixButton name={prefix} key={prefix} />;
+        })}
+      </div>
     </div>
   );
 };
