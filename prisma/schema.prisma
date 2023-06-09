@@ -30,6 +30,17 @@ type Location {
   location String
 }
 
+model WeekPrefix {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  prefixes  Prefix[]
+}
+
+type Prefix {
+  name String
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
@@ -50,8 +61,7 @@ model Account {
 }
 
 model Session {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
   userId       String   @db.ObjectId
   expires      DateTime
@@ -69,8 +79,7 @@ model User {
 }
 
 model VerificationToken {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime

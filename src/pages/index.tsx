@@ -17,17 +17,12 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col ">
       <div>
-        <h1>Hello World</h1>
+        <h1>查更</h1>
       </div>
 
       <div className="m-4 flex h-auto w-auto flex-row justify-center px-5 align-middle">
-        {prefixes?.map((prefix) => {
-          return <PrefixButton name={prefix} key={prefix} />;
-        })}
-      </div>
-      <div className="m-4 flex h-auto w-auto flex-row justify-center px-5 align-middle">
         {shiftData?.map((shiftDetail) => {
-          return <ShiftCard key={shiftDetail.dutyNumber} />;
+          return <ShiftCard key={shiftDetail.id} shift={shiftDetail} />;
         })}
       </div>
     </div>
