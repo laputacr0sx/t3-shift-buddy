@@ -18,19 +18,19 @@ export default function ShiftCard(props: PropType) {
   return (
     <Card className="w-auto">
       <CardHeader>
-        <CardTitle>{props?.shift.dutyNumber}</CardTitle>
-        <CardDescription>{props?.shift.remarks}</CardDescription>
+        <CardTitle>{props.shift?.dutyNumber}</CardTitle>
+        <CardDescription>{props.shift?.remarks}</CardDescription>
       </CardHeader>
       <CardContent>
         <p>
-          返{props?.shift.bNT} [{props?.shift.bNL}]
+          返{props.shift?.bNT} [{props.shift?.bNL}]
         </p>
         <p>
-          收{props?.shift.bFT} [{props?.shift.bFL}]
+          收{props.shift?.bFT} [{props.shift?.bFL}]
         </p>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <h6>{props.shift.duration}</h6>
+        <h6>{props.shift?.duration}</h6>
       </CardFooter>
     </Card>
   );
