@@ -16,7 +16,7 @@ interface PropType {
 
 export default function ShiftCard(props: PropType) {
   return (
-    <Card className="w-auto">
+    <Card className="m-2 w-auto">
       <CardHeader>
         <CardTitle>{props.shift?.dutyNumber}</CardTitle>
         <CardDescription>{props.shift?.remarks}</CardDescription>

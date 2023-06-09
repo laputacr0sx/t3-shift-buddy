@@ -23,7 +23,7 @@ export const getShiftRouter = createTRPCRouter({
     .input(z.object({ duty: z.string() }))
     .query(({ input, ctx }) => {
       const resultShift = ctx.prisma.shifts.findMany({
-        where: { dutyNumber: { contains: input.duty } },
+        where: { dutyNumber: { endsWith: input.duty } },
       });
 
       return resultShift;
