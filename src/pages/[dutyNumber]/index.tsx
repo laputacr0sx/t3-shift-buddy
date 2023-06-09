@@ -11,9 +11,12 @@ function Index() {
     data: shiftData,
     isLoading,
     error,
-  } = api.getShifts.findShift.useQuery({
-    duty: dutyNumber,
-  });
+  } = api.getShifts.findShift.useQuery(
+    {
+      duty: dutyNumber,
+    },
+    { enabled: !!router.query.dutyNumber }
+  );
 
   if (isLoading) {
     return <div>Loading shift data...</div>;
@@ -24,9 +27,9 @@ function Index() {
   return (
     <div>
       <div className="m-4 flex h-auto w-auto flex-row justify-center px-5 align-middle">
-        {shiftData?.map((shiftDetail) => {
-          return <ShiftCard key={shiftDetail.id} shift={shiftDetail} />;
-        })}
+        {shiftData?.map((shiftDetail) => (
+          <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
+        ))}
       </div>
     </div>
   );
