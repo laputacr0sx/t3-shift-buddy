@@ -5,9 +5,21 @@ import { api } from "~/utils/api";
 import ShiftCard from "./component/ShiftCard";
 
 const Home: NextPage = () => {
-  const { data: shiftData } = api.getShifts.findShift.useQuery({
+  const {
+    data: shiftData,
+    isLoading,
+    error,
+  } = api.getShifts.findShift.useQuery({
     duty: "D15611",
   });
+
+  if (isLoading) {
+    return <div>Loading shift data ...</div>;
+  }
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   return (
     <div className="flex flex-col ">
