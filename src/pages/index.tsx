@@ -1,15 +1,10 @@
 import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
-import PrefixButton from "./component/PrefixButton";
+
 import ShiftCard from "./component/ShiftCard";
 
 const Home: NextPage = () => {
-  const { data: prefixData } = api.getShifts.getPrefix.useQuery();
-  const prefixes = prefixData
-    ? prefixData.map((shifts) => shifts.dutyNumber.slice(0, 3))
-    : [];
-
   const { data: shiftData } = api.getShifts.findShift.useQuery({
     duty: "D15611",
   });
