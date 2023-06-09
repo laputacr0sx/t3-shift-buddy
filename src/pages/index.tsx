@@ -10,7 +10,7 @@ const Home: NextPage = () => {
     isLoading,
     error,
   } = api.getShifts.findShift.useQuery({
-    duty: "D15611",
+    duty: "611",
   });
 
   if (isLoading) {
