@@ -4,11 +4,7 @@ import { api } from "~/utils/api";
 import PrefixButton from "./component/PrefixButton";
 
 const Home: NextPage = () => {
-  const {
-    data: prefixData,
-    isLoading,
-    error,
-  } = api.getShifts.getPrefix.useQuery();
+  const { data: prefixData } = api.getShifts.getPrefix.useQuery();
   const prefixes = prefixData
     ? prefixData.map((shifts) => shifts.dutyNumber.slice(0, 3))
     : [];
