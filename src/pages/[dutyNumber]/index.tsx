@@ -15,14 +15,24 @@ function Index() {
     {
       duty: dutyNumber,
     },
-    { enabled: !!router.query.dutyNumber }
+    { enabled: !!router.query.dutyNumber, refetchOnWindowFocus: false }
   );
 
   if (isLoading) {
     return <div>Loading shift data...</div>;
   }
 
-  if (error) throw new Error(error.message);
+  if (error?.data?.code === "BAD_REQUEST") {
+    return (
+      <div>
+        <h1>Bad Request, Please try again</h1>
+      </div>
+    );
+  }
+
+  if (Array.isArray(shiftData) && !shiftData?.length) {
+    return <div>Missing duty data ...</div>;
+  }
 
   return (
     <div>
