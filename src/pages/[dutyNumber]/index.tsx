@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
 import ShiftCard from "../component/ShiftCard";
+import { Skeleton } from "~/component/ui/skeleton";
 
 function Index() {
   const router = useRouter();
@@ -19,7 +20,13 @@ function Index() {
   );
 
   if (isLoading) {
-    return <div>Loading shift data...</div>;
+    return (
+      <div>
+        <div className="flex-row justify-center overflow-scroll px-5">
+          <Skeleton />
+        </div>
+      </div>
+    );
   }
 
   if (error?.data?.code === "BAD_REQUEST") {
@@ -36,7 +43,7 @@ function Index() {
 
   return (
     <div>
-      <div className="m-4 flex h-auto w-auto flex-row justify-center px-5 align-middle">
+      <div className="flex-row justify-center overflow-scroll px-5">
         {shiftData?.map((shiftDetail) => (
           <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
         ))}

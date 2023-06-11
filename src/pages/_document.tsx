@@ -8,7 +8,7 @@ export default class _Document extends Document {
 
   render() {
     return (
-      <Html>
+      <Html className="w-screen overflow-x-scroll">
         <Head />
         <body>
           <Main />

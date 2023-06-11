@@ -1,4 +1,4 @@
-import { Shifts } from "@prisma/client";
+import type { Shifts } from "@prisma/client";
 import * as React from "react";
 
 import {
