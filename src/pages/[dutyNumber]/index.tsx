@@ -10,8 +10,8 @@ function Index() {
 
   const {
     data: shiftData,
-    isLoading,
-    error,
+    isLoading: loadingShiftData,
+    error: errorShiftData,
   } = api.getShifts.findShift.useQuery(
     {
       duty: dutyNumber,
@@ -19,17 +19,17 @@ function Index() {
     { enabled: !!router.query.dutyNumber, refetchOnWindowFocus: false }
   );
 
-  if (isLoading) {
+  if (loadingShiftData) {
     return (
       <div>
         <div className="flex-row justify-center overflow-scroll px-5">
-          <Skeleton />
+          <Skeleton className="border-rounded h-20 w-24" />
         </div>
       </div>
     );
   }
 
-  if (error?.data?.code === "BAD_REQUEST") {
+  if (errorShiftData?.data?.code === "BAD_REQUEST") {
     return (
       <div>
         <h1>Bad Request, Please try again</h1>
