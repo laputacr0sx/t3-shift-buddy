@@ -21,9 +21,11 @@ function Index() {
 
   if (loadingShiftData) {
     return (
-      <div>
-        <div className="flex-row justify-center overflow-scroll px-5">
-          <Skeleton className="border-rounded h-20 w-24" />
+      <div className="flex items-center space-x-4 p-14">
+        <Skeleton className=" h-12 w-12 rounded-sm" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
         </div>
       </div>
     );
