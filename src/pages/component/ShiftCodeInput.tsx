@@ -13,7 +13,7 @@ export default function ShiftCodeInput() {
   return (
     <div className={"flex flex-row justify-around pt-6"}>
       <Input
-        className={" w-fit bg-blue-200 py-5"}
+        className={"w-fit bg-blue-200 py-5"}
         value={shiftCode}
         onChange={(e) => setShiftCode(e.target.value)}
       />
