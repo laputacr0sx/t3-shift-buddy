@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Page title</title>
+        <title>VV Shift Buddy</title>
         <meta name="viewport" />
       </Head>
       <Component {...pageProps} />

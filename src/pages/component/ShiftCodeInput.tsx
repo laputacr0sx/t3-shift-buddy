@@ -11,8 +11,9 @@ export default function ShiftCodeInput() {
   const [shiftCode, setShiftCode] = useState<string>("");
 
   return (
-    <div className={"flex flex-row justify-around pt-6"}>
+    <div className={"flex flex-row justify-start pt-6"}>
       <Input
+        type={"number"}
         className={"w-fit bg-blue-200 py-5"}
         value={shiftCode}
         onChange={(e) => setShiftCode(e.target.value)}
@@ -21,8 +22,8 @@ export default function ShiftCodeInput() {
       <Button
         type={"button"}
         variant="outline"
+        size={"lg"}
         onClick={async () => {
-          console.log(shiftCode);
           await router.push(`/${shiftCode}`);
         }}
       >

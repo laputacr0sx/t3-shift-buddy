@@ -44,12 +44,10 @@ function Index() {
   }
 
   return (
-    <div>
-      <div className="flex-row justify-center overflow-scroll px-5">
-        {shiftData?.map((shiftDetail) => (
-          <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
-        ))}
-      </div>
+    <div className="flex-row justify-center overflow-scroll px-5">
+      {shiftData?.map((shiftDetail) => (
+        <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
+      ))}
     </div>
   );
 }
