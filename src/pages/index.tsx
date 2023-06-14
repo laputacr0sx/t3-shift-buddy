@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import { Separator } from "~/component/ui/separator";
-import ShiftCodeInput from "~/pages/component/ShiftCodeInput";
 import ShiftCodeForm from "~/pages/component/shiftCodeForm";
 
 const Home: NextPage = () => (
@@ -12,7 +11,6 @@ const Home: NextPage = () => (
     <pre>*/159</pre>會得到所有159更資料
     <pre>*/D15159</pre>只會得到D15159更資料
     <Separator className={"my-4"} />
-    {/* <ShiftCodeInput /> */}
     <ShiftCodeForm />
   </div>
 );

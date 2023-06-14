@@ -79,3 +79,8 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+td {
+  border: 1px solid #330000;
+  padding: 4px;
+}
