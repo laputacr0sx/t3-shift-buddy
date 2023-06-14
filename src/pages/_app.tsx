@@ -14,7 +14,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Head>
         <title>VV Shift Buddy</title>
-        <meta name="viewport" />
       </Head>
       <Component {...pageProps} />
     </SessionProvider>

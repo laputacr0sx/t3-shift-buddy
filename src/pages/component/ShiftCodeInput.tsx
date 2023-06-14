@@ -13,6 +13,7 @@ export default function ShiftCodeInput() {
   return (
     <div className={"flex flex-row justify-start pt-6"}>
       <Input
+        id="shiftCodeInput"
         type={"number"}
         className={"w-fit bg-blue-200 py-5"}
         value={shiftCode}
