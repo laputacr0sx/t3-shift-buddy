@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 import Head from "next/head";
 
@@ -17,6 +18,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="viewport" content="width=device-width" />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
     </SessionProvider>
   );
 };
