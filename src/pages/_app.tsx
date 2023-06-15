@@ -16,6 +16,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <Head>
         <title>VV Shift Buddy</title>
         <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
       </Head>
       <Component {...pageProps} />
       <Analytics />

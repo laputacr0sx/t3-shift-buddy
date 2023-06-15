@@ -5,13 +5,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 import { Button } from "~/component/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/component/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/component/ui/form";
 import { Input } from "~/component/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
 const formSchema = z.object({
-  shiftCode: z.string().regex(new RegExp(""))
+  shiftCode: z.string().regex(new RegExp(/^\d{3}$/m)),
 });
 
 export default function shiftCodeForm() {
@@ -20,17 +28,12 @@ export default function shiftCodeForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      shiftCode: ""
-    }
+      shiftCode: "",
+    },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
-    console.log(values);
-
     await router.push(`/${values.shiftCode}`);
   }
 
@@ -44,7 +47,7 @@ export default function shiftCodeForm() {
             <FormItem>
               <FormLabel>更號</FormLabel>
               <FormControl>
-                <Input placeholder="D15159 / 159 " {...field} />
+                <Input placeholder="D15159 / 159" {...field} />
               </FormControl>
               <FormDescription>輸入想查找的更號</FormDescription>
               <FormMessage />
