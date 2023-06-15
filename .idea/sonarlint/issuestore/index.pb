@@ -5,17 +5,19 @@
 .env,3/c/3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
 ?
 next.config.mjs,d/f/df8bd0b91ecb778bf2a1b031c7677390c7442bb4
-G
-src/pages/_document.tsx,0/5/052f85edfc3fbb9d129530f0f8b191ff6c16f7ce
-F
-src/pages/index.tsx.bk,9/1/9164d930882909a8f892c0d2aefcab66e2174e1d
 D
 prisma/schema.prisma,1/8/187e4a6f168cf143dde68ce28a29ae08ce9b9578
 B
 src/pages/_app.tsx,2/e/2eefa41a18ed6ea3f58b3748f9e5559a28e77646
 J
 src/component/ui/input.tsx,e/4/e45dfd9512ee8c1a8d6f3aaa99be302d78e012d8
-C
-src/pages/index.tsx,d/2/d2d3bb60cab7e8c869b5fdf0a820b7edf2fc7859
 V
 &src/pages/component/ShiftCodeInput.tsx,c/2/c2b5dd908771defaa78331f858e94b38e9ba2b5c
+P
+ src/pages/[dutyNumber]/index.tsx,0/5/05bc7d61b5aba44f5fbfa9392adc948d41870e05
+C
+src/pages/index.tsx,d/2/d2d3bb60cab7e8c869b5fdf0a820b7edf2fc7859
+U
+%src/pages/component/shiftCodeForm.tsx,9/b/9b007de2243ab5231514cfb1e0202e83a3252e71
+I
+src/component/ui/form.tsx,9/6/96c00494c6a1390a1a90602703f1276b49adbc7e

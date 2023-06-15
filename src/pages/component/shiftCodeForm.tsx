@@ -5,21 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 import { Button } from "~/component/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/component/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~/component/ui/form";
 import { Input } from "~/component/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
 const formSchema = z.object({
-  shiftCode: z.string().regex(new RegExp("")),
+  shiftCode: z.string().regex(new RegExp(""))
 });
 
 export default function shiftCodeForm() {
@@ -28,8 +20,8 @@ export default function shiftCodeForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      shiftCode: "",
-    },
+      shiftCode: ""
+    }
   });
 
   // 2. Define a submit handler.

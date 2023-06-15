@@ -7,7 +7,7 @@ export default function index() {
     <div className="flex justify-center pt-20 text-center align-middle">
       <table
         className={
-          "rounded-md border-2 border-red-950 p-5 text-center align-middle font-mono font-light"
+          "rounded-md border-2 border-red-950 p-5 text-center align-middle font-mono"
         }
       >
         <tbody>
