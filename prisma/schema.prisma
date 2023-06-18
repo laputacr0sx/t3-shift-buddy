@@ -34,11 +34,7 @@ model WeekPrefix {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  prefixes  Prefix[]
-}
-
-type Prefix {
-  name String
+  prefixes  String[]
 }
 
 // Necessary for Next auth
