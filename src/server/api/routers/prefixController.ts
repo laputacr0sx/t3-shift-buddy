@@ -3,7 +3,10 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const prefixControllerRouter = createTRPCRouter({
   getCurrentPrefix: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.weekPrefix.findMany();
+    return ctx.prisma.weekPrefix.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 1,
+    });
   }),
   createNextWeekPrefix: publicProcedure
     .input(z.object({ prefixes: z.string().array().max(7) }))

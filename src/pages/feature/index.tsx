@@ -1,5 +1,5 @@
 import React from "react";
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 
 export default function index() {
   const { mutate: updatePrefixes } =
@@ -12,10 +12,8 @@ export default function index() {
   const { data: currentPrefixList } =
     api.prefixController.getCurrentPrefix.useQuery();
 
-  type Prefix = RouterOutputs["prefixController"]["createNextWeekPrefix"];
-
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex w-screen flex-col items-center justify-center">
       <button
         className={"border-2 border-red-800 text-blue-700"}
         onClick={() => {
@@ -26,7 +24,7 @@ export default function index() {
       >
         Click me!
       </button>
-      <div>{JSON.stringify(currentPrefixList)}</div>
+      <p>{JSON.stringify(currentPrefixList)}</p>
     </div>
   );
 }
