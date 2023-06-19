@@ -1,7 +1,7 @@
 import { exampleRouter } from "~/server/api/routers/example";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { getShiftRouter } from "./routers/getShifts";
-import { updateShiftRouter } from "./routers/updateShifts";
+import { prefixControllerRouter } from "./routers/prefixController";
 
 /**
  * This is the primary router for your server.
@@ -11,7 +11,7 @@ import { updateShiftRouter } from "./routers/updateShifts";
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   getShifts: getShiftRouter,
-  updateShifts: updateShiftRouter,
+  prefixController: prefixControllerRouter,
 });
 
 // export type definition of API

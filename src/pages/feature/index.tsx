@@ -1,15 +1,18 @@
 import React from "react";
-import { api, RouterOutputs } from "~/utils/api";
+import { api, type RouterOutputs } from "~/utils/api";
 
 export default function index() {
   const { mutate: updatePrefixes } =
-    api.updateShifts.createNextWeekPrefix.useMutation({
+    api.prefixController.createNextWeekPrefix.useMutation({
       onError(error) {
         console.log(error.message);
       },
     });
 
-  type Prefix = RouterOutputs["updateShifts"]["createNextWeekPrefix"];
+  const { data: currentPrefixList } =
+    api.prefixController.getCurrentPrefix.useQuery();
+
+  type Prefix = RouterOutputs["prefixController"]["createNextWeekPrefix"];
 
   return (
     <div className="flex items-center justify-center">
@@ -23,6 +26,7 @@ export default function index() {
       >
         Click me!
       </button>
+      <div>{JSON.stringify(currentPrefixList)}</div>
     </div>
   );
 }
