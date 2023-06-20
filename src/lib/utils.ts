@@ -19,3 +19,10 @@ export function getNextWeekDates() {
   }
   return weekArr;
 }
+
+export function convertDuration(rawDuration: string): string {
+  const [wHour, wMinute] = rawDuration.split(":");
+  if (!wMinute || !wHour) return "0";
+  const minuteDecimal = parseInt(wMinute) / 60;
+  return `${parseInt(wHour) + minuteDecimal}`;
+}

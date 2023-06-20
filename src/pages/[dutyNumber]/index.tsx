@@ -48,14 +48,16 @@ function Index() {
 
   return (
     <>
-      <div className="flex flex-row justify-evenly px-5 pt-4 text-center font-mono font-extrabold">
+      <div className="flex flex-row items-center justify-start self-center px-5 pt-4  font-mono font-extrabold">
         <Link href={"/"}>
           <Button variant={"default"}>
             <Home className="m-2 h-4 w-4" />
-            返回
           </Button>
         </Link>
-        <h1 className="px-4 py-2 text-xl">以下為{dutyNumber}更資料</h1>
+        <div className="flex flex-col text-left">
+          <h1 className=" py-2 text-xl">以下為 {dutyNumber} 更資料</h1>
+          <p className="text-sm text-muted-foreground">點擊資料以複製</p>
+        </div>
       </div>
       {shiftData?.map((shiftDetail) => (
         <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
