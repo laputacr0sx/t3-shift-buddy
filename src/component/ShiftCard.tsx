@@ -16,17 +16,17 @@ interface PropType {
 
 export default function ShiftCard(props: PropType) {
   return (
-    <Card className="m-2 w-auto">
+    <Card className="mx-5 my-6 w-auto font-mono">
       <CardHeader>
         <CardTitle>{props.shift?.dutyNumber}</CardTitle>
         <CardDescription>{props.shift?.remarks}</CardDescription>
       </CardHeader>
       <CardContent>
         <p>
-          返{props.shift?.bNT} [{props.shift?.bNL}]
+          返 {props.shift?.bNT} [{props.shift?.bNL}]
         </p>
         <p>
-          收{props.shift?.bFT} [{props.shift?.bFL}]
+          收 {props.shift?.bFT} [{props.shift?.bFL}]
         </p>
       </CardContent>
       <CardFooter className="flex justify-between">

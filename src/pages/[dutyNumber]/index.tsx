@@ -3,6 +3,9 @@ import React from "react";
 import { api } from "~/utils/api";
 import ShiftCard from "../../component/ShiftCard";
 import { Skeleton } from "~/component/ui/skeleton";
+import { Button } from "~/component/ui/button";
+import { Home } from "lucide-react";
+import Link from "next/link";
 
 function Index() {
   const router = useRouter();
@@ -45,14 +48,18 @@ function Index() {
 
   return (
     <>
-      <h1 className=" justify-center pt-5 text-center font-mono text-4xl font-extrabold ">
-        以下為{dutyNumber}更資料
-      </h1>
-      <div className="flex-row justify-center overflow-scroll px-5 py-4">
-        {shiftData?.map((shiftDetail) => (
-          <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
-        ))}
+      <div className="flex flex-row justify-evenly px-5 pt-4 text-center font-mono font-extrabold">
+        <Link href={"/"}>
+          <Button variant={"default"}>
+            <Home className="m-2 h-4 w-4" />
+            返回
+          </Button>
+        </Link>
+        <h1 className="px-4 py-2 text-xl">以下為{dutyNumber}更資料</h1>
       </div>
+      {shiftData?.map((shiftDetail) => (
+        <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
+      ))}
     </>
   );
 }
