@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import router from "next/router";
 
 const formSchema = z.object({
-  shiftCode: z.string().regex(new RegExp(/^\d{3}$/m)),
+  shiftCode: z.string().regex(new RegExp(/^\d{3}$/gm)),
 });
 
 export default function shiftCodeForm() {

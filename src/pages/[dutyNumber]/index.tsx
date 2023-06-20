@@ -44,11 +44,16 @@ function Index() {
   }
 
   return (
-    <div className="flex-row justify-center overflow-scroll px-5">
-      {shiftData?.map((shiftDetail) => (
-        <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
-      ))}
-    </div>
+    <>
+      <h1 className=" justify-center pt-5 text-center font-mono text-4xl font-extrabold">
+        以下為{dutyNumber}更資料
+      </h1>
+      <div className="flex-row justify-center overflow-scroll px-5 py-4">
+        {shiftData?.map((shiftDetail) => (
+          <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
+        ))}
+      </div>
+    </>
   );
 }
 
