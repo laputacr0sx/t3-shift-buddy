@@ -23,7 +23,7 @@ export default function ShiftCard(props: PropType) {
 
   return (
     <Card
-      className="mx-5 my-6 max-w-full font-mono "
+      className="mx-5 my-6 max-w-full font-mono active:bg-blue-950"
       onClick={async () => {
         await navigator.clipboard.writeText(
           `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``
