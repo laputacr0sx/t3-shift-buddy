@@ -49,7 +49,7 @@ export default function shiftCodeForm() {
               <FormControl>
                 <Input placeholder="D15159 / 159" {...field} />
               </FormControl>
-              <FormDescription>輸入想查找的更號</FormDescription>
+              <FormDescription>請輸入想查找的更號</FormDescription>
               <FormMessage />
             </FormItem>
           )}
