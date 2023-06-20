@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
-import ShiftCard from "../component/ShiftCard";
+import ShiftCard from "../../component/ShiftCard";
 import { Skeleton } from "~/component/ui/skeleton";
 
 function Index() {
@@ -45,7 +45,7 @@ function Index() {
 
   return (
     <>
-      <h1 className=" justify-center pt-5 text-center font-mono text-4xl font-extrabold">
+      <h1 className=" justify-center pt-5 text-center font-mono text-4xl font-extrabold ">
         以下為{dutyNumber}更資料
       </h1>
       <div className="flex-row justify-center overflow-scroll px-5 py-4">

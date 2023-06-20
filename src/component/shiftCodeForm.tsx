@@ -54,7 +54,9 @@ export default function shiftCodeForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">去吧！</Button>
+        <Button type="submit" variant={"secondary"}>
+          去吧！
+        </Button>
       </form>
     </Form>
   );

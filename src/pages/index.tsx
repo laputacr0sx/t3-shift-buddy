@@ -1,10 +1,10 @@
 import { type NextPage } from "next";
 import { Separator } from "~/component/ui/separator";
-import ShiftCodeForm from "~/pages/component/shiftCodeForm";
+import ShiftCodeForm from "~/component/shiftCodeForm";
 
 const Home: NextPage = () => (
-  <div className={"w-max px-14 py-20"}>
-    <h1 className="justify-center pb-5 text-center font-mono text-4xl font-bold">
+  <div className={"h-screen w-screen px-14 py-20"}>
+    <h1 className="justify-center py-5 text-center font-mono text-4xl font-bold">
       使用方法
     </h1>
     <pre>用法：url */[更號]</pre>
