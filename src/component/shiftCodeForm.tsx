@@ -24,7 +24,7 @@ const shiftRowRegex =
 const shiftCodeRegex = /(^\d{3}$)|(^(?:[A-Z])(?:1[3|4|5]|7[1|5])(\d{3}$))/gim;
 
 const formSchema = z.object({
-  shiftCode: z.string().regex(shiftCodeRegex).optional(),
+  shiftCode: z.string().regex(shiftCodeRegex),
   shiftRow: z.string().regex(shiftRowRegex).optional(),
 });
 
@@ -36,22 +36,12 @@ export default function shiftCodeForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       shiftCode: "",
-      shiftRow: "",
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values.shiftRow);
-
-    if (values.shiftRow) {
-      await router.push(`/${values.shiftRow}`);
-      return;
-    }
-    if (values.shiftCode) {
-      await router.push(`/${values.shiftCode}`);
-      return;
-    }
+    await router.push(`/${values.shiftCode}`);
   }
 
   return (
@@ -71,6 +61,7 @@ export default function shiftCodeForm() {
             </FormItem>
           )}
         />
+        {/*         
         <FormField
           control={form.control}
           name="shiftRow"
@@ -85,13 +76,13 @@ export default function shiftCodeForm() {
                 />
               </FormControl>
               <FormDescription>
-                i.e. 如下週更為D15101 D15102 B15103 D15104 D15105 A75106 RD
-                請輸入 101102103104105106RD
+                如下週更為D15101 D15102 B14103 D15104 D15105 A75106 RD 請輸入
+                101102103104105106RD
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <Button type="submit" variant={"secondary"}>
           去吧！
         </Button>
