@@ -1,6 +1,5 @@
 "use client";
 
-// import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -18,14 +17,10 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
-const shiftRowRegex =
-  /(?<duty>(?:1|3|5|6)(?:[0-5])(?:\d{1}))|(?<special>(?:9|8)(?:\d{5})(?:[a-z]?))|(?<rest>RD|CL|AL|GH|SH)/gim;
-
 const shiftCodeRegex = /(^\d{3}$)|(^(?:[A-Z])(?:1[3|4|5]|7[1|5])(\d{3}$))/gim;
 
 const formSchema = z.object({
   shiftCode: z.string().regex(shiftCodeRegex),
-  shiftRow: z.string().regex(shiftRowRegex).optional(),
 });
 
 export default function shiftCodeForm() {
@@ -59,28 +54,6 @@ export default function shiftCodeForm() {
             </FormItem>
           )}
         />
-        {/*         
-        <FormField
-          control={form.control}
-          name="shiftRow"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>整週更號</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="101102103104105106107RD"
-                  {...field}
-                  required={false}
-                />
-              </FormControl>
-              <FormDescription>
-                如下週更為D15101 D15102 B14103 D15104 D15105 A75106 RD 請輸入
-                101102103104105106RD
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <Button type="submit" variant={"secondary"}>
           去吧！
         </Button>

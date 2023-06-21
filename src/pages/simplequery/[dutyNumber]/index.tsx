@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
-import ShiftCard from "../../components/ShiftCard";
+import ShiftCard from "../../../components/ShiftCard";
 import { Skeleton } from "~/components/ui/skeleton";
 
 import { MessageCircle } from "lucide-react";

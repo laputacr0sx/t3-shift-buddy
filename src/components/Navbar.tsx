@@ -8,9 +8,9 @@ function Navbar() {
       <Link href={"/"} className={"flex flex-row"}>
         <Home className="m-2" />
       </Link>
-      <Link href={"/weekquery"} className={"flex flex-row"}>
+      {/* <Link href={"/weekquery"} className={"flex flex-row"}>
         <CalendarDays className="m-2" />
-      </Link>
+      </Link> 
       <Link
         href={"/tester"}
         className=" pointer-events-none  text-muted-foreground"
@@ -22,7 +22,7 @@ function Navbar() {
         className=" pointer-events-none  text-muted-foreground"
       >
         <Pencil className="m-2" />
-      </Link>
+      </Link> */}
     </div>
   );
 }
