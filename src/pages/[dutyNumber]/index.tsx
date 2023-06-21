@@ -26,7 +26,7 @@ function Index() {
 
   if (loadingShiftData) {
     return (
-      <div className="flex items-center p-14 space-x-4">
+      <div className="flex h-screen items-center space-x-4 overflow-auto p-14">
         <Skeleton className="h-12 w-12 rounded-sm" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[200px]" />

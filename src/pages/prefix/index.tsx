@@ -15,7 +15,7 @@ export default function index() {
     return (
       <>
         <div>
-          <Skeleton />
+          <Skeleton className={"h-3 w-10 rounded-md"} />
         </div>
       </>
     );
