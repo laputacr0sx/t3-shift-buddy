@@ -105,6 +105,7 @@ export default function shiftDoubleForm() {
                     className="font-mono tracking-wide"
                     placeholder="101102103104105106107RD"
                     {...field}
+                    disabled
                   />
                 </FormControl>
                 <FormDescription className=" break-words font-mono tracking-wide">
@@ -116,7 +117,7 @@ export default function shiftDoubleForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" variant={"secondary"}>
+          <Button type="submit" variant={"secondary"} disabled>
             查一條更！
           </Button>
         </form>

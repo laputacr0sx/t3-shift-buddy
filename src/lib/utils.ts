@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { threeDigitShiftRegex } from "./regex";
+import { WeekPrefix } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -28,25 +29,18 @@ export function convertDuration(rawDuration: string): string {
   return `${parseInt(wHour) + minuteDecimal}`;
 }
 
-interface shiftObject {
-  monday: string;
-  tuesday: string;
-  wednesday: string;
-  thursday: string;
-  friday: string;
-  saturday: string;
-  sunday: string;
-}
-
-export function extendShiftsArrayToObject(shifts: string[]) {
-  const weekDate = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-  ];
-  return weekDate.reduce((pre, curr, i) => ({ ...pre, [curr]: shifts[i] }), {});
+export function combinePrefix(
+  prefixObject: WeekPrefix | undefined,
+  shiftSequence: string[]
+) {
+  const completeShiftCode: string[] = [];
+  for (let i = 0; i < 7; i++) {
+    if (prefixObject) {
+      completeShiftCode.push(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+        prefixObject.content[i]?.concat(shiftSequence[i] || "") || ""
+      );
+    }
+  }
+  return completeShiftCode;
 }
