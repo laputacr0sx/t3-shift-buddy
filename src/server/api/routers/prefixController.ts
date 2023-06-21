@@ -13,13 +13,10 @@ export const prefixControllerRouter = createTRPCRouter({
   createNextWeekPrefix: publicProcedure
     .input(
       z.object({
-        monday: z.string().regex(prefixRegex),
-        tuesday: z.string().regex(prefixRegex),
-        wednesday: z.string().regex(prefixRegex),
-        thursday: z.string().regex(prefixRegex),
-        friday: z.string().regex(prefixRegex),
-        saturday: z.string().regex(prefixRegex),
-        sunday: z.string().regex(prefixRegex),
+        content: z
+          .string()
+          .array()
+          .length(7, "A week only contains 7 prefixes"),
         weekNumber: z
           .number()
           .max(53, "Weeknumber cannot be greater than 52")

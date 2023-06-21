@@ -8,20 +8,6 @@ export const getShiftRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.shifts.findMany({ take: 10 });
   }),
-
-  getPrefix: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.shifts.findMany({
-      where: {
-        dutyNumber: {
-          contains: "101",
-        },
-      },
-      select: {
-        dutyNumber: true,
-      },
-    });
-  }),
-
   findShift: publicProcedure
     .input(
       z.object({
@@ -34,5 +20,10 @@ export const getShiftRouter = createTRPCRouter({
       });
 
       return resultShift;
+    }),
+  getWeekShift: publicProcedure
+    .input(z.object({ shiftArray: z.string().array().length(7) }))
+    .query(({ input, ctx }) => {
+      return;
     }),
 });

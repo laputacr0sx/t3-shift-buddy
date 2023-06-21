@@ -18,10 +18,7 @@ import { useForm } from "react-hook-form";
 import router from "next/router";
 import { Separator } from "./ui/separator";
 
-const shiftRowRegex =
-  /((?:1|3|5|6)(?:[0-5])(?:\d{1})|(?:9|8)(?:\d{5})(?:[a-z]?)|(RD|CL|AL|GH|SH)){7}/gim;
-const shiftCodeRegex =
-  /(^\d{3}$)|(^(?:[A-Z])(?:1[3|4|5]|7[1|5])(\d{3}$)){1}/gim;
+import { shiftCodeRegex, shiftRowRegex } from "../lib/regex";
 
 const codeFormSchema = z.object({
   shiftCode: z.string().regex(shiftCodeRegex),
@@ -60,25 +57,28 @@ export default function shiftDoubleForm() {
 
   return (
     <>
+      <p>{JSON.stringify(rowForm.control.getFieldState)}</p>
       <Form {...codeForm}>
         <form
           onSubmit={codeForm.handleSubmit(onSubmitForCode)}
-          className="space-y-8"
+          className="space-y-8 "
         >
           <FormField
             control={codeForm.control}
             name="shiftCode"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="">
                 <FormLabel>更號</FormLabel>
                 <FormControl>
                   <Input
+                    className="font-mono tracking-wide"
                     placeholder="D15159 / 159"
                     {...field}
-                    required={false}
                   />
                 </FormControl>
-                <FormDescription>請輸入想查找的更號</FormDescription>
+                <FormDescription className=" break-words font-mono tracking-wide">
+                  請輸入想查找的更號
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -105,10 +105,9 @@ export default function shiftDoubleForm() {
                     className="font-mono tracking-wide"
                     placeholder="101102103104105106107RD"
                     {...field}
-                    required={false}
                   />
                 </FormControl>
-                <FormDescription className=" trackwide break-words font-mono">
+                <FormDescription className=" break-words font-mono tracking-wide">
                   如更份為 D15101 D15102 B14103 D15104 D15105 A75106 RD
                   <br />
                   請輸入 101102103104105106RD

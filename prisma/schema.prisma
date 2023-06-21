@@ -31,13 +31,7 @@ model WeekPrefix {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   weekNumber Int
-  monday     String
-  tuesday    String
-  wednesday  String
-  thursday   String
-  friday     String
-  saturday   String
-  sunday     String
+  content    String[]
 }
 
 // Necessary for Next auth
