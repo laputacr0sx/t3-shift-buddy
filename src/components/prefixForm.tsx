@@ -17,31 +17,29 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
-const shiftCodeRegex = /(^\d{3}$)|(^(?:[A-Z])(?:1[3|4|5]|7[1|5])(\d{3}$))/gim;
-
-const formSchema = z.object({
-  shiftCode: z.string().regex(shiftCodeRegex),
+const prefixFormSchema = z.object({
+  shiftCode: z.string(),
 });
 
-export default function shiftCodeForm() {
+export default function prefixForm() {
   // 1. Define your form.
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const prefixForm = useForm<z.infer<typeof prefixFormSchema>>({
+    resolver: zodResolver(prefixFormSchema),
     defaultValues: {
       shiftCode: "",
     },
   });
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof prefixFormSchema>) {
     await router.push(`/${values.shiftCode}`);
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <Form {...prefixForm}>
+      <form onSubmit={prefixForm.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
-          control={form.control}
+          control={prefixForm.control}
           name="shiftCode"
           render={({ field }) => (
             <FormItem>

@@ -8,7 +8,6 @@ import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { sevenShiftRegex } from "~/lib/regex";
 import moment from "moment";
-import { combinePrefix } from "~/lib/utils";
 
 function Index() {
   const router = useRouter();

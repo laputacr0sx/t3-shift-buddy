@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { threeDigitShiftRegex } from "./regex";
-import { WeekPrefix } from "@prisma/client";
+
+import { type WeekPrefix } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
