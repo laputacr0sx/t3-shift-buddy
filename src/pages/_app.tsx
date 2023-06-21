@@ -6,6 +6,7 @@ import "~/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { Toaster } from "~/components/Toaster";
+import Layout from "~/components/Layout";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -18,7 +19,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
       <Toaster />
       <Analytics />
     </SessionProvider>

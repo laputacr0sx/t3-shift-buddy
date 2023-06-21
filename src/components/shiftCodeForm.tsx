@@ -30,7 +30,6 @@ const formSchema = z.object({
 
 export default function shiftCodeForm() {
   // 1. Define your form.
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,7 +37,6 @@ export default function shiftCodeForm() {
       shiftCode: "",
     },
   });
-
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await router.push(`/${values.shiftCode}`);
