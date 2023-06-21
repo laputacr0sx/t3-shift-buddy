@@ -3,7 +3,7 @@ import { Separator } from "~/components/ui/separator";
 import ShiftCodeForm from "~/components/shiftCodeForm";
 
 const Home: NextPage = () => (
-  <div className={" h-screen w-screen overflow-hidden px-14 py-20"}>
+  <div className={"h-screen w-screen px-14 py-20"}>
     <h1 className="justify-center py-5 text-center font-mono text-4xl font-semibold">
       查詢更份
     </h1>

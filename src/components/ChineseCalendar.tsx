@@ -1,11 +1,13 @@
 import { type Shifts } from "@prisma/client";
 import React from "react";
+import moment from "moment";
 
 interface PropType {
   shift: Shifts;
 }
 
 function ChineseCalendar(props: PropType) {
+  console.log(moment(new Date()));
   return (
     <div className="min-w-32 min-h-48 mb-4 bg-white p-3 font-medium">
       <div className="w-32 flex-none rounded-t text-center shadow-lg lg:rounded-l lg:rounded-t-none ">
