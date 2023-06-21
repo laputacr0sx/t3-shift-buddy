@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/component/ui/card";
+} from "~/components/ui/card";
 import { toast } from "./ui/useToast";
 import { convertDuration } from "~/lib/utils";
 

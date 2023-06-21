@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
-import ShiftCard from "../../component/ShiftCard";
-import { Skeleton } from "~/component/ui/skeleton";
-import { Button } from "~/component/ui/button";
+import ShiftCard from "../../components/ShiftCard";
+import { Skeleton } from "~/components/ui/skeleton";
+import { Button } from "~/components/ui/button";
 import { Home, MessageCircle } from "lucide-react";
 import Link from "next/link";
 

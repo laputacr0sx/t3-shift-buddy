@@ -1,7 +1,7 @@
 import React from "react";
-import { Skeleton } from "~/component/ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
-import PrefixButton from "../../component/PrefixButton";
+import PrefixButton from "../../components/PrefixButton";
 import { getNextWeekDates } from "~/lib/utils";
 
 export default function index() {
