@@ -1,10 +1,10 @@
-import { Html, Head, Main, NextScript } from "next/document";
+import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className=" h-screen w-screen">
+    <Html className="w-screen overflow-hidden">
       <Head />
-      <body className="h-screen w-screen bg-primary text-primary-foreground ">
+      <body className="w-screen bg-primary text-primary-foreground">
         <Main />
         <NextScript />
       </body>

@@ -26,8 +26,8 @@ function Index() {
 
   if (loadingShiftData) {
     return (
-      <div className="flex items-center space-x-4 p-14">
-        <Skeleton className=" h-12 w-12 rounded-sm" />
+      <div className="flex items-center p-14 space-x-4">
+        <Skeleton className="h-12 w-12 rounded-sm" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[200px]" />
           <Skeleton className="h-4 w-[160px]" />
@@ -46,7 +46,7 @@ function Index() {
 
   if (Array.isArray(shiftData) && !shiftData?.length) {
     return (
-      <div className="flex flex-row items-center justify-start self-center px-5 pt-4  font-mono font-extrabold">
+      <div className="flex flex-row items-center justify-start self-center px-5 pt-4 font-mono font-extrabold">
         <Link href={"/"}>
           <Button variant={"default"}>
             <Home className="m-2 h-4 w-4" />
@@ -59,14 +59,14 @@ function Index() {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-start self-center px-5 pt-4  font-mono font-extrabold">
+      <div className="flex flex-row items-center justify-start self-center px-5 pt-4 font-mono font-extrabold">
         <Link href={"/"}>
           <Button variant={"default"}>
             <Home className="m-2 h-4 w-4" />
           </Button>
         </Link>
         <div className="flex flex-col text-left">
-          <h1 className=" py-2 text-xl">以下為 {dutyNumber} 更資料</h1>
+          <h1 className="py-2 text-xl">以下為 {dutyNumber} 更資料</h1>
           <p className="text-sm text-muted-foreground">點擊資料以複製</p>
         </div>
         <Link href={whatsappURL}>
