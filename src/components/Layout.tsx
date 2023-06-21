@@ -7,7 +7,7 @@ interface PropType {
 
 export default function Layout({ children }: PropType) {
   return (
-    <div className="h-screen">
+    <div className="">
       <main>{children}</main>
       <Navbar />
     </div>

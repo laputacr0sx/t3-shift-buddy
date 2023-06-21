@@ -3,8 +3,8 @@ import React from "react";
 import { api } from "~/utils/api";
 import ShiftCard from "../../components/ShiftCard";
 import { Skeleton } from "~/components/ui/skeleton";
-import { Button } from "~/components/ui/button";
-import { Home, MessageCircle } from "lucide-react";
+
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 const whatsappURL = "https://chat.whatsapp.com/GjspanWzF2M8MysPayHpCX";
@@ -38,40 +38,43 @@ function Index() {
 
   if (errorShiftData?.data?.code === "BAD_REQUEST") {
     return (
-      <div>
-        <h1>Bad Request, Please try again</h1>
-      </div>
+      <h1 className={"h-screen text-center font-bold"}>
+        Bad Request, Please try again
+      </h1>
     );
   }
 
   if (Array.isArray(shiftData) && !shiftData?.length) {
     return (
-      <div className="flex flex-row items-center justify-start self-center px-5 pt-4 font-mono font-extrabold">
-        <Link href={"/"}>
-          <Button variant={"default"}>
-            <Home className="m-2 h-4 w-4" />
-          </Button>
-        </Link>
-        <h1>Missing duty data ...</h1>
-      </div>
+      <h1 className={"h-screen text-center font-bold"}>
+        Missing duty data ...
+      </h1>
     );
   }
 
   return (
     <>
-      <div className="flex flex-row items-center justify-start self-center px-5 pt-4 font-mono font-extrabold">
-        <Link href={"/"}>
-          <Button variant={"default"}>
-            <Home className="m-2 h-4 w-4" />
-          </Button>
-        </Link>
+      <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
         <div className="flex flex-col text-left">
           <h1 className="py-2 text-xl">以下為 {dutyNumber} 更資料</h1>
           <p className="text-sm text-muted-foreground">點擊資料以複製</p>
         </div>
-        <Link href={whatsappURL}>
-          <MessageCircle className="m-2 h-4 w-4" />
-        </Link>
+        <div>
+          <Link
+            href={whatsappURL}
+            className={"pointer-events-none flex flex-row text-red-300"}
+          >
+            <MessageCircle className="m-2 h-4 w-4" />
+            <p className={"self-center text-center  text-sm "}>九龍更群組</p>
+          </Link>
+          <Link
+            href={""}
+            className={"pointer-events-none flex flex-row text-blue-300"}
+          >
+            <MessageCircle className="m-2 h-4 w-4" />
+            <p className={"self-center text-center  text-sm "}>上水更群組</p>
+          </Link>
+        </div>
       </div>
       {shiftData?.map((shiftDetail) => (
         <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
