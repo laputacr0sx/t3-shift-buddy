@@ -1,4 +1,4 @@
-import { Shifts } from "@prisma/client";
+import { type Shifts } from "@prisma/client";
 import React from "react";
 
 interface PropType {
@@ -20,7 +20,9 @@ function ChineseCalendar(props: PropType) {
             <span className="text-sm">Sunday</span>
           </div>
           <div className="rounded-b-lg border-b border-l border-r border-white bg-white pb-2 text-center">
-            <span className="text-xs leading-normal">8:00 am to 5:00 pm</span>
+            <span className="text-xs leading-normal">
+              {props.shift.bNT} to {props.shift.bFT}
+            </span>
           </div>
         </div>
       </div>
