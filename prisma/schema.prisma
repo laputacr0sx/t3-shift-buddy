@@ -16,16 +16,14 @@ datasource db {
 }
 
 model Shifts {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  dutyNumber String
-  bNL        String
-  bNT        String
-  bFT        String
-  bFL        String
-  duration   String
-  remarks    String
+  id         String @id @default(uuid()) @map("_id")
+  dutyNumber String @map("dutyNumber")
+  bNL        String @map("bNL")
+  bNT        String @map("bNT")
+  bFT        String @map("bFT")
+  bFL        String @map("bFL")
+  duration   String @map("duration")
+  remarks    String @map("remarks")
 }
 
 enum Location {
