@@ -1,8 +1,6 @@
-import { Input } from "~/components/ui/input";
 import { z } from "zod";
+import { prefixRegex } from "~/lib/regex";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-const prefixRegex = /(?:[A-Z])(?:1[3|4|5]|7[1|5])/i;
 
 export const prefixControllerRouter = createTRPCRouter({
   getCurrentPrefix: publicProcedure.query(({ ctx }) => {
@@ -11,11 +9,26 @@ export const prefixControllerRouter = createTRPCRouter({
       take: 1,
     });
   }),
+  getPrefixGivenWeekNumber: publicProcedure
+    .input(
+      z.object({
+        weekNumber: z
+          .number()
+          .max(53, "Weeknumber cannot be greater than 52")
+          .min(1, "This minimum Weeknumber is 1"),
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.weekPrefix.findFirstOrThrow({
+        where: { weekNumber: input.weekNumber },
+      });
+    }),
   createNextWeekPrefix: publicProcedure
     .input(
       z.object({
         prefixes: z
           .string()
+          .regex(prefixRegex)
           .array()
           .length(7, "A week only contains 7 prefixes"),
         weekNumber: z
@@ -26,10 +39,5 @@ export const prefixControllerRouter = createTRPCRouter({
     )
     .mutation(({ input, ctx }) => {
       return ctx.prisma.weekPrefix.create({ data: { ...input } });
-    }),
-  updateGivenWeekPrefix: publicProcedure
-    .input(z.object({}))
-    .mutation(({ input, ctx }) => {
-      return;
     }),
 });

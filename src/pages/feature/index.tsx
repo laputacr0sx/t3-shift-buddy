@@ -4,7 +4,9 @@ import ShiftAccordion from "~/components/ShiftAccordion";
 import { api } from "~/utils/api";
 
 function index() {
-  const { data: shiftData } = api.getShifts.findShift.useQuery({ duty: "101" });
+  const { data: shiftData } = api.getShifts.getShiftGivenDutyNumber.useQuery({
+    duty: "101",
+  });
 
   return (
     <div className="w-full">

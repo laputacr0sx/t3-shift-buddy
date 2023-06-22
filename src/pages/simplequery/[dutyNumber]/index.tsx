@@ -17,7 +17,7 @@ function Index() {
     data: shiftData,
     isLoading: loadingShiftData,
     error: errorShiftData,
-  } = api.getShifts.findShift.useQuery(
+  } = api.getShifts.getShiftGivenDutyNumber.useQuery(
     {
       duty: dutyNumber,
     },

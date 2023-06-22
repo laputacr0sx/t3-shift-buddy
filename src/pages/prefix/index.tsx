@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/lib/utils";
-import { useQueries } from "@tanstack/react-query";
+import PrefixForm from "~/components/prefixForm";
 
 export default function index() {
   const { mutate: updatePrefixes } =
@@ -43,7 +43,7 @@ export default function index() {
       >
         Click me!
       </button>
-      {JSON.stringify(getNextWeekDates())}
+
       {currentPrefixList ? (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         currentPrefixList[0]?.prefixes?.map((prefix) => (
@@ -52,6 +52,7 @@ export default function index() {
       ) : (
         <></>
       )}
+      <PrefixForm date={getNextWeekDates()} prefixes={currentPrefixList} />
     </div>
   );
 }

@@ -15,39 +15,60 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
-import router from "next/router";
+import { prefixRegex } from "~/lib/regex";
+import { type WeekPrefix } from "@prisma/client";
 
 const prefixFormSchema = z.object({
-  shiftCode: z.string(),
+  MON: z.string().regex(prefixRegex),
+  TUE: z.string().regex(prefixRegex),
+  WED: z.string().regex(prefixRegex),
+  THU: z.string().regex(prefixRegex),
+  FRI: z.string().regex(prefixRegex),
+  SAT: z.string().regex(prefixRegex),
+  SUN: z.string().regex(prefixRegex),
 });
 
-export default function prefixForm() {
+interface PropsType {
+  date: Date[];
+  prefixes?: WeekPrefix[];
+}
+
+export default function prefixForm(props: PropsType) {
   // 1. Define your form.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefixForm = useForm<z.infer<typeof prefixFormSchema>>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues: {
-      shiftCode: "",
+      MON: "",
+      TUE: "",
+      WED: "",
+      THU: "",
+      FRI: "",
+      SAT: "",
+      SUN: "",
     },
   });
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof prefixFormSchema>) {
-    await router.push(`/${values.shiftCode}`);
+  function prefixFormHandler(values: z.infer<typeof prefixFormSchema>) {
+    return { ...values };
   }
 
   return (
     <Form {...prefixForm}>
-      <form onSubmit={prefixForm.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={prefixForm.handleSubmit(prefixFormHandler)}
+        className="space-y-8"
+      >
         <FormField
           control={prefixForm.control}
-          name="shiftCode"
-          render={({ field }) => (
+          name="MON"
+          render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>更號</FormLabel>
+              <FormLabel>星期一</FormLabel>
               <FormControl>
-                <Input placeholder="D15159 / 159" {...field} required={false} />
+                <Input {...field} />
               </FormControl>
-              <FormDescription>請輸入想查找的更號</FormDescription>
+              <FormDescription>{fieldState.error?.message}</FormDescription>
               <FormMessage />
             </FormItem>
           )}

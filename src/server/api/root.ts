@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { getShiftRouter } from "./routers/getShifts";
+import { getShiftRouter } from "./routers/shiftController";
 import { prefixControllerRouter } from "./routers/prefixController";
 
 /**

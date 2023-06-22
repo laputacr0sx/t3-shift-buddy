@@ -8,3 +8,5 @@ export const shiftCodeRegex =
   /(^\d{3}$)|(^(?:[A-Z])(?:1[3|4|5]|7[1|5])(\d{3}$)){1}/gim;
 
 export const threeDigitShiftRegex = /^\d{3}$/;
+
+export const prefixRegex = /(?:[A-Z])(?:1[3|4|5]|7[1|5])/i;
