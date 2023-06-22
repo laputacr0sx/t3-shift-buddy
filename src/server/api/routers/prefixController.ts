@@ -1,3 +1,4 @@
+import { Input } from "~/components/ui/input";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -13,7 +14,7 @@ export const prefixControllerRouter = createTRPCRouter({
   createNextWeekPrefix: publicProcedure
     .input(
       z.object({
-        content: z
+        prefixes: z
           .string()
           .array()
           .length(7, "A week only contains 7 prefixes"),
@@ -25,5 +26,10 @@ export const prefixControllerRouter = createTRPCRouter({
     )
     .mutation(({ input, ctx }) => {
       return ctx.prisma.weekPrefix.create({ data: { ...input } });
+    }),
+  updateGivenWeekPrefix: publicProcedure
+    .input(z.object({}))
+    .mutation(({ input, ctx }) => {
+      return;
     }),
 });

@@ -2,10 +2,11 @@ import React from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/lib/utils";
+import { useQueries } from "@tanstack/react-query";
 
 export default function index() {
   const { mutate: updatePrefixes } =
-    api.prefixController.createNextWeekPrefix.useMutation();
+    api.prefixController.createNextWeekPrefix.useMutation({});
 
   const { data: currentPrefixList, isLoading: prefixLoading } =
     api.prefixController.getCurrentPrefix.useQuery(undefined, {
@@ -21,13 +22,13 @@ export default function index() {
       </>
     );
 
-  if (Array.isArray(currentPrefixList) && !currentPrefixList?.length) {
-    return (
-      <h1 className={"h-screen text-center font-bold"}>
-        Missing duty data ...
-      </h1>
-    );
-  }
+  // if (Array.isArray(currentPrefixList) && !currentPrefixList?.length) {
+  //   return (
+  //     <h1 className={"h-screen text-center font-bold"}>
+  //       Missing duty data ...
+  //     </h1>
+  //   );
+  // }
 
   return (
     <div className="flex w-screen flex-col items-center justify-center">
@@ -35,7 +36,7 @@ export default function index() {
         className={"border-2 border-red-800 text-blue-700"}
         onClick={() => {
           updatePrefixes({
-            content: ["D15", "D15", "B14", "D15", "D15", "A75", "Z71"],
+            prefixes: ["D15", "D15", "B14", "D15", "D15", "A75", "Z71"],
             weekNumber: 25,
           });
         }}
@@ -45,7 +46,9 @@ export default function index() {
       {JSON.stringify(getNextWeekDates())}
       {currentPrefixList ? (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        currentPrefixList[0]?.content?.map((prefix) => <></>)
+        currentPrefixList[0]?.prefixes?.map((prefix) => (
+          <h1 key={currentPrefixList[0]?.id.concat(prefix)}>{prefix}</h1>
+        ))
       ) : (
         <></>
       )}
