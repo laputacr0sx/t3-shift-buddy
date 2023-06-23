@@ -29,7 +29,7 @@ const prefixFormSchema = z.object({
 });
 
 interface PropsType {
-  date: Date[];
+  dates: Date[];
   prefixes?: WeekPrefix[];
 }
 
@@ -64,7 +64,12 @@ export default function prefixForm(props: PropsType) {
           name="MON"
           render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>星期一</FormLabel>
+              {props &&
+                props.dates.map((date) => (
+                  <FormLabel key={date.toISOString()}>
+                    {date.getDay()}
+                  </FormLabel>
+                ))}
               <FormControl>
                 <Input {...field} />
               </FormControl>

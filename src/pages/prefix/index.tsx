@@ -52,7 +52,7 @@ export default function index() {
       ) : (
         <></>
       )}
-      <PrefixForm date={getNextWeekDates()} prefixes={currentPrefixList} />
+      <PrefixForm dates={getNextWeekDates()} prefixes={currentPrefixList} />
     </div>
   );
 }
