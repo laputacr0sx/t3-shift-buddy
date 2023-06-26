@@ -1,4 +1,4 @@
-import { Shifts } from "@prisma/client";
+import { type Shifts } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -25,12 +25,6 @@ export function convertDuration(rawDuration: string): string {
   return `${parseInt(wHour) + minuteDecimal}`;
 }
 
-interface WeekComplex {
-  date: Date;
-  title: string;
-  dutyObject: Shifts;
-}
-
 export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
   let dutyDetail: Shifts[] = [];
 
@@ -47,6 +41,35 @@ export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
   return dutyDetail;
 }
 
-export function getCompleteWeekComplex() {
-  return;
+interface WeekComplex {
+  date: string | undefined;
+  title: string | undefined;
+  dutyObject: Shifts | undefined | null;
+}
+
+export function getCompleteWeekComplex(
+  titleArray: string[],
+  shiftsArray: Shifts[],
+  dateArray: Date[]
+) {
+  let dutyComplex: WeekComplex[] = [];
+
+  for (let i = 0; i < titleArray.length; i++) {
+    const result = shiftsArray?.filter(({ dutyNumber }) => {
+      return dutyNumber === titleArray[i] || "";
+    });
+
+    if (!!result?.[0] && !!dateArray?.[0]) {
+      dutyComplex = [
+        ...dutyComplex,
+        {
+          date: dateArray[i]?.toLocaleDateString(),
+          title: titleArray[i],
+          dutyObject: result[0] || {},
+        },
+      ];
+    }
+  }
+
+  return dutyComplex;
 }

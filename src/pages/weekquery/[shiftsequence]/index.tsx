@@ -1,14 +1,13 @@
-import { useRouter } from "next/router";
 import React from "react";
-import { api } from "~/utils/api";
-// import ShiftCard from "../../../components/ShiftCard";
-// import { Skeleton } from "~/components/ui/skeleton";
-import { MessageCircle } from "lucide-react";
 import Link from "next/link";
-import { sevenShiftRegex, threeDigitShiftRegex } from "~/lib/regex";
 import moment from "moment";
-import { type Shifts } from "@prisma/client";
-import { getNextWeekDates, getShiftDetail } from "~/lib/utils";
+import { useRouter } from "next/router";
+import { MessageCircle } from "lucide-react";
+import { api } from "~/utils/api";
+import { sevenShiftRegex, threeDigitShiftRegex } from "~/lib/regex";
+import { getCompleteWeekComplex, getNextWeekDates } from "~/lib/utils";
+
+import ShiftArrayCard from "~/components/ShiftArrayCard";
 
 function Index() {
   const router = useRouter();
@@ -18,6 +17,7 @@ function Index() {
 
   const { data: currentPrefix } =
     api.prefixController.getCurrentPrefix.useQuery();
+
   const currentPrefixesArray = currentPrefix?.[0]?.prefixes || [];
 
   const compleShiftNameArray = currentPrefixesArray.map((prefix, index) => {
@@ -28,7 +28,7 @@ function Index() {
 
   const nextWeekDates = getNextWeekDates();
 
-  const initalShiftArray: Shifts[] = [];
+  // const initalShiftArray: Shifts[] = [];
 
   const {
     data: shiftsArray,
@@ -39,12 +39,20 @@ function Index() {
       shiftArray: compleShiftNameArray,
     },
     {
+      enabled: !!currentPrefixesArray && !!compleShiftNameArray,
       refetchOnWindowFocus: false,
-      initialData: { initalShiftArray },
     }
   );
 
-  const nextWeekDeatil = getShiftDetail(compleShiftNameArray, shiftsArray);
+  if (shiftsArrayLoading) return <p>shifts are loading...</p>;
+
+  if (shiftsArrayError) return <p>{shiftsArrayError.message}</p>;
+
+  const nextWeekComplex = getCompleteWeekComplex(
+    compleShiftNameArray,
+    shiftsArray,
+    nextWeekDates
+  );
 
   return (
     <>
@@ -77,6 +85,17 @@ function Index() {
       {compleShiftNameArray?.map((shift) => {
         return <p key={currentPrefix?.[0]?.id.concat(shift || "")}>{shift}</p>;
       })}
+
+      {/* <p className="break-words">{JSON.stringify(nextWeekComplex, null, 2)}</p> */}
+
+      {nextWeekComplex.map((eachDay) => (
+        <ShiftArrayCard
+          date={eachDay.date}
+          dutyObject={eachDay.dutyObject}
+          title={eachDay.title}
+          key={JSON.stringify(eachDay.dutyObject)}
+        />
+      ))}
     </>
   );
 }
