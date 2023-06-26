@@ -3,23 +3,23 @@ import React from "react";
 import { api } from "~/utils/api";
 // import ShiftCard from "../../../components/ShiftCard";
 // import { Skeleton } from "~/components/ui/skeleton";
-
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
-import { sevenShiftRegex } from "~/lib/regex";
+import { sevenShiftRegex, threeDigitShiftRegex } from "~/lib/regex";
 import moment from "moment";
 
 function Index() {
   const router = useRouter();
   const shiftsequence = router.query.shiftsequence as string;
 
-  const shifts = shiftsequence?.match(sevenShiftRegex);
+  const rawShiftsArray = shiftsequence?.match(sevenShiftRegex);
 
   const { data: currentPrefix } =
     api.prefixController.getCurrentPrefix.useQuery(undefined, {
       refetchOnWindowFocus: false,
     });
 
+  const currentPrefixesArray = currentPrefix?.[0]?.prefixes || [];
   const DEMO_WEEK_SHIFTS = [
     "D15149",
     "D15150",
@@ -29,24 +29,23 @@ function Index() {
     "U71102",
     "A75103",
   ];
+
+  const compleShiftNameArray = currentPrefixesArray.map((prefix, index) => {
+    return !threeDigitShiftRegex.test(rawShiftsArray?.[index] || "")
+      ? rawShiftsArray?.[index] || ""
+      : prefix.concat(rawShiftsArray?.[index] || "");
+  });
+
   const {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
-  } = api.shiftController.getWeekShift.useQuery({
-    shiftArray: DEMO_WEEK_SHIFTS,
-  });
-
-  // const {
-  //   data: shiftData,
-  //   isLoading: loadingShiftData,
-  //   error: errorShiftData,
-  // } = api.getShifts.findShift.useQuery(
-  //   {
-  //     duty: shiftsequence,
-  //   },
-  //   { enabled: !!router.query.shiftsequence, refetchOnWindowFocus: false }
-  // );
+  } = api.shiftController.getWeekShift.useQuery(
+    {
+      shiftArray: compleShiftNameArray || DEMO_WEEK_SHIFTS,
+    },
+    { refetchOnWindowFocus: false }
+  );
 
   return (
     <>
@@ -76,15 +75,9 @@ function Index() {
         {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
       </p>
 
-      <p>
-        {shiftsArray?.map((shift) => {
-          return JSON.stringify(shift.dutyNumber);
-        })}
-      </p>
-
-      {/* {shiftData?.map((shiftDetail) => (
-        <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
-      ))} */}
+      {compleShiftNameArray?.map((shift) => {
+        return <p key={currentPrefix?.[0]?.id.concat(shift || "")}>{shift}</p>;
+      })}
     </>
   );
 }
