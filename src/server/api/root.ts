@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { getShiftRouter } from "./routers/shiftController";
+import { shiftControllerRouter } from "./routers/shiftController";
 import { prefixControllerRouter } from "./routers/prefixController";
 
 /**
@@ -8,7 +8,7 @@ import { prefixControllerRouter } from "./routers/prefixController";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  getShifts: getShiftRouter,
+  shiftController: shiftControllerRouter,
   prefixController: prefixControllerRouter,
 });
 

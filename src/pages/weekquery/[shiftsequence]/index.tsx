@@ -20,6 +20,23 @@ function Index() {
       refetchOnWindowFocus: false,
     });
 
+  const DEMO_WEEK_SHIFTS = [
+    "D15149",
+    "D15150",
+    "D15151",
+    "RD",
+    "D15101",
+    "U71102",
+    "A75103",
+  ];
+  const {
+    data: shiftsArray,
+    isLoading: shiftsArrayLoading,
+    error: shiftsArrayError,
+  } = api.shiftController.getWeekShift.useQuery({
+    shiftArray: DEMO_WEEK_SHIFTS,
+  });
+
   // const {
   //   data: shiftData,
   //   isLoading: loadingShiftData,
@@ -56,7 +73,13 @@ function Index() {
         </div>
       </div>
       <p className={"text-center align-middle"}>
-        {moment(currentPrefix && currentPrefix[0]?.updatedAt).fromNow()}
+        {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
+      </p>
+
+      <p>
+        {shiftsArray?.map((shift) => {
+          return JSON.stringify(shift.dutyNumber);
+        })}
       </p>
 
       {/* {shiftData?.map((shiftDetail) => (

@@ -7,7 +7,7 @@ interface PropType {
 
 export default function Layout({ children }: PropType) {
   return (
-    <div className="">
+    <div className="flex flex-col">
       <main>{children}</main>
       <Navbar />
     </div>

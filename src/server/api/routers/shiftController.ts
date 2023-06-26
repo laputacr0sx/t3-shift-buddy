@@ -6,7 +6,7 @@ import { sevenShiftRegex } from "~/lib/regex";
 const dutyInputRegExValidator =
   /((?:1|3|5|6)(?:[0-5])(?:\d))|((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))(?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?)|(?:9|8)(?:\d{5})(?:\w?))/;
 
-export const getShiftRouter = createTRPCRouter({
+export const shiftControllerRouter = createTRPCRouter({
   getShiftGivenDutyNumber: publicProcedure
     .input(
       z.object({
@@ -27,6 +27,10 @@ export const getShiftRouter = createTRPCRouter({
       })
     )
     .query(({ input, ctx }) => {
-      return;
+      const resultShiftArray = ctx.prisma.shifts.findMany({
+        where: { dutyNumber: { in: input.shiftArray } },
+      });
+
+      return resultShiftArray;
     }),
 });

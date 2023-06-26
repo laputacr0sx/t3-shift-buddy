@@ -40,10 +40,10 @@ export default function ShiftCard(props: PropType) {
       </CardHeader>
       <CardContent>
         <p>
-          返 {bNT} [{bNL}]
+          返{bNT} [{bNL}]
         </p>
         <p>
-          收 {bFT} [{bFL}]
+          收{bFT} [{bFL}]
         </p>
       </CardContent>
       <CardFooter className="flex justify-between">

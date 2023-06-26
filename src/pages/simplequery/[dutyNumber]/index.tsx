@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
-import ShiftCard from "../../../components/ShiftCard";
+import ShiftCard from "~/components/ShiftCard";
 import { Skeleton } from "~/components/ui/skeleton";
 
 import { MessageCircle } from "lucide-react";
@@ -17,7 +17,7 @@ function Index() {
     data: shiftData,
     isLoading: loadingShiftData,
     error: errorShiftData,
-  } = api.getShifts.getShiftGivenDutyNumber.useQuery(
+  } = api.shiftController.getShiftGivenDutyNumber.useQuery(
     {
       duty: dutyNumber,
     },
@@ -76,9 +76,12 @@ function Index() {
           </Link>
         </div>
       </div>
-      {shiftData?.map((shiftDetail) => (
-        <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
-      ))}
+      <div className="flex flex-col border-0 md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
+        {/* <div className="lg:grid-col-3 grid h-max grid-cols-2"> */}
+        {shiftData?.map((shiftDetail) => (
+          <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
+        ))}
+      </div>
     </>
   );
 }
