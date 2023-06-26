@@ -54,6 +54,8 @@ function Index() {
     nextWeekDates
   );
 
+  if (!nextWeekComplex) return <p>loading...</p>;
+
   return (
     <>
       <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
@@ -79,16 +81,17 @@ function Index() {
         </div>
       </div>
       <p className={"text-center align-middle"}>
-        {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
+        Timetable updated {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
       </p>
-
+      <p className="text-center align-middle">
+        第{moment(currentPrefix?.[0]?.updatedAt).format("W")}週
+      </p>
+      {/* 
       {compleShiftNameArray?.map((shift) => {
         return <p key={currentPrefix?.[0]?.id.concat(shift || "")}>{shift}</p>;
-      })}
+      })} */}
 
-      {/* <p className="break-words">{JSON.stringify(nextWeekComplex, null, 2)}</p> */}
-
-      {nextWeekComplex.map((eachDay) => (
+      {nextWeekComplex?.map((eachDay) => (
         <ShiftArrayCard
           date={eachDay.date}
           dutyObject={eachDay.dutyObject}

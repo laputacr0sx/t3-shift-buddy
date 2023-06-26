@@ -42,9 +42,9 @@ export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
 }
 
 interface WeekComplex {
-  date: string | undefined;
+  date: Date | undefined;
   title: string | undefined;
-  dutyObject: Shifts | undefined | null;
+  dutyObject: Shifts | undefined;
 }
 
 export function getCompleteWeekComplex(
@@ -63,7 +63,7 @@ export function getCompleteWeekComplex(
       dutyComplex = [
         ...dutyComplex,
         {
-          date: dateArray[i]?.toLocaleDateString(),
+          date: dateArray[i],
           title: titleArray[i],
           dutyObject: result[0] || {},
         },

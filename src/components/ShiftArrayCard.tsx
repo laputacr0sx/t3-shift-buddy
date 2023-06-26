@@ -21,7 +21,8 @@ interface WeekComplex {
 }
 
 export default function ShiftArrayCard(props: WeekComplex) {
-  if (!props.date || !props.dutyObject || !props.title) return;
+  if (!props.date || !props.dutyObject || !props.title)
+    return <p>Error Occurred...</p>;
 
   const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } =
     props.dutyObject;
