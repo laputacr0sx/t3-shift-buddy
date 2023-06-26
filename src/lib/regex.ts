@@ -10,3 +10,6 @@ export const shiftCodeRegex =
 export const threeDigitShiftRegex = /^\d{3}$/;
 
 export const prefixRegex = /(?:[A-Z])(?:1[3|4|5]|7[1|5])/i;
+
+export const dutyInputRegExValidator =
+  /((?:1|3|5|6)(?:[0-5])(?:\d))|((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))(?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?)|(?:9|8)(?:\d{5})(?:\w?))/;

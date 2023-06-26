@@ -36,7 +36,7 @@ export default function index() {
         className={"border-2 border-red-800 text-blue-700"}
         onClick={() => {
           updatePrefixes({
-            prefixes: ["D15", "D15", "B14", "D15", "D15", "A75", "Z71"],
+            prefixes: ["D15", "D15", "B14", "D15", "D15", "A75", "U71"],
             weekNumber: 25,
           });
         }}

@@ -7,28 +7,18 @@ import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { sevenShiftRegex, threeDigitShiftRegex } from "~/lib/regex";
 import moment from "moment";
+import { type Shifts } from "@prisma/client";
+import { getNextWeekDates, getShiftDetail } from "~/lib/utils";
 
 function Index() {
   const router = useRouter();
-  const shiftsequence = router.query.shiftsequence as string;
 
+  const shiftsequence = router.query.shiftsequence as string;
   const rawShiftsArray = shiftsequence?.match(sevenShiftRegex);
 
   const { data: currentPrefix } =
-    api.prefixController.getCurrentPrefix.useQuery(undefined, {
-      refetchOnWindowFocus: false,
-    });
-
+    api.prefixController.getCurrentPrefix.useQuery();
   const currentPrefixesArray = currentPrefix?.[0]?.prefixes || [];
-  const DEMO_WEEK_SHIFTS = [
-    "D15149",
-    "D15150",
-    "D15151",
-    "RD",
-    "D15101",
-    "U71102",
-    "A75103",
-  ];
 
   const compleShiftNameArray = currentPrefixesArray.map((prefix, index) => {
     return !threeDigitShiftRegex.test(rawShiftsArray?.[index] || "")
@@ -36,16 +26,25 @@ function Index() {
       : prefix.concat(rawShiftsArray?.[index] || "");
   });
 
+  const nextWeekDates = getNextWeekDates();
+
+  const initalShiftArray: Shifts[] = [];
+
   const {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
   } = api.shiftController.getWeekShift.useQuery(
     {
-      shiftArray: compleShiftNameArray || DEMO_WEEK_SHIFTS,
+      shiftArray: compleShiftNameArray,
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+      initialData: { initalShiftArray },
+    }
   );
+
+  const nextWeekDeatil = getShiftDetail(compleShiftNameArray, shiftsArray);
 
   return (
     <>

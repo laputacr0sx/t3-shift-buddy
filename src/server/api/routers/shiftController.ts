@@ -1,10 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { sevenShiftRegex } from "~/lib/regex";
-
-const dutyInputRegExValidator =
-  /((?:1|3|5|6)(?:[0-5])(?:\d))|((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))(?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?)|(?:9|8)(?:\d{5})(?:\w?))/;
+import { dutyInputRegExValidator, sevenShiftRegex } from "~/lib/regex";
 
 export const shiftControllerRouter = createTRPCRouter({
   getShiftGivenDutyNumber: publicProcedure

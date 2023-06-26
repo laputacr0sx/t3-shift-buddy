@@ -1,3 +1,4 @@
+import { Shifts } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -22,4 +23,30 @@ export function convertDuration(rawDuration: string): string {
   if (!wMinute || !wHour) return "0";
   const minuteDecimal = parseInt(wMinute) / 60;
   return `${parseInt(wHour) + minuteDecimal}`;
+}
+
+interface WeekComplex {
+  date: Date;
+  title: string;
+  dutyObject: Shifts;
+}
+
+export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
+  let dutyDetail: Shifts[] = [];
+
+  for (const inputDutyNumber of arrayOfShift) {
+    const result = shiftsArray?.filter(({ dutyNumber }) => {
+      return dutyNumber === inputDutyNumber || "";
+    });
+
+    if (!!result?.[0]) {
+      dutyDetail = [...dutyDetail, result[0]];
+    }
+  }
+
+  return dutyDetail;
+}
+
+export function getCompleteWeekComplex() {
+  return;
 }
