@@ -1,10 +1,11 @@
 import React from "react";
-import ChineseCalendar from "~/components/ChineseCalendar";
-import ShiftAccordion from "~/components/ShiftAccordion";
-import { api } from "~/utils/api";
 
 function index() {
-  return <></>;
+  return (
+    <div>
+      <h1>This is the calendar feature</h1>
+    </div>
+  );
 }
 
 export default index;
