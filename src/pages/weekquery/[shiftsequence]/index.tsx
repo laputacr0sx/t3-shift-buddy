@@ -39,7 +39,7 @@ function Index() {
       shiftArray: compleShiftNameArray,
     },
     {
-      enabled: !!currentPrefixesArray && !!compleShiftNameArray,
+      enabled: !!currentPrefixesArray && compleShiftNameArray.length > 0,
       refetchOnWindowFocus: false,
     }
   );
@@ -86,10 +86,6 @@ function Index() {
       <p className="text-center align-middle">
         第{moment(currentPrefix?.[0]?.updatedAt).format("W")}週
       </p>
-      {/* 
-      {compleShiftNameArray?.map((shift) => {
-        return <p key={currentPrefix?.[0]?.id.concat(shift || "")}>{shift}</p>;
-      })} */}
 
       {nextWeekComplex?.map((eachDay) => (
         <ShiftArrayCard
