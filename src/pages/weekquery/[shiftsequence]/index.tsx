@@ -28,8 +28,6 @@ function Index() {
 
   const nextWeekDates = getNextWeekDates();
 
-  // const initalShiftArray: Shifts[] = [];
-
   const {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
@@ -61,7 +59,7 @@ function Index() {
       <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
         <div className="flex flex-col text-left">
           <h1 className="py-2 text-xl">以下為下週更資料</h1>
-          <p className="text-sm text-muted-foreground">點擊資料以複製</p>
+          <p className="text-sm text-muted-foreground">點擊更號以複製資料</p>
         </div>
         <div>
           <Link
@@ -80,7 +78,7 @@ function Index() {
           </Link>
         </div>
       </div>
-      <p className={"text-center align-middle"}>
+      <p className={"text-right align-middle text-muted-foreground"}>
         Timetable updated {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
       </p>
       <p className="text-center align-middle">

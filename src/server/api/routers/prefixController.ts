@@ -1,14 +1,24 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { prefixRegex } from "~/lib/regex";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const prefixControllerRouter = createTRPCRouter({
-  getCurrentPrefix: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.weekPrefix.findMany({
+  getCurrentPrefix: publicProcedure.query(async ({ ctx }) => {
+    const result = await ctx.prisma.weekPrefix.findMany({
       orderBy: { createdAt: "desc" },
       take: 1,
     });
+
+    if (!result)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "result not found",
+      });
+
+    return result;
   }),
+
   getPrefixGivenWeekNumber: publicProcedure
     .input(
       z.object({
@@ -23,6 +33,7 @@ export const prefixControllerRouter = createTRPCRouter({
         where: { weekNumber: input.weekNumber },
       });
     }),
+
   createNextWeekPrefix: publicProcedure
     .input(
       z.object({

@@ -10,9 +10,9 @@ function ChineseCalendar(props: PropType) {
   const localDateTime = moment(date).locale("tc");
 
   return (
-    <div className="min-w-32 min-h-48 mb-4 bg-white p-3 font-medium">
-      <div className="w-32 flex-none rounded-t text-center shadow-lg lg:rounded-l lg:rounded-t-none ">
-        <div className="block overflow-hidden rounded-t  text-center ">
+    <div className="min-w-32 min-h-32 mb-4 flex items-center justify-center rounded-2xl p-3 font-medium">
+      <div className="w-20 flex-none rounded-t text-center shadow-lg md:w-32 lg:rounded-l lg:rounded-t-none ">
+        <div className="block overflow-hidden rounded-t text-center ">
           <div className="bg-blue-500 py-1 text-white">
             {localDateTime.format("MMM")}
           </div>
@@ -21,7 +21,7 @@ function ChineseCalendar(props: PropType) {
               {moment(date).date()}
             </span>
           </div>
-          <div className="-pt-2 -mb-1 rounded-b-lg border-b border-l border-r border-white bg-white text-center">
+          <div className="-pt-2 mb-1 rounded-b-lg border-b border-l border-r border-white bg-white text-center">
             <span className="text-sm">{localDateTime.format("dddd")}</span>
           </div>
 

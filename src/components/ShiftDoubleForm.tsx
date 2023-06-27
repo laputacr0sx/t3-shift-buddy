@@ -21,11 +21,16 @@ import { Separator } from "./ui/separator";
 import { shiftCodeRegex, shiftRowRegex } from "../lib/regex";
 
 const codeFormSchema = z.object({
-  shiftCode: z.string().regex(shiftCodeRegex),
+  shiftCode: z
+    .string()
+    .regex(
+      shiftCodeRegex,
+      `請正確輸入更號[時間表][番號]或[番號], 例：D15101或101`
+    ),
 });
 
 const rowFormSchema = z.object({
-  shiftRow: z.string().regex(shiftRowRegex),
+  shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
 });
 
 export default function shiftDoubleForm() {
@@ -79,7 +84,7 @@ export default function shiftDoubleForm() {
                 <FormDescription className=" break-words font-mono tracking-wide">
                   請輸入想查找的更號
                 </FormDescription>
-                <FormMessage />
+                <FormMessage className=" tracking-wide" />
               </FormItem>
             )}
           />
@@ -105,7 +110,6 @@ export default function shiftDoubleForm() {
                     className="font-mono tracking-wide"
                     placeholder="101102103104105106107RD"
                     {...field}
-
                   />
                 </FormControl>
                 <FormDescription className=" break-words font-mono tracking-wide">
@@ -117,7 +121,7 @@ export default function shiftDoubleForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" variant={"secondary"} >
+          <Button type="submit" variant={"secondary"}>
             查一條更！
           </Button>
         </form>
