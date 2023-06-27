@@ -29,7 +29,7 @@ export default function ShiftArrayCard(props: WeekComplex) {
   const durationDecimal = convertDuration(duration);
 
   return (
-    <div className="flex justify-start gap-1">
+    <div className="flex justify-evenly gap-1">
       <ChineseCalendar date={props.date} />
       <Card className=" mx-5 my-6 w-screen font-mono  md:max-w-xl">
         <CardHeader
