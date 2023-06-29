@@ -4,7 +4,7 @@ import React from "react";
 
 function Navbar() {
   return (
-    <div className={"sticky bottom-0 flex flex-row justify-evenly bg-red-950"}>
+    <div className={"sticky top-0 flex flex-row justify-start bg-red-950"}>
       <Link href={"/"} className={"flex flex-row"}>
         <Home className="m-2" />
       </Link>
