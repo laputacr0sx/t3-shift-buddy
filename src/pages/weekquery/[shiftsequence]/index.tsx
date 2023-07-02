@@ -58,7 +58,9 @@ function Index() {
     <>
       <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
         <div className="flex flex-col text-left">
-          <h1 className="py-2 text-xl">以下為下週更資料</h1>
+          <h1 className="py-2 font-mono text-xl font-extrabold tracking-widest">
+            以下為第{moment(currentPrefix?.[0]?.updatedAt).format("W")}週更資料
+          </h1>
           <p className="text-sm text-muted-foreground">點擊更號以複製資料</p>
         </div>
         <div>
@@ -67,23 +69,23 @@ function Index() {
             className={"pointer-events-none flex flex-row text-red-300"}
           >
             <MessageCircle className="m-2 h-4 w-4" />
-            <p className={"self-center text-center  text-sm "}>九龍更群組</p>
+            <p className={"self-center text-center text-sm "}>九龍更群組</p>
           </Link>
           <Link
             href={""}
             className={"pointer-events-none flex flex-row text-blue-300"}
           >
             <MessageCircle className="m-2 h-4 w-4" />
-            <p className={"self-center text-center  text-sm "}>上水更群組</p>
+            <p className={"self-center text-center text-sm "}>上水更群組</p>
           </Link>
         </div>
       </div>
-      <p className={"text-right align-middle text-muted-foreground"}>
+      <p className={"px-5 text-right align-middle text-muted-foreground"}>
         Timetable updated {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
       </p>
-      <p className="text-center align-middle">
+      {/* <p className="text-center align-middle">
         第{moment(currentPrefix?.[0]?.updatedAt).format("W")}週
-      </p>
+      </p> */}
 
       {nextWeekComplex?.map((eachDay) => (
         <ShiftArrayCard
