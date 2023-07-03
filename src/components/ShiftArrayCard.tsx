@@ -31,7 +31,7 @@ export default function ShiftArrayCard(props: WeekComplex) {
   return (
     <div className="flex justify-evenly gap-1">
       <ChineseCalendar date={props.date} />
-      <Card className=" mx-5 my-6 w-screen font-mono  md:max-w-xl">
+      <Card className="mx-5 my-6 w-screen  font-mono md:max-w-xl">
         <CardHeader
           className="rounded-t-lg hover:bg-blue-900 active:bg-blue-950"
           onClick={async () => {
