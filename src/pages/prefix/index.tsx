@@ -1,8 +1,9 @@
 import React from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
-import { getNextWeekDates } from "~/lib/utils";
+
 import PrefixForm from "~/components/prefixForm";
+import { getNextWeekDates } from "~/utils/helper";
 
 export default function index() {
   const { mutate: updatePrefixes } =

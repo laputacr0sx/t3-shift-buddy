@@ -2,7 +2,7 @@ import React from "react";
 
 import ResponsiveShiftCard from "~/components/ResponsiveShiftCard";
 import { threeDigitShiftRegex } from "~/utils/regex";
-import { getCompleteWeekComplex, getNextWeekDates } from "~/lib/utils";
+import { getCompleteWeekComplex, getNextWeekDates } from "~/utils/helper";
 import { api } from "~/utils/api";
 
 function index() {
