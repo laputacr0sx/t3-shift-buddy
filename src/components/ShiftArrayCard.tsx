@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { toast } from "./ui/useToast";
-import { convertDuration } from "~/lib/utils";
+import { convertDuration } from "~/utils/helper";
 import ChineseCalendar from "./ChineseCalendar";
 
 interface WeekComplex {

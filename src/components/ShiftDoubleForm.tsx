@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import router from "next/router";
 import { Separator } from "./ui/separator";
 
-import { shiftCodeRegex, shiftRowRegex } from "~/lib/regex";
+import { shiftCodeRegex, shiftRowRegex } from "~/utils/regex";
 
 const codeFormSchema = z.object({
   shiftCode: z

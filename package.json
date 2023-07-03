@@ -35,7 +35,7 @@
     "@vercel/analytics": "^1.0.1",
     "add-to-calendar-button": "^2.2.9",
     "add-to-calendar-button-react": "^2.2.7",
-    "class-variance-authority": "^0.6.0",
+    "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "ical-generator": "^5.0.0",
     "ics": "^3.2.0",
@@ -46,8 +46,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.3",
     "superjson": "1.12.2",
-    "tailwind-merge": "^1.13.1",
-    "tailwindcss-animate": "^1.0.5",
+    "tailwind-merge": "^1.13.2",
+    "tailwindcss-animate": "^1.0.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {

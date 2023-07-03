@@ -1,7 +1,7 @@
 import React from "react";
 
 import ResponsiveShiftCard from "~/components/ResponsiveShiftCard";
-import { threeDigitShiftRegex } from "~/lib/regex";
+import { threeDigitShiftRegex } from "~/utils/regex";
 import { getCompleteWeekComplex, getNextWeekDates } from "~/lib/utils";
 import { api } from "~/utils/api";
 
@@ -38,7 +38,6 @@ function index() {
   if (shiftsArrayLoading) return <p>shifts are loading...</p>;
 
   if (shiftsArrayError) return <p>{shiftsArrayError.message}</p>;
-
 
   const nextWeekComplex = getCompleteWeekComplex(
     compleShiftNameArray,

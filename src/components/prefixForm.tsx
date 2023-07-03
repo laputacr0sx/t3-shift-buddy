@@ -15,7 +15,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
-import { prefixRegex } from "~/lib/regex";
+import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
 
 const prefixFormSchema = z.object({

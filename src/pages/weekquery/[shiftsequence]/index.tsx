@@ -4,8 +4,8 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { MessageCircle } from "lucide-react";
 import { api } from "~/utils/api";
-import { sevenShiftRegex, threeDigitShiftRegex } from "~/lib/regex";
-import { getCompleteWeekComplex, getNextWeekDates } from "~/lib/utils";
+import { sevenShiftRegex, threeDigitShiftRegex } from "~/utils/regex";
+import { getCompleteWeekComplex, getNextWeekDates } from "~/utils/helper";
 
 import ShiftArrayCard from "~/components/ShiftArrayCard";
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { dutyInputRegExValidator, sevenShiftRegex } from "~/lib/regex";
+import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 
 export const shiftControllerRouter = createTRPCRouter({
   getShiftGivenDutyNumber: publicProcedure

@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { prefixRegex } from "~/lib/regex";
+import { prefixRegex } from "~/utils/regex";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const prefixControllerRouter = createTRPCRouter({
