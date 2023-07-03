@@ -5,9 +5,9 @@ export default function Document() {
     <Html className="h-screen w-screen ">
       <Head />
       <body className="bg-primary text-primary-foreground">
-        {/* <body className="w-screen bg-primary text-primary-foreground"> */}
-        <Main />
-        <NextScript />
+      {/* <body className="w-screen bg-primary text-primary-foreground"> */}
+      <Main />
+      <NextScript />
       </body>
     </Html>
   );

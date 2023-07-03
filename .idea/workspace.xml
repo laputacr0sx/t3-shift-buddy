@@ -5,28 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65bed6ea-432a-405c-a70a-f0da4ffa4684" name="Changes" comment="">
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/issuestore/d/2/d2d3bb60cab7e8c869b5fdf0a820b7edf2fc7859" beforeDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/securityhotspotstore/d/2/d2d3bb60cab7e8c869b5fdf0a820b7edf2fc7859" beforeDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/components/Layout.tsx" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/components/Layout.tsx" afterDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/components/Toaster.tsx" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/components/Toaster.tsx" afterDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/pages/[dutyNumber]/index.tsx" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/pages/[dutyNumber]/index.tsx" afterDir="false" />
-      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/pages/_document.tsx" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/pages/_document.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/404.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/e/2eefa41a18ed6ea3f58b3748f9e5559a28e77646" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/e/2eefa41a18ed6ea3f58b3748f9e5559a28e77646" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ShiftDoubleForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ShiftDoubleForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_document.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_document.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/feature/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/feature/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="JavaScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -49,8 +56,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
-    "javascript.nodejs.core.library.configured.version": "19.7.0",
-    "javascript.nodejs.core.library.typings.version": "20.2.5",
+    "javascript.nodejs.core.library.configured.version": "20.3.0",
+    "javascript.nodejs.core.library.typings.version": "20.3.0",
+    "last_opened_file_path": "/Users/veilics/JetBrains/WebStormProjects/t3_shift_buddy",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,7 +66,8 @@
     "nodejs_interpreter_path": "node",
     "nodejs_package_manager_path": "npm",
     "prettierjs.PrettierConfiguration.Package": "/Users/veilics/JetBrains/WebStormProjects/t3_shift_buddy/node_modules/prettier",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false",
     "ts.external.directory.path": "/Users/veilics/JetBrains/WebStormProjects/t3_shift_buddy/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -79,11 +88,21 @@
       <workItem from="1686814280076" duration="264000" />
       <workItem from="1687110913485" duration="277000" />
       <workItem from="1687308327048" duration="529000" />
+      <workItem from="1688331052609" duration="323000" />
+      <workItem from="1688331409745" duration="373000" />
+      <workItem from="1688331803884" duration="1252000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:next" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -110,5 +129,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

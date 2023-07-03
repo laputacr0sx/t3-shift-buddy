@@ -11,7 +11,7 @@ function index() {
   const { data: currentPrefix } =
     api.prefixController.getCurrentPrefix.useQuery();
 
-  const currentPrefixesArray = currentPrefix?.[0]?.prefixes || [];
+  const currentPrefixesArray = currentPrefix?.[0]?.prefixes ?? [];
 
   const compleShiftNameArray = currentPrefixesArray.map((prefix, index) => {
     return !threeDigitShiftRegex.test(rawShiftsArray?.[index] || "")
@@ -38,6 +38,7 @@ function index() {
   if (shiftsArrayLoading) return <p>shifts are loading...</p>;
 
   if (shiftsArrayError) return <p>{shiftsArrayError.message}</p>;
+
 
   const nextWeekComplex = getCompleteWeekComplex(
     compleShiftNameArray,
