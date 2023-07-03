@@ -8,10 +8,29 @@ import { api } from "~/utils/api";
 function index() {
   const rawShiftsArray = ["101", "102", "103", "104", "105", "106", "RD"];
 
-  const { data: currentPrefix } =
-    api.prefixController.getCurrentPrefix.useQuery();
+  const {
+    data: currentPrefix,
+    isLoading: currentPrefixLoading,
+    error: currentPrefixError,
+  } = api.prefixController.getCurrentPrefix.useQuery();
 
-  const currentPrefixesArray = currentPrefix?.[0]?.prefixes ?? [];
+  if (currentPrefixLoading) {
+    return (
+      <div>
+        <p>Loading Prefixes...</p>
+      </div>
+    );
+  }
+
+  if (!currentPrefix) {
+    return <p>No Prefixes Loaded</p>;
+  }
+
+  if (currentPrefixError) {
+    return <p>current Prefixes Error</p>;
+  }
+
+  const currentPrefixesArray = currentPrefix[0]?.prefixes ?? [];
 
   const compleShiftNameArray = currentPrefixesArray.map((prefix, index) => {
     return !threeDigitShiftRegex.test(rawShiftsArray?.[index] || "")

@@ -53,7 +53,7 @@ function Index() {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold lg:max-w-2xl">
+      <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
         <div className="flex flex-col text-left">
           <h1 className="py-2 text-xl">以下為 {dutyNumber} 更資料</h1>
           <p className="text-sm text-muted-foreground">點擊資料以複製</p>
