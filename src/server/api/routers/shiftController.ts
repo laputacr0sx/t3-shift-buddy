@@ -17,6 +17,7 @@ export const shiftControllerRouter = createTRPCRouter({
 
       return resultShift;
     }),
+
   getWeekShift: publicProcedure
     .input(
       z.object({

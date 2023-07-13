@@ -8,7 +8,6 @@ import { sevenShiftRegex, threeDigitShiftRegex } from "~/utils/regex";
 import { getCompleteWeekComplex, getNextWeekDates } from "~/utils/helper";
 
 import ShiftArrayCard from "~/components/ShiftArrayCard";
-import { TRPCClientError } from "@trpc/client";
 
 function Index() {
   const router = useRouter();
@@ -16,20 +15,10 @@ function Index() {
   const shiftsequence = router?.query?.shiftsequence as string;
   const rawShiftsArray = shiftsequence?.match(sevenShiftRegex);
 
-  const {
-    data: currentPrefix,
-    isLoading: prefixLoading,
-    error: prefixError,
-  } = api.prefixController.getCurrentPrefix.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
-
-  if (prefixLoading) {
-    return <h1>prefix is loading</h1>;
-  }
-
-  if (prefixError)
-    throw new TRPCClientError("Error occurred when loading prefixes");
+  const { data: currentPrefix } =
+    api.prefixController.getCurrentPrefix.useQuery(undefined, {
+      refetchOnWindowFocus: false,
+    });
 
   const currentPrefixesArray = currentPrefix?.[0]?.prefixes || [];
 
