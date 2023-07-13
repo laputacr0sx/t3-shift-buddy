@@ -61,7 +61,7 @@ function Index() {
       <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
         <div className="flex flex-col text-left">
           <h1 className="py-2 font-mono text-xl font-extrabold tracking-widest">
-            以下為第{moment(currentPrefix?.[0]?.updatedAt).format("W")}週更資料
+            以下為第{currentPrefix?.[0]?.weekNumber}週更資料
           </h1>
           <p className="text-sm text-muted-foreground">點擊更號以複製資料</p>
         </div>

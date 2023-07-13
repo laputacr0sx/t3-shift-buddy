@@ -16,12 +16,12 @@ function ChineseCalendar(props: PropType) {
           <div className="bg-blue-500 py-1 text-white">
             {localDateTime.format("MMM")}
           </div>
-          <div className="border-l border-r border-white bg-white pt-1">
+          <div className="border-l border-r border-white bg-card-foreground pt-1">
             <span className="text-5xl font-bold leading-tight">
               {moment(date).date()}
             </span>
           </div>
-          <div className="-pt-2 mb-1 rounded-b-lg border-b border-l border-r border-white bg-white text-center">
+          <div className="-pt-2 mb-1 rounded-b-lg border-b border-l border-r border-white bg-card-foreground text-center">
             <span className="text-sm">{localDateTime.format("dddd")}</span>
           </div>
 
