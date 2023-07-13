@@ -85,9 +85,6 @@ function Index() {
       <p className={"px-5 text-right align-middle text-muted-foreground"}>
         Timetable updated {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
       </p>
-      {/* <p className="text-center align-middle">
-        第{moment(currentPrefix?.[0]?.updatedAt).format("W")}週
-      </p> */}
 
       {nextWeekComplex?.map((eachDay) => (
         <ShiftArrayCard
