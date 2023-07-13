@@ -28,9 +28,9 @@ export default function RegisterDayOffForm() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const dayOffForm = useForm<z.infer<typeof dayOffFormSchema>>({
     resolver: zodResolver(dayOffFormSchema),
-    // defaultValues: {
-    //   preferredOffType: dayOffOption.AL,
-    // },
+    defaultValues: {
+      preferredOffType: "ANY",
+    },
   });
   // 2. Define a submit handler.
   function dayOffFormHandler(values: z.infer<typeof dayOffFormSchema>) {
@@ -48,12 +48,13 @@ export default function RegisterDayOffForm() {
           name="preferredOffType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Day Off Type</FormLabel>
+              <FormLabel>假期類別</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  // className="flex flex-col space-y-1"
+                  className=" grid grid-cols-2 gap-10 px-5 py-4"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
