@@ -7,10 +7,11 @@ import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
 
 export default function index() {
-  const { data: currentPrefixList, isLoading: prefixLoading } =
-    api.prefixController.getCurrentPrefix.useQuery(undefined, {
-      refetchOnWindowFocus: false,
-    });
+  const {
+    data: currentPrefixList,
+    isLoading: prefixLoading,
+    error: prefixError,
+  } = api.prefixController.getCurrentPrefix.useQuery();
 
   if (prefixLoading)
     return (
@@ -21,33 +22,15 @@ export default function index() {
       </>
     );
 
-  // if (Array.isArray(currentPrefixList) && !currentPrefixList?.length) {
-  //   return (
-  //     <h1 className={"h-screen text-center font-bold"}>
-  //       Missing duty data ...
-  //     </h1>
-  //   );
-  // }
+  if (prefixError) {
+    return <>{prefixError.message}</>;
+  }
 
   return (
     <div className="flex h-full w-screen flex-col items-center justify-center px-14 py-12">
       <h1 className="justify-center py-2 text-center font-mono text-4xl font-semibold text-foreground">
-        時間表
+        {`第${currentPrefixList?.[0]?.weekNumber.toString() || ""}週時間表`}
       </h1>
-
-      {/* <button
-        className={"border-2 border-red-800 text-blue-700"}
-        onClick={() => {
-          updatePrefixes({
-            prefixes: ["D15", "D15", "B14", "D15", "D15", "A75", "U71"],
-            weekNumber: 25,
-          });
-        }}
-        disabled
-      >
-        Click me!
-      </button> */}
-
       <PrefixChangingForm
         dates={getNextWeekDates()}
         prefixes={currentPrefixList?.[0]}

@@ -37,7 +37,7 @@ interface PropsType {
 }
 
 function PrefixChangingForm(props: PropsType) {
-  const { mutate: updatePrefixes } =
+  const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({});
 
   // 1. Define your form.
@@ -79,7 +79,7 @@ function PrefixChangingForm(props: PropsType) {
     <Form {...prefixForm}>
       <form
         onSubmit={prefixForm.handleSubmit(prefixFormHandler)}
-        className="space-y-8"
+        className="space-y-2"
       >
         <FormField
           key={props.dates[0]?.toISOString()}
@@ -87,12 +87,12 @@ function PrefixChangingForm(props: PropsType) {
           name="Mon"
           render={({ field }) => (
             <FormItem>
-              <div className="flex flex-row items-center justify-center gap-1 text-left">
+              <div className="flex flex-row items-center justify-between gap-1 text-left font-mono">
                 <FormLabel className="items-center">
-                  {moment(props.dates[0]).format("D/MMM dddd")}
+                  {moment(props.dates[0]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
@@ -107,10 +107,10 @@ function PrefixChangingForm(props: PropsType) {
             <FormItem>
               <div className="flex flex-row items-center justify-center gap-1 text-left">
                 <FormLabel className="items-center">
-                  {moment(props.dates[1]).format("D/MMM dddd")}
+                  {moment(props.dates[1]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
@@ -125,10 +125,10 @@ function PrefixChangingForm(props: PropsType) {
             <FormItem>
               <div className="flex flex-row items-center justify-center gap-1 text-left">
                 <FormLabel className="items-center">
-                  {moment(props.dates[2]).format("D/MMM dddd")}
+                  {moment(props.dates[2]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
@@ -143,10 +143,10 @@ function PrefixChangingForm(props: PropsType) {
             <FormItem>
               <div className="flex flex-row items-center justify-center gap-1 text-left">
                 <FormLabel className="items-center">
-                  {moment(props.dates[3]).format("D/MMM dddd")}
+                  {moment(props.dates[3]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
@@ -161,10 +161,10 @@ function PrefixChangingForm(props: PropsType) {
             <FormItem>
               <div className="flex flex-row items-center justify-center gap-1 text-left">
                 <FormLabel className="items-center">
-                  {moment(props.dates[4]).format("D/MMM dddd")}
+                  {moment(props.dates[4]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
@@ -179,10 +179,10 @@ function PrefixChangingForm(props: PropsType) {
             <FormItem>
               <div className="flex flex-row items-center justify-center gap-1 text-left">
                 <FormLabel className="items-center">
-                  {moment(props.dates[5]).format("D/MMM dddd")}
+                  {moment(props.dates[5]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
@@ -197,17 +197,17 @@ function PrefixChangingForm(props: PropsType) {
             <FormItem>
               <div className="flex flex-row items-center justify-center gap-1 text-left">
                 <FormLabel className="items-center">
-                  {moment(props.dates[6]).format("D/MMM dddd")}
+                  {moment(props.dates[6]).format("D/MMM ddd")}
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} size={5} />
                 </FormControl>
               </div>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" variant={"secondary"}>
+        <Button type="submit" variant={"secondary"} disabled={updatingPrefixes}>
           去吧！
         </Button>
       </form>
