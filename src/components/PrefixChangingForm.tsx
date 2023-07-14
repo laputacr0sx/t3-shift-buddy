@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
 import moment from "moment";
+import { api } from "~/utils/api";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -36,6 +37,9 @@ interface PropsType {
 }
 
 function PrefixChangingForm(props: PropsType) {
+  const { mutate: updatePrefixes } =
+    api.prefixController.createNextWeekPrefix.useMutation({});
+
   // 1. Define your form.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefixForm = useForm<z.infer<typeof prefixFormSchema>>({
@@ -53,8 +57,22 @@ function PrefixChangingForm(props: PropsType) {
   });
   // 2. Define a submit handler.
   function prefixFormHandler(values: z.infer<typeof prefixFormSchema>) {
-    console.log({ ...values });
-    return { ...values };
+    const orderedPrefixArray: string[] = [
+      values.Mon,
+      values.Tue,
+      values.Wed,
+      values.Thu,
+      values.Fri,
+      values.Sat,
+      values.Sun,
+    ];
+
+    const validatedFormInput = {
+      prefixes: orderedPrefixArray,
+      weekNumber: values.weekNumber,
+    };
+
+    updatePrefixes(validatedFormInput);
   }
 
   return (

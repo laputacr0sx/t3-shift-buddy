@@ -7,9 +7,6 @@ import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
 
 export default function index() {
-  const { mutate: updatePrefixes } =
-    api.prefixController.createNextWeekPrefix.useMutation({});
-
   const { data: currentPrefixList, isLoading: prefixLoading } =
     api.prefixController.getCurrentPrefix.useQuery(undefined, {
       refetchOnWindowFocus: false,
@@ -37,6 +34,7 @@ export default function index() {
       <h1 className="justify-center py-2 text-center font-mono text-4xl font-semibold text-foreground">
         時間表
       </h1>
+
       {/* <button
         className={"border-2 border-red-800 text-blue-700"}
         onClick={() => {
