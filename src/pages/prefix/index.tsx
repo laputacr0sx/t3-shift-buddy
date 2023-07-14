@@ -1,8 +1,9 @@
 import React from "react";
+import PrefixForm from "~/components/PrefixForm";
 import { Skeleton } from "~/components/ui/skeleton";
+
 import { api } from "~/utils/api";
 
-import PrefixForm from "~/components/PrefixForm";
 import { getNextWeekDates } from "~/utils/helper";
 
 export default function index() {
@@ -49,14 +50,6 @@ export default function index() {
         Click me!
       </button> */}
 
-      {/* {currentPrefixList ? (
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        currentPrefixList[0]?.prefixes?.map((prefix) => (
-          <h1 key={currentPrefixList[0]?.id.concat(prefix)}>{prefix}</h1>
-        ))
-      ) : (
-        <></>
-      )} */}
       <PrefixForm
         dates={getNextWeekDates()}
         prefixes={currentPrefixList?.[0]}
