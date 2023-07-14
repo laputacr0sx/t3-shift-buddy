@@ -16,6 +16,8 @@ import {
 import { useForm } from "react-hook-form";
 
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { DatePickerWithRange } from "./ui/DatePickerWithRange";
+import { Separator } from "./ui/separator";
 
 const dayOffFormSchema = z.object({
   preferredOffType: z.enum(["ANY", "AL", "GH", "CL"], {
@@ -55,13 +57,13 @@ export default function RegisterDayOffForm() {
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="grid grid-cols-2 gap-10 px-5 py-4"
+                  className="grid grid-cols-2 gap-4 "
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
                       <RadioGroupItem value="ANY" />
                     </FormControl>
-                    <FormLabel className="font-mono">ANY</FormLabel>
+                    <FormLabel className="font-mono">任擇</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
@@ -82,6 +84,11 @@ export default function RegisterDayOffForm() {
                     <FormLabel className="font-mono">CL</FormLabel>
                   </FormItem>
                 </RadioGroup>
+              </FormControl>
+              <Separator className={"my-4"} />
+              <FormLabel>日期</FormLabel>
+              <FormControl>
+                <DatePickerWithRange />
               </FormControl>
               <FormMessage />
             </FormItem>

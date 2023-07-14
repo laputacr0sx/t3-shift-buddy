@@ -93,7 +93,7 @@ export default function shiftDoubleForm() {
           </Button>
         </form>
       </Form>
-      <Separator className={"my-6"} />
+      <Separator className={"my-4"} />
       <Form {...rowForm}>
         <form
           onSubmit={rowForm.handleSubmit(onSubmitForRow)}
