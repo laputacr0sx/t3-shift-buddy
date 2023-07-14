@@ -1,5 +1,5 @@
 import React from "react";
-import PrefixForm from "~/components/PrefixForm";
+import PrefixForm from "../../components/PrefixForm";
 import { Skeleton } from "~/components/ui/skeleton";
 
 import { api } from "~/utils/api";
