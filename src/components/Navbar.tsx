@@ -24,9 +24,13 @@ function Navbar() {
     //   </NavigationMenuList>
     // </NavigationMenu>
 
-    <div className={"sticky top-0 flex justify-between bg-red-950"}>
-      <div className="flex flex-row justify-start gap-2">
-        <Link href={"/"} className={"flex flex-row"}>
+    <div
+      className={
+        "sticky top-0 flex justify-between bg-navbar text-navbar-foreground "
+      }
+    >
+      <div className="flex flex-row justify-start gap-2 ">
+        <Link href={"/"} className={"flex flex-row "}>
           <Home className="m-2" />
         </Link>
         <Link href={"/regdayoff"} className={"flex flex-row"}>
