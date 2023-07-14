@@ -1,5 +1,7 @@
 "use client";
 
+// TODO update onSelect
+
 import * as React from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { addDays, format } from "date-fns";
@@ -31,7 +33,7 @@ export function DatePickerWithRange({
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal",
-              !dateRange && "text-muted-foreground"
+              !dateRange && "text-muted"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

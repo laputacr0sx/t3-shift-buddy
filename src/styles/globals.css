@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 97%;
     --foreground: 222 84% 5%;
 
     --navbar: 0 75% 71%;
@@ -28,8 +28,8 @@
     --secondary: 222 84% 5%;
     --secondary-foreground: 210 40% 98%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 40% 92%;
+    --accent-foreground: 222 84% 5%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 222 84% 5%;
