@@ -17,39 +17,43 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
+import moment from "moment";
 
 const prefixFormSchema = z.object({
-  MON: z.string().regex(prefixRegex),
-  TUE: z.string().regex(prefixRegex),
-  WED: z.string().regex(prefixRegex),
-  THU: z.string().regex(prefixRegex),
-  FRI: z.string().regex(prefixRegex),
-  SAT: z.string().regex(prefixRegex),
-  SUN: z.string().regex(prefixRegex),
+  weekNumber: z.number().min(1).max(52),
+  Mon: z.string().regex(prefixRegex),
+  Tue: z.string().regex(prefixRegex),
+  Wed: z.string().regex(prefixRegex),
+  Thu: z.string().regex(prefixRegex),
+  Fri: z.string().regex(prefixRegex),
+  Sat: z.string().regex(prefixRegex),
+  Sun: z.string().regex(prefixRegex),
 });
 
 interface PropsType {
   dates: Date[];
-  prefixes?: WeekPrefix[];
+  prefixes?: WeekPrefix;
 }
 
-export default function prefixForm(props: PropsType) {
+export default function PrefixForm(props: PropsType) {
   // 1. Define your form.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefixForm = useForm<z.infer<typeof prefixFormSchema>>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues: {
-      MON: "",
-      TUE: "",
-      WED: "",
-      THU: "",
-      FRI: "",
-      SAT: "",
-      SUN: "",
+      weekNumber: parseInt(moment().format("W")),
+      Mon: `${props.prefixes?.prefixes[0] || ""}`,
+      Tue: `${props.prefixes?.prefixes[2] || ""}`,
+      Wed: `${props.prefixes?.prefixes[2] || ""}`,
+      Thu: `${props.prefixes?.prefixes[3] || ""}`,
+      Fri: `${props.prefixes?.prefixes[4] || ""}`,
+      Sat: `${props.prefixes?.prefixes[5] || ""}`,
+      Sun: `${props.prefixes?.prefixes[6] || ""}`,
     },
   });
   // 2. Define a submit handler.
   function prefixFormHandler(values: z.infer<typeof prefixFormSchema>) {
+    console.log({ ...values });
     return { ...values };
   }
 
@@ -60,20 +64,127 @@ export default function prefixForm(props: PropsType) {
         className="space-y-8"
       >
         <FormField
+          key={props.dates[0]?.toISOString()}
           control={prefixForm.control}
-          name="MON"
-          render={({ field, fieldState }) => (
+          name="Mon"
+          render={({ field }) => (
             <FormItem>
-              {props &&
-                props.dates.map((date) => (
-                  <FormLabel key={date.toISOString()}>
-                    {date.getDay()}
-                  </FormLabel>
-                ))}
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>{fieldState.error?.message}</FormDescription>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[0]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={props.dates[1]?.toISOString()}
+          control={prefixForm.control}
+          name="Tue"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[1]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={props.dates[2]?.toISOString()}
+          control={prefixForm.control}
+          name="Wed"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[2]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={props.dates[3]?.toISOString()}
+          control={prefixForm.control}
+          name="Thu"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[3]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={props.dates[4]?.toISOString()}
+          control={prefixForm.control}
+          name="Fri"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[4]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={props.dates[5]?.toISOString()}
+          control={prefixForm.control}
+          name="Sat"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[5]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={props.dates[6]?.toISOString()}
+          control={prefixForm.control}
+          name="Sun"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-row items-center justify-center gap-1 text-left">
+                <FormLabel className="items-center">
+                  {moment(props.dates[6]).format("D/MMM dddd")}
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}

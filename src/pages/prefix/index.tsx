@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
 
-import PrefixForm from "~/components/prefixForm";
+import PrefixForm from "~/components/PrefixForm";
 import { getNextWeekDates } from "~/utils/helper";
 
 export default function index() {
@@ -32,8 +32,11 @@ export default function index() {
   // }
 
   return (
-    <div className="flex w-screen flex-col items-center justify-center">
-      <button
+    <div className="flex h-full w-screen flex-col items-center justify-center px-14 py-12">
+      <h1 className="justify-center py-2 text-center font-mono text-4xl font-semibold text-foreground">
+        時間表
+      </h1>
+      {/* <button
         className={"border-2 border-red-800 text-blue-700"}
         onClick={() => {
           updatePrefixes({
@@ -41,19 +44,23 @@ export default function index() {
             weekNumber: 25,
           });
         }}
+        disabled
       >
         Click me!
-      </button>
+      </button> */}
 
-      {currentPrefixList ? (
+      {/* {currentPrefixList ? (
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         currentPrefixList[0]?.prefixes?.map((prefix) => (
           <h1 key={currentPrefixList[0]?.id.concat(prefix)}>{prefix}</h1>
         ))
       ) : (
         <></>
-      )}
-      <PrefixForm dates={getNextWeekDates()} prefixes={currentPrefixList} />
+      )} */}
+      <PrefixForm
+        dates={getNextWeekDates()}
+        prefixes={currentPrefixList?.[0]}
+      />
     </div>
   );
 }
