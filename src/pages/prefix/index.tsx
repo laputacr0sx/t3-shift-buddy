@@ -1,5 +1,5 @@
 import React from "react";
-import PrefixForm from "../../components/PrefixForm";
+import PrefixChangingForm from "../../components/PrefixChangingForm";
 import { Skeleton } from "~/components/ui/skeleton";
 
 import { api } from "~/utils/api";
@@ -50,7 +50,7 @@ export default function index() {
         Click me!
       </button> */}
 
-      <PrefixForm
+      <PrefixChangingForm
         dates={getNextWeekDates()}
         prefixes={currentPrefixList?.[0]}
       />

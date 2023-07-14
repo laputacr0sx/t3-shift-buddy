@@ -35,7 +35,7 @@ interface PropsType {
   prefixes?: WeekPrefix;
 }
 
-export default function PrefixForm(props: PropsType) {
+function PrefixChangingForm(props: PropsType) {
   // 1. Define your form.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const prefixForm = useForm<z.infer<typeof prefixFormSchema>>({
@@ -196,3 +196,5 @@ export default function PrefixForm(props: PropsType) {
     </Form>
   );
 }
+
+export default PrefixChangingForm;
