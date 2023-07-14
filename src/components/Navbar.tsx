@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "~/components/ui/navigation-menu";
+import { ModeToggle } from "./ModeToggle";
 
 function Navbar() {
   return (
@@ -23,16 +24,15 @@ function Navbar() {
     //   </NavigationMenuList>
     // </NavigationMenu>
 
-    <div
-      className={"sticky top-0 flex flex-row justify-start gap-2 bg-red-950"}
-    >
-      <Link href={"/"} className={"flex flex-row"}>
-        <Home className="m-2" />
-      </Link>
-      <Link href={"/regdayoff"} className={"flex flex-row"}>
-        <FormInput className="m-2" />
-      </Link>
-      {/* <Link href={"/weekquery"} className={"flex flex-row"}>
+    <div className={"sticky top-0 flex justify-between bg-red-950"}>
+      <div className="flex flex-row justify-start gap-2">
+        <Link href={"/"} className={"flex flex-row"}>
+          <Home className="m-2" />
+        </Link>
+        <Link href={"/regdayoff"} className={"flex flex-row"}>
+          <FormInput className="m-2" />
+        </Link>
+        {/* <Link href={"/weekquery"} className={"flex flex-row"}>
         <CalendarDays className="m-2" />
       </Link>
       <Link
@@ -47,6 +47,10 @@ function Navbar() {
       >
         <Pencil className="m-2" />
       </Link> */}
+      </div>
+      <div>
+        <ModeToggle />
+      </div>
     </div>
   );
 }

@@ -21,6 +21,7 @@ const dayOffFormSchema = z.object({
   preferredOffType: z.enum(["ANY", "AL", "GH", "CL"], {
     required_error: "Please select one of the day off type.",
   }),
+  date: z.date(),
 });
 
 export default function RegisterDayOffForm() {
@@ -30,6 +31,7 @@ export default function RegisterDayOffForm() {
     resolver: zodResolver(dayOffFormSchema),
     defaultValues: {
       preferredOffType: "ANY",
+      date: new Date(),
     },
   });
   // 2. Define a submit handler.
@@ -53,8 +55,7 @@ export default function RegisterDayOffForm() {
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  // className="flex flex-col space-y-1"
-                  className=" grid grid-cols-2 gap-10 px-5 py-4"
+                  className="grid grid-cols-2 gap-10 px-5 py-4"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>

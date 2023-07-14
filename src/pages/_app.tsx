@@ -8,6 +8,7 @@ import Head from "next/head";
 import { Toaster } from "~/components/Toaster";
 import Layout from "~/components/Layout";
 import Script from "next/script";
+import { ThemeProvider } from "~/components/ui/theme-provider";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -29,9 +30,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
         async
         defer
       ></Script>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+
       <Toaster />
       <Analytics />
     </SessionProvider>
