@@ -86,10 +86,32 @@ function PrefixChangingForm(props: PropsType) {
         className=" flex w-fit flex-col space-y-2"
       >
         <FormField
+          key={props.dates.join()}
+          control={prefixForm.control}
+          name="weekNumber"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-center justify-between gap-4 font-mono">
+                <FormLabel className="items-center justify-center">
+                  更表期數
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    className="w-14 text-center"
+                    maxLength={3}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
           key={props.dates[0]?.toISOString()}
           control={prefixForm.control}
           name="Mon"
-          render={({ field, formState }) => (
+          render={({ field }) => (
             <FormItem>
               <div className="flex items-center justify-between gap-4 font-mono">
                 <FormLabel className="items-center">
@@ -243,9 +265,9 @@ function PrefixChangingForm(props: PropsType) {
           type="submit"
           variant={"secondary"}
           disabled={updatingPrefixes}
-          className="items-center justify-center self-center "
+          className="items-center justify-center self-center tracking-wider"
         >
-          去吧！
+          {`更改${(props.prefixes?.weekNumber || 0) + 1}週時間表`}
         </Button>
       </form>
     </Form>
