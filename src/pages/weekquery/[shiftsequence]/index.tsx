@@ -83,7 +83,8 @@ function Index() {
         </div>
       </div>
       <p className={"px-5 text-right align-middle text-muted-foreground"}>
-        Timetable updated {moment(currentPrefix?.[0]?.updatedAt).fromNow()}
+        Timetable updated{" "}
+        {moment(currentPrefix?.[0]?.updatedAt).locale("zh-hk").fromNow()}
       </p>
 
       {nextWeekComplex?.map((eachDay) => (
