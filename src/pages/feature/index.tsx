@@ -69,15 +69,6 @@ function index() {
   return (
     <div>
       <h1>This is the calendar feature</h1>
-
-      {nextWeekComplex?.map((eachDay) => (
-        <ResponsiveShiftCard
-          date={eachDay.date}
-          dutyObject={eachDay.dutyObject}
-          title={eachDay.title}
-          key={JSON.stringify(eachDay.dutyObject)}
-        />
-      ))}
     </div>
   );
 }
