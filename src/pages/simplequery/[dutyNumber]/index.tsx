@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "~/utils/api";
-import ShiftCard from "~/components/ShiftCard";
+// import ShiftCard from "~/components/ShiftCard";
 import { Skeleton } from "~/components/ui/skeleton";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ShiftAccordion from "~/components/ShiftAccordion";
 
-const whatsappURL = "https://chat.whatsapp.com/GjspanWzF2M8MysPayHpCX";
+// const whatsappURL = "https://chat.whatsapp.com/GjspanWzF2M8MysPayHpCX";
 
 function Index() {
   const router = useRouter();

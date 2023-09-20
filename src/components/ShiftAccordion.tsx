@@ -5,8 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { Shifts } from "@prisma/client";
-import { convertDuration, handleOnClickCopyEvent } from "~/utils/helper";
+import { type Shifts } from "@prisma/client";
+import { convertDuration } from "~/utils/helper";
 import { toast } from "./ui/useToast";
 
 type ShiftAccordionProps = {
@@ -14,7 +14,7 @@ type ShiftAccordionProps = {
 };
 
 function ShiftAccordion({ shift }: ShiftAccordionProps) {
-  const { bFL, bFT, bNL, bNT, duration, dutyNumber, id, remarks } = shift;
+  const { bFL, bFT, bNL, bNT, dutyNumber, remarks } = shift;
 
   const handleOnClickCopyEvent = async () => {
     const { bFL, bNL, duration, dutyNumber, remarks, bNT, bFT } = shift;
