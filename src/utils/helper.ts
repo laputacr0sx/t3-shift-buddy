@@ -1,4 +1,6 @@
 import type { Shifts } from "@prisma/client";
+import { type WeekComplex } from "./customTypes";
+import { toast } from "~/components/ui/useToast";
 
 export function getNextWeekDates() {
   const d = new Date();
@@ -35,12 +37,6 @@ export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
   return dutyDetail;
 }
 
-interface WeekComplex {
-  date: Date | undefined;
-  title: string | undefined;
-  dutyObject: Shifts | undefined;
-}
-
 export function getCompleteWeekComplex(
   titleArray: string[],
   shiftsArray: Shifts[],
@@ -67,3 +63,20 @@ export function getCompleteWeekComplex(
 
   return dutyComplex;
 }
+
+export const handleOnClickCopyEvent = async (shift: Shifts) => {
+  const { bFL, bNL, duration, dutyNumber, remarks, bNT, bFT } = shift;
+  const durationDecimal = convertDuration(duration);
+
+  if (!navigator || !navigator.clipboard)
+    throw Error("No navigator object nor clipboard found");
+
+  await navigator.clipboard.writeText(
+    `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``
+  );
+
+  toast({
+    title: `已複製 ${dutyNumber} 更資料`,
+    description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``,
+  });
+};

@@ -21,18 +21,23 @@ export default function ShiftCard(props: PropType) {
   const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } = props.shift;
   const durationDecimal = convertDuration(duration);
 
+  const handleOnClickCopyEvent = async () => {
+    if (!navigator || !navigator.clipboard)
+      throw Error("No navigator object nor clipboard found");
+
+    await navigator.clipboard.writeText(
+      `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``
+    );
+    toast({
+      title: `已複製 ${dutyNumber} 更資料`,
+      description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``,
+    });
+  };
+
   return (
     <Card
       className="mx-5 my-6 max-w-full font-mono active:bg-blue-950"
-      onClick={async () => {
-        await navigator.clipboard.writeText(
-          `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``
-        );
-        toast({
-          title: `已複製 ${dutyNumber} 更資料`,
-          description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``,
-        });
-      }}
+      onClick={handleOnClickCopyEvent}
     >
       <CardHeader>
         <CardTitle>{dutyNumber}</CardTitle>

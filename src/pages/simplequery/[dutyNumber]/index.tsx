@@ -62,7 +62,7 @@ function Index() {
       </div>
 
       {shiftData ? (
-        <div className="flex flex-col px-8 py-2 pb-2 pt-2 font-mono md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
+        <div className="flex flex-col px-8 py-2 pb-2 pt-2 font-mono font-light md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
           {shiftData?.map((shiftDetail) => (
             // <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
             <ShiftAccordion key={shiftDetail.id} shift={shiftDetail} />
