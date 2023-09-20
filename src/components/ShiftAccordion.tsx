@@ -5,15 +5,25 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
+import { Shifts } from "@prisma/client";
 
-function ShiftAccordion() {
+type ShiftAccordionProps = {
+  shift: Shifts;
+};
+
+function ShiftAccordion({ shift }: ShiftAccordionProps) {
+  const { bFL, bFT, bNL, bNT, duration, dutyNumber, id, remarks } = shift;
+
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
+        <AccordionTrigger className="">{dutyNumber}</AccordionTrigger>
+        <AccordionContent
+          onClick={() => {
+            console.log(`${dutyNumber} clicked`);
+          }}
+          className="hover:font-bold"
+        >{`[${bNL}]${bNT}-${bFT}[${bFL}]\n<${remarks}>`}</AccordionContent>
       </AccordionItem>
     </Accordion>
   );

@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65bed6ea-432a-405c-a70a-f0da4ffa4684" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/pages/feature/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/feature/index.tsx" afterDir="false" />
+      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/pages/simplequery/[dutyNumber]/index.tsx" beforeDir="false" afterPath="$USER_HOME$/JetBrains/WebStormProjects/t3_shift_buddy/src/pages/simplequery/[dutyNumber]/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,8 +50,8 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.3.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.3.0&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;20.5.1&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.5.1&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/veilics/JetBrains/WebStormProjects/t3_shift_buddy&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -83,6 +86,7 @@
       <workItem from="1688331409745" duration="373000" />
       <workItem from="1688331803884" duration="1252000" />
       <workItem from="1692012795687" duration="25000" />
+      <workItem from="1694430971461" duration="459000" />
     </task>
     <servers />
   </component>

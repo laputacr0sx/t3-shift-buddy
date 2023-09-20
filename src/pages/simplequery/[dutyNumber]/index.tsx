@@ -5,6 +5,7 @@ import ShiftCard from "~/components/ShiftCard";
 import { Skeleton } from "~/components/ui/skeleton";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
+import ShiftAccordion from "~/components/ShiftAccordion";
 
 const whatsappURL = "https://chat.whatsapp.com/GjspanWzF2M8MysPayHpCX";
 
@@ -43,14 +44,6 @@ function Index() {
     );
   }
 
-  if (Array.isArray(shiftData) && !shiftData?.length) {
-    return (
-      <h1 className={"h-screen text-center font-bold"}>
-        Missing duty data ...
-      </h1>
-    );
-  }
-
   return (
     <>
       <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
@@ -58,33 +51,24 @@ function Index() {
           <h1 className="py-2 text-xl">以下為 {dutyNumber} 更資料</h1>
           <p className="text-sm text-muted-foreground">點擊資料以複製</p>
         </div>
-        <div>
-          <Link
-            href={whatsappURL}
-            className={
-              "pointer-events-none flex flex-row text-red-800 dark:text-red-300"
-            }
-          >
-            <MessageCircle className="m-2 h-4 w-4" />
-            <p className={"self-center text-center  text-sm "}>九龍更群組</p>
-          </Link>
-          <Link
-            href={""}
-            className={
-              "pointer-events-none flex flex-row text-blue-800 dark:text-blue-300"
-            }
-          >
-            <MessageCircle className="m-2 h-4 w-4" />
-            <p className={"self-center text-center text-sm "}>上水更群組</p>
-          </Link>
+
+        <Link
+          href={"whatsapp://"}
+          className={"flex flex-row text-green-800 dark:text-green-300"}
+        >
+          <MessageCircle className="m-2 h-4 w-4" />
+          <p className={"self-center text-center text-sm "}>開啟Whatsapp</p>
+        </Link>
+      </div>
+
+      {shiftData ? (
+        <div className="flex flex-col px-8 py-2 pb-2 pt-2 font-mono md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
+          {shiftData?.map((shiftDetail) => (
+            // <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
+            <ShiftAccordion key={shiftDetail.id} shift={shiftDetail} />
+          ))}
         </div>
-      </div>
-      <div className="flex flex-col border-0 md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
-        {/* <div className="lg:grid-col-3 grid h-max grid-cols-2"> */}
-        {shiftData?.map((shiftDetail) => (
-          <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
-        ))}
-      </div>
+      ) : null}
     </>
   );
 }
