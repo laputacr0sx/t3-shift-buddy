@@ -1,13 +1,19 @@
 import React from "react";
 import Link from "next/link";
 import moment from "moment";
+import "moment/locale/zh-hk";
 import { useRouter } from "next/router";
 import { MessageCircle } from "lucide-react";
 import { api } from "~/utils/api";
 import { sevenShiftRegex, threeDigitShiftRegex } from "~/utils/regex";
-import { getCompleteWeekComplex, getNextWeekDates } from "~/utils/helper";
+import {
+  getCompleteWeekComplex,
+  getNextWeekDates,
+  convertDuration,
+} from "~/utils/helper";
 
 import ShiftArrayCard from "~/components/ShiftArrayCard";
+import { Button } from "~/components/ui/button";
 
 function Index() {
   const router = useRouter();
@@ -56,6 +62,33 @@ function Index() {
 
   if (!nextWeekComplex) return <p>loading...</p>;
 
+  async function handleCopyAll() {
+    if (!navigator || !navigator.clipboard)
+      throw Error("No navigator object nor clipboard found");
+
+    let completeString = "```\n";
+
+    for (const dayDetail of nextWeekComplex) {
+      const { dutyNumber, duration, bNL, bNT, bFT, bFL, remarks } =
+        dayDetail.dutyObject;
+
+      const date = moment(dayDetail.date).locale("zh-cn").format("DD/MM (dd)");
+
+      const durationDecimal = convertDuration(duration);
+      const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
+      completeString = completeString + dayString;
+    }
+    completeString = completeString + "```";
+
+    console.log(completeString);
+
+    await navigator.clipboard.writeText(completeString);
+    // toast({
+    //   title: `已複製 ${dutyNumber} 更資料`,
+    //   description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]\n<${remarks}>\`\`\``,
+    // });
+  }
+
   return (
     <>
       <div className="flex flex-row items-center justify-between self-center px-5 pt-4 font-mono font-extrabold">
@@ -86,6 +119,9 @@ function Index() {
         Timetable updated{" "}
         {moment(currentPrefix?.[0]?.updatedAt).locale("zh-hk").fromNow()}
       </p>
+      <Button variant={"ghost"} onClick={handleCopyAll}>
+        Copy All
+      </Button>
 
       {nextWeekComplex?.map((eachDay) => (
         <ShiftArrayCard

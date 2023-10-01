@@ -113,7 +113,21 @@ export default function shiftDoubleForm() {
                   />
                 </FormControl>
                 <FormDescription className=" break-words font-mono tracking-wide">
-                  如更份為 D15101 D15102 B14103 D15104 D15105 A75106 RD
+                  如更份為
+                  <br />
+                  F15101
+                  <br />
+                  F15102
+                  <br />
+                  C14103
+                  <br />
+                  F15104
+                  <br />
+                  F15105
+                  <br />
+                  B75106
+                  <br />
+                  RD
                   <br />
                   請輸入 101102103104105106RD
                 </FormDescription>

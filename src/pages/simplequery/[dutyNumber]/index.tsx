@@ -6,6 +6,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ShiftAccordion from "~/components/ShiftAccordion";
+import { cn } from "../../../lib/utils";
 
 // const whatsappURL = "https://chat.whatsapp.com/GjspanWzF2M8MysPayHpCX";
 
@@ -26,11 +27,20 @@ function Index() {
 
   if (loadingShiftData) {
     return (
-      <div className="flex h-screen items-center space-x-4 overflow-auto p-14">
-        <Skeleton className="h-12 w-12 rounded-sm" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[200px]" />
-          <Skeleton className="h-4 w-[160px]" />
+      <div className="flex flex-col">
+        <div className="flex h-screen items-center space-x-4 overflow-auto p-14">
+          <Skeleton className="h-12 w-12 rounded-sm" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-[160px]" />
+          </div>
+        </div>
+        <div className="flex h-screen items-center space-x-4 overflow-auto p-14">
+          <Skeleton className="h-12 w-12 rounded-sm" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-[160px]" />
+          </div>
         </div>
       </div>
     );
@@ -62,10 +72,10 @@ function Index() {
       </div>
 
       {shiftData ? (
-        <div className="flex flex-col px-8 py-2 pb-2 pt-2 font-mono font-light md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
+        <div className="flex flex-col px-8 py-2 pb-2 pt-2 font-mono font-light md:flex-row md:justify-evenly lg:flex-col lg:justify-evenly">
           {shiftData?.map((shiftDetail) => (
-            // <ShiftCard key={shiftDetail.id} shift={shiftDetail} />
             <ShiftAccordion key={shiftDetail.id} shift={shiftDetail} />
+            // {/* <ShiftCard key={shiftDetail.id} shift={shiftDetail} /> */}
           ))}
         </div>
       ) : null}

@@ -24,12 +24,12 @@ function ShiftAccordion({ shift }: ShiftAccordionProps) {
       throw Error("No navigator object nor clipboard found");
 
     await navigator.clipboard.writeText(
-      `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``
+      `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]\n<${remarks}>\`\`\``
     );
 
     toast({
       title: `已複製 ${dutyNumber} 更資料`,
-      description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``,
+      description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]\n<${remarks}>\`\`\``,
     });
   };
 
