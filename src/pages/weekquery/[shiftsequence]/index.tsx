@@ -14,6 +14,9 @@ import {
 
 import ShiftArrayCard from "~/components/ShiftArrayCard";
 import { Button } from "~/components/ui/button";
+import ShiftsTable from "~/components/ShiftTable/ShiftsTable";
+import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
+import { columns } from "~/components/ShiftTable/Shifts-column";
 
 function Index() {
   const router = useRouter();
@@ -123,14 +126,19 @@ function Index() {
         Copy All
       </Button>
 
-      {nextWeekComplex?.map((eachDay) => (
+      {nextWeekComplex?.map(({ date, dutyObject, title }) => (
         <ShiftArrayCard
-          date={eachDay.date}
-          dutyObject={eachDay.dutyObject}
-          title={eachDay.title}
-          key={JSON.stringify(eachDay.dutyObject)}
+          date={date}
+          dutyObject={dutyObject}
+          title={title}
+          key={JSON.stringify(dutyObject)}
         />
       ))}
+
+      <DataTable
+        columns={columns}
+        data={nextWeekComplex.map((eachDay) => eachDay.dutyObject)}
+      />
     </>
   );
 }

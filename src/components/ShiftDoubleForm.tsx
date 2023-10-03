@@ -53,7 +53,8 @@ export default function shiftDoubleForm() {
 
   // 2. Define submit handlers.
   async function onSubmitForRow(values: z.infer<typeof rowFormSchema>) {
-    await router.push(`/weekquery/${values.shiftRow}`);
+    // await router.push(`/weekquery/${values.shiftRow}`);
+    await router.push(`/wholeweek/${values.shiftRow}`);
   }
 
   async function onSubmitForCode(values: z.infer<typeof codeFormSchema>) {

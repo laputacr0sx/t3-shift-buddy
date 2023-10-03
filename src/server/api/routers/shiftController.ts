@@ -10,6 +10,7 @@ export const shiftControllerRouter = createTRPCRouter({
         duty: z.string().regex(dutyInputRegExValidator, "invalid duty input"),
       })
     )
+
     .query(({ input, ctx }) => {
       const resultShift = ctx.prisma.shifts.findMany({
         where: { dutyNumber: { endsWith: input.duty } },
