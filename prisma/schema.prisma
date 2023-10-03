@@ -16,12 +16,12 @@ datasource db {
 }
 
 model Shifts {
-  id         String @id @default(uuid())
+  id         String   @id @default(uuid())
   dutyNumber String
-  bNL        String
+  bNL        Location
   bNT        String
   bFT        String
-  bFL        String
+  bFL        Location
   duration   String
   remarks    String
 }
