@@ -44,7 +44,11 @@ export const columns = [
         header: () => <span className="text-teal-500">更號</span>,
         cell: ({ row }) => {
           const dutyNumber: string = row.getValue("dutyNumber");
-          return <div className="text-center font-medium">{dutyNumber}</div>;
+          return (
+            <div className="text-center font-medium text-sky-300">
+              {dutyNumber}
+            </div>
+          );
         },
         footer: (props) => props.column.id,
       }),

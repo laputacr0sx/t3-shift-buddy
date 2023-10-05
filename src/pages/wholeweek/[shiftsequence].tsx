@@ -5,12 +5,32 @@ import {
 } from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
 import { api } from "~/utils/api";
-import { getNextWeekDates } from "~/utils/helper";
-import { sevenShiftRegex } from "~/utils/regex";
+import { convertDuration, getNextWeekDates } from "~/utils/helper";
+import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import { type ParsedUrlQuery, encode } from "querystring";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import * as z from "zod";
 import { Button } from "~/components/ui/button";
+import moment from "moment";
+import { toast } from "~/components/ui/useToast";
+import { type NextPage } from "next";
+
+export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
+
+export const dayDetailSchema = z.object({
+  date: z.string(),
+  title: z.string(),
+  id: z.string(),
+  dutyNumber: z.string().regex(dutyInputRegExValidator),
+  bNL: z.enum(["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"]),
+  bNT: z.string(),
+  bFT: z.string(),
+  bFL: z.enum(["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"]),
+  duration: z.string(),
+  remarks: z.string(),
+});
+
+export type DayDetail = z.infer<typeof dayDetailSchema>;
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   const compleShiftNameArray = useShiftsArray(legitRawShiftArray);
@@ -29,13 +49,13 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
-    // refetch: shiftArrayRefetch,
+    refetch: shiftArrayRefetch,
   } = api.shiftController.getWeekShift.useQuery(
     {
       shiftArray: validatedCompleShiftNameArray.data,
     },
     {
-      enabled: validatedCompleShiftNameArray.success,
+      // enabled: false,
       refetchOnWindowFocus: false,
     }
   );
@@ -62,18 +82,53 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     } as ShiftTable;
   }
 
+  async function handleCopyAll() {
+    if (!navigator || !navigator.clipboard)
+      throw Error("No navigator object nor clipboard found");
+
+    let completeString = "```\n";
+
+    for (const dayDetail of combinedDetail) {
+      const validatedDayDetail = dayDetailSchema.safeParse(dayDetail);
+
+      if (!validatedDayDetail.success) {
+        break;
+      }
+
+      const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM ddd");
+      const durationDecimal = convertDuration(validatedDayDetail.data.duration);
+      const dayString = `${date} ${validatedDayDetail.data.dutyNumber} ${durationDecimal}\n[${validatedDayDetail.data.bNL}]${validatedDayDetail.data.bNT}-${validatedDayDetail.data.bFT}[${validatedDayDetail.data.bFL}]<${validatedDayDetail.data.remarks}>\n`;
+
+      completeString = completeString + dayString;
+    }
+    completeString = completeString + "```";
+    await navigator.clipboard.writeText(completeString);
+    toast({
+      title: `已複製整週資料`,
+      description: completeString,
+    });
+  }
+
   return (
-    <div className="flex flex-col gap-2 py-2">
-      <Button
-        variant={"secondary"}
-        className="items-center self-center"
-        onClick={() => {
-          // ?
-        }}
-      >
-        複製整週資料
-      </Button>
-      <DataTable columns={columns} data={combinedDetail} />
+    <div className="flex h-full w-screen flex-col gap-2 py-2">
+      {validatedCompleShiftNameArray.success ? (
+        <>
+          <Button
+            variant={"secondary"}
+            className="items-center self-center"
+            onClick={() => {
+              void handleCopyAll();
+            }}
+          >
+            複製整週資料
+          </Button>
+          <DataTable columns={columns} data={combinedDetail} />
+        </>
+      ) : (
+        <Button variant={"secondary"} onClick={() => shiftArrayRefetch()}>
+          Refect
+        </Button>
+      )}
     </div>
   );
 }
