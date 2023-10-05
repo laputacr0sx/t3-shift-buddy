@@ -29,24 +29,18 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
-    refetch: shiftArrayRefetch,
+    // refetch: shiftArrayRefetch,
   } = api.shiftController.getWeekShift.useQuery(
     {
       shiftArray: validatedCompleShiftNameArray.data,
     },
     {
-      enabled: !validatedCompleShiftNameArray.success,
+      enabled: validatedCompleShiftNameArray.success,
       refetchOnWindowFocus: false,
     }
   );
 
-  if (shiftsArrayLoading)
-    return (
-      <>
-        <Button onClick={() => shiftArrayRefetch()}>Fetch Array</Button>
-        Loading Shifts...
-      </>
-    );
+  if (shiftsArrayLoading) return <>Loading Shifts...</>;
 
   if (shiftsArrayError) return <>Shifts Error </>;
 
@@ -68,12 +62,25 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     } as ShiftTable;
   }
 
-  return <DataTable columns={columns} data={combinedDetail} />;
+  return (
+    <div className="flex flex-col gap-2 py-2">
+      <Button
+        variant={"secondary"}
+        className="items-center self-center"
+        onClick={() => {
+          // ?
+        }}
+      >
+        複製整週資料
+      </Button>
+      <DataTable columns={columns} data={combinedDetail} />
+    </div>
+  );
 }
 
-const shiftSequenceSchema = z.string();
+export const shiftSequenceSchema = z.string();
 
-const rawShiftArraySchema = z.array(z.string().regex(sevenShiftRegex));
+export const rawShiftArraySchema = z.array(z.string().regex(sevenShiftRegex));
 
 export type RawShiftArray = {
   legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;

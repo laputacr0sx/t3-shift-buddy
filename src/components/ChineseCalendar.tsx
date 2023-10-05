@@ -10,7 +10,7 @@ function ChineseCalendar(props: PropType) {
   const localDateTime = moment(date).locale("tc");
 
   return (
-    <div className="min-w-24 min-h-24 mb-4 flex items-center justify-center rounded-2xl p-3 font-medium">
+    <div className="mb-4 flex min-h-[24] min-w-[24] items-center justify-center rounded-2xl p-3 font-medium">
       <div className="w-14 flex-none rounded-t text-center shadow-lg md:w-16 lg:rounded-l lg:rounded-t-none ">
         <div className="block overflow-hidden rounded-t text-center text-primary-foreground ">
           <div className="bg-teal-500 py-1 dark:bg-teal-900">
