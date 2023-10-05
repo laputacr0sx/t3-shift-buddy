@@ -13,7 +13,6 @@ import * as z from "zod";
 import { Button } from "~/components/ui/button";
 import moment from "moment";
 import { toast } from "~/components/ui/useToast";
-import { type NextPage } from "next";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
