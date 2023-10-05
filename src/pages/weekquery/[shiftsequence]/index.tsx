@@ -14,9 +14,6 @@ import {
 
 import ShiftArrayCard from "~/components/ShiftArrayCard";
 import { Button } from "~/components/ui/button";
-import ShiftsTable from "~/components/ShiftTable/ShiftsTable";
-import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
-import { columns } from "~/components/ShiftTable/Shifts-column";
 
 function Index() {
   const router = useRouter();

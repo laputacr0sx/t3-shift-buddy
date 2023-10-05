@@ -1,6 +1,5 @@
 import { type WeekPrefix } from "@prisma/client";
 import { z } from "zod";
-import { type RawShiftArray } from "~/pages/wholeweek/[shiftsequence]";
 import { api } from "~/utils/api";
 import { threeDigitShiftRegex } from "~/utils/regex";
 
@@ -11,7 +10,6 @@ function useShiftsArray(rawShiftsArray: string[]): string[] {
     data: currentPrefixData,
     isLoading: currentPrefixDataLoading,
     error: currentPrefixDataError,
-    isSuccess: currentPrefixDataSuccess,
   } = api.prefixController.getCurrentPrefix.useQuery<WeekPrefix[]>(undefined, {
     refetchOnWindowFocus: false,
   });
