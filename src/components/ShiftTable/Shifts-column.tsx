@@ -1,5 +1,6 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
+import ChineseCalendar from "../ChineseCalendar";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -26,6 +27,7 @@ export const columns: ColumnDef<ShiftTable>[] = [
       const formattedDate = moment(date).locale("zh-hk").format("DD/MM ddd");
 
       return (
+        // <ChineseCalendar date={date} />
         <div className="text-center text-xs font-light">{formattedDate}</div>
       );
     },

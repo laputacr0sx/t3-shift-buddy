@@ -1,6 +1,3 @@
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
-import { Shifts } from "@prisma/client";
-
 import React from "react";
 import {
   type ShiftTable,
@@ -9,32 +6,13 @@ import {
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
-import { sevenShiftRegex, threeDigitShiftRegex } from "~/utils/regex";
-import { encode } from "querystring";
+import { sevenShiftRegex } from "~/utils/regex";
+import { type ParsedUrlQuery, encode } from "querystring";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import * as z from "zod";
 import { Button } from "~/components/ui/button";
-import moment from "moment";
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
-  // const {
-  //   data: currentPrefix,
-  //   isLoading: prefixLoading,
-  //   error: prefixError,
-  // } = api.prefixController.getCurrentPrefix.useQuery(undefined, {
-  //   refetchOnWindowFocus: false,
-  // });
-
-  // const currentPrefixesArray = currentPrefix?.[0]?.prefixes;
-
-  // const compleShiftNameArray =
-  //   currentWeekPrefix &&
-  //   currentWeekPrefix.map((prefix, index): string => {
-  //     return !threeDigitShiftRegex.test(rawShiftsArray?.[index] as string)
-  //       ? (rawShiftsArray?.[index] as string)
-  //       : prefix.concat(rawShiftsArray?.[index] as string);
-  //   });
-
   const compleShiftNameArray = useShiftsArray(legitRawShiftArray);
 
   const compleShiftNameArraySchema = z.array(z.string());
@@ -90,9 +68,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     } as ShiftTable;
   }
 
-  console.log(combinedDetail);
-
-  // return <>Hello Felix</>;
   return <DataTable columns={columns} data={combinedDetail} />;
 }
 
@@ -104,8 +79,10 @@ export type RawShiftArray = {
   legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;
 };
 
-export const getServerSideProps: GetServerSideProps<RawShiftArray> = ({
+export const getServerSideProps = ({
   params,
+}: {
+  params: ParsedUrlQuery | undefined;
 }) => {
   const parsedURLQueryParams = new URLSearchParams(encode(params));
   const shiftSequence: unknown = parsedURLQueryParams.get("shiftsequence");

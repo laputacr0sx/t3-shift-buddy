@@ -53,8 +53,8 @@ export function getCompleteWeekComplex(
       dutyComplex = [
         ...dutyComplex,
         {
-          date: dateArray[i],
-          title: titleArray[i],
+          date: dateArray[i] as Date,
+          title: titleArray[i] as string,
           dutyObject: result[0] || {},
         },
       ];
