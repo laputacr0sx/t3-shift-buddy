@@ -134,11 +134,11 @@ function Index() {
           key={JSON.stringify(dutyObject)}
         />
       ))}
-
+      {/* 
       <DataTable
         columns={columns}
         data={nextWeekComplex.map((eachDay) => eachDay.dutyObject)}
-      />
+      /> */}
     </>
   );
 }

@@ -1,121 +1,133 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { Shifts } from "@prisma/client";
-import { useRouter } from "next/router";
 
 import React from "react";
-import { columns } from "~/components/ShiftTable/Shifts-column";
+import {
+  type ShiftTable,
+  columns,
+} from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
 import { sevenShiftRegex, threeDigitShiftRegex } from "~/utils/regex";
 import { encode } from "querystring";
+import useShiftsArray from "~/hooks/useShiftsArray";
+import * as z from "zod";
+import { Button } from "~/components/ui/button";
+import moment from "moment";
 
-function WholeWeek({
-  rawShiftsArray,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // function WholeWeek() {
-  // const router = useRouter();
-  // const shiftsequence = router?.query?.shiftsequence as string;
+function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
+  // const {
+  //   data: currentPrefix,
+  //   isLoading: prefixLoading,
+  //   error: prefixError,
+  // } = api.prefixController.getCurrentPrefix.useQuery(undefined, {
+  //   refetchOnWindowFocus: false,
+  // });
 
-  // const rawShiftsArray = shiftsequence?.match(sevenShiftRegex);
+  // const currentPrefixesArray = currentPrefix?.[0]?.prefixes;
 
-  const {
-    data: currentPrefix,
-    isLoading: prefixLoading,
-    error: prefixError,
-  } = api.prefixController.getCurrentPrefix.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
+  // const compleShiftNameArray =
+  //   currentWeekPrefix &&
+  //   currentWeekPrefix.map((prefix, index): string => {
+  //     return !threeDigitShiftRegex.test(rawShiftsArray?.[index] as string)
+  //       ? (rawShiftsArray?.[index] as string)
+  //       : prefix.concat(rawShiftsArray?.[index] as string);
+  //   });
 
-  const currentPrefixesArray = currentPrefix?.[0]?.prefixes;
+  const compleShiftNameArray = useShiftsArray(legitRawShiftArray);
 
-  const compleShiftNameArray = currentPrefixesArray?.map(
-    (prefix, index): string => {
-      return !threeDigitShiftRegex.test(rawShiftsArray?.[index] as string)
-        ? (rawShiftsArray?.[index] as string)
-        : prefix.concat(rawShiftsArray?.[index] as string);
-    }
-  );
+  const compleShiftNameArraySchema = z.array(z.string());
+
+  const validatedCompleShiftNameArray =
+    compleShiftNameArraySchema.safeParse(compleShiftNameArray);
+
+  if (!validatedCompleShiftNameArray.success) {
+    console.error(validatedCompleShiftNameArray.error);
+    return;
+  }
 
   const {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
+    refetch: shiftArrayRefetch,
   } = api.shiftController.getWeekShift.useQuery(
     {
-      shiftArray: compleShiftNameArray!,
+      shiftArray: validatedCompleShiftNameArray.data,
     },
     {
-      enabled: compleShiftNameArray && compleShiftNameArray.length > 0,
+      enabled: !validatedCompleShiftNameArray.success,
       refetchOnWindowFocus: false,
     }
   );
 
+  if (shiftsArrayLoading)
+    return (
+      <>
+        <Button onClick={() => shiftArrayRefetch()}>Fetch Array</Button>
+        Loading Shifts...
+      </>
+    );
+
+  if (shiftsArrayError) return <>Shifts Error </>;
+
   const nextWeekDates = getNextWeekDates();
 
-  type CombinedDetail = {
-    id: string;
-    date: string;
-    title: string;
-    dutyNumber: string;
-    bNL: string;
-    bNT: string;
-    bFT: string;
-    bFL: string;
-    duration: string;
-    remarks: string;
-  };
+  const combinedDetail = new Array<ShiftTable>(7);
 
-  function getWeekCombinedDetail(
-    nextWeekDates: Date[],
-    shiftArray: Shifts[],
-    titles: string[]
-  ) {
-    if (!nextWeekDates || !shiftArray || !titles)
-      throw new Error("incorrect data");
+  for (let i = 0; i < validatedCompleShiftNameArray.data.length; i++) {
+    const exactShift = shiftsArray.filter(
+      (shift) => shift.dutyNumber === validatedCompleShiftNameArray.data[i]
+    );
+    const [shift] = exactShift;
 
-    let combinedDetail: CombinedDetail[] = [];
-
-    if (shiftArray && nextWeekDates && titles) {
-      for (let i = 0; i < 7; i++) {
-        combinedDetail = [
-          ...combinedDetail,
-          { ...shiftArray[i], date: nextWeekDates[i], title: titles[i] },
-        ];
-      }
-      return combinedDetail;
-    }
+    combinedDetail[i] = {
+      date: nextWeekDates[i]?.toISOString(),
+      title: validatedCompleShiftNameArray.data[i],
+      dutyNumber: shift?.dutyNumber || validatedCompleShiftNameArray.data[i],
+      ...shift,
+    } as ShiftTable;
   }
 
-  // console.log({ nextWeekDates });
-  // console.log({ rawShiftsArray });
-  // console.log({ shiftsArray });
-
-  if (shiftsArrayLoading || prefixLoading) return <>Loading Shifts...</>;
-
-  if (shiftsArrayError || prefixError) return <>Shifts Error </>;
-
-  const combinedDetail = getWeekCombinedDetail(
-    nextWeekDates,
-    shiftsArray,
-    compleShiftNameArray
-  );
-
   console.log(combinedDetail);
-  return <>Hello</>;
 
-  // return <>{JSON.stringify(combinedDetail)}</>;
-  // <DataTable columns={columns} data={} />;
+  // return <>Hello Felix</>;
+  return <DataTable columns={columns} data={combinedDetail} />;
 }
 
-export const getServerSideProps = (({ params }) => {
+const shiftSequenceSchema = z.string();
+
+const rawShiftArraySchema = z.array(z.string().regex(sevenShiftRegex));
+
+export type RawShiftArray = {
+  legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;
+};
+
+export const getServerSideProps: GetServerSideProps<RawShiftArray> = ({
+  params,
+}) => {
   const parsedURLQueryParams = new URLSearchParams(encode(params));
-  const sequence = parsedURLQueryParams.get("shiftsequence");
-  const rawShiftsArray = sequence?.match(sevenShiftRegex);
+  const shiftSequence: unknown = parsedURLQueryParams.get("shiftsequence");
+  const validatedShiftSequence = shiftSequenceSchema.safeParse(shiftSequence);
 
-  console.log(rawShiftsArray);
+  if (!validatedShiftSequence.success) {
+    console.error(validatedShiftSequence.error);
+    return { props: { legitRawShiftArray: [""] } };
+  }
 
-  return { props: { rawShiftsArray } };
-}) satisfies GetServerSideProps<{ rawShiftsArray: string[] }>;
+  const rawShiftArray: unknown =
+    validatedShiftSequence.data.match(sevenShiftRegex);
+  const validatedRawShiftArray = rawShiftArraySchema.safeParse(rawShiftArray);
+
+  if (!validatedRawShiftArray.success) {
+    console.error(validatedRawShiftArray.error);
+    return { props: { legitRawShiftArray: [""] } };
+  }
+
+  const legitRawShiftArray = validatedRawShiftArray.data;
+
+  return { props: { legitRawShiftArray } };
+};
 
 export default WholeWeek;
