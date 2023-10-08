@@ -1,23 +1,23 @@
 import React from "react";
+import moment from "moment";
+import * as z from "zod";
+import { type ParsedUrlQuery, encode } from "querystring";
 import {
   type ShiftTable,
   columns,
 } from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
+import { Button } from "~/components/ui/button";
+import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
 import { convertDuration, getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
-import { type ParsedUrlQuery, encode } from "querystring";
 import useShiftsArray from "~/hooks/useShiftsArray";
-import * as z from "zod";
-import { Button } from "~/components/ui/button";
-import moment from "moment";
-import { toast } from "~/components/ui/useToast";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
 export const dayDetailSchema = z.object({
-  date: z.string(),
+  date: z.string().datetime(),
   title: z.string(),
   id: z.string(),
   dutyNumber: z.string().regex(dutyInputRegExValidator),
@@ -32,6 +32,11 @@ export const dayDetailSchema = z.object({
 export type DayDetail = z.infer<typeof dayDetailSchema>;
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
+  moment.updateLocale("zh-hk", {
+    weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
+    weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
+  });
+
   const compleShiftNameArray = useShiftsArray(legitRawShiftArray);
 
   const compleShiftNameArraySchema = z.array(z.string());
@@ -54,7 +59,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
       shiftArray: validatedCompleShiftNameArray.data,
     },
     {
-      // enabled: false,
       refetchOnWindowFocus: false,
     }
   );
@@ -94,16 +98,19 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
         break;
       }
 
+      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+        validatedDayDetail.data;
+
       const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM ddd");
-      const durationDecimal = convertDuration(validatedDayDetail.data.duration);
-      const dayString = `${date} ${validatedDayDetail.data.dutyNumber} ${durationDecimal}\n[${validatedDayDetail.data.bNL}]${validatedDayDetail.data.bNT}-${validatedDayDetail.data.bFT}[${validatedDayDetail.data.bFL}]<${validatedDayDetail.data.remarks}>\n`;
+      const durationDecimal = convertDuration(duration);
+      const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
 
       completeString = completeString + dayString;
     }
     completeString = completeString + "```";
     await navigator.clipboard.writeText(completeString);
     toast({
-      title: `已複製整週資料`,
+      title: "已複製整週資料",
       description: completeString,
     });
   }

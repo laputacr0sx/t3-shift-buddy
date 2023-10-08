@@ -42,7 +42,7 @@ export function DataTable<TData, TValue>({
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="text-sky-700 dark:text-sky-200"
+                    className="whitespace-nowrap align-middle text-sky-700 dark:text-sky-200"
                   >
                     {header.isPlaceholder
                       ? null
@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="whitespace-nowrap">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
