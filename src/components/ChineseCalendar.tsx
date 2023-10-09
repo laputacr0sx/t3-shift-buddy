@@ -13,7 +13,7 @@ function ChineseCalendar(props: PropType) {
     <div className="mb-4 flex min-h-[24] min-w-[24] items-center justify-center rounded-2xl p-3 font-medium">
       <div className="w-14 flex-none rounded-t text-center shadow-lg md:w-16 lg:rounded-l lg:rounded-t-none ">
         <div className="block overflow-hidden rounded-t text-center text-primary-foreground ">
-          <div className="bg-teal-500 py-1 dark:bg-teal-900">
+          <div className="bg- bg-emerald-500 py-1 dark:bg-emerald-900">
             {localDateTime.format("MMM")}
           </div>
           <div className="border-l border-r border-border bg-card pt-1">

@@ -1,4 +1,4 @@
-import { FormInput, Home } from "lucide-react";
+import { CalendarDays, FormInput, Home } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import {
@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "~/components/ui/navigation-menu";
-import { ModeToggle } from "./ModeToggle";
+import { ModeToggle } from "../../ModeToggle";
 
 function Navbar() {
   return (
@@ -36,10 +36,13 @@ function Navbar() {
         <Link href={"/regdayoff"} className={"flex flex-row"}>
           <FormInput className="m-2" />
         </Link>
-        {/* <Link href={"/weekquery"} className={"flex flex-row"}>
-        <CalendarDays className="m-2" />
-      </Link>
-      <Link
+        <Link href={"/weekquery"} className={"flex flex-row"}>
+          <CalendarDays className="m-2" />
+        </Link>
+        <Link href={"/wholeweek"} className={"flex flex-row"}>
+          <CalendarDays className="m-2" />
+        </Link>
+        {/* <Link
         href={"/tester"}
         className=" pointer-events-none  text-muted-foreground"
       >

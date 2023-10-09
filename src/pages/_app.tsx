@@ -1,21 +1,32 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
+import { type AppProps } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { Toaster } from "~/components/Toaster";
-import Layout from "~/components/Layout";
 import Script from "next/script";
 import { ThemeProvider } from "~/components/ui/theme-provider";
+import { type ReactElement, type ReactNode } from "react";
+import { type NextPage } from "next";
 
-const MyApp: AppType<{ session: Session | null }> = ({
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout<P> = AppProps<P> & {
+  Component: NextPageWithLayout<P>;
+};
+
+const MyApp = ({
   Component,
-  pageProps: { session, ...pageProps },
-}) => {
+  pageProps,
+}: AppPropsWithLayout<{ session: Session | null }>) => {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <Head>
         <title>VV Shift Buddy</title>
         <meta
@@ -52,11 +63,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
         defer
       ></Script>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
-
       <Toaster />
       <Analytics />
     </SessionProvider>

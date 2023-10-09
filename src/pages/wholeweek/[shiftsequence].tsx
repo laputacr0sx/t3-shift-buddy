@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import moment from "moment";
 import * as z from "zod";
 import { type ParsedUrlQuery, encode } from "querystring";
@@ -13,6 +13,8 @@ import { api } from "~/utils/api";
 import { convertDuration, getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
+import { NextPageWithLayout } from "../_app";
+import Layout from "~/components/ui/layouts/AppLayout";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
@@ -31,7 +33,7 @@ export const dayDetailSchema = z.object({
 
 export type DayDetail = z.infer<typeof dayDetailSchema>;
 
-function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
+function WholeWeek({ legitRawShiftArray }: RawShiftArray): NextPageWithLayout {
   moment.updateLocale("zh-hk", {
     weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
     weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
@@ -46,7 +48,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   if (!validatedCompleShiftNameArray.success) {
     console.error(validatedCompleShiftNameArray.error);
-    return;
   }
 
   const {
@@ -56,7 +57,9 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     refetch: shiftArrayRefetch,
   } = api.shiftController.getWeekShift.useQuery(
     {
-      shiftArray: validatedCompleShiftNameArray.data,
+      shiftArray: validatedCompleShiftNameArray.success
+        ? validatedCompleShiftNameArray.data
+        : [""],
     },
     {
       refetchOnWindowFocus: false,
@@ -110,8 +113,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     completeString = completeString + "```";
     await navigator.clipboard.writeText(completeString);
     toast({
-      title: "已複製整週資料",
-      description: completeString,
+      description: "已複製整週資料",
     });
   }
 
@@ -173,6 +175,10 @@ export const getServerSideProps = ({
   const legitRawShiftArray = validatedRawShiftArray.data;
 
   return { props: { legitRawShiftArray } };
+};
+
+WholeWeek.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default WholeWeek;
