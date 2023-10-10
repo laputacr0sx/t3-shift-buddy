@@ -15,6 +15,7 @@ import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import { NextPageWithLayout } from "../_app";
 import Layout from "~/components/ui/layouts/AppLayout";
+import { NextPage } from "next";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
@@ -33,7 +34,7 @@ export const dayDetailSchema = z.object({
 
 export type DayDetail = z.infer<typeof dayDetailSchema>;
 
-function WholeWeek({ legitRawShiftArray }: RawShiftArray): NextPageWithLayout {
+function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   moment.updateLocale("zh-hk", {
     weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
     weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
@@ -48,6 +49,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray): NextPageWithLayout {
 
   if (!validatedCompleShiftNameArray.success) {
     console.error(validatedCompleShiftNameArray.error);
+    return;
   }
 
   const {
@@ -57,9 +59,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray): NextPageWithLayout {
     refetch: shiftArrayRefetch,
   } = api.shiftController.getWeekShift.useQuery(
     {
-      shiftArray: validatedCompleShiftNameArray.success
-        ? validatedCompleShiftNameArray.data
-        : [""],
+      shiftArray: validatedCompleShiftNameArray.data,
     },
     {
       refetchOnWindowFocus: false,
