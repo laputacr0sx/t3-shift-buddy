@@ -7,7 +7,7 @@ interface PropType {
 
 function ChineseCalendar(props: PropType) {
   const { date } = props;
-  const localDateTime = moment(date).locale("tc");
+  const localDateTime = moment(date).locale("zh-hk");
 
   return (
     <div className="mb-4 flex min-h-[24] min-w-[24] items-center justify-center rounded-2xl p-3 font-medium">
@@ -22,7 +22,7 @@ function ChineseCalendar(props: PropType) {
             </span>
           </div>
           <div className="-pt-2 mb-1 rounded-b-lg border-b border-l border-r border-border bg-card text-center">
-            <span className="text-xs">{localDateTime.format("dddd")}</span>
+            <span className="text-xs">{localDateTime.format("dd")}</span>
           </div>
 
           {/* <div className="rounded-b-lg border-b border-l border-r border-border bg-white pb-2 text-center">

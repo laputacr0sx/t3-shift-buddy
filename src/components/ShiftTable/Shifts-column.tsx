@@ -52,10 +52,10 @@ export const columns = [
           const date = row.getValue("date") satisfies Date;
           const formattedDate = moment(date).locale("zh-hk").format("DD/MM dd");
           return (
-            // <ChineseCalendar date={date} />
-            <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
-              {formattedDate}
-            </span>
+            <ChineseCalendar date={date} />
+            // <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
+            //   {formattedDate}
+            // </span>
           );
         },
         footer: (props) => props.column.id,
