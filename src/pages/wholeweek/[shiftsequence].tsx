@@ -11,6 +11,8 @@ import { convertDuration, getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import Layout from "~/components/ui/layouts/AppLayout";
+import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
@@ -114,18 +116,19 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   return (
     <div className="flex h-full w-screen flex-col gap-2 py-2">
+      <div></div>
       {validatedCompleShiftNameArray.success ? (
         <>
+          <DataTable columns={columns} data={combinedDetail} />
           <Button
             variant={"secondary"}
-            className="items-center self-center"
+            // className="items-center self-center"
             onClick={() => {
               void handleCopyToClipboard();
             }}
           >
             複製整週資料
           </Button>
-          <DataTable columns={columns} data={combinedDetail} />
         </>
       ) : null}
     </div>

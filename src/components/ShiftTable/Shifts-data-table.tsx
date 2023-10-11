@@ -107,14 +107,16 @@ export function DataTable<TData, TValue>({
       <Button
         className="my-6"
         variant={"secondary"}
+        disabled={JSON.stringify(rowSelection) === "{}"}
         onClick={async () => {
+          // console.log(JSON.stringify(rowSelection) === "{}");
+
           if (!navigator || !navigator.clipboard)
             throw Error("No navigator object nor clipboard found");
 
           const selectedShifts = table.getSelectedRowModel().flatRows;
 
           let completeString = "```\n";
-
           for (const dayDetail of selectedShifts) {
             const validatedDayDetail = dayDetailSchema.safeParse(
               dayDetail.original
@@ -137,15 +139,15 @@ export function DataTable<TData, TValue>({
           }
           completeString = completeString + "```";
 
-          console.log(completeString);
+          // console.log(completeString);
 
           await navigator.clipboard.writeText(completeString);
           toast({
-            description: "已複製整週資料",
+            description: "已複製資料",
           });
         }}
       >
-        log selected
+        複製已選資料
       </Button>
     </div>
   );
