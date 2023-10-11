@@ -11,8 +11,6 @@ import { convertDuration, getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import Layout from "~/components/ui/layouts/AppLayout";
-import Link from "next/link";
-import { MessageCircle } from "lucide-react";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
@@ -53,7 +51,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     data: shiftsArray,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
-    refetch: shiftArrayRefetch,
   } = api.shiftController.getWeekShift.useQuery(
     {
       shiftArray: validatedCompleShiftNameArray.data,

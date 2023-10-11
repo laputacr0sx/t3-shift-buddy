@@ -17,10 +17,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Button } from "../ui/button";
-import {
-  dayDetailSchema,
-  type DayDetail,
-} from "~/pages/wholeweek/[shiftsequence]";
+import { dayDetailSchema } from "~/pages/wholeweek/[shiftsequence]";
 import moment from "moment";
 import { convertDuration } from "~/utils/helper";
 import { toast } from "../ui/useToast";
