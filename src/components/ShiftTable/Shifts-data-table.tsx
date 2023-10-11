@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="mx-2 rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
+      <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -137,7 +137,7 @@ export function DataTable<TData, TValue>({
       </div>
       <Separator />
       <Button
-        className="my-6"
+        className="my-2"
         variant={"default"}
         disabled={JSON.stringify(rowSelection) === "{}"}
         onClick={() => void handleCopyEvent()}
@@ -145,7 +145,7 @@ export function DataTable<TData, TValue>({
         複製已選資料
       </Button>
       <Button
-        className="my-6"
+        className="my-2"
         variant={"secondary"}
         disabled={JSON.stringify(rowSelection) !== "{}"}
         onClick={() => void handleCopyEvent()}
