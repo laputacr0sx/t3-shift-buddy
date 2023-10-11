@@ -1,22 +1,12 @@
-import { createColumnHelper } from "@tanstack/react-table";
+import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import moment from "moment";
 import ChineseCalendar from "../ChineseCalendar";
 
+import { Checkbox } from "~/components/ui/checkbox";
+import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-
-export type ShiftTable = {
-  date: string;
-  title: string;
-  id?: string;
-  dutyNumber?: string;
-  bNL?: string;
-  bNT?: string;
-  bFT?: string;
-  bFL?: string;
-  duration?: string;
-  remarks?: string;
-};
 
 // export function getChineseLocation(location: string): string {
 //   const locationSet = {
@@ -31,9 +21,34 @@ export type ShiftTable = {
 //   return;
 // }
 
-const columnHelper = createColumnHelper<ShiftTable>();
+const columnHelper = createColumnHelper<DayDetail>();
 
-export const columns = [
+export const columns: ColumnDef<DayDetail>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value: boolean) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
+        aria-label="Select all"
+        className="border-secondary"
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="border-secondary"
+        />
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   columnHelper.group({
     id: "detail",
     header: () => (
@@ -52,10 +67,10 @@ export const columns = [
           const date = row.getValue("date") satisfies Date;
           const formattedDate = moment(date).locale("zh-hk").format("DD/MM dd");
           return (
-            <ChineseCalendar date={date} />
-            // <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
-            //   {formattedDate}
-            // </span>
+            // <ChineseCalendar date={date} />
+            <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
+              {formattedDate}
+            </span>
           );
         },
         footer: (props) => props.column.id,
@@ -194,7 +209,7 @@ export const columns = [
         cell: ({ row }) => {
           const remarks: string = row.getValue("remarks");
           return (
-            <span className="block py-2 text-center align-middle font-medium text-amber-600 dark:text-amber-200">
+            <span className="block py-2 text-left align-middle font-medium text-amber-600 dark:text-amber-200">
               {remarks}
             </span>
           );

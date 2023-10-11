@@ -1,11 +1,8 @@
-import React, { ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import moment from "moment";
 import * as z from "zod";
 import { type ParsedUrlQuery, encode } from "querystring";
-import {
-  type ShiftTable,
-  columns,
-} from "~/components/ShiftTable/Shifts-column";
+import { columns } from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
 import { Button } from "~/components/ui/button";
 import { toast } from "~/components/ui/useToast";
@@ -13,9 +10,7 @@ import { api } from "~/utils/api";
 import { convertDuration, getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
-import { NextPageWithLayout } from "../_app";
 import Layout from "~/components/ui/layouts/AppLayout";
-import { NextPage } from "next";
 
 export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
 
@@ -72,7 +67,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   const nextWeekDates = getNextWeekDates();
 
-  const combinedDetail = new Array<ShiftTable>(7);
+  const combinedDetail = new Array<DayDetail>(7);
 
   for (let i = 0; i < validatedCompleShiftNameArray.data.length; i++) {
     const exactShift = shiftsArray.filter(
@@ -85,10 +80,10 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
       title: validatedCompleShiftNameArray.data[i],
       dutyNumber: shift?.dutyNumber || validatedCompleShiftNameArray.data[i],
       ...shift,
-    } as ShiftTable;
+    } as DayDetail;
   }
 
-  async function handleCopyAll() {
+  async function handleCopyToClipboard() {
     if (!navigator || !navigator.clipboard)
       throw Error("No navigator object nor clipboard found");
 
@@ -125,18 +120,14 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
             variant={"secondary"}
             className="items-center self-center"
             onClick={() => {
-              void handleCopyAll();
+              void handleCopyToClipboard();
             }}
           >
             複製整週資料
           </Button>
           <DataTable columns={columns} data={combinedDetail} />
         </>
-      ) : (
-        <Button variant={"secondary"} onClick={() => shiftArrayRefetch()}>
-          Refect
-        </Button>
-      )}
+      ) : null}
     </div>
   );
 }
