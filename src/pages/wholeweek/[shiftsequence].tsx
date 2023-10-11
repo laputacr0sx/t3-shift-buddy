@@ -98,7 +98,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
       const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
         validatedDayDetail.data;
 
-      const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM ddd");
+      const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM dd");
       const durationDecimal = convertDuration(duration);
       const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
 
@@ -115,18 +115,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     <div className="flex h-full w-screen flex-col gap-2 py-2">
       <div></div>
       {validatedCompleShiftNameArray.success ? (
-        <>
-          <DataTable columns={columns} data={combinedDetail} />
-          <Button
-            variant={"secondary"}
-            // className="items-center self-center"
-            onClick={() => {
-              void handleCopyToClipboard();
-            }}
-          >
-            複製整週資料
-          </Button>
-        </>
+        <DataTable columns={columns} data={combinedDetail} />
       ) : null}
     </div>
   );

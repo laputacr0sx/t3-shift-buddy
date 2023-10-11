@@ -12,14 +12,18 @@ function Navbar() {
         </Link>
         <Link
           href={""}
-          className={"pointer-events-none flex flex-row text-rose-300"}
+          className={
+            "pointer-events-none flex flex-row text-rose-700 dark:text-rose-300"
+          }
         >
           <MessageCircle className="m-2 h-4 w-4 self-center" />
           <p className={"self-center text-center text-sm "}>九龍更群組</p>
         </Link>
         <Link
           href={""}
-          className={"pointer-events-none flex flex-row text-sky-300"}
+          className={
+            "pointer-events-none flex flex-row text-sky-700 dark:text-sky-300"
+          }
         >
           <MessageCircle className="m-2 h-4 w-4 self-center" />
           <p className={"self-center text-center text-sm "}>上水更群組</p>

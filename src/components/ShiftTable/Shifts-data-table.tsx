@@ -44,6 +44,41 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const handleCopyEvent = async () => {
+    if (!navigator || !navigator.clipboard)
+      throw Error("No navigator object nor clipboard found");
+
+    const selectedShifts = table.getSelectedRowModel().flatRows;
+
+    let completeString = "```\n";
+    for (const dayDetail of selectedShifts) {
+      const validatedDayDetail = dayDetailSchema.safeParse(dayDetail.original);
+
+      if (!validatedDayDetail.success) {
+        break;
+      }
+
+      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+        validatedDayDetail.data;
+
+      const date = moment(validatedDayDetail.data.date)
+        .locale("zh-hk")
+        .format("DD/MM ddd");
+      const durationDecimal = convertDuration(duration);
+      const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
+
+      completeString = completeString + dayString;
+    }
+    completeString = completeString + "```";
+
+    // console.log(completeString);
+
+    await navigator.clipboard.writeText(completeString);
+    toast({
+      description: "已複製資料",
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="mx-2 rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
@@ -103,48 +138,19 @@ export function DataTable<TData, TValue>({
       <Separator />
       <Button
         className="my-6"
-        variant={"secondary"}
+        variant={"default"}
         disabled={JSON.stringify(rowSelection) === "{}"}
-        onClick={async () => {
-          // console.log(JSON.stringify(rowSelection) === "{}");
-
-          if (!navigator || !navigator.clipboard)
-            throw Error("No navigator object nor clipboard found");
-
-          const selectedShifts = table.getSelectedRowModel().flatRows;
-
-          let completeString = "```\n";
-          for (const dayDetail of selectedShifts) {
-            const validatedDayDetail = dayDetailSchema.safeParse(
-              dayDetail.original
-            );
-
-            if (!validatedDayDetail.success) {
-              break;
-            }
-
-            const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
-              validatedDayDetail.data;
-
-            const date = moment(validatedDayDetail.data.date)
-              .locale("zh-hk")
-              .format("DD/MM ddd");
-            const durationDecimal = convertDuration(duration);
-            const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
-
-            completeString = completeString + dayString;
-          }
-          completeString = completeString + "```";
-
-          // console.log(completeString);
-
-          await navigator.clipboard.writeText(completeString);
-          toast({
-            description: "已複製資料",
-          });
-        }}
+        onClick={() => void handleCopyEvent()}
       >
         複製已選資料
+      </Button>
+      <Button
+        className="my-6"
+        variant={"secondary"}
+        disabled={JSON.stringify(rowSelection) !== "{}"}
+        onClick={() => void handleCopyEvent()}
+      >
+        複製整週資料
       </Button>
     </div>
   );
