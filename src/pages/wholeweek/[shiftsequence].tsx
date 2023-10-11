@@ -4,10 +4,8 @@ import * as z from "zod";
 import { type ParsedUrlQuery, encode } from "querystring";
 import { columns } from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
-import { Button } from "~/components/ui/button";
-import { toast } from "~/components/ui/useToast";
 import { api } from "~/utils/api";
-import { convertDuration, getNextWeekDates } from "~/utils/helper";
+import { getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import Layout from "~/components/ui/layouts/AppLayout";
@@ -80,35 +78,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
       dutyNumber: shift?.dutyNumber || validatedCompleShiftNameArray.data[i],
       ...shift,
     } as DayDetail;
-  }
-
-  async function handleCopyToClipboard() {
-    if (!navigator || !navigator.clipboard)
-      throw Error("No navigator object nor clipboard found");
-
-    let completeString = "```\n";
-
-    for (const dayDetail of combinedDetail) {
-      const validatedDayDetail = dayDetailSchema.safeParse(dayDetail);
-
-      if (!validatedDayDetail.success) {
-        break;
-      }
-
-      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
-        validatedDayDetail.data;
-
-      const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM dd");
-      const durationDecimal = convertDuration(duration);
-      const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
-
-      completeString = completeString + dayString;
-    }
-    completeString = completeString + "```";
-    await navigator.clipboard.writeText(completeString);
-    toast({
-      description: "已複製整週資料",
-    });
   }
 
   return (

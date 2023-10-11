@@ -105,11 +105,11 @@ export default function shiftDoubleForm() {
             name="shiftRow"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>整週更號</FormLabel>
+                <FormLabel>下週番號</FormLabel>
                 <FormControl>
                   <Input
                     className="font-mono tracking-wide"
-                    placeholder="101102103104105106107RD"
+                    placeholder="101102103104105106RD"
                     {...field}
                   />
                 </FormControl>
@@ -137,7 +137,7 @@ export default function shiftDoubleForm() {
             )}
           />
           <Button type="submit" variant={"secondary"}>
-            查一條更！
+            查下週更資料
           </Button>
         </form>
       </Form>
