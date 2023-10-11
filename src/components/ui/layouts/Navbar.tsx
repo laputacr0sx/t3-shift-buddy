@@ -10,24 +10,13 @@ function Navbar() {
         <Link href={"/"} className={"flex flex-row "}>
           <Home className="m-2" />
         </Link>
-        <Link
-          href={""}
-          className={
-            "pointer-events-none flex flex-row text-rose-700 dark:text-rose-300"
-          }
+        {/* <Link
+          href="whatsapp://send?text="
+          className="flex flex-row text-emerald-700 dark:text-emerald-300"
         >
           <MessageCircle className="m-2 h-4 w-4 self-center" />
-          <p className={"self-center text-center text-sm "}>九龍更群組</p>
-        </Link>
-        <Link
-          href={""}
-          className={
-            "pointer-events-none flex flex-row text-sky-700 dark:text-sky-300"
-          }
-        >
-          <MessageCircle className="m-2 h-4 w-4 self-center" />
-          <p className={"self-center text-center text-sm "}>上水更群組</p>
-        </Link>
+          <p className={"self-center text-center text-xs "}>九龍更群組</p>
+        </Link> */}
         {/* <Link href={"/regdayoff"} className={"flex flex-row"}>
           <FormInput className="m-2" />
         </Link>

@@ -22,6 +22,8 @@ import moment from "moment";
 import { convertDuration } from "~/utils/helper";
 import { toast } from "../ui/useToast";
 import { Separator } from "../ui/separator";
+import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -70,8 +72,6 @@ export function DataTable<TData, TValue>({
       completeString = completeString + dayString;
     }
     completeString = completeString + "```";
-
-    // console.log(completeString);
 
     await navigator.clipboard.writeText(completeString);
     toast({
@@ -135,23 +135,30 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <Separator />
+      <Separator className="w-[90%]" />
       <Button
-        className="my-2"
-        variant={"default"}
+        className="my-2 self-center align-middle "
+        variant="default"
         disabled={JSON.stringify(rowSelection) === "{}"}
         onClick={() => void handleCopyEvent()}
       >
         複製已選資料
       </Button>
       <Button
-        className="my-2"
+        className="my-2 self-center align-middle"
         variant={"secondary"}
         disabled={JSON.stringify(rowSelection) !== "{}"}
         onClick={() => void handleCopyEvent()}
       >
         複製整週資料
       </Button>
+      <Link
+        href={`whatsapp://send?text=`}
+        className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
+      >
+        <MessageCircle className="m-2 h-4 w-4 self-center" />
+        <p className={"self-center text-center text-xs "}>開啟WhatsApp</p>
+      </Link>
     </div>
   );
 }

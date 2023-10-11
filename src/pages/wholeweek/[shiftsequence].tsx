@@ -82,7 +82,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   return (
     <div className="flex h-full w-screen flex-col gap-2 py-2">
-      <div></div>
       {validatedCompleShiftNameArray.success ? (
         <DataTable columns={columns} data={combinedDetail} />
       ) : null}
