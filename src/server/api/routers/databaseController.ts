@@ -26,7 +26,7 @@ export const databaseControllerRouter = createTRPCRouter({
       )
     )
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.shifts.createMany({ data: { ...input } });
+      return ctx.prisma.shifts.createMany({ data: input });
     }),
 
   createShift: publicProcedure
