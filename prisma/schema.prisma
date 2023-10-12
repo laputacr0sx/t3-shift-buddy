@@ -28,9 +28,11 @@ model Shifts {
 
 enum Location {
   HUH
+  SHT
   SHS
-  LOW
   HTD
+  LOW
+  TAW
   TWD
 }
 
