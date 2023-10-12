@@ -1,7 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 import { type AppProps } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
@@ -28,16 +27,19 @@ const MyApp = ({
 
   return (
     <ClerkProvider {...pageProps}>
-      <SessionProvider session={pageProps.session}>
-        <Head>
-          <title>VV Shift Buddy</title>
-        </Head>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
-        <Toaster />
-        <Analytics />
-      </SessionProvider>
+      <Head>
+        <title>VV Shift Buddy</title>
+      </Head>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeProvider>
+      <Toaster />
+      <Analytics />
     </ClerkProvider>
   );
 };
