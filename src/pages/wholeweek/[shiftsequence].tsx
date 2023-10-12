@@ -1,6 +1,6 @@
 import React, { type ReactElement } from "react";
 import moment from "moment";
-import * as z from "zod";
+import { z } from "zod";
 import { type ParsedUrlQuery, encode } from "querystring";
 import { columns } from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
@@ -9,18 +9,17 @@ import { getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import Layout from "~/components/ui/layouts/AppLayout";
-
-export const dutyLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"];
+import { workLocation } from "~/utils/customTypes";
 
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
   title: z.string(),
   id: z.string(),
   dutyNumber: z.string().regex(dutyInputRegExValidator),
-  bNL: z.enum(["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"]),
+  bNL: z.enum(workLocation),
   bNT: z.string(),
   bFT: z.string(),
-  bFL: z.enum(["HUH", "SHT", "SHS", "HTD", "LOW", "TAW"]),
+  bFL: z.enum(workLocation),
   duration: z.string(),
   remarks: z.string(),
 });

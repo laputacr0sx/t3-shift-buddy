@@ -5,3 +5,13 @@ export interface WeekComplex {
   title: string;
   dutyObject: Shifts;
 }
+
+export const workLocation = [
+  "HUH",
+  "SHT",
+  "SHS",
+  "HTD",
+  "LOW",
+  "TAW",
+  "TWD",
+] as const;

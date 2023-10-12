@@ -6,7 +6,6 @@ import "~/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { Toaster } from "~/components/Toaster";
-import Script from "next/script";
 import { ThemeProvider } from "~/components/ui/theme-provider";
 import { type ReactElement, type ReactNode } from "react";
 import { type NextPage } from "next";
@@ -30,11 +29,6 @@ const MyApp = ({
       <Head>
         <title>VV Shift Buddy</title>
       </Head>
-      <Script
-        src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2"
-        async
-        defer
-      ></Script>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
