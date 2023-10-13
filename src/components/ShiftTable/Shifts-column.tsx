@@ -24,6 +24,7 @@ import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
 const columnHelper = createColumnHelper<DayDetail>();
 
 export const columns: ColumnDef<DayDetail>[] = [
+  { id: "add_to_calendar", header: () => <span>Add</span> },
   {
     id: "select",
     header: ({ table }) => (

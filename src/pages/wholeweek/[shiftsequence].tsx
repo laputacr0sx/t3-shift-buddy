@@ -14,7 +14,7 @@ import { workLocation } from "~/utils/customTypes";
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
   title: z.string(),
-  id: z.string(),
+  id: z.string().uuid(),
   dutyNumber: z.string().regex(dutyInputRegExValidator),
   bNL: z.enum(workLocation),
   bNT: z.string(),
