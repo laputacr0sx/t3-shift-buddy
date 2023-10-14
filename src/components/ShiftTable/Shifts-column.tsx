@@ -4,6 +4,7 @@ import ChineseCalendar from "../ChineseCalendar";
 
 import { Checkbox } from "~/components/ui/checkbox";
 import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -24,7 +25,33 @@ import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
 const columnHelper = createColumnHelper<DayDetail>();
 
 export const columns: ColumnDef<DayDetail>[] = [
-  { id: "add_to_calendar", header: () => <span>Add</span> },
+  {
+    id: "add_to_calendar",
+    header: () => <span>加到日曆</span>,
+    cell: ({ row }) => {
+      const dutyNumber: string = row.getValue("dutyNumber");
+      const bNL: string = row.getValue("bNL");
+      const bND: string = moment(row.getValue("date")).format("YYYY-MM-DD");
+      const bNT: string = row.getValue("bNT");
+      const bFT: string = row.getValue("bFT");
+      const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
+        ? moment(bND).format("YYYY-MM-DD")
+        : moment(bND).add(1, "d").format("YYYY-MM-DD");
+
+      return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
+        <AddToCalendarButton
+          name={dutyNumber}
+          options={["Apple", "Google", "Microsoft365", "iCal"]}
+          location={bNL}
+          startDate={bND}
+          endDate={bFD}
+          startTime={bNT}
+          endTime={bFT}
+          timeZone="Asia/Hong_Kong"
+        ></AddToCalendarButton>
+      ) : null;
+    },
+  },
   {
     id: "select",
     header: ({ table }) => (
