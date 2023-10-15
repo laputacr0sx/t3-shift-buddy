@@ -47,6 +47,8 @@ export const columns: ColumnDef<DayDetail>[] = [
           endDate={bFD}
           startTime={bNT}
           endTime={bFT}
+          label="加至日曆"
+          buttonStyle="flat"
           timeZone="Asia/Hong_Kong"
         ></AddToCalendarButton>
       ) : null;
