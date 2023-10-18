@@ -5,6 +5,8 @@ import ChineseCalendar from "../ChineseCalendar";
 import { Checkbox } from "~/components/ui/checkbox";
 import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
+import { Button } from "../ui/button";
+import { atcb_action } from "add-to-calendar-button";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -27,7 +29,12 @@ const columnHelper = createColumnHelper<DayDetail>();
 export const columns: ColumnDef<DayDetail>[] = [
   {
     id: "add_to_calendar",
-    header: () => <span>加到日曆</span>,
+    header: () => (
+      <span className="block text-center align-middle text-purple-700 dark:text-purple-300">
+        加到日曆
+      </span>
+    ),
+    // <span>加到日曆</span>,
     cell: ({ row }) => {
       const dutyNumber: string = row.getValue("dutyNumber");
       const bNL: string = row.getValue("bNL");
@@ -38,20 +45,61 @@ export const columns: ColumnDef<DayDetail>[] = [
         ? moment(bND).format("YYYY-MM-DD")
         : moment(bND).add(1, "d").format("YYYY-MM-DD");
 
+      const config = {
+        name: dutyNumber,
+        // options: ("Apple", "Google"),
+        location: bNL,
+        startDate: bND,
+        endDate: bFD,
+        startTime: bNT,
+        endTime: bFT,
+        description: "",
+        hideIconButton: true,
+        hideBackground: true,
+        label: "加至日曆",
+        buttonStyle: "default",
+        timeZone: "Asia/Hong_Kong",
+      };
+
       return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
-        <AddToCalendarButton
-          name={dutyNumber}
-          options={["Google", "iCal"]}
-          location={bNL}
-          startDate={bND}
-          endDate={bFD}
-          startTime={bNT}
-          endTime={bFT}
-          // label="加至日曆"
-          buttonStyle="default"
-          timeZone="Asia/Hong_Kong"
-        ></AddToCalendarButton>
-      ) : null;
+        <Button
+          onClick={() => {
+            atcb_action({
+              name: dutyNumber,
+              options: ["Apple", "Google"],
+              location: bNL,
+              startDate: bND,
+              endDate: bFD,
+              startTime: bNT,
+              endTime: bFT,
+              description: "",
+              hideIconButton: true,
+              hideBackground: true,
+              label: "加至日曆",
+              buttonStyle: "default",
+              timeZone: "Asia/Hong_Kong",
+            });
+          }}
+          variant={"secondary"}
+        >
+          加到日曆
+        </Button>
+      ) : // <AddToCalendarButton
+      //   name={dutyNumber}
+      //   options={["Google", "iCal"]}
+      //   location={bNL}
+      //   startDate={bND}
+      //   endDate={bFD}
+      //   startTime={bNT}
+      //   endTime={bFT}
+      //   description=""
+      //   hideIconButton
+      //   hideBackground
+      //   label="加至日曆"
+      //   buttonStyle="default"
+      //   timeZone="Asia/Hong_Kong"
+      // ></AddToCalendarButton>
+      null;
     },
   },
   {
