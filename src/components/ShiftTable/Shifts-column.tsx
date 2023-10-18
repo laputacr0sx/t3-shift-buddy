@@ -40,7 +40,9 @@ export const columns: ColumnDef<DayDetail>[] = [
       const bNL: string = row.getValue("bNL");
       const bND: string = moment(row.getValue("date")).format("YYYY-MM-DD");
       const bNT: string = row.getValue("bNT");
+      const bFL: string = row.getValue("bFL");
       const bFT: string = row.getValue("bFT");
+      const remarks: string = row.getValue("remarks");
       const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
         ? moment(bND).format("YYYY-MM-DD")
         : moment(bND).add(1, "d").format("YYYY-MM-DD");
@@ -53,7 +55,7 @@ export const columns: ColumnDef<DayDetail>[] = [
         endDate: bFD,
         startTime: bNT,
         endTime: bFT,
-        description: "",
+        description: `${bFL} ${remarks}`,
         hideIconButton: true,
         hideBackground: true,
         label: "加至日曆",
