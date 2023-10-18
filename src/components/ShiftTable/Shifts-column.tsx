@@ -41,14 +41,14 @@ export const columns: ColumnDef<DayDetail>[] = [
       return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
         <AddToCalendarButton
           name={dutyNumber}
-          options={["Apple", "Google", "Microsoft365", "iCal"]}
+          options={["Google", "iCal"]}
           location={bNL}
           startDate={bND}
           endDate={bFD}
           startTime={bNT}
           endTime={bFT}
-          label="加至日曆"
-          buttonStyle="flat"
+          // label="加至日曆"
+          buttonStyle="default"
           timeZone="Asia/Hong_Kong"
         ></AddToCalendarButton>
       ) : null;
