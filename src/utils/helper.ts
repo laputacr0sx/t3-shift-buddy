@@ -1,16 +1,18 @@
 import type { Shifts } from "@prisma/client";
 import { type WeekComplex } from "./customTypes";
 import { toast } from "~/components/ui/useToast";
+import moment from "moment";
 
-export function getNextWeekDates() {
-  const d = new Date();
-  d.setDate(d.getDate() + ((7 - d.getDay()) % 7) + 1);
-  let weekArr: Date[] = [];
-  const startDate = new Date(d);
+export function getNextWeekDates(weekNumber?: number) {
+  const validWeekNumber = weekNumber ? weekNumber : moment().week() + 1;
+  const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
+
+  let weekArr = new Array<Date>();
+
   for (let i = 0; i < 7; i++) {
-    weekArr = [...weekArr, new Date(startDate)];
-    startDate.setDate(startDate.getDate() + 1);
+    weekArr = [...weekArr, mondayFromWeekNumber.add(i ? 1 : 0, "d").toDate()];
   }
+
   return weekArr;
 }
 

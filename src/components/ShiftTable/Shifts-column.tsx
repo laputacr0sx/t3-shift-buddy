@@ -12,19 +12,6 @@ import { convertDurationDecimal } from "~/utils/helper";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-// export function getChineseLocation(location: string): string {
-//   const locationSet = {
-//     HUH: "紅磡",
-//     SHT: "沙田",
-//     SHS: "上水",
-//     HTD: "何東樓",
-//     LOW: "羅湖",
-//     TAW: "大圍",
-//   };
-
-//   return;
-// }
-
 const columnHelper = createColumnHelper<DayDetail>();
 
 export const columns: ColumnDef<DayDetail>[] = [
@@ -44,7 +31,9 @@ export const columns: ColumnDef<DayDetail>[] = [
       const bFL: string = row.getValue("bFL");
       const bFT: string = row.getValue("bFT");
       const duration: string = row.getValue("duration");
-      // const durationDecimal = convertDurationDecimal(duration);
+      const durationDecimal = duration
+        ? convertDurationDecimal(duration)
+        : duration;
       const remarks: string = row.getValue("remarks");
       const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
         ? moment(bND).format("YYYY-MM-DD")
@@ -60,7 +49,7 @@ export const columns: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
-              description: `${bFL} ${duration} ${remarks} `,
+              description: `${bFL} ${durationDecimal} ${remarks} `,
               endTime: bFT,
               hideIconButton: true,
               hideBackground: true,

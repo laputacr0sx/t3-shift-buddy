@@ -137,20 +137,22 @@ export function DataTable<TData, TValue>({
       </div>
       <Separator className="w-[90%]" />
       <Button
-        className="my-2 self-center align-middle "
-        variant="default"
+        className="my-2 self-center align-middle font-light"
         disabled={JSON.stringify(rowSelection) === "{}"}
         onClick={() => void handleCopyEvent()}
       >
-        複製已選資料
+        複製
+        <span className="font-extrabold">已選</span>
+        資料
       </Button>
       <Button
-        className="my-2 self-center align-middle"
-        variant={"secondary"}
+        className="my-2 self-center align-middle font-light"
         disabled={JSON.stringify(rowSelection) !== "{}"}
         onClick={() => void handleCopyEvent()}
       >
-        複製整週資料
+        複製
+        <span className="font-extrabold">整週</span>
+        資料
       </Button>
       <Link
         href={`whatsapp://send?text=`}

@@ -1,4 +1,4 @@
-import React, { type ReactElement } from "react";
+import React, { useState, type ReactElement } from "react";
 import moment from "moment";
 import { z } from "zod";
 import { type ParsedUrlQuery, encode } from "querystring";
@@ -10,6 +10,8 @@ import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import useShiftsArray from "~/hooks/useShiftsArray";
 import Layout from "~/components/ui/layouts/AppLayout";
 import { workLocation } from "~/utils/customTypes";
+import { Button } from "~/components/ui/button";
+import { Minus, Plus, RotateCcw } from "lucide-react";
 
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
@@ -27,15 +29,17 @@ export const dayDetailSchema = z.object({
 export type DayDetail = z.infer<typeof dayDetailSchema>;
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
+  const [userWeekNumberInput, setUserWeekNumberInput] = useState(
+    moment().week() + 1
+  );
+
   moment.updateLocale("zh-hk", {
     weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
     weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
   });
 
   const compleShiftNameArray = useShiftsArray(legitRawShiftArray);
-
   const compleShiftNameArraySchema = z.array(z.string());
-
   const validatedCompleShiftNameArray =
     compleShiftNameArraySchema.safeParse(compleShiftNameArray);
 
@@ -61,7 +65,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   if (shiftsArrayError) return <>Shifts Error </>;
 
-  const nextWeekDates = getNextWeekDates();
+  const nextWeekDates = getNextWeekDates(userWeekNumberInput);
 
   const combinedDetail = new Array<DayDetail>(7);
 
@@ -80,11 +84,44 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   }
 
   return (
-    <div className="flex h-full w-screen flex-col gap-2 py-2">
-      {validatedCompleShiftNameArray.success ? (
-        <DataTable columns={columns} data={combinedDetail} />
-      ) : null}
-    </div>
+    <React.Fragment>
+      <div className="flex items-center justify-center pt-2 font-mono font-extrabold">
+        週數
+        <Button
+          onClick={() => {
+            setUserWeekNumberInput(() => {
+              return userWeekNumberInput + 1;
+            });
+          }}
+        >
+          <Plus size={20} />
+        </Button>
+        {userWeekNumberInput}
+        <Button
+          onClick={() => {
+            setUserWeekNumberInput(() => {
+              return userWeekNumberInput - 1;
+            });
+          }}
+        >
+          <Minus size={20} />
+        </Button>
+        <Button
+          onClick={() => {
+            setUserWeekNumberInput(() => {
+              return moment().week() + 1;
+            });
+          }}
+        >
+          <RotateCcw size={20} />
+        </Button>
+      </div>
+      <div className="flex h-full w-screen flex-col gap-2 py-2">
+        {validatedCompleShiftNameArray.success ? (
+          <DataTable columns={columns} data={combinedDetail} />
+        ) : null}
+      </div>
+    </React.Fragment>
   );
 }
 
