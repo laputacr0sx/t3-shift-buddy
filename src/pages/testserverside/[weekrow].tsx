@@ -4,7 +4,7 @@ import {
   type InferGetServerSidePropsType,
 } from "next";
 import React from "react";
-import { encode } from "querystring";
+import { api } from "~/utils/api";
 
 type shiftsArray = {
   weekrow: string[];
@@ -14,7 +14,24 @@ type shiftsArray = {
 //   rawShiftsArray,
 // }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 function WeekRow({}) {
-  return <div>WeekRow</div>;
+  const {
+    data,
+    isLoading: completeIsLoading,
+    error: completeError,
+  } = api.shiftController.getWeekShiftWithPrefix.useQuery(
+    {
+      shiftArray: ["101", "102", "103", "104", "105", "106", "RD"],
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  if (completeIsLoading) return <p>Loading Detail</p>;
+
+  if (completeError) return <h1>{completeError.message}</h1>;
+
+  return <div>{data}</div>;
 }
 
 export default WeekRow;
