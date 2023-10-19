@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { toast } from "./ui/useToast";
-import { convertDuration } from "~/utils/helper";
+import { convertDurationDecimal } from "~/utils/helper";
 
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 
@@ -27,7 +27,7 @@ export default function ResponsiveShiftCard(props: WeekComplex) {
 
   const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } =
     props.dutyObject;
-  const durationDecimal = convertDuration(duration);
+  const durationDecimal = convertDurationDecimal(duration);
 
   return (
     <div className="flex justify-evenly gap-1">

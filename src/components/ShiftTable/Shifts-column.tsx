@@ -7,6 +7,7 @@ import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 import { Button } from "../ui/button";
 import { atcb_action } from "add-to-calendar-button";
+import { convertDurationDecimal } from "~/utils/helper";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -42,6 +43,8 @@ export const columns: ColumnDef<DayDetail>[] = [
       const bNT: string = row.getValue("bNT");
       const bFL: string = row.getValue("bFL");
       const bFT: string = row.getValue("bFT");
+      const duration: string = row.getValue("duration");
+      // const durationDecimal = convertDurationDecimal(duration);
       const remarks: string = row.getValue("remarks");
       const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
         ? moment(bND).format("YYYY-MM-DD")
@@ -57,7 +60,7 @@ export const columns: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
-              description: `${bFL} ${remarks}`,
+              description: `${bFL} ${duration} ${remarks} `,
               endTime: bFT,
               hideIconButton: true,
               hideBackground: true,

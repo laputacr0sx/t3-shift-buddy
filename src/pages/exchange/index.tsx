@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import { Input } from "~/components/ui/input";
 import Layout from "~/components/ui/layouts/AppLayout";
 

@@ -9,7 +9,7 @@ import { sevenShiftRegex, threeDigitShiftRegex } from "~/utils/regex";
 import {
   getCompleteWeekComplex,
   getNextWeekDates,
-  convertDuration,
+  convertDurationDecimal,
 } from "~/utils/helper";
 
 import ShiftArrayCard from "~/components/ShiftArrayCard";
@@ -74,7 +74,7 @@ function Index() {
 
       const date = moment(dayDetail.date).locale("zh-cn").format("DD/MM (dd)");
 
-      const durationDecimal = convertDuration(duration);
+      const durationDecimal = convertDurationDecimal(duration);
       const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
       completeString = completeString + dayString;
     }

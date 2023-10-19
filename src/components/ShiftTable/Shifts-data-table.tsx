@@ -19,7 +19,7 @@ import {
 import { Button } from "../ui/button";
 import { dayDetailSchema } from "~/pages/wholeweek/[shiftsequence]";
 import moment from "moment";
-import { convertDuration } from "~/utils/helper";
+import { convertDurationDecimal } from "~/utils/helper";
 import { toast } from "../ui/useToast";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
       const date = moment(validatedDayDetail.data.date)
         .locale("zh-hk")
         .format("DD/MM ddd");
-      const durationDecimal = convertDuration(duration);
+      const durationDecimal = convertDurationDecimal(duration);
       const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
 
       completeString = completeString + dayString;

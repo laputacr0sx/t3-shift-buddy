@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { type Shifts } from "@prisma/client";
-import { convertDuration } from "~/utils/helper";
+import { convertDurationDecimal } from "~/utils/helper";
 import { toast } from "./ui/useToast";
 
 type ShiftAccordionProps = {
@@ -18,7 +18,7 @@ function ShiftAccordion({ shift }: ShiftAccordionProps) {
 
   const handleOnClickCopyEvent = async () => {
     const { bFL, bNL, duration, dutyNumber, remarks, bNT, bFT } = shift;
-    const durationDecimal = convertDuration(duration);
+    const durationDecimal = convertDurationDecimal(duration);
 
     if (!navigator || !navigator.clipboard)
       throw Error("No navigator object nor clipboard found");

@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { toast } from "./ui/useToast";
-import { convertDuration } from "~/utils/helper";
+import { convertDurationDecimal } from "~/utils/helper";
 
 interface PropType {
   shift: Shifts;
@@ -19,7 +19,7 @@ interface PropType {
 
 export default function ShiftCard(props: PropType) {
   const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } = props.shift;
-  const durationDecimal = convertDuration(duration);
+  const durationDecimal = convertDurationDecimal(duration);
 
   const handleOnClickCopyEvent = async () => {
     if (!navigator || !navigator.clipboard)

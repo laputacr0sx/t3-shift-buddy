@@ -14,7 +14,7 @@ export function getNextWeekDates() {
   return weekArr;
 }
 
-export function convertDuration(rawDuration: string): string {
+export function convertDurationDecimal(rawDuration: string): string {
   const [wHour, wMinute] = rawDuration.split(":");
   if (!wMinute || !wHour) return "0";
   const minuteDecimal = parseInt(wMinute) / 60;
@@ -66,7 +66,7 @@ export function getCompleteWeekComplex(
 
 export const handleOnClickCopyEvent = async (shift: Shifts) => {
   const { bFL, bNL, duration, dutyNumber, remarks, bNT, bFT } = shift;
-  const durationDecimal = convertDuration(duration);
+  const durationDecimal = convertDurationDecimal(duration);
 
   if (!navigator || !navigator.clipboard)
     throw Error("No navigator object nor clipboard found");
