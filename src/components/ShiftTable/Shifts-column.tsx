@@ -47,22 +47,6 @@ export const columns: ColumnDef<DayDetail>[] = [
         ? moment(bND).format("YYYY-MM-DD")
         : moment(bND).add(1, "d").format("YYYY-MM-DD");
 
-      const config = {
-        name: dutyNumber,
-        // options: ("Apple", "Google"),
-        location: bNL,
-        startDate: bND,
-        endDate: bFD,
-        startTime: bNT,
-        endTime: bFT,
-        description: `${bFL} ${remarks}`,
-        hideIconButton: true,
-        hideBackground: true,
-        label: "加至日曆",
-        buttonStyle: "default",
-        timeZone: "Asia/Hong_Kong",
-      };
-
       return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
         <Button
           onClick={() => {
@@ -73,8 +57,8 @@ export const columns: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
+              description: `${bFL} ${remarks}`,
               endTime: bFT,
-              description: "",
               hideIconButton: true,
               hideBackground: true,
               label: "加至日曆",
