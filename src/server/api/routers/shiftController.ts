@@ -52,62 +52,39 @@ export const shiftControllerRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }) => {
-      const resultShiftArray = await ctx.prisma.shifts.findMany({
-        where: { dutyNumber: { in: input.shiftArray } },
-      });
-
       const prefix = await ctx.prisma.weekPrefix.findMany({
         orderBy: { updatedAt: "desc" },
         take: 1,
       });
 
-      if (!prefix || !resultShiftArray)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "result not found",
-        });
-
-      const dutyNumberArray = resultShiftArray.map(
-        ({ dutyNumber }) => dutyNumber
-      );
-
       const [latestPrefix] = prefix.map(({ prefixes }) =>
         prefixes.map((prefix) => prefix)
       );
 
-      if (!dutyNumberArray || !prefix)
+      if (!latestPrefix)
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "failed parsing data",
+          code: "NOT_FOUND",
+          message: "latest prefix not found",
         });
 
-      const validatedLatestPrefix = prefixSchema.safeParse(latestPrefix);
-
-      if (!validatedLatestPrefix.success) throw validatedLatestPrefix.error;
-
-      let combinedDutyName = new Array<string>(7);
+      const combinedDutyName = new Array<string>(7);
 
       for (let i = 0; i < combinedDutyName.length; i++) {
-        const currentPrefix = validatedLatestPrefix.data[i] as string;
-        const dutyNumber = dutyNumberArray[i] as string;
-        console.log(currentPrefix, dutyNumber);
+        const correspondingPrefix = latestPrefix[i] as string;
+        const correspondingShift = input.shiftArray[i] as string;
+        const isShiftName = correspondingShift.match(abbreviatedDutyNumber);
 
-        combinedDutyName = [
-          ...dutyNumberArray,
-          abbreviatedDutyNumber.test(dutyNumber)
-            ? currentPrefix.concat(dutyNumber)
-            : dutyNumber,
-        ];
+        combinedDutyName[i] = isShiftName
+          ? correspondingPrefix.concat(correspondingShift)
+          : correspondingShift;
       }
 
-      // const compleShiftNameArray = .map(
-      //   (prefix, i) => {
-      //     return !threeDigitShiftRegex.test(completeShift[i] as string)
-      //       ? (completeShift[i] as string)
-      //       : prefix.concat(completeShift[i] as string);
-      //   }
-      // );
+      const resultShiftArray = await ctx.prisma.shifts.findMany({
+        where: { dutyNumber: { in: combinedDutyName } },
+      });
 
-      return combinedDutyName;
+      console.log(resultShiftArray);
+
+      return resultShiftArray;
     }),
 });

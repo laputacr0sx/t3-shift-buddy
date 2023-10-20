@@ -20,18 +20,16 @@ function WeekRow({}) {
     error: completeError,
   } = api.shiftController.getWeekShiftWithPrefix.useQuery(
     {
-      shiftArray: ["101", "102", "103", "104", "105", "106", "RD"],
+      shiftArray: ["159", "RD", "101", "102", "104", "509", "CL"],
     },
-    {
-      refetchOnWindowFocus: false,
-    }
+    {}
   );
 
   if (completeIsLoading) return <p>Loading Detail</p>;
 
   if (completeError) return <h1>{completeError.message}</h1>;
 
-  return <div>{data}</div>;
+  return data.map((shift) => <p key={shift.id}>{shift.dutyNumber}</p>);
 }
 
 export default WeekRow;

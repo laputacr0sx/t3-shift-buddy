@@ -83,14 +83,16 @@ export const columns: ColumnDef<DayDetail>[] = [
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value: boolean) =>
-          table.toggleAllPageRowsSelected(!!value)
-        }
-        aria-label="Select all"
-        className="border-secondary"
-      />
+      <div className="block text-center align-middle">
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value: boolean) =>
+            table.toggleAllPageRowsSelected(!!value)
+          }
+          aria-label="Select all"
+          className="border-secondary"
+        />
+      </div>
     ),
     cell: ({ row }) => {
       return (
