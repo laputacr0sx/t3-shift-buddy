@@ -11,6 +11,7 @@ import Layout from "~/components/ui/layouts/AppLayout";
 import { workLocation } from "~/utils/customTypes";
 import { Button } from "~/components/ui/button";
 import { Minus, Plus, RotateCcw } from "lucide-react";
+import TableLoading from "~/components/TableLoading";
 
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
@@ -41,11 +42,14 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     data: shiftDetails,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
-  } = api.shiftController.getWeekShiftWithPrefix.useQuery({
-    shiftArray: legitRawShiftArray,
-  });
+  } = api.shiftController.getWeekShiftWithPrefix.useQuery(
+    {
+      shiftArray: legitRawShiftArray,
+    },
+    { refetchOnWindowFocus: false }
+  );
 
-  if (shiftsArrayLoading) return <>Loading Shifts...</>;
+  if (shiftsArrayLoading) return <TableLoading />;
   if (shiftsArrayError) return <>Shifts Error </>;
 
   const nextWeekDates = getNextWeekDates(userWeekNumberInput);
