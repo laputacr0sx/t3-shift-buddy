@@ -7,7 +7,6 @@ import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
-import useShiftsArray from "~/hooks/useShiftsArray";
 import Layout from "~/components/ui/layouts/AppLayout";
 import { workLocation } from "~/utils/customTypes";
 import { Button } from "~/components/ui/button";
@@ -38,47 +37,28 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
   });
 
-  const compleShiftNameArray = useShiftsArray(legitRawShiftArray);
-  const compleShiftNameArraySchema = z.array(z.string());
-  const validatedCompleShiftNameArray =
-    compleShiftNameArraySchema.safeParse(compleShiftNameArray);
-
-  if (!validatedCompleShiftNameArray.success) {
-    console.error(validatedCompleShiftNameArray.error);
-    return;
-  }
-
   const {
-    data: shiftsArray,
+    data: shiftDetails,
     isLoading: shiftsArrayLoading,
     error: shiftsArrayError,
-  } = api.shiftController.getWeekShift.useQuery(
-    {
-      shiftArray: validatedCompleShiftNameArray.data,
-    },
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
+  } = api.shiftController.getWeekShiftWithPrefix.useQuery({
+    shiftArray: legitRawShiftArray,
+  });
 
   if (shiftsArrayLoading) return <>Loading Shifts...</>;
-
   if (shiftsArrayError) return <>Shifts Error </>;
 
   const nextWeekDates = getNextWeekDates(userWeekNumberInput);
 
   const combinedDetail = new Array<DayDetail>(7);
-
-  for (let i = 0; i < validatedCompleShiftNameArray.data.length; i++) {
-    const exactShift = shiftsArray.filter(
-      (shift) => shift.dutyNumber === validatedCompleShiftNameArray.data[i]
+  for (let i = 0; i < shiftDetails.combinedDutyName.length; i++) {
+    const [shift] = shiftDetails.resultShiftArray.filter(
+      (shift) => shift.dutyNumber === shiftDetails.combinedDutyName[i]
     );
-    const [shift] = exactShift;
-
     combinedDetail[i] = {
       date: nextWeekDates[i]?.toISOString(),
-      title: validatedCompleShiftNameArray.data[i],
-      dutyNumber: shift?.dutyNumber || validatedCompleShiftNameArray.data[i],
+      title: shiftDetails.combinedDutyName[i],
+      dutyNumber: shift?.dutyNumber || shiftDetails.combinedDutyName[i],
       ...shift,
     } as DayDetail;
   }
@@ -117,7 +97,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
         </Button>
       </div>
       <div className="flex h-full w-screen flex-col gap-2 py-2">
-        {validatedCompleShiftNameArray.success ? (
+        {shiftDetails ? (
           <DataTable columns={columns} data={combinedDetail} />
         ) : null}
       </div>

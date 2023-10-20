@@ -1,19 +1,13 @@
 import { TRPCError } from "@trpc/server";
 
-import { ZodError, z } from "zod";
+import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 import {
   abbreviatedDutyNumber,
   dutyInputRegExValidator,
-  prefixRegex,
   sevenShiftRegex,
 } from "~/utils/regex";
-
-const prefixSchema = z.string().regex(prefixRegex).array();
-type PrefixSchema = z.infer<typeof prefixSchema>;
-const dutyNumberSchema = z.string().regex(sevenShiftRegex);
-type DutyNumber = z.infer<typeof dutyNumberSchema>;
 
 export const shiftControllerRouter = createTRPCRouter({
   getShiftGivenDutyNumber: publicProcedure
@@ -85,6 +79,6 @@ export const shiftControllerRouter = createTRPCRouter({
 
       console.log(resultShiftArray);
 
-      return resultShiftArray;
+      return { combinedDutyName, resultShiftArray };
     }),
 });
