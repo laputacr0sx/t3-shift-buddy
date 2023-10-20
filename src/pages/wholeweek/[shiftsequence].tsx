@@ -1,31 +1,20 @@
 import React, { useState, type ReactElement } from "react";
 import moment from "moment";
-import { z } from "zod";
 import { type ParsedUrlQuery, encode } from "querystring";
 import { columns } from "~/components/ShiftTable/Shifts-column";
 import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
-import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
+import { sevenShiftRegex } from "~/utils/regex";
 import Layout from "~/components/ui/layouts/AppLayout";
-import { workLocation } from "~/utils/customTypes";
+import {
+  type DayDetail,
+  type RawShiftArray,
+  rawShiftArraySchema,
+  shiftSequenceSchema,
+} from "~/utils/customTypes";
 import TableLoading from "~/components/TableLoading";
 import WeekNumber from "~/components/WeekNumber";
-
-export const dayDetailSchema = z.object({
-  date: z.string().datetime(),
-  title: z.string(),
-  id: z.string().uuid(),
-  dutyNumber: z.string().regex(dutyInputRegExValidator),
-  bNL: z.enum(workLocation),
-  bNT: z.string(),
-  bFT: z.string(),
-  bFL: z.enum(workLocation),
-  duration: z.string(),
-  remarks: z.string(),
-});
-
-export type DayDetail = z.infer<typeof dayDetailSchema>;
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   const [userWeekNumberInput, setUserWeekNumberInput] = useState(
@@ -80,14 +69,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     </React.Fragment>
   );
 }
-
-export const shiftSequenceSchema = z.string();
-
-export const rawShiftArraySchema = z.array(z.string().regex(sevenShiftRegex));
-
-export type RawShiftArray = {
-  legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;
-};
 
 export const getServerSideProps = ({
   params,
