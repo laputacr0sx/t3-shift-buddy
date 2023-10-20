@@ -12,6 +12,7 @@ import { workLocation } from "~/utils/customTypes";
 import { Button } from "~/components/ui/button";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import TableLoading from "~/components/TableLoading";
+import WeekNumber from "~/components/WeekNumber";
 
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
@@ -69,37 +70,10 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   return (
     <React.Fragment>
-      <div className="flex items-center justify-center pt-2 font-mono font-extrabold">
-        週數
-        <Button
-          onClick={() => {
-            setUserWeekNumberInput(() => {
-              return userWeekNumberInput + 1;
-            });
-          }}
-        >
-          <Plus size={20} />
-        </Button>
-        {userWeekNumberInput}
-        <Button
-          onClick={() => {
-            setUserWeekNumberInput(() => {
-              return userWeekNumberInput - 1;
-            });
-          }}
-        >
-          <Minus size={20} />
-        </Button>
-        <Button
-          onClick={() => {
-            setUserWeekNumberInput(() => {
-              return moment().week() + 1;
-            });
-          }}
-        >
-          <RotateCcw size={20} />
-        </Button>
-      </div>
+      <WeekNumber
+        userWeekNumberInput={userWeekNumberInput}
+        setUserWeekNumberInput={setUserWeekNumberInput}
+      />
       <div className="flex h-full w-screen flex-col gap-2 py-2">
         {shiftDetails ? (
           <DataTable columns={columns} data={combinedDetail} />
