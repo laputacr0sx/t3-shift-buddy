@@ -9,8 +9,6 @@ import { getNextWeekDates } from "~/utils/helper";
 import { dutyInputRegExValidator, sevenShiftRegex } from "~/utils/regex";
 import Layout from "~/components/ui/layouts/AppLayout";
 import { workLocation } from "~/utils/customTypes";
-import { Button } from "~/components/ui/button";
-import { Minus, Plus, RotateCcw } from "lucide-react";
 import TableLoading from "~/components/TableLoading";
 import WeekNumber from "~/components/WeekNumber";
 
