@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  type Row,
 } from "@tanstack/react-table";
 import React from "react";
 
@@ -17,13 +18,12 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Button } from "../ui/button";
-import { dayDetailSchema } from "~/pages/wholeweek/[shiftsequence]";
-import moment from "moment";
-import { convertDurationDecimal } from "~/utils/helper";
-import { toast } from "../ui/useToast";
+
+import { tableCopyHandler } from "~/utils/helper";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
+import { type DayDetail } from "~/utils/customTypes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,38 +46,10 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const handleCopyEvent = async () => {
-    if (!navigator || !navigator.clipboard)
-      throw Error("No navigator object nor clipboard found");
-
-    const selectedShifts = table.getSelectedRowModel().flatRows;
-
-    let completeString = "```\n";
-    for (const dayDetail of selectedShifts) {
-      const validatedDayDetail = dayDetailSchema.safeParse(dayDetail.original);
-
-      if (!validatedDayDetail.success) {
-        break;
-      }
-
-      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
-        validatedDayDetail.data;
-
-      const date = moment(validatedDayDetail.data.date)
-        .locale("zh-hk")
-        .format("DD/MM ddd");
-      const durationDecimal = convertDurationDecimal(duration);
-      const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
-
-      completeString = completeString + dayString;
-    }
-    completeString = completeString + "```";
-
-    await navigator.clipboard.writeText(completeString);
-    toast({
-      description: "已複製資料",
-    });
-  };
+  const isSomeRowSelected = table.getIsSomeRowsSelected();
+  const selectedShifts = isSomeRowSelected
+    ? (table.getSelectedRowModel().flatRows as Row<DayDetail>[])
+    : (table.getRowModel().flatRows as Row<DayDetail>[]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -136,24 +108,31 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <Separator className="w-[90%]" />
-      <Button
-        className="my-2 self-center align-middle font-light"
-        disabled={JSON.stringify(rowSelection) === "{}"}
-        onClick={() => void handleCopyEvent()}
-      >
-        複製
-        <span className="font-extrabold">已選</span>
-        資料
-      </Button>
-      <Button
-        className="my-2 self-center align-middle font-light"
-        disabled={JSON.stringify(rowSelection) !== "{}"}
-        onClick={() => void handleCopyEvent()}
-      >
-        複製
-        <span className="font-extrabold">整週</span>
-        資料
-      </Button>
+      <div className="flex items-center justify-around gap-4">
+        <Button
+          className="my-2 self-center align-middle font-light"
+          variant={"outline"}
+          // disabled={JSON.stringify(rowSelection) === "{}"}
+          disabled={!isSomeRowSelected}
+          onClick={() => tableCopyHandler(selectedShifts)}
+        >
+          複製
+          <span className="font-extrabold">已選</span>
+          資料
+        </Button>
+        <Button
+          className="my-2 self-center align-middle font-light"
+          // disabled={JSON.stringify(rowSelection) !== "{}"}
+          disabled={isSomeRowSelected}
+          variant={"outline"}
+          onClick={() => tableCopyHandler(selectedShifts)}
+        >
+          複製
+          <span className="font-extrabold">整週</span>
+          資料
+        </Button>
+      </div>
+
       <Link
         href={`whatsapp://send?text=`}
         className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"

@@ -1,7 +1,12 @@
 import type { Shifts } from "@prisma/client";
-import { type WeekComplex } from "./customTypes";
+import {
+  type DayDetail,
+  dayDetailSchema,
+  type WeekComplex,
+} from "./customTypes";
 import { toast } from "~/components/ui/useToast";
 import moment from "moment";
+import { type Row } from "@tanstack/react-table";
 
 export function getNextWeekDates(weekNumber?: number) {
   const validWeekNumber = weekNumber ? weekNumber : moment().week() + 1;
@@ -82,3 +87,34 @@ export const handleOnClickCopyEvent = async (shift: Shifts) => {
     description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``,
   });
 };
+
+export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
+  if (!navigator || !navigator.clipboard)
+    throw Error("No navigator object nor clipboard found");
+
+  let completeString = "```\n";
+  for (const dayDetail of selectedShifts) {
+    const validatedDayDetail = dayDetailSchema.safeParse(dayDetail.original);
+
+    if (!validatedDayDetail.success) {
+      break;
+    }
+
+    const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+      validatedDayDetail.data;
+
+    const date = moment(validatedDayDetail.data.date)
+      .locale("zh-hk")
+      .format("DD/MM ddd");
+    const durationDecimal = convertDurationDecimal(duration);
+    const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
+
+    completeString = completeString + dayString;
+  }
+  completeString = completeString + "```";
+
+  await navigator.clipboard.writeText(completeString);
+  toast({
+    description: "已複製資料",
+  });
+}

@@ -1,12 +1,10 @@
-import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import moment from "moment";
-import ChineseCalendar from "../ChineseCalendar";
+import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { type DayDetail } from "~/utils/customTypes";
 
-import { Checkbox } from "~/components/ui/checkbox";
-import { type DayDetail } from "~/pages/wholeweek/[shiftsequence]";
-import { AddToCalendarButton } from "add-to-calendar-button-react";
-import { Button } from "../ui/button";
 import { atcb_action } from "add-to-calendar-button";
+import { Checkbox } from "~/components/ui/checkbox";
+import { Button } from "../ui/button";
 import { convertDurationDecimal } from "~/utils/helper";
 
 // This type is used to define the shape of our data.
@@ -18,11 +16,11 @@ export const columns: ColumnDef<DayDetail>[] = [
   {
     id: "add_to_calendar",
     header: () => (
-      <span className="block text-center align-middle text-purple-700 dark:text-purple-300">
+      <span className="block text-center align-middle text-stone-700 dark:text-stone-300">
         加到日曆
       </span>
     ),
-    // <span>加到日曆</span>,
+
     cell: ({ row }) => {
       const dutyNumber: string = row.getValue("dutyNumber");
       const bNL: string = row.getValue("bNL");
@@ -49,7 +47,7 @@ export const columns: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
-              description: `${bFL} ${durationDecimal} ${remarks} `,
+              description: `[${bFL}] ${durationDecimal} <${remarks}> `,
               endTime: bFT,
               hideIconButton: true,
               hideBackground: true,
@@ -62,22 +60,7 @@ export const columns: ColumnDef<DayDetail>[] = [
         >
           加到日曆
         </Button>
-      ) : // <AddToCalendarButton
-      //   name={dutyNumber}
-      //   options={["Google", "iCal"]}
-      //   location={bNL}
-      //   startDate={bND}
-      //   endDate={bFD}
-      //   startTime={bNT}
-      //   endTime={bFT}
-      //   description=""
-      //   hideIconButton
-      //   hideBackground
-      //   label="加至日曆"
-      //   buttonStyle="default"
-      //   timeZone="Asia/Hong_Kong"
-      // ></AddToCalendarButton>
-      null;
+      ) : null;
     },
   },
   {
@@ -125,7 +108,6 @@ export const columns: ColumnDef<DayDetail>[] = [
           const date = row.getValue("date") satisfies Date;
           const formattedDate = moment(date).locale("zh-hk").format("DD/MM dd");
           return (
-            // <ChineseCalendar date={date} />
             <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
               {formattedDate}
             </span>

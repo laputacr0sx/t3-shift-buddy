@@ -77,8 +77,6 @@ export const shiftControllerRouter = createTRPCRouter({
         where: { dutyNumber: { in: combinedDutyName } },
       });
 
-      console.log(resultShiftArray);
-
       return { combinedDutyName, resultShiftArray };
     }),
 });

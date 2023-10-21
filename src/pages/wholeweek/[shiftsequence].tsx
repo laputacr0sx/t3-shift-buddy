@@ -38,16 +38,16 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   );
 
   if (shiftsArrayLoading) return <TableLoading />;
-  if (shiftsArrayError) return <>Shifts Error </>;
+  if (shiftsArrayError) return <>{shiftsArrayError.message}</>;
 
   const nextWeekDates = getNextWeekDates(userWeekNumberInput);
 
-  const combinedDetail = new Array<DayDetail>(7);
+  const dayDetails = new Array<DayDetail>(7);
   for (let i = 0; i < shiftDetails.combinedDutyName.length; i++) {
     const [shift] = shiftDetails.resultShiftArray.filter(
       (shift) => shift.dutyNumber === shiftDetails.combinedDutyName[i]
     );
-    combinedDetail[i] = {
+    dayDetails[i] = {
       date: nextWeekDates[i]?.toISOString(),
       title: shiftDetails.combinedDutyName[i],
       dutyNumber: shift?.dutyNumber || shiftDetails.combinedDutyName[i],
@@ -63,7 +63,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
       />
       <div className="flex h-full w-screen flex-col gap-2 py-2">
         {shiftDetails ? (
-          <DataTable columns={columns} data={combinedDetail} />
+          <DataTable columns={columns} data={dayDetails} />
         ) : null}
       </div>
     </React.Fragment>
