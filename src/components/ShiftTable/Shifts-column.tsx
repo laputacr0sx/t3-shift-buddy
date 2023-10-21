@@ -47,7 +47,7 @@ export const columns: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
-              description: `[${bFL}] ${durationDecimal} <${remarks}> `,
+              description: `[${bFL}] ${durationDecimal} ${remarks}`,
               endTime: bFT,
               hideIconButton: true,
               hideBackground: true,

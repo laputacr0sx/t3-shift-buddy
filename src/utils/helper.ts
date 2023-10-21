@@ -7,6 +7,7 @@ import {
 import { toast } from "~/components/ui/useToast";
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
+import { completeShiftNameRegex } from "./regex";
 
 export function getNextWeekDates(weekNumber?: number) {
   const validWeekNumber = weekNumber ? weekNumber : moment().week() + 1;
@@ -94,21 +95,25 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
 
   let completeString = "```\n";
   for (const dayDetail of selectedShifts) {
-    const validatedDayDetail = dayDetailSchema.safeParse(dayDetail.original);
+    let dayString = "";
 
-    if (!validatedDayDetail.success) {
-      break;
+    if (!dayDetail.original.title.match(completeShiftNameRegex)) {
+      const { dutyNumber } = dayDetail.original;
+
+      const date = moment(dayDetail.original.date)
+        .locale("zh-hk")
+        .format("DD/MM(dd)");
+
+      dayString = `${date} ${dutyNumber}\n`;
+    } else {
+      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+        dayDetail.original;
+      const date = moment(dayDetail.original.date)
+        .locale("zh-hk")
+        .format("DD/MM(dd)");
+      const durationDecimal = convertDurationDecimal(duration);
+      dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
     }
-
-    const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
-      validatedDayDetail.data;
-
-    const date = moment(validatedDayDetail.data.date)
-      .locale("zh-hk")
-      .format("DD/MM ddd");
-    const durationDecimal = convertDurationDecimal(duration);
-    const dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
-
     completeString = completeString + dayString;
   }
   completeString = completeString + "```";
