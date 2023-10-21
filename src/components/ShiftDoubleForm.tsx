@@ -110,6 +110,9 @@ export default function shiftDoubleForm() {
                   <Input
                     className="font-mono tracking-wide"
                     placeholder="101102103104105106RD"
+                    onFocus={() => {
+                      console.log("input focused");
+                    }}
                     {...field}
                   />
                 </FormControl>

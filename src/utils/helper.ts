@@ -1,9 +1,5 @@
 import type { Shifts } from "@prisma/client";
-import {
-  type DayDetail,
-  dayDetailSchema,
-  type WeekComplex,
-} from "./customTypes";
+import { type DayDetail, type WeekComplex } from "./customTypes";
 import { toast } from "~/components/ui/useToast";
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
