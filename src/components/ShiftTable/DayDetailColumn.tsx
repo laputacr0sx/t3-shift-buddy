@@ -12,7 +12,7 @@ import { convertDurationDecimal } from "~/utils/helper";
 
 const columnHelper = createColumnHelper<DayDetail>();
 
-export const columns: ColumnDef<DayDetail>[] = [
+export const DayDetailColumn: ColumnDef<DayDetail>[] = [
   {
     id: "add_to_calendar",
     header: () => (

@@ -10,6 +10,10 @@ import {
 } from "~/utils/regex";
 
 export const shiftControllerRouter = createTRPCRouter({
+  getAllShifts: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.shifts.findMany();
+  }),
+
   getShiftGivenDutyNumber: publicProcedure
     .input(
       z.object({

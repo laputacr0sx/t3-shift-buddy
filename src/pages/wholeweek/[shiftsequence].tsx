@@ -1,8 +1,8 @@
 import React, { useState, type ReactElement } from "react";
 import moment from "moment";
 import { type ParsedUrlQuery, encode } from "querystring";
-import { columns } from "~/components/ShiftTable/Shifts-column";
-import { DataTable } from "~/components/ShiftTable/Shifts-data-table";
+import { DayDetailColumn } from "~/components/ShiftTable/DayDetailColumn";
+import { DayDetailTable } from "~/components/ShiftTable/DayDetailTable";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
 import { sevenShiftRegex } from "~/utils/regex";
@@ -63,7 +63,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
       />
       <div className="flex h-full w-screen flex-col gap-2 py-2">
         {shiftDetails ? (
-          <DataTable columns={columns} data={dayDetails} />
+          <DayDetailTable columns={DayDetailColumn} data={dayDetails} />
         ) : null}
       </div>
     </React.Fragment>
