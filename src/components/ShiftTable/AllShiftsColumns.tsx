@@ -1,5 +1,6 @@
 import { type Shifts } from "@prisma/client";
 import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import { convertDurationDecimal } from "~/utils/helper";
 
 const columnHelper = createColumnHelper<Shifts>();
 
@@ -37,9 +38,11 @@ export const AllShiftsColumns: ColumnDef<Shifts>[] = [
         ),
         cell: ({ row }) => {
           const duration: string = row.getValue("duration");
+          const durationDecimal = convertDurationDecimal(duration);
+
           return (
             <span className="block py-2 text-center align-middle font-medium text-slate-600 dark:text-slate-200">
-              {duration}
+              {durationDecimal}
             </span>
           );
         },

@@ -1,8 +1,7 @@
-import { type NextPage } from "next";
 import { Separator } from "~/components/ui/separator";
 import ShiftDoubleForm from "~/components/ShiftDoubleForm";
-import { NextPageWithLayout } from "./_app";
-import { ReactElement } from "react";
+import { type NextPageWithLayout } from "./_app";
+import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const Home: NextPageWithLayout = () => (
