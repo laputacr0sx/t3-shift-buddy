@@ -10,9 +10,38 @@ import {
 } from "~/utils/regex";
 
 export const shiftControllerRouter = createTRPCRouter({
-  getAllShifts: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.shifts.findMany();
-  }),
+  getAllShifts: publicProcedure.query(({ ctx }) =>
+    ctx.prisma.shifts.findMany()
+  ),
+
+  // getAllShiftsWithInfinite: publicProcedure
+  //   .input(
+  //     z.object({
+  //       limit: z.number().min(1).max(100).nullish(),
+  //       cursor: z.number().nullish(), // <-- "cursor" needs to exist, but can be any type
+  //     })
+  //   )
+  //   .query(async ({ input, ctx }) => {
+  //     const limit = input.limit ?? 50;
+  //     const { cursor } = input;
+
+  //     const items = await ctx.prisma.shifts.findMany({
+  //       take: limit + 1, // get an extra item at the end which we'll use as next cursor
+  //       cursor: cursor ? { myCursor: cursor } : undefined,
+  //       orderBy: {
+  //         myCursor: "asc",
+  //       },
+  //     });
+  //     let nextCursor: typeof cursor | undefined = undefined;
+  //     if (items.length > limit) {
+  //       const nextItem = items.pop();
+  //       nextCursor = nextItem!.myCursor;
+  //     }
+  //     return {
+  //       items,
+  //       nextCursor,
+  //     };
+  //   }),
 
   getShiftGivenDutyNumber: publicProcedure
     .input(
