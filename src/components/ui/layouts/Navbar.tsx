@@ -1,4 +1,4 @@
-import { Home, Camera } from "lucide-react";
+import { Home, Table } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
@@ -15,7 +15,7 @@ function Navbar() {
         </li>
         <li>
           <Link href={"/allShifts"} className={"flex flex-row "}>
-            <Camera className="m-2" />
+            <Table className="m-2" />
           </Link>
         </li>
       </ul>

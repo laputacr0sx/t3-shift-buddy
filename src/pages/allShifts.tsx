@@ -6,6 +6,8 @@ import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const AllShifts: NextPageWithLayout = () => {
+  const { data } = api.prefixController.getAllAvailablePrefixes.useQuery();
+
   const {
     data: allShifts,
     isLoading: shiftsLoading,
@@ -18,9 +20,11 @@ const AllShifts: NextPageWithLayout = () => {
 
   if (shiftsError) return <>{shiftsError.message}</>;
 
+  console.log(data);
+
   return (
-    <div className="h-full w-screen py-12">
-      <AllShiftsTable columns={AllShiftsColumns} data={allShifts} />;
+    <div className="h-full w-screen py-4">
+      <AllShiftsTable columns={AllShiftsColumns} data={allShifts} />
     </div>
   );
 };

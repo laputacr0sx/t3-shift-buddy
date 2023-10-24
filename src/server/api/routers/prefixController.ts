@@ -4,6 +4,20 @@ import { prefixRegex } from "~/utils/regex";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const prefixControllerRouter = createTRPCRouter({
+  getAllAvailablePrefixes: publicProcedure.query(async ({ ctx }) => {
+    const all101Shifts = await ctx.prisma.shifts.findMany({
+      where: {
+        dutyNumber: {
+          contains: "159",
+        },
+      },
+    });
+    const result = all101Shifts.map(
+      ({ dutyNumber }) => dutyNumber.match(prefixRegex)?.[0]
+    );
+    return result;
+  }),
+
   getCurrentPrefix: publicProcedure.query(async ({ ctx }) => {
     const result = await ctx.prisma.weekPrefix.findMany({
       orderBy: { updatedAt: "desc" },
