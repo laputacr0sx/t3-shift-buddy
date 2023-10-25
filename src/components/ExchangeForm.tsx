@@ -161,7 +161,7 @@ export default function ExchangeForm() {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "dd/MM/yyyy EE")
+                              format(field.value, "dd/MM/yyyy EEEE")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -188,7 +188,7 @@ export default function ExchangeForm() {
       </CardContent>
       <CardFooter>
         <div className="flex justify-center gap-8">
-          <Button type="submit" variant={"secondary"}>
+          <Button type="submit" variant={"secondary"} disabled>
             生成調更表
           </Button>
           <Button
