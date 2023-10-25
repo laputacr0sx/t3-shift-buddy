@@ -4,11 +4,7 @@ import ExchangeForm from "~/components/ExchangeForm";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 function Exchange() {
-  return (
-    <div>
-      <ExchangeForm />
-    </div>
-  );
+  return <ExchangeForm />;
 }
 
 Exchange.getLayout = function getLayout(page: ReactElement) {
