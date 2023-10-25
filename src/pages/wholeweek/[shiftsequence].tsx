@@ -56,7 +56,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   }
 
   return (
-    <React.Fragment>
+    <div className="flex flex-col">
       <WeekNumber
         userWeekNumberInput={userWeekNumberInput}
         setUserWeekNumberInput={setUserWeekNumberInput}
@@ -66,7 +66,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
           <DayDetailTable columns={DayDetailColumn} data={dayDetails} />
         ) : null}
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 

@@ -59,17 +59,18 @@ export default function SearchShiftForm() {
                   />
                 </FormControl>
                 <FormDescription className=" break-words font-mono tracking-wide">
+                  <br />
                   如更份為
                   <br />
-                  F15101
+                  J15101
                   <br />
-                  F15102
+                  J15102
                   <br />
-                  C14103
+                  D14103
                   <br />
-                  F15104
+                  J15104
                   <br />
-                  F15105
+                  J15105
                   <br />
                   B75106
                   <br />
@@ -81,9 +82,18 @@ export default function SearchShiftForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" variant={"secondary"}>
-            查下週更資料
-          </Button>
+          <div className="flex justify-center gap-8">
+            <Button type="submit">查下週更資料</Button>
+            <Button
+              type="reset"
+              variant={"destructive"}
+              onClick={() => {
+                rowForm.reset();
+              }}
+            >
+              重置
+            </Button>
+          </div>
         </form>
       </Form>
     </>
