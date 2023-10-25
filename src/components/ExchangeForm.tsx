@@ -123,6 +123,47 @@ export default function ExchangeForm() {
                   </FormItem>
                 )}
               />
+            </div>
+
+            <FormField
+              control={exchangeForm.control}
+              name="candidate1.correspondingDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>想調邊日？</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "dd/MM/yyyy EEEE")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-around">
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.rowNumber"
@@ -142,42 +183,20 @@ export default function ExchangeForm() {
                   </FormItem>
                 )}
               />
-            </div>
-            <div>
               <FormField
                 control={exchangeForm.control}
-                name="candidate1.correspondingDate"
+                name="candidate1.assignedDuty"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>想調邊日？</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "dd/MM/yyyy EEEE")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                  <FormItem>
+                    <FormLabel>調更詳情</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-20 font-mono tracking-wide"
+                        {...field}
+                        placeholder="J15101"
+                        maxLength={6}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
