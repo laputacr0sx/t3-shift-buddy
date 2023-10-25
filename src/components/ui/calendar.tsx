@@ -74,8 +74,6 @@ function Calendar({ className, classNames, ...props }: CalendarProps) {
       toMonth={moment().add(4, "w").toDate()}
       components={{
         Row: OnlyFutureRow,
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
       {...props}
     />

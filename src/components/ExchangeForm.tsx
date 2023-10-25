@@ -73,11 +73,11 @@ export default function ExchangeForm() {
 
   return (
     <Card className="h-fit">
-      <div className="flex justify-between">
-        <CardHeader className="pb-1">
+      <div className="flex justify-between pb-4">
+        <CardHeader>
           <CardTitle>Candidate 1</CardTitle>
         </CardHeader>
-        <CardHeader className="pb-1">
+        <CardHeader>
           <CardTitle>週數：{weekNumber}</CardTitle>
         </CardHeader>
       </div>
@@ -100,6 +100,7 @@ export default function ExchangeForm() {
                         {...field}
                         placeholder="9999XX"
                         maxLength={6}
+                        type="number"
                       />
                     </FormControl>
                     <FormMessage />
@@ -116,6 +117,7 @@ export default function ExchangeForm() {
                       <Input
                         className="w-24 font-mono tracking-wide"
                         {...field}
+                        type="text"
                         placeholder="CHANTM for CHAN TAI MAN"
                       />
                     </FormControl>
@@ -172,7 +174,7 @@ export default function ExchangeForm() {
                     <FormLabel>編定輪次</FormLabel>
                     <FormControl>
                       <Input
-                        className="w-14 font-mono tracking-wide"
+                        className="w-16 font-mono tracking-wide"
                         {...field}
                         placeholder="A52"
                         maxLength={4}
@@ -191,10 +193,10 @@ export default function ExchangeForm() {
                     <FormLabel>調更詳情</FormLabel>
                     <FormControl>
                       <Input
-                        className="w-20 font-mono tracking-wide"
+                        className="w-24 font-mono tracking-wide"
                         {...field}
                         placeholder="J15101"
-                        maxLength={6}
+                        maxLength={7}
                       />
                     </FormControl>
                     <FormMessage />
