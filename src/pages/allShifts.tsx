@@ -4,10 +4,10 @@ import { api } from "~/utils/api";
 import { type NextPageWithLayout } from "./_app";
 import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
+import TableLoading from "~/components/TableLoading";
+import { Slider } from "~/components/ui/slider";
 
 const AllShifts: NextPageWithLayout = () => {
-  const { data } = api.prefixController.getAllAvailablePrefixes.useQuery();
-
   const {
     data: allShifts,
     isLoading: shiftsLoading,
@@ -16,14 +16,20 @@ const AllShifts: NextPageWithLayout = () => {
     refetchOnWindowFocus: false,
   });
 
-  if (shiftsLoading) return <>Loading Page</>;
+  if (shiftsLoading) return <TableLoading />;
 
   if (shiftsError) return <>{shiftsError.message}</>;
 
-  console.log(data);
-
   return (
-    <div className="h-full w-screen py-4">
+    <div className="flex h-full w-screen flex-col gap-4">
+      <Slider
+        defaultValue={[7]}
+        min={6}
+        max={8.25}
+        step={0.25}
+        className="py-2"
+      />
+
       <AllShiftsTable columns={AllShiftsColumns} data={allShifts} />
     </div>
   );

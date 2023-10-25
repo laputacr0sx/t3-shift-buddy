@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -16,34 +14,14 @@ import {
 import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
-import { Separator } from "./ui/separator";
 
-import { shiftCodeRegex, shiftRowRegex } from "~/utils/regex";
-
-const codeFormSchema = z.object({
-  shiftCode: z
-    .string()
-    .regex(
-      shiftCodeRegex,
-      `請正確輸入更號[時間表][番號]或[番號], 例：D15101或101`
-    ),
-});
+import { shiftRowRegex } from "~/utils/regex";
 
 const rowFormSchema = z.object({
   shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
 });
 
-export default function shiftDoubleForm() {
-  // 1. Define your form.
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const codeForm = useForm<z.infer<typeof codeFormSchema>>({
-    resolver: zodResolver(codeFormSchema),
-    defaultValues: {
-      shiftCode: "",
-    },
-  });
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export default function SearchShiftForm() {
   const rowForm = useForm<z.infer<typeof rowFormSchema>>({
     resolver: zodResolver(rowFormSchema),
     defaultValues: {
@@ -51,50 +29,12 @@ export default function shiftDoubleForm() {
     },
   });
 
-  // 2. Define submit handlers.
   async function onSubmitForRow(values: z.infer<typeof rowFormSchema>) {
-    // await router.push(`/weekquery/${values.shiftRow}`);
     await router.push(`/wholeweek/${values.shiftRow}`);
-  }
-
-  async function onSubmitForCode(values: z.infer<typeof codeFormSchema>) {
-    await router.push(`/simplequery/${values.shiftCode}`);
   }
 
   return (
     <>
-      <p>{JSON.stringify(rowForm.control.getFieldState)}</p>
-      <Form {...codeForm}>
-        <form
-          onSubmit={codeForm.handleSubmit(onSubmitForCode)}
-          className="space-y-8 "
-        >
-          <FormField
-            control={codeForm.control}
-            name="shiftCode"
-            render={({ field }) => (
-              <FormItem className="">
-                <FormLabel>更號</FormLabel>
-                <FormControl>
-                  <Input
-                    className="font-mono tracking-wide"
-                    placeholder="D15159 / 159"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className=" break-words font-mono tracking-wide">
-                  請輸入想查找的更號
-                </FormDescription>
-                <FormMessage className=" tracking-wide" />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" variant={"secondary"}>
-            查更！
-          </Button>
-        </form>
-      </Form>
-      <Separator className={"my-4"} />
       <Form {...rowForm}>
         <form
           onSubmit={rowForm.handleSubmit(onSubmitForRow)}

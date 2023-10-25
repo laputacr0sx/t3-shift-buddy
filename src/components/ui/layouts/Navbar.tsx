@@ -7,6 +7,9 @@ import { UserButton } from "@clerk/nextjs";
 function Navbar() {
   return (
     <div className="sticky top-0 flex justify-between bg-navbar text-navbar-foreground ">
+      <div className="mx-2 self-center align-middle">
+        <UserButton afterSignOutUrl="/" />
+      </div>
       <ul className="flex flex-row justify-start gap-2 ">
         <li>
           <Link href={"/"} className={"flex flex-row "}>
@@ -19,9 +22,7 @@ function Navbar() {
           </Link>
         </li>
       </ul>
-      <div className="self-center align-middle">
-        <UserButton afterSignOutUrl="/" />
-      </div>
+
       <div>
         <ModeToggle />
       </div>
