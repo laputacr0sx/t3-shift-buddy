@@ -21,7 +21,7 @@ export default function Layout({ children }: PropType) {
       <div className="w-screen flex-none">
         <Navbar />
       </div>
-      <main className="flex min-h-screen w-auto justify-center overflow-y-hidden ">
+      <main className="flex min-h-[calc(100vh-64px)] w-auto justify-center overflow-y-hidden ">
         {children}
       </main>
       <Footer />

@@ -4,7 +4,8 @@ import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const Home: NextPageWithLayout = () => (
-  <div className="h-full md:max-w-screen-2xl ">
+  // <div className=" md:max-w-screen-2xl ">
+  <div>
     <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
       查更易
     </h1>
