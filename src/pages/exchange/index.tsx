@@ -1,14 +1,12 @@
 import React, { type ReactElement } from "react";
-import { Input } from "~/components/ui/input";
+import ExchangeForm from "~/components/ExchangeForm";
+
 import Layout from "~/components/ui/layouts/AppLayout";
 
 function Exchange() {
   return (
     <div>
-      <form action="">
-        <Input type="text" />
-        <Input type="button" value="button" />
-      </form>
+      <ExchangeForm />
     </div>
   );
 }
