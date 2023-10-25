@@ -13,7 +13,7 @@ function Navbar() {
         {isSignedIn ? (
           <UserButton afterSignOutUrl="/" />
         ) : (
-          <SignInButton>
+          <SignInButton mode="modal">
             <UserCircle2 />
           </SignInButton>
         )}
