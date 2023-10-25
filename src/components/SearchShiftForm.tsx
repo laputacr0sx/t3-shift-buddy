@@ -51,7 +51,9 @@ export default function SearchShiftForm() {
                     className="font-mono tracking-wide"
                     placeholder="101102103104105106RD"
                     onFocus={() => {
-                      console.log("input focused");
+                      console.log(
+                        "input focused, custom keyboard should come up"
+                      );
                     }}
                     {...field}
                   />

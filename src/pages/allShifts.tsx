@@ -21,7 +21,7 @@ const AllShifts: NextPageWithLayout = () => {
   if (shiftsError) return <>{shiftsError.message}</>;
 
   return (
-    <div className="flex h-full w-screen flex-col gap-4">
+    <div className="flex h-full w-screen flex-col gap-4 py-2">
       <Slider
         defaultValue={[7]}
         min={6}

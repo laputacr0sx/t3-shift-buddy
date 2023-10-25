@@ -2,13 +2,15 @@ import { Home, Table } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
-import { UserButton } from "@clerk/nextjs";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 function Navbar() {
+  const { isSignedIn } = useUser();
+
   return (
     <div className="sticky top-0 flex justify-between bg-navbar text-navbar-foreground ">
       <div className="mx-2 self-center align-middle">
-        <UserButton afterSignOutUrl="/" />
+        {isSignedIn ? <UserButton afterSignOutUrl="/" /> : <SignInButton />}
       </div>
       <ul className="flex flex-row justify-start gap-2 ">
         <li>
@@ -22,7 +24,6 @@ function Navbar() {
           </Link>
         </li>
       </ul>
-
       <div>
         <ModeToggle />
       </div>
