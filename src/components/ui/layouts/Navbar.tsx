@@ -1,4 +1,4 @@
-import { Home, Table } from "lucide-react";
+import { Home, Table, UserCircle2 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
@@ -10,7 +10,13 @@ function Navbar() {
   return (
     <div className="sticky top-0 flex justify-between bg-navbar text-navbar-foreground ">
       <div className="mx-2 self-center align-middle">
-        {isSignedIn ? <UserButton afterSignOutUrl="/" /> : <SignInButton />}
+        {isSignedIn ? (
+          <UserButton afterSignOutUrl="/" />
+        ) : (
+          <SignInButton>
+            <UserCircle2 />
+          </SignInButton>
+        )}
       </div>
       <ul className="flex flex-row justify-start gap-2 ">
         <li>

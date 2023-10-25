@@ -4,7 +4,11 @@ import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const Page: NextPageWithLayout = () => {
-  return <SignIn />;
+  return (
+    <div className="pt-10">
+      <SignIn />
+    </div>
+  );
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {

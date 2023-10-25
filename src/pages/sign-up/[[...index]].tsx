@@ -4,7 +4,11 @@ import Layout from "~/components/ui/layouts/AppLayout";
 import { SignUp } from "@clerk/nextjs";
 
 const Page: NextPageWithLayout = () => {
-  return <SignUp />;
+  return (
+    <div className="pt-10">
+      <SignUp />
+    </div>
+  );
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {
