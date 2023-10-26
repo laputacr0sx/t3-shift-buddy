@@ -73,7 +73,7 @@ export default function ExchangeForm() {
 
   return (
     <Card className="h-fit">
-      <div className="flex justify-between pb-4">
+      <div className="flex justify-start pb-4">
         <CardHeader>
           <CardTitle>Candidate 1</CardTitle>
         </CardHeader>
@@ -87,16 +87,16 @@ export default function ExchangeForm() {
             onSubmit={exchangeForm.handleSubmit(onSubmitForExchange)}
             className="space-y-8"
           >
-            <div className="flex justify-between gap-4">
+            <div className="flex justify-start gap-2">
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.staffID"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="m-0">
                     <FormLabel>職員號碼</FormLabel>
                     <FormControl>
                       <Input
-                        className="w-20 font-mono tracking-wide"
+                        className=" w-20 font-mono tracking-wide"
                         {...field}
                         placeholder="9999XX"
                         maxLength={6}
@@ -121,6 +121,25 @@ export default function ExchangeForm() {
                         placeholder="CHANTM for CHAN TAI MAN"
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={exchangeForm.control}
+                name="candidate1.rowNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>編定輪次</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-16 font-mono tracking-wide"
+                        {...field}
+                        placeholder="A52"
+                        maxLength={4}
+                      />
+                    </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -165,22 +184,21 @@ export default function ExchangeForm() {
                 </FormItem>
               )}
             />
-            <div className="flex justify-around">
+            <div className="flex justify-start gap-2">
               <FormField
                 control={exchangeForm.control}
-                name="candidate1.rowNumber"
+                name="candidate1.assignedDuty"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>編定輪次</FormLabel>
+                    <FormLabel>原定更</FormLabel>
                     <FormControl>
                       <Input
-                        className="w-16 font-mono tracking-wide"
+                        className="w-24 font-mono tracking-wide"
                         {...field}
-                        placeholder="A52"
-                        maxLength={4}
+                        placeholder="J15101"
+                        maxLength={7}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -190,7 +208,7 @@ export default function ExchangeForm() {
                 name="candidate1.assignedDuty"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>調更詳情</FormLabel>
+                    <FormLabel>目標更</FormLabel>
                     <FormControl>
                       <Input
                         className="w-24 font-mono tracking-wide"
