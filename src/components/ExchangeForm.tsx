@@ -28,6 +28,9 @@ import { format } from "date-fns";
 import { cn } from "~/lib/utils";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
+import { Label } from "./ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { api } from "~/utils/api";
 
 // const staffExchangeFormSchema = z.object({
 //   staffID: z.string(),
@@ -70,6 +73,9 @@ export default function ExchangeForm() {
   ) {
     //
   }
+
+  const { data: prefixData } =
+    api.prefixController.getAllAvailablePrefixes.useQuery();
 
   return (
     <Card className="h-fit">
@@ -145,45 +151,55 @@ export default function ExchangeForm() {
                 )}
               />
             </div>
-
-            <FormField
-              control={exchangeForm.control}
-              name="candidate1.correspondingDate"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>想調邊日？</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "dd/MM/yyyy EEEE")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col justify-start gap-2">
+              <FormField
+                control={exchangeForm.control}
+                name="candidate1.correspondingDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>想調邊日？</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "dd-MM-yyyy E")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* <Tabs className="w-fit ">
+                <TabsList>
+                  {prefixData?.map((prefix) => (
+                    <TabsTrigger key={prefix} value={prefix ?? "random"}>
+                      {prefix}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs> */}
+            </div>
             <div className="flex justify-start gap-2">
               <FormField
                 control={exchangeForm.control}
@@ -203,6 +219,9 @@ export default function ExchangeForm() {
                   </FormItem>
                 )}
               />
+              <span className="items-center justify-center align-middle">
+                {"=>"}
+              </span>
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.assignedDuty"
@@ -225,21 +244,19 @@ export default function ExchangeForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
-        <div className="flex justify-center gap-8">
-          <Button type="submit" variant={"secondary"} disabled>
-            生成調更表
-          </Button>
-          <Button
-            type="reset"
-            variant={"destructive"}
-            onClick={() => {
-              exchangeForm.reset({ candidate1: {} });
-            }}
-          >
-            重置
-          </Button>
-        </div>
+      <CardFooter className="flex justify-start gap-2">
+        <Button type="submit" variant={"secondary"} disabled>
+          生成調更表
+        </Button>
+        <Button
+          type="reset"
+          variant={"destructive"}
+          onClick={() => {
+            exchangeForm.reset({ candidate1: {} });
+          }}
+        >
+          重置
+        </Button>
       </CardFooter>
     </Card>
   );
