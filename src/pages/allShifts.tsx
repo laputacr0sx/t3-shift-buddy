@@ -27,6 +27,7 @@ const AllShifts: NextPageWithLayout = () => {
         min={6}
         max={8.25}
         step={0.25}
+        disabled
         className="py-2"
       />
 

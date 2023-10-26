@@ -8,8 +8,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model WeekDuty {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  duty      Shifts[]
+  staffId   String
+
+  @@index([staffId])
+}
+
+model Staff {
+  id          String  @id @default(uuid())
+  staffNumber String
+  nickName    String?
+  defaultArea Area?
+}
+
+enum Area {
+  KLN
+  SHS
+  ENT
+  SPC
+}
+
 model Shifts {
-  id         String @id @default(uuid())
+  id         String    @id @default(uuid())
   dutyNumber String
   bNL        String
   bNT        String
@@ -17,6 +40,8 @@ model Shifts {
   bFL        String
   duration   String
   remarks    String
+  WeekDuty   WeekDuty? @relation(fields: [weekDutyId], references: [id])
+  weekDutyId String?
 }
 
 model WeekPrefix {
