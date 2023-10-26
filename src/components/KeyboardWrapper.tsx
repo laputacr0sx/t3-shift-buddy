@@ -1,29 +1,18 @@
-// import React, { FunctionComponent, useState, MutableRefObject } from "react";
-// import Keyboard from "react-simple-keyboard";
+// import { useState, MutableRefObject, ComponentProps, forwardRef } from "react";
+// import KeyboardReact from "react-simple-keyboard";
 // import "react-simple-keyboard/build/css/index.css";
 
-// type IProps = {
-//   onChange: (input: string) => void;
-//   keyboardRef: MutableRefObject<ReturnType<typeof Keyboard>>;
-// };
-
-// const KeyboardWrapper = ({ onChange, keyboardRef }: IProps) => {
-//   const [layoutName, setLayoutName] = useState("default");
-
-//   const onKeyPress = (button: string) => {
-//     if (button === "{shift}" || button === "{lock}") {
-//       setLayoutName(layoutName === "default" ? "shift" : "default");
-//     }
-//   };
-
-//   const thisRef = keyboardRef.current;
-
+// const KeyboardWrapper = (
+//   props: {
+//     onChange: (input: string) => void;
+//   },
+//   keyboardRef: (r: string) => void
+// ) => {
+//   const { onChange } = props;
 //   return (
-//     <Keyboard
+//     <KeyboardReact
 //       keyboardRef={(r) => (keyboardRef.current = r)}
-//       layoutName={layoutName}
 //       onChange={onChange}
-//       onKeyPress={onKeyPress}
 //       onRender={() => console.log("Rendered")}
 //     />
 //   );

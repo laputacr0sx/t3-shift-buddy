@@ -1,35 +1,38 @@
-import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, Row, type RowProps } from "react-day-picker";
 
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 import { differenceInCalendarDays } from "date-fns";
 import moment from "moment";
+import { useMemo } from "react";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function isPastDate(date: Date) {
-  const SUNDAY_NUMBER = 6;
-
-  const nextSunday =
-    moment().isoWeekday() <= 2
-      ? moment().isoWeekday(SUNDAY_NUMBER).toDate()
-      : moment().add(1, "weeks").isoWeekday(SUNDAY_NUMBER).toDate();
-
-  return (
-    differenceInCalendarDays(date, new Date()) < 0 ||
-    differenceInCalendarDays(date, nextSunday) > 0
-  );
-}
-
-function OnlyFutureRow(props: RowProps) {
-  const isPastRow = props.dates.every(isPastDate);
-  if (isPastRow) return <></>;
-  return <Row {...props} />;
-}
-
 function Calendar({ className, classNames, ...props }: CalendarProps) {
+  const isPastDateMemoized = useMemo(() => {
+    return function isPastDate(date: Date) {
+      const SUNDAY_NUMBER = 6;
+
+      const nextSunday =
+        moment().isoWeekday() <= 2
+          ? moment().isoWeekday(SUNDAY_NUMBER).toDate()
+          : moment().add(1, "weeks").isoWeekday(SUNDAY_NUMBER).toDate();
+
+      return (
+        differenceInCalendarDays(date, new Date()) < 0 ||
+        differenceInCalendarDays(date, nextSunday) > 0
+      );
+    };
+  }, []);
+
+  const onlyFutureRowMemoized = useMemo(() => {
+    return function OnlyFutureRow(props: RowProps) {
+      const isPastRow = props.dates.every(isPastDateMemoized);
+      if (isPastRow) return <></>;
+      return <Row {...props} />;
+    };
+  }, [isPastDateMemoized]);
+
   return (
     <DayPicker
       fromDate={new Date()}
@@ -67,13 +70,13 @@ function Calendar({ className, classNames, ...props }: CalendarProps) {
         day_hidden: "invisible",
         ...classNames,
       }}
-      disabled={isPastDate}
+      disabled={isPastDateMemoized}
       numberOfMonths={2}
       disableNavigation
       fromMonth={new Date()}
       toMonth={moment().add(4, "w").toDate()}
       components={{
-        Row: OnlyFutureRow,
+        Row: onlyFutureRowMemoized,
       }}
       {...props}
     />
