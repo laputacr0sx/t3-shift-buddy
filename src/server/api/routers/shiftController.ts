@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import index from "../../../pages/tester";
 
 import {
   abbreviatedDutyNumber,
@@ -11,37 +12,42 @@ import {
 
 export const shiftControllerRouter = createTRPCRouter({
   getAllShifts: publicProcedure.query(({ ctx }) =>
-    ctx.prisma.shifts.findMany()
+    ctx.prisma.shifts.findMany({
+      where: { dutyNumber: { contains: "" } },
+      orderBy: {
+        dutyNumber: "asc",
+      },
+    })
   ),
 
-  // getAllShiftsWithInfinite: publicProcedure
-  //   .input(
-  //     z.object({
-  //       limit: z.number().min(1).max(100).nullish(),
-  //       cursor: z.number().nullish(), // <-- "cursor" needs to exist, but can be any type
-  //     })
-  //   )
-  //   .query(async ({ input, ctx }) => {
-  //     const limit = input.limit ?? 50;
-  //     const { cursor } = input;
+  getAllShiftsWithInfinite: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const limit = input.limit ?? 20;
+      const { cursor } = input;
 
-  //     const items = await ctx.prisma.shifts.findMany({
-  //       take: limit + 1, // get an extra item at the end which we'll use as next cursor
-  //       cursor: cursor ? { myCursor: cursor } : undefined,
-  //       orderBy: {
-  //         myCursor: "asc",
-  //       },
-  //     });
-  //     let nextCursor: typeof cursor | undefined = undefined;
-  //     if (items.length > limit) {
-  //       const nextItem = items.pop();
-  //       nextCursor = nextItem!.myCursor;
-  //     }
-  //     return {
-  //       items,
-  //       nextCursor,
-  //     };
-  //   }),
+      const items = await ctx.prisma.shifts.findMany({
+        take: limit + 1, // get an extra item at the end which we'll use as next cursor
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          dutyNumber: "asc",
+        },
+      });
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = nextItem!.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }),
 
   getShiftGivenDutyNumber: publicProcedure
     .input(

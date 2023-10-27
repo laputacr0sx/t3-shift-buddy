@@ -15,6 +15,17 @@ const AllShifts: NextPageWithLayout = () => {
   } = api.shiftController.getAllShifts.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
+  // const {
+  //   data: allShifts,
+  //   isLoading: shiftsLoading,
+  //   error: shiftsError,
+  // } = api.shiftController.getAllShiftsWithInfinite.useQuery(
+  //   { limit: 10, cursor: null },
+  //   {
+  //     refetchOnWindowFocus: false,
+  //     getNextPageParam: (lastPage) => lastPage.nextCursor,
+  //   }
+  // );
 
   if (shiftsLoading) return <TableLoading />;
 
@@ -22,14 +33,14 @@ const AllShifts: NextPageWithLayout = () => {
 
   return (
     <div className="flex h-full w-screen flex-col gap-4 py-2">
-      <Slider
+      {/* <Slider
         defaultValue={[7]}
         min={6}
         max={8.25}
         step={0.25}
         disabled
         className="py-2"
-      />
+      /> */}
 
       <AllShiftsTable columns={AllShiftsColumns} data={allShifts} />
     </div>

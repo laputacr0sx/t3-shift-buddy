@@ -93,7 +93,7 @@ export default function ExchangeForm() {
             onSubmit={exchangeForm.handleSubmit(onSubmitForExchange)}
             className="space-y-8"
           >
-            <div className="flex justify-start gap-2">
+            <div className="flex justify-between gap-2">
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.staffID"
@@ -105,6 +105,7 @@ export default function ExchangeForm() {
                         className=" w-20 font-mono tracking-wide"
                         {...field}
                         placeholder="9999XX"
+                        max={6}
                         maxLength={6}
                         type="number"
                       />
@@ -151,7 +152,7 @@ export default function ExchangeForm() {
                 )}
               />
             </div>
-            <div className="flex flex-col justify-start gap-2">
+            {/* <div className="flex flex-col justify-start gap-2">
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.correspondingDate"
@@ -190,7 +191,7 @@ export default function ExchangeForm() {
                   </FormItem>
                 )}
               />
-              {/* <Tabs className="w-fit ">
+              <Tabs className="w-fit ">
                 <TabsList>
                   {prefixData?.map((prefix) => (
                     <TabsTrigger key={prefix} value={prefix ?? "random"}>
@@ -198,8 +199,8 @@ export default function ExchangeForm() {
                     </TabsTrigger>
                   ))}
                 </TabsList>
-              </Tabs> */}
-            </div>
+              </Tabs>
+            </div> */}
             <div className="flex justify-start gap-2">
               <FormField
                 control={exchangeForm.control}
@@ -219,9 +220,7 @@ export default function ExchangeForm() {
                   </FormItem>
                 )}
               />
-              <span className="items-center justify-center align-middle">
-                {"=>"}
-              </span>
+              <Label className="items-center justify-center align-middle font-bold"></Label>
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.assignedDuty"
