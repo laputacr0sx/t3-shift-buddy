@@ -1,5 +1,5 @@
 import React from "react";
-import PrefixChangingForm from "../../components/PrefixChangingForm";
+import PrefixChangingForm from "../components/PrefixChangingForm";
 import { Skeleton } from "~/components/ui/skeleton";
 
 import { api } from "~/utils/api";
