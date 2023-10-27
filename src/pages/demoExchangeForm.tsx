@@ -1,6 +1,6 @@
 "use client";
 
-export default function index() {
+export default function DemoExchangeForm() {
   return (
     <div className="flex justify-center pt-20 text-center align-middle">
       <table

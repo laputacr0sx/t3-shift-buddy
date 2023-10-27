@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 
 import { getNextWeekDates } from "~/utils/helper";
 
-export default function index() {
+export default function PrefixUpdateForm() {
   const {
     data: currentPrefixList,
     isLoading: prefixLoading,

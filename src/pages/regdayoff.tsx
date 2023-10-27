@@ -2,7 +2,7 @@ import React from "react";
 import RegisterDayOffForm from "~/components/RegisterDayOffForm";
 import { Separator } from "~/components/ui/separator";
 
-function index() {
+function DayOffRegisterForm() {
   return (
     <div className="flex flex-col items-center justify-center gap-2 px-10 py-12">
       {/* <h1 className=" py-4 text-2xl"> */}
@@ -18,4 +18,4 @@ function index() {
   );
 }
 
-export default index;
+export default DayOffRegisterForm;
