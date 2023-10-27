@@ -9,9 +9,9 @@ import { useMemo } from "react";
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 function Calendar({ className, classNames, ...props }: CalendarProps) {
-  const isPastDateMemoized = useMemo(() => {
+  const isOnlytodayUntilNextSunday = useMemo(() => {
     return function isPastDate(date: Date) {
-      const SUNDAY_NUMBER = 6;
+      const SUNDAY_NUMBER = 7;
 
       const nextSunday =
         moment().isoWeekday() <= 2
@@ -27,15 +27,15 @@ function Calendar({ className, classNames, ...props }: CalendarProps) {
 
   const onlyFutureRowMemoized = useMemo(() => {
     return function OnlyFutureRow(props: RowProps) {
-      const isPastRow = props.dates.every(isPastDateMemoized);
+      const isPastRow = props.dates.every(isOnlytodayUntilNextSunday);
       if (isPastRow) return <></>;
       return <Row {...props} />;
     };
-  }, [isPastDateMemoized]);
+  }, [isOnlytodayUntilNextSunday]);
 
   return (
     <DayPicker
-      // fromDate={new Date()}
+      weekStartsOn={1}
       showOutsideDays
       className={cn("p-3", className)}
       classNames={{
@@ -70,7 +70,7 @@ function Calendar({ className, classNames, ...props }: CalendarProps) {
         day_hidden: "invisible",
         ...classNames,
       }}
-      disabled={isPastDateMemoized}
+      disabled={isOnlytodayUntilNextSunday}
       numberOfMonths={2}
       disableNavigation
       fromMonth={new Date()}

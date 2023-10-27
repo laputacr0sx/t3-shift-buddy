@@ -21,7 +21,6 @@ function TableCopyButtons({
         <Button
           className="my-2 self-center align-middle font-light"
           variant={"outline"}
-          // disabled={JSON.stringify(rowSelection) === "{}"}
           disabled={!isSomeRowSelected}
           onClick={() => tableCopyHandler(selectedShifts)}
         >
@@ -31,7 +30,6 @@ function TableCopyButtons({
         </Button>
         <Button
           className="my-2 self-center align-middle font-light"
-          // disabled={JSON.stringify(rowSelection) !== "{}"}
           disabled={isSomeRowSelected}
           variant={"outline"}
           onClick={() => tableCopyHandler(selectedShifts)}

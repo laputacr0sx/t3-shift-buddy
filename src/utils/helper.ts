@@ -5,8 +5,8 @@ import moment from "moment";
 import { type Row } from "@tanstack/react-table";
 import { completeShiftNameRegex } from "./regex";
 
-export function getCurrentWeekNumber() {
-  return moment().week();
+export function getCurrentWeekNumber(queryDate?: Date) {
+  return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
 export function getNextWeekDates(weekNumber?: number) {
