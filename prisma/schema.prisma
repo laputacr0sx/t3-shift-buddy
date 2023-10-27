@@ -22,6 +22,8 @@ model Staff {
   staffNumber String
   nickName    String?
   defaultArea Area?
+
+  currentRosterRow Int
 }
 
 enum Area {

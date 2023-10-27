@@ -26,11 +26,12 @@ import { useUser } from "@clerk/nextjs";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format } from "date-fns";
 import { cn } from "~/lib/utils";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { ArrowRight, Calendar as CalendarIcon, Info } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { Label } from "./ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { api } from "~/utils/api";
+import { Description } from "@radix-ui/react-toast";
 
 // const staffExchangeFormSchema = z.object({
 //   staffID: z.string(),
@@ -46,7 +47,10 @@ const shiftsExchangeFormSchema = z.object({
     staffName: z.string(),
     rowNumber: z.string(),
     correspondingDate: z.date(),
-    assignedDuty: z.string(),
+    assignedDuty: z.string().regex(/((?:1|3|5|6)(?:[0-5])(?:\d))/),
+    targetDuty: z
+      .string()
+      .regex(/((?:1|3|5|6)(?:[0-5])(?:\d))/, "101 or 102 or 601"),
   }),
 });
 
@@ -66,16 +70,14 @@ export default function ExchangeForm() {
         assignedDuty: "",
       },
     },
+    mode: "onBlur",
   });
 
-  async function onSubmitForExchange(
+  function onSubmitForExchange(
     values: z.infer<typeof shiftsExchangeFormSchema>
   ) {
-    //
+    console.log(values);
   }
-
-  const { data: prefixData } =
-    api.prefixController.getAllAvailablePrefixes.useQuery();
 
   return (
     <Card className="h-fit">
@@ -105,9 +107,7 @@ export default function ExchangeForm() {
                         className=" w-20 font-mono tracking-wide"
                         {...field}
                         placeholder="9999XX"
-                        max={6}
                         maxLength={6}
-                        type="number"
                       />
                     </FormControl>
                     <FormMessage />
@@ -119,15 +119,24 @@ export default function ExchangeForm() {
                 name="candidate1.staffName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>姓名</FormLabel>
+                    <FormLabel>
+                      姓名
+                      {/* <Info
+                        size={14}
+                        onClick={() => {
+                          console.log("info clicked");
+                        }}
+                      /> */}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         className="w-24 font-mono tracking-wide"
                         {...field}
                         type="text"
-                        placeholder="CHANTM for CHAN TAI MAN"
+                        placeholder="CHANTM"
                       />
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -152,14 +161,14 @@ export default function ExchangeForm() {
                 )}
               />
             </div>
-            {/* <div className="flex flex-col justify-start gap-2">
+            <div className="flex flex-col justify-start gap-2">
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.correspondingDate"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>想調邊日？</FormLabel>
-                    <Popover>
+                    {/* <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -186,22 +195,14 @@ export default function ExchangeForm() {
                           initialFocus
                         />
                       </PopoverContent>
-                    </Popover>
+                    </Popover> */}
+                    <Input placeholder="testing" className="w-auto" />
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Tabs className="w-fit ">
-                <TabsList>
-                  {prefixData?.map((prefix) => (
-                    <TabsTrigger key={prefix} value={prefix ?? "random"}>
-                      {prefix}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
-            </div> */}
-            <div className="flex justify-start gap-2">
+            </div>
+            <div className="flex items-center justify-between align-middle">
               <FormField
                 control={exchangeForm.control}
                 name="candidate1.assignedDuty"
@@ -220,10 +221,12 @@ export default function ExchangeForm() {
                   </FormItem>
                 )}
               />
-              <Label className="items-center justify-center align-middle font-bold"></Label>
+              <Label className="items-center justify-center align-middle text-3xl font-bold">
+                <ArrowRight size={36} strokeWidth={3} />
+              </Label>
               <FormField
                 control={exchangeForm.control}
-                name="candidate1.assignedDuty"
+                name="candidate1.targetDuty"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>目標更</FormLabel>
@@ -243,13 +246,14 @@ export default function ExchangeForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-start gap-2">
-        <Button type="submit" variant={"secondary"} disabled>
+      <CardFooter className="flex justify-between">
+        <Button type="submit" variant={"secondary"} disabled className="px-4">
           生成調更表
         </Button>
         <Button
           type="reset"
           variant={"destructive"}
+          className="w-[102px]"
           onClick={() => {
             exchangeForm.reset({ candidate1: {} });
           }}
