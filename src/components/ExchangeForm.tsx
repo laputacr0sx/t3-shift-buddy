@@ -63,7 +63,7 @@ export default function ExchangeForm() {
     resolver: zodResolver(shiftsExchangeFormSchema),
     defaultValues: {
       candidate1: {
-        staffID: "",
+        staffID: user?.id,
         staffName: "",
         rowNumber: "",
         correspondingDate: new Date(),

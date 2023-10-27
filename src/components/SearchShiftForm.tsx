@@ -30,7 +30,7 @@ export default function SearchShiftForm() {
   });
 
   async function onSubmitForRow(values: z.infer<typeof rowFormSchema>) {
-    await router.push(`${values.shiftRow}`);
+    await router.push(`wholeweek/${values.shiftRow}`);
   }
 
   return (
