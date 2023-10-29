@@ -1,4 +1,4 @@
-import type { Shifts } from "@prisma/client";
+import type { Shift } from "@prisma/client";
 
 import * as React from "react";
 
@@ -18,7 +18,7 @@ import { AddToCalendarButton } from "add-to-calendar-button-react";
 interface WeekComplex {
   date: Date | undefined;
   title: string | undefined;
-  dutyObject: Shifts | undefined;
+  dutyObject: Shift | undefined;
 }
 
 export default function ResponsiveShiftCard(props: WeekComplex) {

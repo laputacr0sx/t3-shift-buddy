@@ -1,4 +1,4 @@
-import type { Shifts } from "@prisma/client";
+import type { Shift } from "@prisma/client";
 
 import * as React from "react";
 
@@ -14,7 +14,7 @@ import { toast } from "./ui/useToast";
 import { convertDurationDecimal } from "~/utils/helper";
 
 interface PropType {
-  shift: Shifts;
+  shift: Shift;
 }
 
 export default function ShiftCard(props: PropType) {

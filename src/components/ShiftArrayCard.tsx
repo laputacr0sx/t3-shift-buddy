@@ -3,12 +3,12 @@ import * as React from "react";
 import ChineseCalendar from "./ChineseCalendar";
 import ShiftAccordion from "./ShiftAccordion";
 
-import type { Shifts } from "@prisma/client";
+import type { Shift } from "@prisma/client";
 
 interface WeekComplex {
   date: Date | undefined;
   title: string | undefined;
-  dutyObject: Shifts | undefined;
+  dutyObject: Shift | undefined;
 }
 
 export default function ShiftArrayCard(props: WeekComplex) {

@@ -5,12 +5,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { type Shifts } from "@prisma/client";
+import { type Shift } from "@prisma/client";
 import { convertDurationDecimal } from "~/utils/helper";
 import { toast } from "./ui/useToast";
 
 type ShiftAccordionProps = {
-  shift: Shifts;
+  shift: Shift;
 };
 
 function ShiftAccordion({ shift }: ShiftAccordionProps) {
