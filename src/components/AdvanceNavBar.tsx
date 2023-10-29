@@ -1,6 +1,4 @@
-"use client";
-
-import * as React from "react";
+import { forwardRef } from "react";
 import Link from "next/link";
 
 import { cn } from "~/lib/utils";
@@ -118,7 +116,7 @@ export function NavigationMenuDemo() {
   );
 }
 
-const ListItem = React.forwardRef<
+const ListItem = forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
 >(({ className, title, children, ...props }, ref) => {
