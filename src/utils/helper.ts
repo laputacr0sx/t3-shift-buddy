@@ -1,4 +1,4 @@
-import type { Shifts } from "@prisma/client";
+import type { Shift } from "@prisma/client";
 import { type DayDetail, type WeekComplex } from "./customTypes";
 import { toast } from "~/components/ui/useToast";
 import moment from "moment";
@@ -29,8 +29,8 @@ export function convertDurationDecimal(rawDuration: string): string {
   return `${parseInt(wHour) + minuteDecimal}`;
 }
 
-export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
-  let dutyDetail: Shifts[] = [];
+export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shift[]) {
+  let dutyDetail: Shift[] = [];
 
   for (const inputDutyNumber of arrayOfShift) {
     const result = shiftsArray?.filter(({ dutyNumber }) => {
@@ -47,7 +47,7 @@ export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shifts[]) {
 
 export function getCompleteWeekComplex(
   titleArray: string[],
-  shiftsArray: Shifts[],
+  shiftsArray: Shift[],
   dateArray: Date[]
 ) {
   let dutyComplex: WeekComplex[] = [];
@@ -72,7 +72,7 @@ export function getCompleteWeekComplex(
   return dutyComplex;
 }
 
-export const handleOnClickCopyEvent = async (shift: Shifts) => {
+export const handleOnClickCopyEvent = async (shift: Shift) => {
   const { bFL, bNL, duration, dutyNumber, remarks, bNT, bFT } = shift;
   const durationDecimal = convertDurationDecimal(duration);
 

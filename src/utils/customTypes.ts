@@ -1,4 +1,4 @@
-import { type Shifts } from "@prisma/client";
+import { type Shift } from "@prisma/client";
 import { z } from "zod";
 import { dutyInputRegExValidator, sevenShiftRegex } from "./regex";
 
@@ -14,7 +14,7 @@ export const workLocation = [
 export interface WeekComplex {
   date: Date;
   title: string;
-  dutyObject: Shifts;
+  dutyObject: Shift;
 }
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
