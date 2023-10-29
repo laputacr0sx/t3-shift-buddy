@@ -5,7 +5,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const prefixControllerRouter = createTRPCRouter({
   getAllAvailablePrefixes: publicProcedure.query(async ({ ctx }) => {
-    const all159Shifts = await ctx.prisma.shifts.findMany({
+    const all159Shifts = await ctx.prisma.shift.findMany({
       where: {
         dutyNumber: {
           contains: "159",
