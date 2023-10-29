@@ -1,10 +1,10 @@
-import { type Shifts } from "@prisma/client";
+import { type Shift } from "@prisma/client";
 import { type ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { convertDurationDecimal } from "~/utils/helper";
 
-const columnHelper = createColumnHelper<Shifts>();
+const columnHelper = createColumnHelper<Shift>();
 
-export const AllShiftsColumns: ColumnDef<Shifts>[] = [
+export const AllShiftsColumns: ColumnDef<Shift>[] = [
   columnHelper.group({
     id: "detail",
     header: () => (
