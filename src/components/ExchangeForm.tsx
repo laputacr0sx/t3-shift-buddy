@@ -1,39 +1,32 @@
+import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import moment from "moment";
 
 import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { getCurrentWeekNumber } from "~/utils/helper";
-import { useUser } from "@clerk/nextjs";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { format } from "date-fns";
+import { getCurrentWeekNumber } from "~/utils/helper";
 import { cn } from "~/lib/utils";
-import { ArrowRight, Calendar as CalendarIcon, Info } from "lucide-react";
+import { ArrowRight, Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { Label } from "./ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { api } from "~/utils/api";
-import { Description } from "@radix-ui/react-toast";
-import moment from "moment";
-import { useMemo } from "react";
 
 // const staffExchangeFormSchema = z.object({
 //   staffID: z.string(),
@@ -43,7 +36,7 @@ import { useMemo } from "react";
 //   assignedDuty: z.string(),
 // });
 
-const shiftsExchangeFormSchema = z.object({
+export const shiftsExchangeFormSchema = z.object({
   candidate1: z.object({
     staffID: z.string().length(6, "輸入錯誤"),
     staffName: z.string(),
@@ -58,10 +51,10 @@ const shiftsExchangeFormSchema = z.object({
   }),
 });
 
-export default function ExchangeForm() {
-  const { user } = useUser();
+type ShiftsExchangeFormData = z.infer<typeof shiftsExchangeFormSchema>;
 
-  const exchangeForm = useForm<z.infer<typeof shiftsExchangeFormSchema>>({
+export default function ExchangeForm() {
+  const exchangeForm = useForm<ShiftsExchangeFormData>({
     resolver: zodResolver(shiftsExchangeFormSchema),
     defaultValues: {
       candidate1: {
@@ -76,9 +69,7 @@ export default function ExchangeForm() {
     mode: "onBlur",
   });
 
-  function onSubmitForExchange(
-    values: z.infer<typeof shiftsExchangeFormSchema>
-  ) {
+  function onSubmitForExchange(values: ShiftsExchangeFormData) {
     console.log(values);
   }
 
@@ -86,7 +77,7 @@ export default function ExchangeForm() {
     return getCurrentWeekNumber(
       exchangeForm.getValues("candidate1.correspondingDate")
     ).toString();
-  }, [exchangeForm.watch("candidate1.correspondingDate")]);
+  }, [exchangeForm, exchangeForm.watch("candidate1.correspondingDate")]);
 
   return (
     <Form {...exchangeForm}>

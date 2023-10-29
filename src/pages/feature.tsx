@@ -1,7 +1,8 @@
 import React from "react";
+import DynamicExchangeForm from "~/components/dynamicExchangeForm";
 
 function Feature() {
-  return <div>index</div>;
+  return <DynamicExchangeForm />;
 }
 
 export default Feature;
