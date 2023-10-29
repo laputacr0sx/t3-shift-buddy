@@ -122,17 +122,21 @@ export default function ExchangeForm() {
                 }}
               />
             </CardHeader>
-            <CardHeader className="justify-center">
+            <CardHeader className="justify-between text-center">
               <CardTitle>
-                <Label className="text-xl">週數：{weekNumberMemoized}</Label>
+                <Label className="text-xl">
+                  週數
+                  <br />
+                  {weekNumberMemoized}
+                </Label>
               </CardTitle>
             </CardHeader>
           </div>
-          <Card>
-            <CardHeader className="pb-2">
+          <Card className="flex flex-col gap-2">
+            <CardHeader>
               <CardTitle>Candidate 1</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-2">
               <div className="flex justify-between gap-2">
                 <FormField
                   control={exchangeForm.control}
