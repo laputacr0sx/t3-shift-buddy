@@ -28,14 +28,6 @@ import { ArrowRight, Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { Label } from "./ui/label";
 
-// const staffExchangeFormSchema = z.object({
-//   staffID: z.string(),
-//   staffName: z.string(),
-//   rowNumber: z.number(),
-//   correspondingDate: z.date(),
-//   assignedDuty: z.string(),
-// });
-
 export const shiftsExchangeFormSchema = z.object({
   candidate1: z.object({
     staffID: z.string().length(6, "輸入錯誤"),
@@ -69,15 +61,15 @@ export default function ExchangeForm() {
     mode: "onBlur",
   });
 
-  function onSubmitForExchange(values: ShiftsExchangeFormData) {
-    console.log(values);
-  }
-
   const weekNumberMemoized = useMemo(() => {
     return getCurrentWeekNumber(
       exchangeForm.getValues("candidate1.correspondingDate")
     ).toString();
   }, [exchangeForm, exchangeForm.watch("candidate1.correspondingDate")]);
+
+  function onSubmitForExchange(values: ShiftsExchangeFormData) {
+    console.log(values);
+  }
 
   return (
     <Form {...exchangeForm}>
@@ -95,7 +87,7 @@ export default function ExchangeForm() {
                   const value = field.value;
                   return (
                     <FormItem className="flex flex-col">
-                      <FormLabel>目標日期</FormLabel>
+                      <FormLabel className="text-xl">目標日期</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -125,20 +117,19 @@ export default function ExchangeForm() {
                           />
                         </PopoverContent>
                       </Popover>
-                      <FormMessage />
                     </FormItem>
                   );
                 }}
               />
             </CardHeader>
-            <CardHeader>
-              <CardTitle className="text-center align-middle">
-                週數：{weekNumberMemoized}
+            <CardHeader className="justify-center">
+              <CardTitle>
+                <Label className="text-xl">週數：{weekNumberMemoized}</Label>
               </CardTitle>
             </CardHeader>
           </div>
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-2">
               <CardTitle>Candidate 1</CardTitle>
             </CardHeader>
             <CardContent>
@@ -151,13 +142,12 @@ export default function ExchangeForm() {
                       <FormLabel>職員號碼</FormLabel>
                       <FormControl>
                         <Input
-                          className=" w-20 font-mono tracking-wide"
+                          className={cn("w-20 font-mono tracking-wide")}
                           {...field}
                           placeholder="9999XX"
                           maxLength={6}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -166,25 +156,16 @@ export default function ExchangeForm() {
                   name="candidate1.staffName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
-                        姓名
-                        {/* <Info
-                        size={14}
-                        onClick={() => {
-                          console.log("info clicked");
-                        }}
-                      /> */}
-                      </FormLabel>
+                      <FormLabel>姓名</FormLabel>
                       <FormControl>
                         <Input
                           className="w-24 font-mono tracking-wide"
                           {...field}
                           type="text"
                           placeholder="CHANTM"
+                          disabled
                         />
                       </FormControl>
-
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -202,12 +183,10 @@ export default function ExchangeForm() {
                           maxLength={4}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <div className="flex flex-col justify-start gap-2"></div>
               <div className="flex items-center justify-between align-middle">
                 <FormField
                   control={exchangeForm.control}
@@ -223,7 +202,6 @@ export default function ExchangeForm() {
                           maxLength={3}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -244,7 +222,6 @@ export default function ExchangeForm() {
                           maxLength={3}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />

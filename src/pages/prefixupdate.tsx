@@ -1,4 +1,3 @@
-import React from "react";
 import PrefixChangingForm from "../components/PrefixChangingForm";
 import { Skeleton } from "~/components/ui/skeleton";
 
@@ -16,9 +15,7 @@ export default function PrefixUpdateForm() {
   if (prefixLoading)
     return (
       <>
-        <div>
-          <Skeleton className={"h-3 w-10 rounded-md"} />
-        </div>
+        <Skeleton className={"h-3 w-10 rounded-md"} />
       </>
     );
 
