@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import DynamicExchangeForm from "~/components/dynamicExchangeForm";
-import { NextPageWithLayout } from "./_app";
+import { type NextPageWithLayout } from "./_app";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const Feature: NextPageWithLayout = () => {

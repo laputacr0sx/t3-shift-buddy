@@ -5,7 +5,6 @@ import { type NextPageWithLayout } from "./_app";
 import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import TableLoading from "~/components/TableLoading";
-import { Slider } from "~/components/ui/slider";
 
 const AllShifts: NextPageWithLayout = () => {
   const {

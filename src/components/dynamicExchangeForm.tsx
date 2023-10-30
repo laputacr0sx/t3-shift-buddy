@@ -9,7 +9,6 @@ import {
   type Control,
   type UseFieldArrayUpdate,
   type FieldArrayWithId,
-  FieldArray,
 } from "react-hook-form";
 
 import { Input } from "./ui/input";
@@ -30,13 +29,6 @@ import {
 } from "./ui/card";
 
 import { cn } from "~/lib/utils";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@radix-ui/react-popover";
-import { CalendarIcon, Calendar } from "lucide-react";
-import moment from "moment";
 
 const dynamicFormSchema = z.object({
   candidate: z
