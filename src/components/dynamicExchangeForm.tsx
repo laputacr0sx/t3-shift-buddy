@@ -30,8 +30,10 @@ import {
 
 import { cn } from "~/lib/utils";
 
+const fieldArrayName = "date@Ecchange";
+
 const dynamicFormSchema = z.object({
-  candidate: z
+  [fieldArrayName]: z
     .object({
       name: z.string().length(3),
       age: z.number().min(18).max(100),
@@ -40,8 +42,6 @@ const dynamicFormSchema = z.object({
 });
 
 type dynamicFormData = z.infer<typeof dynamicFormSchema>;
-
-const fieldArrayName = "candidate";
 
 type DisplayProps = {
   control: Control<dynamicFormData>;
@@ -70,7 +70,7 @@ type EditProps = {
   control: Control<dynamicFormData>;
   index: number;
   update: UseFieldArrayUpdate<dynamicFormData>;
-  value: FieldArrayWithId<dynamicFormData, "candidate", "id">;
+  value: FieldArrayWithId<dynamicFormData, "date@Ecchange", "id">;
   // value: FieldArray<dynamicFormData, "candidate">;
 };
 
@@ -109,35 +109,15 @@ const Edit = ({ update, index, control, value }: EditProps) => {
                 );
               }}
             />
-            <FormField
-              control={control}
-              name={`${fieldArrayName}.${index}.age` as const}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="w-24 font-mono tracking-wide"
-                      {...field}
-                      type="text"
-                      placeholder="40"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button type="submit" variant={"secondary"} disabled className="px-4">
-            生成調更表
-          </Button>
           <Button
             type="reset"
             variant={"destructive"}
             className="w-[102px]"
             onClick={() => {
-              dynamicForm.reset({ candidate: [] });
+              dynamicForm.reset({ [fieldArrayName]: [] });
             }}
           >
             重置
@@ -147,7 +127,7 @@ const Edit = ({ update, index, control, value }: EditProps) => {
       <Button
         variant={"secondary"}
         onClick={handleCandidateSubmit((data) => {
-          const [correspondingData] = data.candidate;
+          const [correspondingData] = data[fieldArrayName];
 
           if (!correspondingData) return;
           // setValue(`${fieldArrayName}.${index}`, value);
@@ -155,7 +135,7 @@ const Edit = ({ update, index, control, value }: EditProps) => {
           update(index, correspondingData);
         })}
       >
-        Submit
+        確定
       </Button>
     </Card>
   );
@@ -164,7 +144,7 @@ const Edit = ({ update, index, control, value }: EditProps) => {
 export default function DynamicDynamicForm() {
   const dynamicForm = useForm<dynamicFormData>({
     defaultValues: {
-      candidate: [
+      [fieldArrayName]: [
         {
           name: "",
           age: undefined,
@@ -190,9 +170,12 @@ export default function DynamicDynamicForm() {
       <Form {...dynamicForm}>
         <form onSubmit={handleFormSubmit(onSubmit)}>
           {fields.map((field, index) => (
-            <fieldset key={field.id} className="flex flex-col justify-center">
+            <fieldset
+              key={field.id}
+              className="flex flex-col items-center justify-center"
+            >
               <CardHeader>
-                <CardTitle>{field.name}</CardTitle>
+                <CardTitle>{field.name || `Candidate ${index + 1}`}</CardTitle>
               </CardHeader>
               <Edit
                 control={control}
@@ -201,12 +184,12 @@ export default function DynamicDynamicForm() {
                 value={field}
               />
               <Button
-                className=""
+                className="w-fit"
                 variant={"destructive"}
                 type="button"
                 onClick={() => remove(index)}
               >
-                Remove
+                移除
               </Button>
             </fieldset>
           ))}
@@ -219,10 +202,10 @@ export default function DynamicDynamicForm() {
                 append({ name: "", age: 0 });
               }}
             >
-              append
+              添加
             </Button>
             <Button variant="outline" type="submit">
-              Submit Query
+              確定調更
             </Button>
           </div>
         </form>
