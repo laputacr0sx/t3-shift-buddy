@@ -58,7 +58,7 @@ export default function ExchangeForm() {
         targetDuty: "",
       },
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const weekNumberMemoized = useMemo(() => {

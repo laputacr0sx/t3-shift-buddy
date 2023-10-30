@@ -1,14 +1,18 @@
-import React from "react";
-import { NavigationMenuDemo } from "~/components/AdvanceNavBar";
+import React, { ReactElement } from "react";
 import DynamicExchangeForm from "~/components/dynamicExchangeForm";
+import { NextPageWithLayout } from "./_app";
+import Layout from "~/components/ui/layouts/AppLayout";
 
-function Feature() {
+const Feature: NextPageWithLayout = () => {
   return (
     <>
-      <NavigationMenuDemo />
       <DynamicExchangeForm />
     </>
   );
-}
+};
+
+Feature.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Feature;

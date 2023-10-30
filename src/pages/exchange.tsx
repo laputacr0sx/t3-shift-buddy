@@ -1,9 +1,21 @@
-import React, { type ReactElement } from "react";
+import React, { useEffect, type ReactElement } from "react";
 
 import ExchangeForm from "~/components/ExchangeForm";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 function Exchange() {
+  useEffect(
+    () => {
+      //
+      return () => {
+        // second
+      };
+    },
+    [
+      //
+    ]
+  );
+
   return (
     <div className="py-2">
       <ExchangeForm />
