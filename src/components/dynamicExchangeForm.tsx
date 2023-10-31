@@ -9,6 +9,7 @@ import {
   type Control,
   type UseFieldArrayUpdate,
   type FieldArrayWithId,
+  UseFormReset,
 } from "react-hook-form";
 
 import { Input } from "./ui/input";
@@ -37,14 +38,15 @@ const dynamicFormSchema = z.object({
     .object({
       name: z.string().length(3),
       age: z.number().min(18).max(100),
+      rowNumber: z.string().regex(/[ABC]\d{3}/gim),
     })
     .array(),
 });
 
-type dynamicFormData = z.infer<typeof dynamicFormSchema>;
+type DynamicFormData = z.infer<typeof dynamicFormSchema>;
 
 type DisplayProps = {
-  control: Control<dynamicFormData>;
+  control: Control<DynamicFormData>;
   index: number;
 };
 
@@ -60,40 +62,39 @@ const Display = ({ control, index }: DisplayProps) => {
     <div>
       <h3>Submitted Data</h3>
       <p>
-        {data?.name} {data?.age}
+        {data?.name} {data?.age !== 0 ?? ""}
       </p>
     </div>
   );
 };
 
 type EditProps = {
-  control: Control<dynamicFormData>;
+  control: Control<DynamicFormData>;
   index: number;
-  update: UseFieldArrayUpdate<dynamicFormData>;
-  value: FieldArrayWithId<dynamicFormData, "date@Ecchange", "id">;
-  // value: FieldArray<dynamicFormData, "candidate">;
+  update: UseFieldArrayUpdate<DynamicFormData>;
+  value: FieldArrayWithId<DynamicFormData, "date@Ecchange", "id">;
+  reset: UseFormReset<DynamicFormData>;
 };
 
-const Edit = ({ update, index, control, value }: EditProps) => {
-  const dynamicForm = useForm<dynamicFormData>({
+const Edit = ({ update, index, control, value, reset }: EditProps) => {
+  const dynamicForm = useForm<DynamicFormData>({
     resolver: zodResolver(dynamicFormSchema),
     defaultValues: { [fieldArrayName]: [] },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const { handleSubmit: handleCandidateSubmit, setValue } = dynamicForm;
 
   return (
-    <Card className="h-fit px-2">
+    <div className="h-fit w-screen px-2">
       <Display control={control} index={index} />
       <Card className="flex flex-col gap-2">
         <CardContent className="flex flex-col gap-2">
-          <div className="flex justify-around gap-2">
+          <section className="flex justify-around gap-2">
             <FormField
               control={control}
               name={`${fieldArrayName}.${index}.name` as const}
               render={({ field }) => {
-                // console.log(`${fieldArrayName}.${index}.name `);
                 return (
                   <FormItem className="m-0">
                     <FormLabel>Name</FormLabel>
@@ -109,7 +110,25 @@ const Edit = ({ update, index, control, value }: EditProps) => {
                 );
               }}
             />
-          </div>
+            <FormField
+              control={control}
+              name={`${fieldArrayName}.${index}.age` as const}
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Testing</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        className={cn("w-20 font-mono tracking-wide")}
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                );
+              }}
+            />
+          </section>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button
@@ -117,7 +136,7 @@ const Edit = ({ update, index, control, value }: EditProps) => {
             variant={"destructive"}
             className="w-[102px]"
             onClick={() => {
-              dynamicForm.reset({ [fieldArrayName]: [] });
+              reset({ [fieldArrayName]: [] });
             }}
           >
             重置
@@ -137,79 +156,86 @@ const Edit = ({ update, index, control, value }: EditProps) => {
       >
         確定
       </Button>
-    </Card>
+    </div>
   );
 };
 
 export default function DynamicDynamicForm() {
-  const dynamicForm = useForm<dynamicFormData>({
+  const dynamicForm = useForm<DynamicFormData>({
     defaultValues: {
       [fieldArrayName]: [
         {
           name: "",
-          age: undefined,
+          age: 0,
+          rowNumber: "",
         },
         {
           name: "",
-          age: undefined,
+          age: 0,
+          rowNumber: "",
         },
       ],
     },
   });
 
-  const { control, handleSubmit: handleFormSubmit } = dynamicForm;
+  const { control, handleSubmit: handleFormSubmit, reset } = dynamicForm;
 
-  const { fields, append, update, remove } = useFieldArray<dynamicFormData>({
+  const { fields, append, update, remove } = useFieldArray<DynamicFormData>({
     control,
     name: `${fieldArrayName}`,
   });
-  const onSubmit = (values: dynamicFormData) => console.log(values);
+  const onSubmit = (values: DynamicFormData) => console.log(values);
 
   return (
-    <Card>
+    <div className="h-full">
       <Form {...dynamicForm}>
         <form onSubmit={handleFormSubmit(onSubmit)}>
           {fields.map((field, index) => (
             <fieldset
               key={field.id}
-              className="flex flex-col items-center justify-center"
+              className="flex flex-col items-center justify-center gap-2"
             >
-              <CardHeader>
-                <CardTitle>{field.name || `Candidate ${index + 1}`}</CardTitle>
-              </CardHeader>
-              <Edit
-                control={control}
-                update={update}
-                index={index}
-                value={field}
-              />
-              <Button
-                className="w-fit"
-                variant={"destructive"}
-                type="button"
-                onClick={() => remove(index)}
-              >
-                移除
-              </Button>
+              <Card>
+                <CardHeader>
+                  <CardTitle>
+                    {field.name || `Candidate ${index + 1}`}
+                  </CardTitle>
+                </CardHeader>
+                <Edit
+                  control={control}
+                  update={update}
+                  index={index}
+                  value={field}
+                  reset={reset}
+                />
+                <Button
+                  className="w-fit"
+                  variant={"destructive"}
+                  type="button"
+                  onClick={() => remove(index)}
+                >
+                  移除
+                </Button>
+              </Card>
             </fieldset>
           ))}
 
           <div className="flex justify-around">
             <Button
-              variant={"outline"}
+              variant={"secondary"}
               type="button"
               onClick={() => {
-                append({ name: "", age: 0 });
+                append({ name: "", age: 0, rowNumber: "" });
               }}
             >
               添加
             </Button>
-            <Button variant="outline" type="submit">
+            <Button variant="secondary" type="submit">
               確定調更
             </Button>
           </div>
         </form>
       </Form>
-    </Card>
+    </div>
   );
 }
