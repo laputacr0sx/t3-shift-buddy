@@ -14,7 +14,8 @@ function Navbar() {
   const { isSignedIn } = useUser();
 
   return (
-    <div className="sticky top-0 flex justify-between bg-navbar text-navbar-foreground ">
+    <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-between bg-navbar text-navbar-foreground">
+      {/* <div className="sticky top-0 flex justify-between bg-navbar text-navbar-foreground "> */}
       <div className="mx-2 self-center align-middle">
         {isSignedIn ? (
           <UserButton afterSignOutUrl="/" />

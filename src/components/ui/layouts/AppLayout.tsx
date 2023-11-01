@@ -1,5 +1,5 @@
 import Navbar from "~/components/ui/layouts/Navbar";
-import { type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import Footer from "./Footer";
 import Head from "next/head";
 
@@ -9,7 +9,7 @@ interface PropType {
 
 export default function Layout({ children }: PropType) {
   return (
-    <>
+    <Fragment>
       <Head>
         <title>Shift Buddy</title>
         <meta
@@ -18,13 +18,15 @@ export default function Layout({ children }: PropType) {
         />
         <link rel="icon" href="../../public/images/Station_icon_MTR.svg" />
       </Head>
-      <div className="w-screen flex-none">
+      {/* <div className="w-screen flex-none"> */}
+
+      {/* <main className="flex h-auto w-auto items-start justify-center"> */}
+      {/* <main className="h-full min-h-screen w-screen"> */}
+      <main className="relative flex min-h-[calc(100vh-64px)] w-auto items-start justify-center ">
         <Navbar />
-      </div>
-      <main className="flex min-h-[calc(100vh-64px)] w-auto items-start justify-center overflow-y-hidden ">
         {children}
       </main>
-      <Footer />
-    </>
+      {/* <Footer /> */}
+    </Fragment>
   );
 }
