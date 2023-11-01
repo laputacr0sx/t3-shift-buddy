@@ -1,4 +1,10 @@
-import { ArrowLeftRight, Home, Table, UserCircle2 } from "lucide-react";
+import {
+  ArrowLeftRight,
+  FlaskConical,
+  Home,
+  Table,
+  UserCircle2,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
@@ -32,6 +38,11 @@ function Navbar() {
         <li>
           <Link href={"/exchange"} className={"flex flex-row "}>
             <ArrowLeftRight className="m-2" />
+          </Link>
+        </li>
+        <li>
+          <Link href={"/feature"} className={"flex flex-row "}>
+            <FlaskConical className="m-2" />
           </Link>
         </li>
       </ul>

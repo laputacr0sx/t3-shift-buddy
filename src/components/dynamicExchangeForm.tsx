@@ -9,7 +9,8 @@ import {
   type Control,
   type UseFieldArrayUpdate,
   type FieldArrayWithId,
-  UseFormReset,
+  type UseFormReset,
+  SubmitHandler,
 } from "react-hook-form";
 
 import { Input } from "./ui/input";
@@ -30,8 +31,9 @@ import {
 } from "./ui/card";
 
 import { cn } from "~/lib/utils";
+import { Minus } from "lucide-react";
 
-const fieldArrayName = "date@Ecchange";
+const fieldArrayName = "date@Exchange" as const;
 
 const dynamicFormSchema = z.object({
   [fieldArrayName]: z
@@ -72,7 +74,7 @@ type EditProps = {
   control: Control<DynamicFormData>;
   index: number;
   update: UseFieldArrayUpdate<DynamicFormData>;
-  value: FieldArrayWithId<DynamicFormData, "date@Ecchange", "id">;
+  value: FieldArrayWithId<DynamicFormData, typeof fieldArrayName, "id">;
   reset: UseFormReset<DynamicFormData>;
 };
 
@@ -83,7 +85,15 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
     mode: "onChange",
   });
 
-  const { handleSubmit: handleCandidateSubmit, setValue } = dynamicForm;
+  const {
+    handleSubmit: handleCandidateSubmit,
+    setValue,
+    getValues,
+  } = dynamicForm;
+
+  const onCandidateSubmit: SubmitHandler<DynamicFormData> = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="h-fit w-screen px-2">
@@ -132,30 +142,34 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button
+            variant={"secondary"}
+            onClick={
+              handleCandidateSubmit(onCandidateSubmit)
+              //   handleCandidateSubmit((data) => {
+              //   const [correspondingData] = data[fieldArrayName];
+
+              //   if (!correspondingData) return;
+              //   // setValue(`${fieldArrayName}.${index}`, value);
+              //   console.log(correspondingData);
+              //   update(index, correspondingData);
+              // })
+            }
+          >
+            確定資料
+          </Button>
+          <Button
             type="reset"
             variant={"destructive"}
             className="w-[102px]"
             onClick={() => {
-              reset({ [fieldArrayName]: [] });
+              // reset({ [fieldArrayName]: [] });
+              reset({ ...getValues() });
             }}
           >
             重置
           </Button>
         </CardFooter>
       </Card>
-      <Button
-        variant={"secondary"}
-        onClick={handleCandidateSubmit((data) => {
-          const [correspondingData] = data[fieldArrayName];
-
-          if (!correspondingData) return;
-          // setValue(`${fieldArrayName}.${index}`, value);
-          console.log(correspondingData);
-          update(index, correspondingData);
-        })}
-      >
-        確定
-      </Button>
     </div>
   );
 };
@@ -187,7 +201,7 @@ export default function DynamicDynamicForm() {
   const onSubmit = (values: DynamicFormData) => console.log(values);
 
   return (
-    <div className="h-full">
+    <div className="h-full px-4 py-2">
       <Form {...dynamicForm}>
         <form onSubmit={handleFormSubmit(onSubmit)}>
           {fields.map((field, index) => (
@@ -195,7 +209,7 @@ export default function DynamicDynamicForm() {
               key={field.id}
               className="flex flex-col items-center justify-center gap-2"
             >
-              <Card>
+              <Card className="relative">
                 <CardHeader>
                   <CardTitle>
                     {field.name || `Candidate ${index + 1}`}
@@ -209,12 +223,13 @@ export default function DynamicDynamicForm() {
                   reset={reset}
                 />
                 <Button
-                  className="w-fit"
+                  size={"sm"}
+                  className="absolute right-4 top-0 p-0"
                   variant={"destructive"}
                   type="button"
                   onClick={() => remove(index)}
                 >
-                  移除
+                  <Minus size={8} strokeWidth={8} />
                 </Button>
               </Card>
             </fieldset>
