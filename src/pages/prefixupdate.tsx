@@ -4,8 +4,11 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { api } from "~/utils/api";
 
 import { getNextWeekDates } from "~/utils/helper";
+import { type NextPageWithLayout } from "./_app";
+import { type ReactElement } from "react";
+import Layout from "~/components/ui/layouts/AppLayout";
 
-export default function PrefixUpdateForm() {
+const PrefixUpdateForm: NextPageWithLayout = () => {
   const {
     data: currentPrefixList,
     isLoading: prefixLoading,
@@ -34,4 +37,10 @@ export default function PrefixUpdateForm() {
       />
     </div>
   );
-}
+};
+
+PrefixUpdateForm.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+export default PrefixUpdateForm;

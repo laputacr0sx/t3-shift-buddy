@@ -4,11 +4,7 @@ import { type NextPageWithLayout } from "./_app";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const Feature: NextPageWithLayout = () => {
-  return (
-    <>
-      <DynamicExchangeForm />
-    </>
-  );
+  return <DynamicExchangeForm />;
 };
 
 Feature.getLayout = function getLayout(page: ReactElement) {
