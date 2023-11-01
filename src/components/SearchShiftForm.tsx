@@ -50,11 +50,6 @@ export default function SearchShiftForm() {
                   <Input
                     className="font-mono tracking-wide"
                     placeholder="101102103104105106RD"
-                    onFocus={() => {
-                      console.log(
-                        "input focused, custom keyboard should come up"
-                      );
-                    }}
                     {...field}
                   />
                 </FormControl>
@@ -83,12 +78,14 @@ export default function SearchShiftForm() {
             )}
           />
           <div className="flex justify-center gap-8">
-            <Button type="submit">查下週更資料</Button>
+            <Button type="submit" variant={"outline"}>
+              查下週更資料
+            </Button>
             <Button
               type="reset"
               variant={"destructive"}
               onClick={() => {
-                rowForm.reset();
+                rowForm.reset({ shiftRow: "" });
               }}
             >
               重置

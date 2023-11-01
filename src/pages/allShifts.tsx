@@ -31,7 +31,10 @@ const AllShifts: NextPageWithLayout = () => {
   if (shiftsError) return <>{shiftsError.message}</>;
 
   return (
-    <div className="flex h-full w-screen flex-col gap-4 py-2">
+    <div className="flex h-full w-screen flex-col gap-4">
+      <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
+        搵更易
+      </h1>
       {/* <Slider
         defaultValue={[7]}
         min={6}

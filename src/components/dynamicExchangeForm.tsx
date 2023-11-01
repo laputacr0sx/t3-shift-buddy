@@ -10,7 +10,7 @@ import {
   type UseFieldArrayUpdate,
   type FieldArrayWithId,
   type UseFormReset,
-  SubmitHandler,
+  type SubmitHandler,
 } from "react-hook-form";
 
 import { Input } from "./ui/input";
