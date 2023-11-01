@@ -62,7 +62,6 @@ const Display = ({ control, index }: DisplayProps) => {
 
   return (
     <div>
-      <h3>Submitted Data</h3>
       <p>
         {data?.name} {data?.age !== 0 ?? ""}
       </p>
@@ -96,9 +95,10 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
   };
 
   return (
-    <div className="h-fit w-screen px-2">
+    <>
+      {/* <div className="h-fit w-screen px-2"> */}
       <Display control={control} index={index} />
-      <Card className="flex flex-col gap-2">
+      <Card className="flex flex-col gap-2 border-y-0 border-x-sky-500">
         <CardContent className="flex flex-col gap-2">
           <section className="flex justify-around gap-2">
             <FormField
@@ -170,7 +170,8 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
           </Button>
         </CardFooter>
       </Card>
-    </div>
+      {/* </div> */}
+    </>
   );
 };
 
@@ -201,36 +202,41 @@ export default function DynamicDynamicForm() {
   const onSubmit = (values: DynamicFormData) => console.log(values);
 
   return (
-    <div className="h-full px-4 py-2">
+    <div className="h-full w-fit px-4 py-4">
       <Form {...dynamicForm}>
-        <form onSubmit={handleFormSubmit(onSubmit)}>
+        <form
+          onSubmit={handleFormSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+        >
           {fields.map((field, index) => (
             <fieldset
               key={field.id}
-              className="flex flex-col items-center justify-center gap-2"
+              className="flex flex-col items-center justify-center"
             >
-              <Card className="relative">
+              <Card className="relative flex w-screen flex-col items-center justify-center border-x-0 border-y-rose-500">
                 <CardHeader>
                   <CardTitle>
                     {field.name || `Candidate ${index + 1}`}
                   </CardTitle>
                 </CardHeader>
-                <Edit
-                  control={control}
-                  update={update}
-                  index={index}
-                  value={field}
-                  reset={reset}
-                />
-                <Button
-                  size={"sm"}
-                  className="absolute right-4 top-0 p-0"
-                  variant={"destructive"}
-                  type="button"
-                  onClick={() => remove(index)}
-                >
-                  <Minus size={8} strokeWidth={8} />
-                </Button>
+                <CardContent className="w-screen">
+                  <Edit
+                    control={control}
+                    update={update}
+                    index={index}
+                    value={field}
+                    reset={reset}
+                  />
+                  <Button
+                    size={"sm"}
+                    className="absolute right-4 top-0 p-0"
+                    variant={"destructive"}
+                    type="button"
+                    onClick={() => remove(index)}
+                  >
+                    <Minus size={8} strokeWidth={8} />
+                  </Button>
+                </CardContent>
               </Card>
             </fieldset>
           ))}

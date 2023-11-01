@@ -19,10 +19,9 @@ export default function Layout({ children }: PropType) {
         <link rel="icon" href="../../public/images/Station_icon_MTR.svg" />
       </Head>
       {/* <div className="w-screen flex-none"> */}
-
       {/* <main className="flex h-auto w-auto items-start justify-center"> */}
       {/* <main className="h-full min-h-screen w-screen"> */}
-      <main className="relative flex min-h-[calc(100vh-64px)] w-auto items-start justify-center ">
+      <main className="relative flex min-h-[calc(100vh-64px)] w-auto items-start justify-center">
         <Navbar />
         {children}
       </main>
