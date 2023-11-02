@@ -120,130 +120,130 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
     <>
       {/* <div className="h-fit w-screen px-2"> */}
       <Display control={control} index={index} />
-      <Card className="h-fit">
-        <Card className="flex flex-col gap-2">
-          <CardHeader>
-            <CardTitle>Candidate 1</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <div className="flex justify-between gap-2">
-              <FormField
-                control={dynamicForm.control}
-                name={`candidates.${index}.staffID`}
-                render={({ field }) => (
-                  <FormItem className="m-0">
-                    <FormLabel>職員號碼</FormLabel>
-                    <FormControl>
-                      <Input
-                        className={cn("w-20 font-mono tracking-wide")}
-                        {...field}
-                        placeholder="9999XX"
-                        maxLength={6}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={dynamicForm.control}
-                name={`candidates.${index}.staffName`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>姓名</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-24 font-mono tracking-wide"
-                        {...field}
-                        type="text"
-                        placeholder="CHANTM"
-                        disabled
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={dynamicForm.control}
-                name={`candidates.${index}.rowNumber`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>編定行序</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-16 font-mono tracking-wide"
-                        {...field}
-                        placeholder="A52"
-                        maxLength={4}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex items-center justify-between align-middle">
-              <FormField
-                control={dynamicForm.control}
-                name={`candidates.${index}.assignedDuty`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>原定更</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-14 font-mono tracking-wide"
-                        {...field}
-                        placeholder="101"
-                        maxLength={3}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <Label className="items-center justify-center align-middle text-3xl font-bold">
-                <ArrowRight size={36} strokeWidth={3} />
-              </Label>
-              <FormField
-                control={dynamicForm.control}
-                name={`candidates.${index}.targetDuty`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>目標更</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-14 font-mono tracking-wide"
-                        {...field}
-                        placeholder="159"
-                        maxLength={3}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <Button
-              type="submit"
-              variant={"secondary"}
-              onClick={() => {
-                //
-              }}
-              className="px-4"
-            >
-              生成調更表
-            </Button>
-            <Button
-              type="reset"
-              variant={"destructive"}
-              className="w-[102px]"
-              onClick={() => {
-                dynamicForm.reset();
-              }}
-            >
-              重置
-            </Button>
-          </CardFooter>
-        </Card>
+
+      <Card className="flex flex-col gap-2">
+        <CardHeader>
+          <CardTitle>{`${value.staffName} Candidate ${index + 1}`}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          <div className="flex justify-between gap-2">
+            <FormField
+              control={dynamicForm.control}
+              name={`candidates.${index}.staffID`}
+              render={({ field }) => (
+                <FormItem className="m-0">
+                  <FormLabel>職員號碼</FormLabel>
+                  <FormControl>
+                    <Input
+                      className={cn("w-20 font-mono tracking-wide")}
+                      {...field}
+                      placeholder="9999XX"
+                      maxLength={6}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={dynamicForm.control}
+              name={`candidates.${index}.staffName`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>姓名</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-24 font-mono tracking-wide"
+                      {...field}
+                      type="text"
+                      placeholder="CHANTM"
+                      disabled
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={dynamicForm.control}
+              name={`candidates.${index}.rowNumber`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>編定行序</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-16 font-mono tracking-wide"
+                      {...field}
+                      placeholder="A52"
+                      maxLength={4}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex items-center justify-between align-middle">
+            <FormField
+              control={dynamicForm.control}
+              name={`candidates.${index}.assignedDuty`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>原定更</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-14 font-mono tracking-wide"
+                      {...field}
+                      placeholder="101"
+                      maxLength={3}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Label className="items-center justify-center align-middle text-3xl font-bold">
+              <ArrowRight size={36} strokeWidth={3} />
+            </Label>
+            <FormField
+              control={dynamicForm.control}
+              name={`candidates.${index}.targetDuty`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>目標更</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="w-14 font-mono tracking-wide"
+                      {...field}
+                      placeholder="159"
+                      maxLength={3}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <Button
+            type="submit"
+            variant={"secondary"}
+            onClick={() => {
+              //
+            }}
+            className="px-4"
+          >
+            生成調更表
+          </Button>
+          <Button
+            type="reset"
+            variant={"destructive"}
+            className="w-[102px]"
+            onClick={() => {
+              dynamicForm.reset();
+            }}
+          >
+            重置
+          </Button>
+        </CardFooter>
       </Card>
+
       {/* </div> */}
     </>
   );
@@ -294,7 +294,7 @@ export default function DynamicDynamicForm() {
           onSubmit={handleFormSubmit(onSubmit)}
           className="flex flex-col gap-4"
         >
-          <Card className="border-b-sky-900 border-t-sky-500">
+          <Card className="border-x-0 border-b-sky-900 border-t-sky-500">
             <div className="flex justify-between pb-4">
               <CardHeader>
                 <FormField
@@ -359,12 +359,11 @@ export default function DynamicDynamicForm() {
                 key={field.id}
                 className="flex flex-col items-center justify-center"
               >
-                <Card className="relative flex w-screen flex-col items-center justify-center border-x-0 border-y-rose-500">
-                  {/* <CardHeader>
+                <Card className="relative flex w-screen flex-col items-center justify-center border-y-0 border-x-rose-500">
                   <CardTitle>
                     {field.staffName || `Candidate ${index + 1}`}
                   </CardTitle>
-                </CardHeader> */}
+
                   <CardContent className="w-screen">
                     <Edit
                       control={control}
