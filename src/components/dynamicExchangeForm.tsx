@@ -12,6 +12,7 @@ import {
   type UseFormReset,
   type SubmitHandler,
 } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -228,13 +229,12 @@ export default function DynamicDynamicForm() {
                     reset={reset}
                   />
                   <Button
-                    size={"sm"}
-                    className="absolute right-4 top-0 p-0"
-                    variant={"destructive"}
-                    type="button"
+                    className="absolute right-2 top-2 w-12"
+                    size="sm"
+                    variant="ghost"
                     onClick={() => remove(index)}
                   >
-                    <Minus size={8} strokeWidth={8} />
+                    <Minus size={12} strokeWidth={12} />
                   </Button>
                 </CardContent>
               </Card>
@@ -243,7 +243,7 @@ export default function DynamicDynamicForm() {
 
           <div className="flex justify-around">
             <Button
-              variant={"secondary"}
+              variant="ghost"
               type="button"
               onClick={() => {
                 append({ name: "", age: 0, rowNumber: "" });
@@ -252,10 +252,11 @@ export default function DynamicDynamicForm() {
               添加
             </Button>
             <Button variant="secondary" type="submit">
-              確定調更
+              確定生成調更紙
             </Button>
           </div>
         </form>
+        {/* <DevTool control={control} /> */}
       </Form>
     </div>
   );
