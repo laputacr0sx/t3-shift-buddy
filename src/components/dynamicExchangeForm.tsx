@@ -1,4 +1,3 @@
-import * as React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -12,10 +11,14 @@ import {
   type UseFormReset,
   type SubmitHandler,
 } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -29,19 +32,37 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "~/components/ui/card";
 
 import { cn } from "~/lib/utils";
-import { Minus } from "lucide-react";
+import { ArrowRight, CalendarIcon, Minus, RotateCcw } from "lucide-react";
+import moment from "moment";
+// import { Label } from "@radix-ui/react-label";
+import { getCurrentWeekNumber } from "~/utils/helper";
+import { useMemo } from "react";
+import { Label } from "./ui/label";
+import { Calendar } from "./ui/calendar";
 
-const fieldArrayName = "date@Exchange" as const;
+const today = moment(new Date()).toString();
+
+const fieldArrayName = "candidates" as const;
+// const fieldArrayName = today;
+console.log(today);
 
 const dynamicFormSchema = z.object({
+  responsibleDay: z.date(),
   [fieldArrayName]: z
     .object({
-      name: z.string().length(3),
-      age: z.number().min(18).max(100),
-      rowNumber: z.string().regex(/[ABC]\d{3}/gim),
+      staffID: z.string().length(6, "輸入錯誤"),
+      staffName: z.string(),
+      rowNumber: z.string().regex(/[ABC]\d{1,3}/, "請輸入正確行序"),
+      // correspondingDate: z.date(),
+      assignedDuty: z
+        .string()
+        .regex(/((?:1|3|5|6)(?:[0-5])(?:\d))/, "101 or 102 or 601"),
+      targetDuty: z
+        .string()
+        .regex(/((?:1|3|5|6)(?:[0-5])(?:\d))/, "101 or 102 or 601"),
     })
     .array(),
 });
@@ -59,12 +80,12 @@ const Display = ({ control, index }: DisplayProps) => {
     name: `${fieldArrayName}.${index}`,
   });
 
-  if (!data.name) return null;
+  if (!data.staffID) return null;
 
   return (
     <div>
       <p>
-        {data?.name} {data?.age !== 0 ?? ""}
+        {data?.staffName} {data?.staffID}
       </p>
     </div>
   );
@@ -82,7 +103,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
   const dynamicForm = useForm<DynamicFormData>({
     resolver: zodResolver(dynamicFormSchema),
     defaultValues: { [fieldArrayName]: [] },
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const {
@@ -99,77 +120,129 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
     <>
       {/* <div className="h-fit w-screen px-2"> */}
       <Display control={control} index={index} />
-      <Card className="flex flex-col gap-2 border-y-0 border-x-sky-500">
-        <CardContent className="flex flex-col gap-2">
-          <section className="flex justify-around gap-2">
-            <FormField
-              control={control}
-              name={`${fieldArrayName}.${index}.name` as const}
-              render={({ field }) => {
-                return (
+      <Card className="h-fit">
+        <Card className="flex flex-col gap-2">
+          <CardHeader>
+            <CardTitle>Candidate 1</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex justify-between gap-2">
+              <FormField
+                control={dynamicForm.control}
+                name={`candidates.${index}.staffID`}
+                render={({ field }) => (
                   <FormItem className="m-0">
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>職員號碼</FormLabel>
                     <FormControl>
                       <Input
                         className={cn("w-20 font-mono tracking-wide")}
                         {...field}
-                        placeholder="NGSH"
+                        placeholder="9999XX"
                         maxLength={6}
                       />
                     </FormControl>
                   </FormItem>
-                );
-              }}
-            />
-            <FormField
-              control={control}
-              name={`${fieldArrayName}.${index}.age` as const}
-              render={({ field }) => {
-                return (
+                )}
+              />
+              <FormField
+                control={dynamicForm.control}
+                name={`candidates.${index}.staffName`}
+                render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Testing</FormLabel>
+                    <FormLabel>姓名</FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
-                        className={cn("w-20 font-mono tracking-wide")}
+                        className="w-24 font-mono tracking-wide"
                         {...field}
+                        type="text"
+                        placeholder="CHANTM"
+                        disabled
                       />
                     </FormControl>
                   </FormItem>
-                );
+                )}
+              />
+              <FormField
+                control={dynamicForm.control}
+                name={`candidates.${index}.rowNumber`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>編定行序</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-16 font-mono tracking-wide"
+                        {...field}
+                        placeholder="A52"
+                        maxLength={4}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center justify-between align-middle">
+              <FormField
+                control={dynamicForm.control}
+                name={`candidates.${index}.assignedDuty`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>原定更</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-14 font-mono tracking-wide"
+                        {...field}
+                        placeholder="101"
+                        maxLength={3}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <Label className="items-center justify-center align-middle text-3xl font-bold">
+                <ArrowRight size={36} strokeWidth={3} />
+              </Label>
+              <FormField
+                control={dynamicForm.control}
+                name={`candidates.${index}.targetDuty`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>目標更</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-14 font-mono tracking-wide"
+                        {...field}
+                        placeholder="159"
+                        maxLength={3}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button
+              type="submit"
+              variant={"secondary"}
+              onClick={() => {
+                //
               }}
-            />
-          </section>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button
-            variant={"secondary"}
-            onClick={
-              handleCandidateSubmit(onCandidateSubmit)
-              //   handleCandidateSubmit((data) => {
-              //   const [correspondingData] = data[fieldArrayName];
-
-              //   if (!correspondingData) return;
-              //   // setValue(`${fieldArrayName}.${index}`, value);
-              //   console.log(correspondingData);
-              //   update(index, correspondingData);
-              // })
-            }
-          >
-            確定資料
-          </Button>
-          <Button
-            type="reset"
-            variant={"destructive"}
-            className="w-[102px]"
-            onClick={() => {
-              // reset({ [fieldArrayName]: [] });
-              reset({ ...getValues() });
-            }}
-          >
-            重置
-          </Button>
-        </CardFooter>
+              className="px-4"
+            >
+              生成調更表
+            </Button>
+            <Button
+              type="reset"
+              variant={"destructive"}
+              className="w-[102px]"
+              onClick={() => {
+                dynamicForm.reset();
+              }}
+            >
+              重置
+            </Button>
+          </CardFooter>
+        </Card>
       </Card>
       {/* </div> */}
     </>
@@ -179,16 +252,21 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
 export default function DynamicDynamicForm() {
   const dynamicForm = useForm<DynamicFormData>({
     defaultValues: {
+      responsibleDay: new Date(),
       [fieldArrayName]: [
         {
-          name: "",
-          age: 0,
+          staffID: "",
+          staffName: "",
           rowNumber: "",
+          assignedDuty: "",
+          targetDuty: "",
         },
         {
-          name: "",
-          age: 0,
+          staffID: "",
+          staffName: "",
           rowNumber: "",
+          assignedDuty: "",
+          targetDuty: "",
         },
       ],
     },
@@ -200,6 +278,13 @@ export default function DynamicDynamicForm() {
     control,
     name: `${fieldArrayName}`,
   });
+
+  const weekNumberMemoized = useMemo(() => {
+    return getCurrentWeekNumber(
+      dynamicForm.getValues(`responsibleDay`)
+    ).toString();
+  }, [dynamicForm, dynamicForm.watch("responsibleDay")]);
+
   const onSubmit = (values: DynamicFormData) => console.log(values);
 
   return (
@@ -209,52 +294,118 @@ export default function DynamicDynamicForm() {
           onSubmit={handleFormSubmit(onSubmit)}
           className="flex flex-col gap-4"
         >
-          {fields.map((field, index) => (
-            <fieldset
-              key={field.id}
-              className="flex flex-col items-center justify-center"
-            >
-              <Card className="relative flex w-screen flex-col items-center justify-center border-x-0 border-y-rose-500">
-                <CardHeader>
+          <Card className="border-b-sky-900 border-t-sky-500">
+            <div className="flex justify-between pb-4">
+              <CardHeader>
+                <FormField
+                  control={dynamicForm.control}
+                  name={"responsibleDay"}
+                  render={({ field }) => {
+                    const value = field.value;
+                    return (
+                      <FormItem className="flex flex-col">
+                        <FormLabel className="text-xl">目標日期</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <section className="flex items-center justify-center">
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-fit pl-3 text-left font-normal",
+                                    !value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {value ? (
+                                    // format(value, "dd-MM-yyyy E")
+                                    moment(value).format("DD/MM/YYYY ddd")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                                <Button>
+                                  <RotateCcw />
+                                </Button>
+                              </section>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </FormItem>
+                    );
+                  }}
+                />
+              </CardHeader>
+              <CardHeader className="justify-between text-center">
+                <CardTitle>
+                  <Label className="text-xl">
+                    週數
+                    <br />
+                    {weekNumberMemoized}
+                  </Label>
+                </CardTitle>
+              </CardHeader>
+            </div>
+            {fields.map((field, index) => (
+              <fieldset
+                key={field.id}
+                className="flex flex-col items-center justify-center"
+              >
+                <Card className="relative flex w-screen flex-col items-center justify-center border-x-0 border-y-rose-500">
+                  {/* <CardHeader>
                   <CardTitle>
-                    {field.name || `Candidate ${index + 1}`}
+                    {field.staffName || `Candidate ${index + 1}`}
                   </CardTitle>
-                </CardHeader>
-                <CardContent className="w-screen">
-                  <Edit
-                    control={control}
-                    update={update}
-                    index={index}
-                    value={field}
-                    reset={reset}
-                  />
-                  <Button
-                    className="absolute right-2 top-2 w-12"
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => remove(index)}
-                  >
-                    <Minus size={12} strokeWidth={12} />
-                  </Button>
-                </CardContent>
-              </Card>
-            </fieldset>
-          ))}
-
-          <div className="flex justify-around">
-            <Button
-              variant="ghost"
-              type="button"
-              onClick={() => {
-                append({ name: "", age: 0, rowNumber: "" });
-              }}
-            >
-              添加
-            </Button>
-            <Button variant="secondary" type="submit">
-              確定生成調更紙
-            </Button>
-          </div>
+                </CardHeader> */}
+                  <CardContent className="w-screen">
+                    <Edit
+                      control={control}
+                      update={update}
+                      index={index}
+                      value={field}
+                      reset={reset}
+                    />
+                    <Button
+                      className="absolute right-2 top-2 w-12"
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => remove(index)}
+                    >
+                      <Minus size={12} strokeWidth={12} />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </fieldset>
+            ))}
+            <div className="flex justify-around">
+              <Button
+                variant="ghost"
+                type="button"
+                onClick={() => {
+                  append({
+                    staffID: "",
+                    staffName: "",
+                    rowNumber: "",
+                    assignedDuty: "",
+                    targetDuty: "",
+                  });
+                }}
+              >
+                添加
+              </Button>
+              <Button variant="secondary" type="submit">
+                確定生成調更紙
+              </Button>
+            </div>
+          </Card>
         </form>
         {/* <DevTool control={control} /> */}
       </Form>
