@@ -43,11 +43,9 @@ import { useMemo } from "react";
 import { Label } from "./ui/label";
 import { Calendar } from "./ui/calendar";
 
-const today = moment(new Date()).toString();
+const today = moment().toString();
 
 const fieldArrayName = "candidates" as const;
-// const fieldArrayName = today;
-console.log(today);
 
 const dynamicFormSchema = z.object({
   responsibleDay: z.date(),
@@ -56,7 +54,6 @@ const dynamicFormSchema = z.object({
       staffID: z.string().length(6, "輸入錯誤"),
       staffName: z.string(),
       rowNumber: z.string().regex(/[ABC]\d{1,3}/, "請輸入正確行序"),
-      // correspondingDate: z.date(),
       assignedDuty: z
         .string()
         .regex(/((?:1|3|5|6)(?:[0-5])(?:\d))/, "101 or 102 or 601"),
@@ -80,6 +77,7 @@ const Display = ({ control, index }: DisplayProps) => {
     name: `${fieldArrayName}.${index}`,
   });
 
+  console.log(data);
   if (!data.staffID) return null;
 
   return (
@@ -100,11 +98,7 @@ type EditProps = {
 };
 
 const Edit = ({ update, index, control, value, reset }: EditProps) => {
-  const dynamicForm = useForm<DynamicFormData>({
-    resolver: zodResolver(dynamicFormSchema),
-    defaultValues: { [fieldArrayName]: [] },
-    mode: "onBlur",
-  });
+  const dynamicForm = useForm<DynamicFormData>({});
 
   const {
     handleSubmit: handleCandidateSubmit,
@@ -118,25 +112,25 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
 
   return (
     <>
-      {/* <div className="h-fit w-screen px-2"> */}
       <Display control={control} index={index} />
-
-      <Card className="flex flex-col gap-2">
+      <Card className="flex flex-col gap-2 border-x-0 border-y-0">
         <CardHeader>
-          <CardTitle>{`${value.staffName} Candidate ${index + 1}`}</CardTitle>
+          <CardTitle>
+            {`${value.staffName}` || `Candidate ${index + 1}`}
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
             <FormField
               control={dynamicForm.control}
-              name={`candidates.${index}.staffID`}
+              name={`candidates.${index}.staffID` as const}
               render={({ field }) => (
                 <FormItem className="m-0">
                   <FormLabel>職員號碼</FormLabel>
                   <FormControl>
                     <Input
-                      className={cn("w-20 font-mono tracking-wide")}
                       {...field}
+                      className={cn("w-20 font-mono tracking-wide")}
                       placeholder="9999XX"
                       maxLength={6}
                     />
@@ -146,7 +140,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
             />
             <FormField
               control={dynamicForm.control}
-              name={`candidates.${index}.staffName`}
+              name={`candidates.${index}.staffName` as const}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>姓名</FormLabel>
@@ -156,7 +150,6 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                       {...field}
                       type="text"
                       placeholder="CHANTM"
-                      disabled
                     />
                   </FormControl>
                 </FormItem>
@@ -164,7 +157,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
             />
             <FormField
               control={dynamicForm.control}
-              name={`candidates.${index}.rowNumber`}
+              name={`candidates.${index}.rowNumber` as const}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>編定行序</FormLabel>
@@ -183,7 +176,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
           <div className="flex items-center justify-between align-middle">
             <FormField
               control={dynamicForm.control}
-              name={`candidates.${index}.assignedDuty`}
+              name={`candidates.${index}.assignedDuty` as const}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>原定更</FormLabel>
@@ -203,7 +196,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
             </Label>
             <FormField
               control={dynamicForm.control}
-              name={`candidates.${index}.targetDuty`}
+              name={`candidates.${index}.targetDuty` as const}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>目標更</FormLabel>
@@ -222,35 +215,35 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button
-            type="submit"
             variant={"secondary"}
             onClick={() => {
-              //
+              update(index, value);
+
+              // handleCandidateSubmit(onCandidateSubmit);
             }}
             className="px-4"
           >
-            生成調更表
+            確定調更資料
           </Button>
           <Button
             type="reset"
             variant={"destructive"}
             className="w-[102px]"
             onClick={() => {
-              dynamicForm.reset();
+              reset();
             }}
           >
             重置
           </Button>
         </CardFooter>
       </Card>
-
-      {/* </div> */}
     </>
   );
 };
 
 export default function DynamicDynamicForm() {
   const dynamicForm = useForm<DynamicFormData>({
+    resolver: zodResolver(dynamicFormSchema),
     defaultValues: {
       responsibleDay: new Date(),
       [fieldArrayName]: [
@@ -270,6 +263,7 @@ export default function DynamicDynamicForm() {
         },
       ],
     },
+    mode: "onBlur",
   });
 
   const { control, handleSubmit: handleFormSubmit, reset } = dynamicForm;
@@ -299,16 +293,16 @@ export default function DynamicDynamicForm() {
               <CardHeader>
                 <FormField
                   control={dynamicForm.control}
-                  name={"responsibleDay"}
+                  name={"responsibleDay" as const}
                   render={({ field }) => {
                     const value = field.value;
                     return (
                       <FormItem className="flex flex-col">
                         <FormLabel className="text-xl">目標日期</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <section className="flex items-center justify-center">
+                        <section className="flex items-center justify-center">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
                                 <Button
                                   variant={"outline"}
                                   className={cn(
@@ -324,21 +318,28 @@ export default function DynamicDynamicForm() {
                                   )}
                                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
-                                <Button>
-                                  <RotateCcw />
-                                </Button>
-                              </section>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <Button
+                            onClick={() => {
+                              reset();
+                            }}
+                          >
+                            <RotateCcw />
+                          </Button>
+                        </section>
                       </FormItem>
                     );
                   }}
@@ -354,17 +355,13 @@ export default function DynamicDynamicForm() {
                 </CardTitle>
               </CardHeader>
             </div>
-            {fields.map((field, index) => (
-              <fieldset
-                key={field.id}
-                className="flex flex-col items-center justify-center"
-              >
-                <Card className="relative flex w-screen flex-col items-center justify-center border-y-0 border-x-rose-500">
-                  <CardTitle>
-                    {field.staffName || `Candidate ${index + 1}`}
-                  </CardTitle>
-
-                  <CardContent className="w-screen">
+            <CardContent className="flex w-fit flex-col gap-5">
+              {fields.map((field, index) => (
+                <fieldset
+                  key={field.id}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <Card className="relative flex w-fit flex-col items-center justify-center gap-4 border-y-0 border-x-lime-500">
                     <Edit
                       control={control}
                       update={update}
@@ -380,10 +377,10 @@ export default function DynamicDynamicForm() {
                     >
                       <Minus size={12} strokeWidth={12} />
                     </Button>
-                  </CardContent>
-                </Card>
-              </fieldset>
-            ))}
+                  </Card>
+                </fieldset>
+              ))}
+            </CardContent>
             <div className="flex justify-around">
               <Button
                 variant="ghost"
@@ -401,7 +398,7 @@ export default function DynamicDynamicForm() {
                 添加
               </Button>
               <Button variant="secondary" type="submit">
-                確定生成調更紙
+                生成調更紙
               </Button>
             </div>
           </Card>

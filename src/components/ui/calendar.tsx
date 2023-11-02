@@ -1,4 +1,4 @@
-import { DayPicker, Row, type RowProps } from "react-day-picker";
+import { DateFormatter, DayPicker, Row, type RowProps } from "react-day-picker";
 
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
@@ -33,9 +33,17 @@ function Calendar({ className, classNames, ...props }: CalendarProps) {
     };
   }, [isOnlytodayUntilNextSunday]);
 
+  const formatWeekdayName: DateFormatter = (date) => {
+    return <>{moment(date).format("ddd")}</>;
+  };
+
   return (
     <DayPicker
+      formatters={{
+        formatWeekdayName,
+      }}
       weekStartsOn={1}
+      fixedWeeks
       showOutsideDays
       className={cn("p-3", className)}
       classNames={{
@@ -64,15 +72,15 @@ function Calendar({ className, classNames, ...props }: CalendarProps) {
           "bg-secondary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
         day_today: "bg-primary-forground text-accent-foreground",
         day_outside: "text-muted-foreground opacity-50",
-        day_disabled: "text-muted-foreground opacity-50",
+        day_disabled: "text-muted-foreground opacity-80",
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
       }}
       disabled={isOnlytodayUntilNextSunday}
-      numberOfMonths={2}
       disableNavigation
+      numberOfMonths={2}
       fromMonth={new Date()}
       toMonth={moment().add(4, "w").toDate()}
       components={{
