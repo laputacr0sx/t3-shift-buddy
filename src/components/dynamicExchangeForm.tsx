@@ -43,8 +43,6 @@ import { useMemo } from "react";
 import { Label } from "./ui/label";
 import { Calendar } from "./ui/calendar";
 
-const today = moment().toString();
-
 const fieldArrayName = "candidates" as const;
 
 const dynamicFormSchema = z.object({

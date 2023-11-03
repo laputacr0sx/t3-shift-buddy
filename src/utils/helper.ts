@@ -1,5 +1,9 @@
 import type { Shift } from "@prisma/client";
-import { type DayDetail, type WeekComplex } from "./customTypes";
+import {
+  type HolidaysObject,
+  type DayDetail,
+  type WeekComplex,
+} from "./customTypes";
 import { toast } from "~/components/ui/useToast";
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
@@ -123,3 +127,9 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
     description: "已複製資料",
   });
 }
+
+import { holidayJson } from "~/utils/holidayHK";
+
+export const getHolidays = (dates: Date[]) => {
+  //
+};
