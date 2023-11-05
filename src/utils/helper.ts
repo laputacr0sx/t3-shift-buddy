@@ -1,9 +1,5 @@
 import type { Shift } from "@prisma/client";
-import {
-  type HolidaysObject,
-  type DayDetail,
-  type WeekComplex,
-} from "./customTypes";
+import { type DayDetail, type WeekComplex } from "./customTypes";
 import { toast } from "~/components/ui/useToast";
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
@@ -129,7 +125,55 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
 }
 
 import { holidayJson } from "~/utils/holidayHK";
+import fixtures from "~/utils/hkjcFixture";
 
-export const getHolidays = (dates: Date[]) => {
-  //
+export const autoPrefix = (dates?: Date[]) => {
+  const validDates = dates ? dates : getNextWeekDates(52);
+
+  /**
+   * Format date to YYYYMMDD for compliance
+   */
+  const dateArray = validDates.map((date) => {
+    return moment(date).locale("zh-hk").format("YYYYMMDD");
+  });
+
+  const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
+    vevent.flatMap(({ dtstart }) =>
+      dtstart.filter((date) => typeof date === "string")
+    )
+  );
+  const prefixes = [];
+
+  for (const date of dateArray) {
+    const isHoliday = !!publicHolidays.filter((holiday) => holiday === date)[0];
+
+    const racingDetails = fixtures.filter(
+      ({ date: fixtureDay }) =>
+        moment(fixtureDay).locale("zh-hk").format("YYYYMMDD") === date
+    )[0];
+
+    console.log(racingDetails);
+
+    const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
+      ({ dtstart }) => dtstart.includes(date)
+    );
+
+    console.log(holidayDetails?.[0]);
+
+    const weekDayNum = moment(date).isoWeekday();
+
+    const betterPrefix = racingDetails
+      ? racingDetails.nightRacing === 0
+        ? "71"
+        : racingDetails.nightRacing === 1 && racingDetails.venue === "H"
+        ? "14"
+        : "13"
+      : weekDayNum === 6 || weekDayNum === 7 || isHoliday
+      ? "75"
+      : "15";
+
+    prefixes.push({ date, betterPrefix, racingDetails } as const);
+    console.log({ date, betterPrefix, racingDetails });
+  }
+  return prefixes;
 };

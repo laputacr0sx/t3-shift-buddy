@@ -1,14 +1,11 @@
 import { ClerkProvider } from "@clerk/nextjs";
 
-import { type Session } from "next-auth";
-import { AppType, type AppProps } from "next/app";
+import { type AppProps } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
-import Head from "next/head";
 import { Toaster } from "~/components/Toaster";
 import { ThemeProvider } from "~/components/ui/theme-provider";
-import { type ReactElement, type ReactNode } from "react";
 import { type NextPage } from "next";
 
 // export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
