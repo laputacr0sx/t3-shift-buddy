@@ -14,6 +14,14 @@ const AnnualLeaves: NextPageWithLayout = () => {
         numberOfMonths={12}
         disableNavigation
         fromYear={2024}
+        onWeekNumberClick={(weekNumber, dates, e) => {
+          e.preventDefault();
+          console.log({ weekNumber, dates, e });
+        }}
+        onDayClick={(day, activeModifiers, e) => {
+          e.preventDefault();
+          console.log({ day, activeModifiers, e });
+        }}
       />
     </div>
   );
