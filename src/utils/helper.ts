@@ -124,16 +124,13 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
   });
 }
 
-import { holidayJson } from "~/utils/holidayHK";
+import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 
 export const autoPrefix = (dates?: Date[]) => {
-  const validDates = dates ? dates : getNextWeekDates(52);
+  const inputDates = dates ? dates : getNextWeekDates(52);
 
-  /**
-   * Format date to YYYYMMDD for compliance
-   */
-  const dateArray = validDates.map((date) => {
+  const formattedDated = inputDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");
   });
 
@@ -144,7 +141,7 @@ export const autoPrefix = (dates?: Date[]) => {
   );
   const prefixes = [];
 
-  for (const date of dateArray) {
+  for (const date of formattedDated) {
     const isHoliday = !!publicHolidays.filter((holiday) => holiday === date)[0];
 
     const racingDetails = fixtures.filter(
@@ -152,17 +149,13 @@ export const autoPrefix = (dates?: Date[]) => {
         moment(fixtureDay).locale("zh-hk").format("YYYYMMDD") === date
     )[0];
 
-    console.log(racingDetails);
-
     const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
       ({ dtstart }) => dtstart.includes(date)
-    );
-
-    console.log(holidayDetails?.[0]);
+    )[0];
 
     const weekDayNum = moment(date).isoWeekday();
 
-    const betterPrefix = racingDetails
+    const autoPrefix = racingDetails
       ? racingDetails.nightRacing === 0
         ? "71"
         : racingDetails.nightRacing === 1 && racingDetails.venue === "H"
@@ -172,8 +165,13 @@ export const autoPrefix = (dates?: Date[]) => {
       ? "75"
       : "15";
 
-    prefixes.push({ date, betterPrefix, racingDetails } as const);
-    console.log({ date, betterPrefix, racingDetails });
+    prefixes.push({
+      date: moment(date).format("YYYYMMDD ddd"),
+      autoPrefix,
+      racingDetails,
+      holidayDetails,
+    } as const);
   }
+
   return prefixes;
 };

@@ -1,4 +1,4 @@
-export const holidayJson = {
+const holidayJson = {
   vcalendar: [
     {
       prodid:
@@ -880,3 +880,5 @@ export const holidayJson = {
     },
   ],
 };
+
+export default holidayJson;

@@ -65,6 +65,15 @@ model WeekPrefix {
   prefixes   String[]
 }
 
+model AbbreviatedPrefix {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prefix          String
+  dateOfEffective DateTime
+}
+
 enum Location {
   HUH
   SHS
