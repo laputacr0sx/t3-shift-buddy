@@ -61,7 +61,7 @@ model WeekPrefix {
   id         String   @id @default(cuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  weekNumber Int
+  weekNumber Int      @unique
   prefixes   String[]
 }
 
@@ -71,6 +71,7 @@ model AbbreviatedPrefix {
   updatedAt DateTime @updatedAt
 
   prefix          String
+  timetable       String
   dateOfEffective DateTime
 }
 

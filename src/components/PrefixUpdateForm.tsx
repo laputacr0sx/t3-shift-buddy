@@ -15,12 +15,10 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
-import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
 import moment from "moment";
 import { api } from "~/utils/api";
 import { autoPrefix, getWeekNumber } from "~/utils/helper";
-import { Label } from "./ui/label";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -76,7 +74,11 @@ function DynamicUpdatePrefixForm(props: PropsType) {
       ({ alphabeticPrefix, numericPrefix }) =>
         alphabeticPrefix.concat(numericPrefix)
     );
-    console.log(completePrefix);
+
+    console.log({
+      weekNumber: values.weekNumber,
+      prefixes: completePrefix,
+    });
 
     updatePrefixes({
       weekNumber: values.weekNumber,
