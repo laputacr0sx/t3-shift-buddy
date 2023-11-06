@@ -16,10 +16,9 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
-import moment, { weekdays } from "moment";
+import moment from "moment";
 import { api } from "~/utils/api";
 import { getWeekNumber } from "~/utils/helper";
-import WeekNumber from "./WeekNumber";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),

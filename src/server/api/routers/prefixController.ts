@@ -77,7 +77,10 @@ export const prefixControllerRouter = createTRPCRouter({
           .min(1, "This minimum Weeknumber is 1"),
       })
     )
+
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.weekPrefix.create({ data: { ...input } });
+      return ctx.prisma.weekPrefix.create({
+        data: { ...input },
+      });
     }),
 });

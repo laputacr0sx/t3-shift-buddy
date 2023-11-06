@@ -35,6 +35,11 @@ const PrefixUpdateForm: NextPageWithLayout = () => {
       <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
         改更易
       </h1>
+      {currentWeekPreix.error && (
+        <p className="text-center text-red-500">
+          {currentWeekPreix.error.message}
+        </p>
+      )}
       <h2 className="justify-center py-2 text-center font-mono text-xl font-semibold text-foreground">
         {`第${weekNumber}週時間表`}
       </h2>
