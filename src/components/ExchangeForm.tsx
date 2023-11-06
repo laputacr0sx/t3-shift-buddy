@@ -25,7 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { getWeekNumber } from "~/utils/helper";
 import { cn } from "~/lib/utils";
 import { ArrowRight, Calendar as CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "./ui/exchangeCalendar";
 import { Label } from "./ui/label";
 
 export const shiftsExchangeFormSchema = z.object({

@@ -41,7 +41,7 @@ import moment from "moment";
 import { getWeekNumber } from "~/utils/helper";
 import { useMemo } from "react";
 import { Label } from "./ui/label";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "./ui/exchangeCalendar";
 
 const fieldArrayName = "candidates" as const;
 
