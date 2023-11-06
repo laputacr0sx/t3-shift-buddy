@@ -7,7 +7,6 @@ import { autoPrefix } from "~/utils/helper";
 autoPrefix();
 
 const Home: NextPageWithLayout = () => (
-  // <div className=" md:max-w-screen-2xl ">
   <div>
     <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
       查更易
