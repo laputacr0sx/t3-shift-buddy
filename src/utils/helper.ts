@@ -1,16 +1,16 @@
-import type { Shift } from "@prisma/client";
-import { type DayDetail, type WeekComplex } from "./customTypes";
-import { toast } from "~/components/ui/useToast";
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
+import type { Shift } from "@prisma/client";
+import { toast } from "~/components/ui/useToast";
+import { type DayDetail, type WeekComplex } from "./customTypes";
 import { completeShiftNameRegex } from "./regex";
 
-export function getCurrentWeekNumber(queryDate?: Date) {
+export function getWeekNumber(queryDate?: Date) {
   return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
 export function getNextWeekDates(weekNumber?: number) {
-  const validWeekNumber = weekNumber ? weekNumber : getCurrentWeekNumber() + 1;
+  const validWeekNumber = weekNumber ? weekNumber : getWeekNumber() + 1;
   const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
 
   let weekArr = new Array<Date>();

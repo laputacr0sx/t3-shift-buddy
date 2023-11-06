@@ -31,10 +31,12 @@ const prefixFormSchema = z.object({
   Sun: z.string().regex(prefixRegex, "Prefix format Error"),
 });
 
-interface PropsType {
+type PrefixFormSchema = z.infer<typeof prefixFormSchema>;
+
+type PropsType = {
   dates: Date[];
-  prefixes?: WeekPrefix;
-}
+  weekPrefix?: WeekPrefix;
+};
 
 function PrefixChangingForm(props: PropsType) {
   const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
@@ -44,23 +46,21 @@ function PrefixChangingForm(props: PropsType) {
       },
     });
 
-  // 1. Define your form.
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const prefixForm = useForm<z.infer<typeof prefixFormSchema>>({
+  const prefixForm = useForm<PrefixFormSchema>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues: {
       weekNumber: parseInt(moment().format("W")),
-      Mon: `${props.prefixes?.prefixes[0] || ""}`,
-      Tue: `${props.prefixes?.prefixes[2] || ""}`,
-      Wed: `${props.prefixes?.prefixes[2] || ""}`,
-      Thu: `${props.prefixes?.prefixes[3] || ""}`,
-      Fri: `${props.prefixes?.prefixes[4] || ""}`,
-      Sat: `${props.prefixes?.prefixes[5] || ""}`,
-      Sun: `${props.prefixes?.prefixes[6] || ""}`,
+      Mon: `${props.weekPrefix?.prefixes[0] || ""}`,
+      Tue: `${props.weekPrefix?.prefixes[1] || ""}`,
+      Wed: `${props.weekPrefix?.prefixes[2] || ""}`,
+      Thu: `${props.weekPrefix?.prefixes[3] || ""}`,
+      Fri: `${props.weekPrefix?.prefixes[4] || ""}`,
+      Sat: `${props.weekPrefix?.prefixes[5] || ""}`,
+      Sun: `${props.weekPrefix?.prefixes[6] || ""}`,
     },
   });
   // 2. Define a submit handler.
-  function prefixFormHandler(values: z.infer<typeof prefixFormSchema>) {
+  function prefixFormHandler(values: PrefixFormSchema) {
     const orderedPrefixArray: string[] = [
       values.Mon,
       values.Tue,
@@ -267,7 +267,7 @@ function PrefixChangingForm(props: PropsType) {
           disabled={updatingPrefixes}
           className="items-center justify-center self-center tracking-wider"
         >
-          {`更改${(props.prefixes?.weekNumber || 0) + 1}週時間表`}
+          {`更改${(props.weekPrefix?.weekNumber || 0) + 1}週時間表`}
         </Button>
       </form>
     </Form>

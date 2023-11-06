@@ -3,37 +3,44 @@ import { Skeleton } from "~/components/ui/skeleton";
 
 import { api } from "~/utils/api";
 
-import { getNextWeekDates } from "~/utils/helper";
+import { getNextWeekDates, getWeekNumber } from "~/utils/helper";
 import { type NextPageWithLayout } from "./_app";
 import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 
 const PrefixUpdateForm: NextPageWithLayout = () => {
-  const {
-    data: currentPrefixList,
-    isLoading: prefixLoading,
-    error: prefixError,
-  } = api.prefixController.getCurrentPrefix.useQuery();
+  const weekNumber = getWeekNumber();
 
-  if (prefixLoading)
+  const {
+    data: currentWeekPreix,
+    isLoading: currentWeekPrefixLoading,
+    error: currenWeekPrefixError,
+  } = api.prefixController.getPrefixGivenWeekNumber.useQuery({
+    weekNumber: weekNumber,
+  });
+
+  if (currentWeekPrefixLoading)
     return (
       <>
         <Skeleton className={"h-3 w-10 rounded-md"} />
       </>
     );
 
-  if (prefixError) {
-    return <>{prefixError.message}</>;
+  if (currenWeekPrefixError) {
+    return <>{currenWeekPrefixError.message}</>;
   }
 
   return (
-    <div className="flex h-full w-screen flex-col items-center justify-center px-14 py-12">
-      <h1 className="justify-center py-2 text-center font-mono text-4xl font-semibold text-foreground">
-        {`第${currentPrefixList?.[0]?.weekNumber.toString() || ""}週時間表`}
+    <div>
+      <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
+        改更易
       </h1>
+      <h2 className="justify-center py-2 text-center font-mono text-xl font-semibold text-foreground">
+        {`第${currentWeekPreix.result?.weekNumber.toString() || ""}週時間表`}
+      </h2>
       <PrefixChangingForm
         dates={getNextWeekDates()}
-        prefixes={currentPrefixList?.[0]}
+        weekPrefix={currentWeekPreix.result!}
       />
     </div>
   );

@@ -24,13 +24,13 @@ export const prefixControllerRouter = createTRPCRouter({
       take: 1,
     });
 
-    if (!result)
+    if (!result?.[0])
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "result not found",
       });
 
-    return result;
+    return result?.[0];
   }),
 
   getPrefixGivenWeekNumber: publicProcedure
@@ -42,10 +42,26 @@ export const prefixControllerRouter = createTRPCRouter({
           .min(1, "This minimum Weeknumber is 1"),
       })
     )
-    .query(({ input, ctx }) => {
-      return ctx.prisma.weekPrefix.findFirstOrThrow({
-        where: { weekNumber: input.weekNumber },
+    .query(async ({ input: { weekNumber }, ctx }) => {
+      const currentPrefix = await ctx.prisma.weekPrefix.findFirst({
+        where: { weekNumber: weekNumber },
       });
+
+      const latestResult = await ctx.prisma.weekPrefix.findFirst({
+        orderBy: { updatedAt: "desc" },
+        take: 1,
+      });
+
+      return {
+        result: currentPrefix ? currentPrefix : latestResult,
+        error:
+          !currentPrefix || !latestResult
+            ? new TRPCError({
+                code: "NOT_FOUND",
+                message: `WeekPrefix with weekNumber ${weekNumber} not found`,
+              })
+            : null,
+      };
     }),
 
   createNextWeekPrefix: publicProcedure
