@@ -47,20 +47,19 @@ export const prefixControllerRouter = createTRPCRouter({
         where: { weekNumber: weekNumber },
       });
 
-      const latestResult = await ctx.prisma.weekPrefix.findFirst({
+      const latestResult = await ctx.prisma.weekPrefix.findFirstOrThrow({
         orderBy: { updatedAt: "desc" },
         take: 1,
       });
 
       return {
-        result: currentPrefix ? currentPrefix : latestResult,
-        error:
-          !currentPrefix || !latestResult
-            ? new TRPCError({
-                code: "NOT_FOUND",
-                message: `WeekPrefix with weekNumber ${weekNumber} not found`,
-              })
-            : null,
+        result: currentPrefix ?? latestResult,
+        error: !currentPrefix
+          ? new TRPCError({
+              code: "NOT_FOUND",
+              message: `WeekPrefix with weekNumber ${weekNumber} not found`,
+            })
+          : null,
       };
     }),
 

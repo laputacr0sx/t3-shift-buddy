@@ -36,11 +36,11 @@ const PrefixUpdateForm: NextPageWithLayout = () => {
         改更易
       </h1>
       <h2 className="justify-center py-2 text-center font-mono text-xl font-semibold text-foreground">
-        {`第${currentWeekPreix.result?.weekNumber.toString() || ""}週時間表`}
+        {`第${weekNumber}週時間表`}
       </h2>
       <PrefixChangingForm
         dates={getNextWeekDates()}
-        weekPrefix={currentWeekPreix.result!}
+        weekPrefix={currentWeekPreix.result}
       />
     </div>
   );

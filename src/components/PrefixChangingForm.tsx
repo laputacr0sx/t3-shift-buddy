@@ -7,7 +7,6 @@ import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,8 +16,10 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
-import moment from "moment";
+import moment, { weekdays } from "moment";
 import { api } from "~/utils/api";
+import { getWeekNumber } from "~/utils/helper";
+import WeekNumber from "./WeekNumber";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -39,17 +40,21 @@ type PropsType = {
 };
 
 function PrefixChangingForm(props: PropsType) {
+  const currentWeekNumber = getWeekNumber();
+
   const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({
       onSuccess: async () => {
-        await api.useContext().prefixController.getCurrentPrefix.invalidate();
+        await api
+          .useContext()
+          .prefixController.getPrefixGivenWeekNumber.invalidate();
       },
     });
 
   const prefixForm = useForm<PrefixFormSchema>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues: {
-      weekNumber: parseInt(moment().format("W")),
+      weekNumber: currentWeekNumber + 1,
       Mon: `${props.weekPrefix?.prefixes[0] || ""}`,
       Tue: `${props.weekPrefix?.prefixes[1] || ""}`,
       Wed: `${props.weekPrefix?.prefixes[2] || ""}`,
@@ -58,6 +63,7 @@ function PrefixChangingForm(props: PropsType) {
       Sat: `${props.weekPrefix?.prefixes[5] || ""}`,
       Sun: `${props.weekPrefix?.prefixes[6] || ""}`,
     },
+    mode: "onBlur",
   });
   // 2. Define a submit handler.
   function prefixFormHandler(values: PrefixFormSchema) {
@@ -85,6 +91,33 @@ function PrefixChangingForm(props: PropsType) {
         onSubmit={prefixForm.handleSubmit(prefixFormHandler)}
         className=" flex w-fit flex-col space-y-2"
       >
+        {/* {props.dates.map((date, i) => {
+          const autoName = moment(date).format("ddd");
+
+          return (
+            <FormField
+              key={props.dates[i]?.toISOString()}
+              control={prefixForm.control}
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center justify-between gap-4 font-mono">
+                    <FormLabel className="items-center">
+                      {moment(props.dates[i]).format("D/MMM ddd")}
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="w-14 text-center"
+                        maxLength={3}
+                      />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          );
+        })} */}
         <FormField
           key={props.dates.join()}
           control={prefixForm.control}
@@ -107,6 +140,7 @@ function PrefixChangingForm(props: PropsType) {
             </FormItem>
           )}
         />
+
         <FormField
           key={props.dates[0]?.toISOString()}
           control={prefixForm.control}
@@ -267,7 +301,7 @@ function PrefixChangingForm(props: PropsType) {
           disabled={updatingPrefixes}
           className="items-center justify-center self-center tracking-wider"
         >
-          {`更改${(props.weekPrefix?.weekNumber || 0) + 1}週時間表`}
+          {`更改${currentWeekNumber + 1}週時間表`}
         </Button>
       </form>
     </Form>
