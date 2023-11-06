@@ -3,10 +3,11 @@ import { Skeleton } from "~/components/ui/skeleton";
 
 import { api } from "~/utils/api";
 
-import { getNextWeekDates, getWeekNumber } from "~/utils/helper";
+import { autoPrefix, getNextWeekDates, getWeekNumber } from "~/utils/helper";
 import { type NextPageWithLayout } from "./_app";
 import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
+import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 
 const PrefixUpdateForm: NextPageWithLayout = () => {
   const weekNumber = getWeekNumber();
@@ -43,10 +44,18 @@ const PrefixUpdateForm: NextPageWithLayout = () => {
       <h2 className="justify-center py-2 text-center font-mono text-xl font-semibold text-foreground">
         {`第${weekNumber}週時間表`}
       </h2>
-      <PrefixChangingForm
-        dates={getNextWeekDates()}
-        weekPrefix={currentWeekPreix.result}
-      />
+      <div className="flex items-center justify-center gap-4">
+        {/* <PrefixChangingForm
+          dates={getNextWeekDates()}
+          weekPrefix={currentWeekPreix.result}
+        /> */}
+
+        <DynamicUpdatePrefixForm
+          dates={getNextWeekDates()}
+          weekPrefix={currentWeekPreix.result}
+          autoPrefix={autoPrefix()}
+        />
+      </div>
     </div>
   );
 };

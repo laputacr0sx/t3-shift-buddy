@@ -127,10 +127,10 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 
-export const autoPrefix = (dates?: Date[]) => {
-  const inputDates = dates ? dates : getNextWeekDates(52);
+export const autoPrefix = (weekNumber?: number) => {
+  const correspondingDates = getNextWeekDates(weekNumber ?? getWeekNumber());
 
-  const formattedDated = inputDates.map((date) => {
+  const formattedDated = correspondingDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");
   });
 
@@ -155,7 +155,7 @@ export const autoPrefix = (dates?: Date[]) => {
 
     const weekDayNum = moment(date).isoWeekday();
 
-    const autoPrefix = racingDetails
+    const prefix = racingDetails
       ? racingDetails.nightRacing === 0
         ? "71"
         : racingDetails.nightRacing === 1 && racingDetails.venue === "H"
@@ -167,10 +167,10 @@ export const autoPrefix = (dates?: Date[]) => {
 
     prefixes.push({
       date: moment(date).format("YYYYMMDD ddd"),
-      autoPrefix,
+      prefix,
       racingDetails,
       holidayDetails,
-    } as const);
+    });
   }
 
   return prefixes;

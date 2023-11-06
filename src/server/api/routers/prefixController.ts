@@ -47,12 +47,10 @@ export const prefixControllerRouter = createTRPCRouter({
         where: { weekNumber: weekNumber },
       });
 
-      const latestResult = !currentPrefix
-        ? await ctx.prisma.weekPrefix.findFirstOrThrow({
-            orderBy: { updatedAt: "desc" },
-            take: 1,
-          })
-        : null;
+      const latestResult = await ctx.prisma.weekPrefix.findFirstOrThrow({
+        orderBy: { updatedAt: "desc" },
+        take: 1,
+      });
 
       return {
         result: currentPrefix ?? latestResult,

@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,17 +19,20 @@ import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
 import moment from "moment";
 import { api } from "~/utils/api";
-import { getWeekNumber } from "~/utils/helper";
+import { autoPrefix, getWeekNumber } from "~/utils/helper";
+import { Label } from "./ui/label";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
-  Mon: z.string().regex(prefixRegex, "Prefix format Error"),
-  Tue: z.string().regex(prefixRegex, "Prefix format Error"),
-  Wed: z.string().regex(prefixRegex, "Prefix format Error"),
-  Thu: z.string().regex(prefixRegex, "Prefix format Error"),
-  Fri: z.string().regex(prefixRegex, "Prefix format Error"),
-  Sat: z.string().regex(prefixRegex, "Prefix format Error"),
-  Sun: z.string().regex(prefixRegex, "Prefix format Error"),
+  weeks: z
+    .object({
+      alphabeticPrefix: z
+        .string()
+        .regex(/[a-z]/gi, "Only alphabetic characters allowed")
+        .max(1),
+      numericPrefix: z.string().regex(/(1[3|4|5]|7[1|5])/),
+    })
+    .array(),
 });
 
 type PrefixFormSchema = z.infer<typeof prefixFormSchema>;
@@ -36,9 +40,10 @@ type PrefixFormSchema = z.infer<typeof prefixFormSchema>;
 type PropsType = {
   dates: Date[];
   weekPrefix?: WeekPrefix;
+  autoPrefix: ReturnType<typeof autoPrefix>;
 };
 
-function PrefixChangingForm(props: PropsType) {
+function DynamicUpdatePrefixForm(props: PropsType) {
   const currentWeekNumber = getWeekNumber();
 
   const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
@@ -50,38 +55,33 @@ function PrefixChangingForm(props: PropsType) {
       },
     });
 
+  const prefixDetails = props.weekPrefix?.prefixes.map((prefix, i) => {
+    return {
+      alphabeticPrefix: prefix.slice(0, 1),
+      numericPrefix: props.autoPrefix[i]?.prefix,
+    };
+  });
+
   const prefixForm = useForm<PrefixFormSchema>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues: {
       weekNumber: currentWeekNumber + 1,
-      Mon: `${props.weekPrefix?.prefixes[0] || ""}`,
-      Tue: `${props.weekPrefix?.prefixes[1] || ""}`,
-      Wed: `${props.weekPrefix?.prefixes[2] || ""}`,
-      Thu: `${props.weekPrefix?.prefixes[3] || ""}`,
-      Fri: `${props.weekPrefix?.prefixes[4] || ""}`,
-      Sat: `${props.weekPrefix?.prefixes[5] || ""}`,
-      Sun: `${props.weekPrefix?.prefixes[6] || ""}`,
+      weeks: prefixDetails,
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   function prefixFormHandler(values: PrefixFormSchema) {
-    const orderedPrefixArray: string[] = [
-      values.Mon,
-      values.Tue,
-      values.Wed,
-      values.Thu,
-      values.Fri,
-      values.Sat,
-      values.Sun,
-    ];
+    const completePrefix = values.weeks.map(
+      ({ alphabeticPrefix, numericPrefix }) =>
+        alphabeticPrefix.concat(numericPrefix)
+    );
+    console.log(completePrefix);
 
-    const validatedFormInput = {
-      prefixes: orderedPrefixArray,
+    updatePrefixes({
       weekNumber: values.weekNumber,
-    };
-
-    updatePrefixes(validatedFormInput);
+      prefixes: completePrefix,
+    });
   }
 
   return (
@@ -90,33 +90,6 @@ function PrefixChangingForm(props: PropsType) {
         onSubmit={prefixForm.handleSubmit(prefixFormHandler)}
         className=" flex w-fit flex-col space-y-2"
       >
-        {/* {props.dates.map((date, i) => {
-          const autoName = moment(date).format("ddd");
-
-          return (
-            <FormField
-              key={props.dates[i]?.toISOString()}
-              control={prefixForm.control}
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex items-center justify-between gap-4 font-mono">
-                    <FormLabel className="items-center">
-                      {moment(props.dates[i]).format("D/MMM ddd")}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="w-14 text-center"
-                        maxLength={3}
-                      />
-                    </FormControl>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          );
-        })} */}
         <FormField
           key={props.dates.join()}
           control={prefixForm.control}
@@ -131,7 +104,8 @@ function PrefixChangingForm(props: PropsType) {
                   <Input
                     {...field}
                     className="w-14 text-center"
-                    maxLength={3}
+                    maxLength={1}
+                    autoCapitalize="characters"
                   />
                 </FormControl>
               </div>
@@ -139,161 +113,61 @@ function PrefixChangingForm(props: PropsType) {
             </FormItem>
           )}
         />
+        {props.dates.map((date, i) => {
+          const autoPrefixOnDate = autoPrefix()[i];
+          return (
+            <fieldset key={date.toISOString()}>
+              <section className="flex items-center justify-center">
+                <FormField
+                  control={prefixForm.control}
+                  name={`weeks.${i}.alphabeticPrefix` as const}
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between gap-4 font-mono">
+                        <FormLabel className="items-center">
+                          {moment(date).format("D/MM ddd")}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            className="w-10 border-r-0 text-center"
+                            maxLength={1}
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  key={date.toISOString()}
+                  control={prefixForm.control}
+                  name={`weeks.${i}.numericPrefix` as const}
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between gap-4 font-mono">
+                        <FormControl>
+                          <Input
+                            {...field}
+                            className="w-12 border-l-0 text-center"
+                            maxLength={2}
+                            placeholder={autoPrefixOnDate?.prefix}
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </section>
 
-        <FormField
-          key={props.dates[0]?.toISOString()}
-          control={prefixForm.control}
-          name="Mon"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center justify-between gap-4 font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[0]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          key={props.dates[1]?.toISOString()}
-          control={prefixForm.control}
-          name="Tue"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex  items-center justify-between gap-4  font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[1]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          key={props.dates[2]?.toISOString()}
-          control={prefixForm.control}
-          name="Wed"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex  items-center justify-between gap-4  font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[2]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          key={props.dates[3]?.toISOString()}
-          control={prefixForm.control}
-          name="Thu"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex  items-center justify-between gap-4  font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[3]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          key={props.dates[4]?.toISOString()}
-          control={prefixForm.control}
-          name="Fri"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex  items-center justify-between gap-4  font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[4]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          key={props.dates[5]?.toISOString()}
-          control={prefixForm.control}
-          name="Sat"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex  items-center justify-between gap-4  font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[5]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          key={props.dates[6]?.toISOString()}
-          control={prefixForm.control}
-          name="Sun"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex  items-center justify-between gap-4  font-mono">
-                <FormLabel className="items-center">
-                  {moment(props.dates[6]).format("D/MMM ddd")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={3}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+              <FormDescription>
+                {autoPrefixOnDate?.racingDetails?.keyMatches}
+                {autoPrefixOnDate?.holidayDetails?.summary}
+              </FormDescription>
+            </fieldset>
+          );
+        })}
         <Button
           type="submit"
           variant={"secondary"}
@@ -307,4 +181,4 @@ function PrefixChangingForm(props: PropsType) {
   );
 }
 
-export default PrefixChangingForm;
+export default DynamicUpdatePrefixForm;
