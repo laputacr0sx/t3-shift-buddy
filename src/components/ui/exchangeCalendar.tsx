@@ -1,4 +1,9 @@
-import { DateFormatter, DayPicker, Row, type RowProps } from "react-day-picker";
+import {
+  type DateFormatter,
+  DayPicker,
+  Row,
+  type RowProps,
+} from "react-day-picker";
 
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";

@@ -1,5 +1,6 @@
 import {
   ArrowLeftRight,
+  CalendarDays,
   FlaskConical,
   Home,
   Table,
@@ -14,7 +15,7 @@ function Navbar() {
   const { isSignedIn } = useUser();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[9999] flex h-12 justify-between bg-navbar text-navbar-foreground">
+    <div className="fixed bottom-0 left-0 right-0 z-[9999] flex h-12 items-center justify-between bg-navbar text-navbar-foreground">
       <div className="mx-2 self-center align-middle">
         {isSignedIn ? (
           <UserButton afterSignOutUrl="/" />
@@ -24,7 +25,7 @@ function Navbar() {
           </SignInButton>
         )}
       </div>
-      <ul className="flex flex-row justify-start gap-2 ">
+      <ul className="flex flex-row justify-start gap-2">
         <li>
           <Link
             href={"/"}
@@ -61,8 +62,17 @@ function Navbar() {
             <p className="text-[10px]">實驗</p>
           </Link>
         </li>
+        <li>
+          <Link
+            href={"/annual"}
+            className={"flex flex-col items-center justify-center"}
+          >
+            <CalendarDays className="m-2" size={18} />
+            <p className="text-[10px]">日曆</p>
+          </Link>
+        </li>
       </ul>
-      <div>
+      <div className="flex h-10">
         <ModeToggle />
       </div>
     </div>
