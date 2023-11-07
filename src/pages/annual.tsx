@@ -15,6 +15,13 @@ import fixtures from "~/utils/hkjcFixture";
 import { Card } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { Label } from "~/components/ui/label";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@radix-ui/react-hover-card";
+import { CalendarDays } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
 const FixtureLegend = () => {
   return (
@@ -37,7 +44,6 @@ const FixtureLegend = () => {
 
 const AnnualLeaves: NextPageWithLayout = () => {
   const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
-
   const [selectedWeeks, setSelectedWeeks] = useState<string[]>([]);
   const [annualLimit, setAnnualLimit] = useState(3);
 
@@ -103,9 +109,11 @@ const AnnualLeaves: NextPageWithLayout = () => {
               <section
                 className={cn(
                   "flex flex-col items-center justify-center text-center",
-                  (holidayDetails ||
-                    date.getDay() === 0 ||
-                    date.getDay() === 6) &&
+                  holidayDetails &&
+                    "border-t-2 border-t-red-500 text-lg font-extrabold ",
+                  (date.getDay() === 0 ||
+                    date.getDay() === 6 ||
+                    holidayDetails) &&
                     "text-red-800 dark:text-red-400",
                   racingDetails?.nightRacing === 0
                     ? "border-b-2 border-b-lime-500 dark:border-b-lime-300"
@@ -116,17 +124,20 @@ const AnnualLeaves: NextPageWithLayout = () => {
                     : ""
                 )}
               >
-                <p
-                  className={cn(
-                    (holidayDetails || racingDetails?.keyMatches) &&
-                      "text-[12px] leading-6"
-                  )}
-                >
-                  {date.getDate()}
-                </p>
-                <p className="break-keep text-[8px] leading-4">
-                  {holidayDetails?.summary}
-                </p>
+                {holidayDetails?.summary ? (
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <p>{date.getDate()}</p>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-20">
+                      <div className="space-y-1">
+                        <p className="text-sm">{holidayDetails?.summary}</p>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                ) : (
+                  <p>{date.getDate()}</p>
+                )}
               </section>
             );
           },
@@ -140,7 +151,7 @@ const AnnualLeaves: NextPageWithLayout = () => {
 
       {selectedWeeks.length > 0 ? (
         <p
-          className="flex gap-3 text-sm font-extrabold text-orange-800 dark:text-orange-400"
+          className="flex gap-3 text-lg font-extrabold text-orange-800 dark:text-orange-400"
           ref={parent}
         >
           已選週次為{" "}
