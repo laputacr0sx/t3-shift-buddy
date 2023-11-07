@@ -54,16 +54,20 @@ const AnnualLeaves: NextPageWithLayout = () => {
       </h1>
       <Card className="absolute right-4 top-4 flex h-10 w-16 flex-col items-start justify-center border-0 px-2">
         <section className="flex items-center justify-center gap-2 align-middle">
-          <Separator className="w-4  border-2 border-lime-400 bg-lime-400" />
-          <p className="text-[6px] text-lime-400">日馬</p>
+          <Separator className="w-4  border-2 border-lime-500 dark:border-lime-300" />
+          <p className="text-[6px] text-lime-500 dark:text-lime-500">日馬</p>
         </section>
         <section className="flex items-center justify-center gap-2 align-middle">
-          <Separator className="w-4  border-2 border-indigo-400 bg-indigo-400" />
-          <p className="text-[6px] text-indigo-400">夜馬</p>
+          <Separator className="w-4  border-2 border-indigo-500 dark:border-indigo-300 " />
+          <p className="text-[6px] text-indigo-500 dark:text-indigo-300">
+            夜馬
+          </p>
         </section>
         <section className="flex items-center justify-center gap-2 align-middle">
-          <Separator className="w-4  border-2 border-amber-400 bg-amber-400" />
-          <p className="text-[6px] text-amber-400">黃昏馬</p>
+          <Separator className="w-4  border-2 border-amber-500 dark:border-amber-300 " />
+          <p className="text-[6px] text-amber-500 dark:text-amber-300">
+            黃昏馬
+          </p>
         </section>
       </Card>
       {/* <div className="flex items-center justify-center pt-2 font-mono font-extrabold">
@@ -98,13 +102,13 @@ const AnnualLeaves: NextPageWithLayout = () => {
         </Button>
       </div> */}
       <Calendar
+        fixedWeeks
         weekStartsOn={1}
         showWeekNumber
         ISOWeek
-        numberOfMonths={12}
-        disableNavigation
-        fromYear={2024}
-        toYear={2024}
+        numberOfMonths={2}
+        // disableNavigation
+        // fromYear={2024}
         onWeekNumberClick={(weekNumber, dates, e) => {
           e.preventDefault();
           toast({
@@ -137,14 +141,24 @@ const AnnualLeaves: NextPageWithLayout = () => {
                     : ""
                 )}
               >
-                <p>{date.getDate()}</p>
-                <p className="text-[6px]">{holidayDetails?.summary}</p>
+                <p
+                  className={cn(
+                    (holidayDetails || racingDetails?.keyMatches) &&
+                      "text-[12px] leading-6"
+                  )}
+                >
+                  {date.getDate()}
+                </p>
+                <p className="break-keep text-xs">
+                  {holidayDetails?.summary}
+                  {/* || racingDetails?.keyMatches} */}
+                </p>
               </section>
             );
           },
 
           formatWeekNumber: (weekNumber) => (
-            <p className="flex items-center justify-center self-center text-center align-middle">
+            <p className="flex content-center items-center justify-center self-center object-center text-center align-middle">
               W{weekNumber}
             </p>
           ),

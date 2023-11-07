@@ -41,7 +41,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20220201@1823.gov.hk",
-          summary: "農曆年初一",
+          summary: "年初一",
         },
         {
           dtstart: [
@@ -58,7 +58,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20220202@1823.gov.hk",
-          summary: "農曆年初二",
+          summary: "年初二",
         },
         {
           dtstart: [
@@ -75,7 +75,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20220203@1823.gov.hk",
-          summary: "農曆年初三",
+          summary: "年初三",
         },
         {
           dtstart: [
@@ -330,7 +330,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20230123@1823.gov.hk",
-          summary: "農曆年初二",
+          summary: "年初二",
         },
         {
           dtstart: [
@@ -347,7 +347,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20230124@1823.gov.hk",
-          summary: "農曆年初三",
+          summary: "年初三",
         },
         {
           dtstart: [
@@ -364,7 +364,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20230125@1823.gov.hk",
-          summary: "農曆年初四",
+          summary: "年初四",
         },
         {
           dtstart: [
@@ -619,7 +619,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20240210@1823.gov.hk",
-          summary: "農曆年初一",
+          summary: "年初一",
         },
         {
           dtstart: [
@@ -636,7 +636,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20240212@1823.gov.hk",
-          summary: "農曆年初三",
+          summary: "年初三",
         },
         {
           dtstart: [
@@ -653,7 +653,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20240213@1823.gov.hk",
-          summary: "農曆年初四",
+          summary: "年初四",
         },
         {
           dtstart: [
