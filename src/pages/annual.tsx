@@ -14,6 +14,7 @@ import fixtures from "~/utils/hkjcFixture";
 import { Card } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import WeekNumber from "../components/WeekNumber";
+import { WeekNumberClickEventHandler } from "react-day-picker";
 
 const AnnualLeaves: NextPageWithLayout = () => {
   const [year, setYear] = useState(moment().year());
@@ -39,6 +40,20 @@ const AnnualLeaves: NextPageWithLayout = () => {
     []
   );
 
+  const handleWeekNumberClick: WeekNumberClickEventHandler = (
+    weekNumber,
+    dates,
+    e
+  ) => {
+    e.preventDefault();
+
+    setSelectedWeeks((prev) => {
+      if (prev.length >= annualLimit) prev.pop();
+      if (prev.includes(weekNumber.toString())) return prev;
+      return [weekNumber.toString(), ...prev];
+    });
+  };
+
   return (
     <div className="relative">
       <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
@@ -62,37 +77,6 @@ const AnnualLeaves: NextPageWithLayout = () => {
           </p>
         </section>
       </Card>
-      {/* <div className="flex items-center justify-center pt-2 font-mono font-extrabold">
-        年份
-        <Button
-          onClick={() => {
-            setYear(() => {
-              return year - 1;
-            });
-          }}
-        >
-          <Minus size={20} />
-        </Button>
-        {year}
-        <Button
-          onClick={() => {
-            setYear(() => {
-              return year + 1;
-            });
-          }}
-        >
-          <Plus size={20} />
-        </Button>
-        <Button
-          onClick={() => {
-            setYear(() => {
-              return moment().year();
-            });
-          }}
-        >
-          <RotateCcw size={20} />
-        </Button>
-      </div> */}
       <Calendar
         // fixedWeeks
         // disableNavigation
@@ -102,15 +86,7 @@ const AnnualLeaves: NextPageWithLayout = () => {
         numberOfMonths={1}
         fromYear={2024}
         toYear={2024}
-        onWeekNumberClick={(weekNumber, dates, e) => {
-          e.preventDefault();
-
-          setSelectedWeeks((prev) => {
-            if (prev.length >= annualLimit) prev.pop();
-            if (prev.includes(weekNumber.toString())) return prev;
-            return [weekNumber.toString(), ...prev];
-          });
-        }}
+        onWeekNumberClick={handleWeekNumberClick}
         formatters={{
           formatDay: (date) => {
             const formattedDate = moment(date)
@@ -153,17 +129,20 @@ const AnnualLeaves: NextPageWithLayout = () => {
           },
 
           formatWeekNumber: (weekNumber) => (
-            <p className="flex content-center items-center justify-center self-center object-center text-center align-middle">
-              W{weekNumber}
+            <p className="font-mono font-bold text-orange-900 dark:text-orange-300">
+              W{weekNumber.toString().padStart(2, "0")}
             </p>
           ),
         }}
       />
-      <ul>
+
+      <p className="text-lg font-extrabold tracking-wider text-orange-800 dark:text-orange-400">
         {selectedWeeks.map((weekNumber) => (
-          <li key={weekNumber}>{weekNumber}</li>
+          <span key={weekNumber} className="tracking-wider">
+            {weekNumber}
+          </span>
         ))}
-      </ul>
+      </p>
       <Button
         variant={"outline"}
         onClick={() => {
