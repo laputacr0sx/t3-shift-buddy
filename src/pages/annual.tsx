@@ -11,6 +11,8 @@ import { autoPrefix } from "~/utils/helper";
 import { cn } from "~/lib/utils";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
+import { Card } from "~/components/ui/card";
+import { Separator } from "~/components/ui/separator";
 
 const AnnualLeaves: NextPageWithLayout = () => {
   const [year, setYear] = useState(moment().year());
@@ -46,10 +48,24 @@ const AnnualLeaves: NextPageWithLayout = () => {
   );
 
   return (
-    <div>
+    <div className="relative">
       <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
         大假易
       </h1>
+      <Card className="absolute right-4 top-4 flex h-10 w-16 flex-col items-start justify-center border-0 px-2">
+        <section className="flex items-center justify-center gap-2 align-middle">
+          <Separator className="w-4  border-2 border-lime-400 bg-lime-400" />
+          <p className="text-[6px] text-lime-400">日馬</p>
+        </section>
+        <section className="flex items-center justify-center gap-2 align-middle">
+          <Separator className="w-4  border-2 border-indigo-400 bg-indigo-400" />
+          <p className="text-[6px] text-indigo-400">夜馬</p>
+        </section>
+        <section className="flex items-center justify-center gap-2 align-middle">
+          <Separator className="w-4  border-2 border-amber-400 bg-amber-400" />
+          <p className="text-[6px] text-amber-400">黃昏馬</p>
+        </section>
+      </Card>
       {/* <div className="flex items-center justify-center pt-2 font-mono font-extrabold">
         年份
         <Button
@@ -111,11 +127,13 @@ const AnnualLeaves: NextPageWithLayout = () => {
                   (holidayDetails ||
                     date.getDay() === 0 ||
                     date.getDay() === 6) &&
-                    "text-red-400",
+                    "text-red-800 dark:text-red-400",
                   racingDetails?.nightRacing === 0
-                    ? "border-b-2 border-b-amber-400"
+                    ? "border-b-2 border-b-lime-500 dark:border-b-lime-300"
                     : racingDetails?.nightRacing === 1
-                    ? "border-b-2 border-b-cyan-400"
+                    ? "border-b-2 border-b-indigo-500 dark:border-b-indigo-300"
+                    : racingDetails?.nightRacing === 2
+                    ? "border-b-2 border-b-amber-500 dark:border-b-amber-300"
                     : ""
                 )}
               >

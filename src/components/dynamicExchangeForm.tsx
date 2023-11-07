@@ -392,7 +392,7 @@ export default function DynamicDynamicForm() {
               >
                 添加
               </Button>
-              <Button variant="secondary" type="submit">
+              <Button variant="secondary" type="submit" disabled>
                 生成調更紙
               </Button>
             </div>
