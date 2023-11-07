@@ -670,7 +670,8 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20240329@1823.gov.hk",
-          summary: "耶穌受難節",
+          // summary: "耶穌受難節",
+          summary: "復活節",
         },
         {
           dtstart: [
@@ -687,7 +688,7 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20240330@1823.gov.hk",
-          summary: "耶穌受難節翌日",
+          summary: "復活節翌日",
         },
         {
           dtstart: [
@@ -789,7 +790,8 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20240701@1823.gov.hk",
-          summary: "香港特別行政區成立紀念日",
+          // summary: "香港特別行政區成立紀念日",
+          summary: "七一",
         },
         {
           dtstart: [
@@ -874,7 +876,8 @@ const holidayJson = {
           ],
           transp: "TRANSPARENT",
           uid: "20241226@1823.gov.hk",
-          summary: "聖誕節後第一個周日",
+          // summary: "聖誕節後第一個周日",
+          summary: "聖誕節翌日",
         },
       ],
     },

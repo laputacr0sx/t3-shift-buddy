@@ -106,9 +106,9 @@ const AnnualLeaves: NextPageWithLayout = () => {
           e.preventDefault();
 
           setSelectedWeeks((prev) => {
-            if (prev.length >= annualLimit) prev.shift();
+            if (prev.length >= annualLimit) prev.pop();
             if (prev.includes(weekNumber.toString())) return prev;
-            return [...prev, weekNumber.toString()];
+            return [weekNumber.toString(), ...prev];
           });
         }}
         formatters={{
