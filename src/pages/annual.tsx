@@ -1,4 +1,4 @@
-import React, { useState, type ReactElement, useMemo } from "react";
+import React, { useState, type ReactElement, useMemo, useEffect } from "react";
 import { type NextPageWithLayout } from "./_app";
 import Layout from "~/components/ui/layouts/AppLayout";
 
@@ -7,26 +7,18 @@ import moment from "moment";
 import { Button } from "~/components/ui/button";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { toast } from "~/components/ui/useToast";
-import { autoPrefix } from "~/utils/helper";
+
 import { cn } from "~/lib/utils";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { Card } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
+import WeekNumber from "../components/WeekNumber";
 
 const AnnualLeaves: NextPageWithLayout = () => {
   const [year, setYear] = useState(moment().year());
-  const memoizedPublicHolidays = useMemo(
-    () => (formattedDate: string) =>
-      holidayJson.vcalendar
-        .flatMap(({ vevent }) =>
-          vevent.flatMap(({ dtstart }) =>
-            dtstart.filter((date) => typeof date === "string")
-          )
-        )
-        .filter((holiday) => holiday === formattedDate)[0],
-    []
-  );
+  const [selectedWeeks, setSelectedWeeks] = useState<string[]>([]);
+  const [annualLimit, setAnnualLimit] = useState(3);
 
   const memoizedPublicHolidayDetails = useMemo(
     () => (formattedDate: string) =>
@@ -102,17 +94,21 @@ const AnnualLeaves: NextPageWithLayout = () => {
         </Button>
       </div> */}
       <Calendar
-        fixedWeeks
+        // fixedWeeks
+        // disableNavigation
         weekStartsOn={1}
         showWeekNumber
         ISOWeek
-        numberOfMonths={2}
-        // disableNavigation
-        // fromYear={2024}
+        numberOfMonths={1}
+        fromYear={2024}
+        toYear={2024}
         onWeekNumberClick={(weekNumber, dates, e) => {
           e.preventDefault();
-          toast({
-            description: `已選 第${weekNumber}週`,
+
+          setSelectedWeeks((prev) => {
+            if (prev.length >= annualLimit) prev.shift();
+            if (prev.includes(weekNumber.toString())) return prev;
+            return [...prev, weekNumber.toString()];
           });
         }}
         formatters={{
@@ -149,9 +145,8 @@ const AnnualLeaves: NextPageWithLayout = () => {
                 >
                   {date.getDate()}
                 </p>
-                <p className="break-keep text-xs">
+                <p className="break-keep text-[8px] leading-4">
                   {holidayDetails?.summary}
-                  {/* || racingDetails?.keyMatches} */}
                 </p>
               </section>
             );
@@ -164,6 +159,20 @@ const AnnualLeaves: NextPageWithLayout = () => {
           ),
         }}
       />
+      <ul>
+        {selectedWeeks.map((weekNumber) => (
+          <li key={weekNumber}>{weekNumber}</li>
+        ))}
+      </ul>
+      <Button
+        variant={"outline"}
+        onClick={() => {
+          localStorage.setItem("selectedWeeks", JSON.stringify(selectedWeeks));
+        }}
+        disabled
+      >
+        Save
+      </Button>
     </div>
   );
 };
