@@ -18,9 +18,6 @@ function Calendar({
   return (
     <DayPicker
       locale={zhHK}
-      onDayClick={() => {
-        return;
-      }}
       // showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{

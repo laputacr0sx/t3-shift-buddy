@@ -72,27 +72,7 @@ export function getCompleteWeekComplex(
   return dutyComplex;
 }
 
-export const handleOnClickCopyEvent = async (shift: Shift) => {
-  const { bFL, bNL, duration, dutyNumber, remarks, bNT, bFT } = shift;
-  const durationDecimal = convertDurationDecimal(duration);
-
-  if (!navigator || !navigator.clipboard)
-    throw Error("No navigator object nor clipboard found");
-
-  await navigator.clipboard.writeText(
-    `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``
-  );
-
-  toast({
-    title: `已複製 ${dutyNumber} 更資料`,
-    description: `\`\`\`${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\`\`\``,
-  });
-};
-
-export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
-  if (!navigator || !navigator.clipboard)
-    throw Error("No navigator object nor clipboard found");
-
+export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
   let completeString = "```\n";
   for (const dayDetail of selectedShifts) {
     let dayString = "";
@@ -117,6 +97,15 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
     completeString = completeString + dayString;
   }
   completeString = completeString + "```";
+
+  return completeString;
+}
+
+export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
+  if (!navigator || !navigator.clipboard)
+    throw Error("No navigator object nor clipboard found");
+
+  const completeString = getSelectedShiftsString(selectedShifts);
 
   await navigator.clipboard.writeText(completeString);
   toast({

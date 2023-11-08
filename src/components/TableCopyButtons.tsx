@@ -2,9 +2,15 @@ import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
-import { tableCopyHandler } from "~/utils/helper";
+import {
+  convertDurationDecimal,
+  getSelectedShiftsString,
+  tableCopyHandler,
+} from "~/utils/helper";
 import { type DayDetail } from "~/utils/customTypes";
 import { type Row } from "@tanstack/react-table";
+import { completeShiftNameRegex } from "~/utils/regex";
+import moment from "moment";
 
 type TableCopyButtonsProps = {
   isSomeRowSelected: boolean;
@@ -15,6 +21,8 @@ function TableCopyButtons({
   isSomeRowSelected,
   selectedShifts,
 }: TableCopyButtonsProps) {
+  const completeShiftString = getSelectedShiftsString(selectedShifts);
+
   return (
     <>
       <div className="flex items-center justify-around gap-4">
@@ -40,7 +48,7 @@ function TableCopyButtons({
         </Button>
       </div>
       <Link
-        href={`whatsapp://send?text=`}
+        href={`whatsapp://send?text=${completeShiftString}`}
         className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
       >
         <MessageCircle className="m-2 h-4 w-4 self-center" />

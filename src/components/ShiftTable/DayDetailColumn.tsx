@@ -6,6 +6,7 @@ import { atcb_action } from "add-to-calendar-button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Button } from "../ui/button";
 import { convertDurationDecimal } from "~/utils/helper";
+import { CalendarPlus } from "lucide-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -56,9 +57,9 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
               timeZone: "Asia/Hong_Kong",
             });
           }}
-          variant={"secondary"}
+          variant={"outline"}
         >
-          加到日曆
+          <CalendarPlus size={16} width={18} />
         </Button>
       ) : null;
     },

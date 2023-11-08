@@ -46,15 +46,6 @@ function Navbar() {
         </li>
         <li>
           <Link
-            href={"/exchange"}
-            className={"flex flex-col items-center justify-center"}
-          >
-            <ArrowLeftRight className="m-2" size={18} />
-            <p className="text-[10px]">調更</p>
-          </Link>
-        </li>
-        <li>
-          <Link
             href={"/feature"}
             className={"flex flex-col items-center justify-center"}
           >

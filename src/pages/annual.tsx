@@ -14,14 +14,12 @@ import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { Card } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
-import { Label } from "~/components/ui/label";
+
 import {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
 } from "@radix-ui/react-hover-card";
-import { CalendarDays } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
 const FixtureLegend = () => {
   return (
@@ -46,6 +44,15 @@ const AnnualLeaves: NextPageWithLayout = () => {
   const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
   const [selectedWeeks, setSelectedWeeks] = useState<string[]>([]);
   const [annualLimit, setAnnualLimit] = useState(3);
+  const [holidays, setHolidays] = useState<
+    {
+      dtstart: (string | { value: string })[];
+      dtend: (string | { value: string })[];
+      transp: string;
+      uid: string;
+      summary: string;
+    }[]
+  >([]);
 
   const memoizedPublicHolidayDetails = useMemo(
     () => (formattedDate: string) =>
@@ -89,6 +96,7 @@ const AnnualLeaves: NextPageWithLayout = () => {
       <Calendar
         // fixedWeeks
         // disableNavigation
+
         weekStartsOn={1}
         showWeekNumber
         ISOWeek
@@ -103,6 +111,10 @@ const AnnualLeaves: NextPageWithLayout = () => {
               .format("YYYYMMDD");
 
             const holidayDetails = memoizedPublicHolidayDetails(formattedDate);
+            // if (holidayDetails)
+            //   setHolidays((prev) => {
+            //     return [...prev, holidayDetails];
+            //   });
             const racingDetails = memoizedRacingDetails(formattedDate);
 
             return (
@@ -147,6 +159,9 @@ const AnnualLeaves: NextPageWithLayout = () => {
             </p>
           ),
         }}
+        // footer={holidays?.map((holiday) => (
+        //   <p key={holiday.uid}>{holiday.summary}</p>
+        // ))}
       />
 
       {selectedWeeks.length > 0 ? (
