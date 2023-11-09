@@ -22,6 +22,7 @@ import moment from "moment";
 
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import TouchPad from "./ui/touch-pad";
 
 const rowFormSchema = z.object({
   shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
@@ -81,27 +82,27 @@ export default function SearchShiftForm() {
                       {...field}
                     />
                   </FormControl>
-
-                  <FormDescription className="gap-2" ref={parent}>
+                  <FormDescription className="gap-4" ref={parent}>
                     {!field.value && "請輸入更號"}
                     {formattedDates.map((date, i) => {
                       return (
-                        <p key={date} className="font-mono tracking-wider">
-                          {date} _ {timetable[i]?.prefix}{" "}
-                          {validatedRawShiftArray.success &&
-                            validatedRawShiftArray.data[i]}
+                        <p key={date} className="py-1 font-mono tracking-wide">
+                          {date} _{timetable[i]?.prefix}
+                          {(validatedRawShiftArray.success &&
+                            validatedRawShiftArray.data[i]) ||
+                            "___"}
                           {timetable[i]?.holidayDetails?.summary}{" "}
                           {timetable[i]?.racingDetails?.venue}
                         </p>
                       );
                     })}
                   </FormDescription>
-
                   <FormMessage />
                 </FormItem>
               );
             }}
           />
+          <TouchPad rowForm={rowForm} />
           <div className="flex justify-center gap-8">
             <Button type="submit" variant={"outline"}>
               查下週更資料
