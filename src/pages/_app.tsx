@@ -7,20 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "~/components/Toaster";
 import { ThemeProvider } from "~/components/ui/theme-provider";
 import { type NextPage } from "next";
-
-// export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
-//   getLayout?: (page: ReactElement) => ReactNode;
-// };
-
-// type AppPropsWithLayout<P> = AppProps<P> & {
-//   Component: NextPageWithLayout<P>;
-// };
-
-// const MyApp = ({
-//   Component,
-//   pageProps,
-// }: AppPropsWithLayout<{ session: Session | null }>) => {
-//   const getLayout = Component.getLayout ?? ((page) => page);
+import moment from "moment";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -31,6 +18,11 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
+  moment.updateLocale("zh-hk", {
+    weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
+    weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
+  });
+
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <ClerkProvider {...pageProps}>

@@ -16,7 +16,7 @@ export default function Layout({ children }: PropType) {
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
-        <link rel="icon" href="../../public/images/Station_icon_MTR.svg" />
+        <link rel="icon" href="public/images/favicon.ico" />
       </Head>
 
       <main className="relative flex w-auto items-start justify-center">

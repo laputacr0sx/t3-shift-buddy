@@ -9,67 +9,26 @@ export function getWeekNumber(queryDate?: Date) {
   return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
-export function getNextWeekDates(weekNumber?: number) {
+export const getNextWeekDates = (weekNumber?: number, format?: string) => {
   const validWeekNumber = weekNumber ? weekNumber : getWeekNumber() + 1;
   const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
 
   let weekArr = new Array<Date>();
 
   for (let i = 0; i < 7; i++) {
-    weekArr = [...weekArr, mondayFromWeekNumber.add(i ? 1 : 0, "d").toDate()];
+    const date = mondayFromWeekNumber.add(i ? 1 : 0, "d");
+
+    weekArr = [...weekArr, date.toDate()];
   }
 
   return weekArr;
-}
+};
 
 export function convertDurationDecimal(rawDuration: string): string {
   const [wHour, wMinute] = rawDuration.split(":");
   if (!wMinute || !wHour) return "0";
   const minuteDecimal = parseInt(wMinute) / 60;
   return `${parseInt(wHour) + minuteDecimal}`;
-}
-
-export function getShiftDetail(arrayOfShift: string[], shiftsArray: Shift[]) {
-  let dutyDetail: Shift[] = [];
-
-  for (const inputDutyNumber of arrayOfShift) {
-    const result = shiftsArray?.filter(({ dutyNumber }) => {
-      return dutyNumber === inputDutyNumber || "";
-    });
-
-    if (!!result?.[0]) {
-      dutyDetail = [...dutyDetail, result[0]];
-    }
-  }
-
-  return dutyDetail;
-}
-
-export function getCompleteWeekComplex(
-  titleArray: string[],
-  shiftsArray: Shift[],
-  dateArray: Date[]
-) {
-  let dutyComplex: WeekComplex[] = [];
-
-  for (let i = 0; i < titleArray.length; i++) {
-    const result = shiftsArray?.filter(({ dutyNumber }) => {
-      return dutyNumber === titleArray[i] || "";
-    });
-
-    if (!!result?.[0] && !!dateArray?.[0]) {
-      dutyComplex = [
-        ...dutyComplex,
-        {
-          date: dateArray[i] as Date,
-          title: titleArray[i] as string,
-          dutyObject: result[0] || {},
-        },
-      ];
-    }
-  }
-
-  return dutyComplex;
 }
 
 export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
@@ -117,7 +76,9 @@ import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 
 export const autoPrefix = (weekNumber?: number) => {
-  const correspondingDates = getNextWeekDates(weekNumber ?? getWeekNumber());
+  const correspondingDates = getNextWeekDates(
+    weekNumber ?? getWeekNumber() + 1
+  );
 
   const formattedDated = correspondingDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");

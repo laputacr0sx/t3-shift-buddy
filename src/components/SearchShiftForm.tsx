@@ -15,18 +15,39 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
-import { shiftRowRegex } from "~/utils/regex";
+import { sevenShiftRegex, shiftRowRegex } from "~/utils/regex";
+import { rawShiftArraySchema } from "~/utils/customTypes";
+import { autoPrefix, getNextWeekDates } from "~/utils/helper";
+import moment from "moment";
+
+import { Label } from "./ui/label";
+import { useEffect, useState } from "react";
 
 const rowFormSchema = z.object({
   shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
 });
 
 export default function SearchShiftForm() {
+  const [nextWeekDates, setnextWeekDates] = useState<
+    ReturnType<typeof getNextWeekDates>
+  >([]);
+  const [timetable, setTimetable] = useState<ReturnType<typeof autoPrefix>>([]);
+
+  useEffect(() => {
+    setTimetable(autoPrefix());
+    setnextWeekDates(getNextWeekDates());
+  }, []);
+
+  const formattedDates = nextWeekDates.map((date) =>
+    moment(date).format("DD/MM（dd）")
+  );
+
   const rowForm = useForm<z.infer<typeof rowFormSchema>>({
     resolver: zodResolver(rowFormSchema),
     defaultValues: {
       shiftRow: "",
     },
+    mode: "onBlur",
   });
 
   async function onSubmitForRow(values: z.infer<typeof rowFormSchema>) {
@@ -43,39 +64,45 @@ export default function SearchShiftForm() {
           <FormField
             control={rowForm.control}
             name="shiftRow"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>下週番號</FormLabel>
-                <FormControl>
-                  <Input
-                    className="font-mono tracking-wide"
-                    placeholder="101102103104105106RD"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className=" break-words font-mono tracking-wide">
-                  <br />
-                  如更份為
-                  <br />
-                  J15101
-                  <br />
-                  J15102
-                  <br />
-                  D14103
-                  <br />
-                  J15104
-                  <br />
-                  J15105
-                  <br />
-                  B75106
-                  <br />
-                  RD
-                  <br />
-                  請輸入 101102103104105106RD
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const values: unknown =
+                field.value.length > 0 && field.value.match(sevenShiftRegex);
+              const validatedRawShiftArray =
+                rawShiftArraySchema.safeParse(values);
+
+              return (
+                <FormItem>
+                  <FormLabel>下週番號</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="font-mono tracking-wide"
+                      placeholder="101102103104105106RD"
+                      {...field}
+                    />
+                  </FormControl>
+                  {field.value ? (
+                    formattedDates.map((date, i) => (
+                      <FormDescription
+                        key={date}
+                        className="font-mono tracking-wider"
+                      >
+                        {date} _
+                        {timetable[i]?.prefix.concat(
+                          (validatedRawShiftArray.success &&
+                            validatedRawShiftArray.data[i]) ||
+                            ""
+                        )}{" "}
+                        {timetable[i]?.holidayDetails?.summary}{" "}
+                        {timetable[i]?.racingDetails?.venue}
+                      </FormDescription>
+                    ))
+                  ) : (
+                    <FormDescription>請輸入更號</FormDescription>
+                  )}
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
           <div className="flex justify-center gap-8">
             <Button type="submit" variant={"outline"}>
