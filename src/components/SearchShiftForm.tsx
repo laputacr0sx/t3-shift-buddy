@@ -20,8 +20,8 @@ import { rawShiftArraySchema } from "~/utils/customTypes";
 import { autoPrefix, getNextWeekDates } from "~/utils/helper";
 import moment from "moment";
 
-import { Label } from "./ui/label";
 import { useEffect, useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const rowFormSchema = z.object({
   shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
@@ -32,6 +32,7 @@ export default function SearchShiftForm() {
     ReturnType<typeof getNextWeekDates>
   >([]);
   const [timetable, setTimetable] = useState<ReturnType<typeof autoPrefix>>([]);
+  const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
 
   useEffect(() => {
     setTimetable(autoPrefix());
@@ -80,25 +81,22 @@ export default function SearchShiftForm() {
                       {...field}
                     />
                   </FormControl>
-                  {field.value ? (
-                    formattedDates.map((date, i) => (
-                      <FormDescription
-                        key={date}
-                        className="font-mono tracking-wider"
-                      >
-                        {date} _
-                        {timetable[i]?.prefix.concat(
-                          (validatedRawShiftArray.success &&
-                            validatedRawShiftArray.data[i]) ||
-                            ""
-                        )}{" "}
-                        {timetable[i]?.holidayDetails?.summary}{" "}
-                        {timetable[i]?.racingDetails?.venue}
-                      </FormDescription>
-                    ))
-                  ) : (
-                    <FormDescription>請輸入更號</FormDescription>
-                  )}
+
+                  <FormDescription className="gap-2" ref={parent}>
+                    {!field.value && "請輸入更號"}
+                    {formattedDates.map((date, i) => {
+                      return (
+                        <p key={date} className="font-mono tracking-wider">
+                          {date} _ {timetable[i]?.prefix}{" "}
+                          {validatedRawShiftArray.success &&
+                            validatedRawShiftArray.data[i]}
+                          {timetable[i]?.holidayDetails?.summary}{" "}
+                          {timetable[i]?.racingDetails?.venue}
+                        </p>
+                      );
+                    })}
+                  </FormDescription>
+
                   <FormMessage />
                 </FormItem>
               );
