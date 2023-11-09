@@ -17,9 +17,12 @@ function TouchPad(props: TouchPadProps) {
       <fieldset className="flex gap-1 font-sans text-lg text-red-500">
         {dayOffs.map((each) => (
           <Button
+            type="button"
             key={each}
             variant={"default"}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+
               const originInput = rowForm.getValues("shiftRow");
               rowForm.setValue("shiftRow", originInput.concat(each));
             }}
