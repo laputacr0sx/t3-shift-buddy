@@ -14,7 +14,7 @@ function TouchPad(props: TouchPadProps) {
 
   return (
     <>
-      <fieldset className="flex gap-1 font-sans text-lg text-red-500">
+      <fieldset className="flex gap-1">
         {dayOffs.map((each) => (
           <Button
             type="button"
@@ -26,6 +26,7 @@ function TouchPad(props: TouchPadProps) {
               const originInput = rowForm.getValues("shiftRow");
               rowForm.setValue("shiftRow", originInput.concat(each));
             }}
+            className="border-b-2 font-mono tracking-wide text-slate-50"
           >
             {each}
           </Button>

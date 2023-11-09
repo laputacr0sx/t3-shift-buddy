@@ -74,7 +74,7 @@ export default function SearchShiftForm() {
 
               return (
                 <FormItem>
-                  <FormLabel>下週番號</FormLabel>
+                  <FormLabel>整週番號</FormLabel>
                   <FormControl>
                     <Input
                       className="font-mono tracking-wide"
@@ -83,7 +83,7 @@ export default function SearchShiftForm() {
                     />
                   </FormControl>
                   <FormDescription className="gap-4" ref={parent}>
-                    {!field.value && "請輸入更號"}
+                    {!field.value && "請輸入更號以預覽"}
                     {formattedDates.map((date, i) => {
                       return (
                         <p key={date} className="py-1 font-mono tracking-wide">
