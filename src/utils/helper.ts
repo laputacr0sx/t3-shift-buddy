@@ -1,9 +1,8 @@
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
-import type { Shift } from "@prisma/client";
 import { toast } from "~/components/ui/useToast";
-import { type DayDetail, type WeekComplex } from "./customTypes";
-import { completeShiftNameRegex } from "./regex";
+import { type DayDetail } from "./customTypes";
+import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
 
 export function getWeekNumber(queryDate?: Date) {
   return moment(queryDate ? queryDate : undefined).isoWeek();
@@ -124,4 +123,30 @@ export const autoPrefix = (weekNumber?: number) => {
   }
 
   return prefixes;
+};
+
+export const getDutyNumberPreview = (
+  shifts: string[],
+  weekNumber?: number
+): string[] => {
+  const dutyNumbers: string[] = [];
+  const weekPreview = autoPrefix(weekNumber);
+
+  weekPreview.forEach((day, i) => {
+    let dayDetailString = "";
+    const date = moment(day.date, "YYYYMMDD ddd");
+
+    const shiftName = shifts[i] as string;
+    const shiftCode = shiftName.match(shiftNumberRegex)?.[0];
+
+    dayDetailString = `${date.format("DD/MM(dd)")} ${
+      shiftCode ? day.prefix.concat(shiftCode) : shiftName
+    }`;
+
+    dutyNumbers.push(dayDetailString);
+  });
+
+  console.log(dutyNumbers);
+
+  return dutyNumbers;
 };

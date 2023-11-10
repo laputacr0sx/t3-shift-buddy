@@ -1,6 +1,6 @@
 import { type Shift } from "@prisma/client";
 import { z } from "zod";
-import { dutyInputRegExValidator, sevenShiftRegex } from "./regex";
+import { dutyInputRegExValidator, shiftNameRegex } from "./regex";
 
 export const workLocation = [
   "HUH",
@@ -34,7 +34,7 @@ export type DayDetail = z.infer<typeof dayDetailSchema>;
 
 export const shiftSequenceSchema = z.string();
 
-export const rawShiftArraySchema = z.array(z.string().regex(sevenShiftRegex));
+export const rawShiftArraySchema = z.array(z.string().regex(shiftNameRegex));
 
 export type RawShiftArray = {
   legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;

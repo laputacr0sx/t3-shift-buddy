@@ -5,7 +5,7 @@ import { DayDetailColumn } from "~/components/ShiftTable/DayDetailColumn";
 import { DayDetailTable } from "~/components/ShiftTable/DayDetailTable";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
-import { sevenShiftRegex } from "~/utils/regex";
+import { shiftNameRegex } from "~/utils/regex";
 import Layout from "~/components/ui/layouts/AppLayout";
 import {
   type DayDetail,
@@ -80,7 +80,7 @@ export const getServerSideProps = ({
   }
 
   const rawShiftArray: unknown =
-    validatedShiftSequence.data.match(sevenShiftRegex);
+    validatedShiftSequence.data.match(shiftNameRegex);
   const validatedRawShiftArray = rawShiftArraySchema.safeParse(rawShiftArray);
 
   if (!validatedRawShiftArray.success) {

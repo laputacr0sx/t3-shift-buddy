@@ -106,8 +106,7 @@ function DynamicUpdatePrefixForm(props: PropsType) {
                   <Input
                     {...field}
                     className="w-14 text-center"
-                    maxLength={1}
-                    autoCapitalize="characters"
+                    maxLength={2}
                   />
                 </FormControl>
               </div>
@@ -134,6 +133,7 @@ function DynamicUpdatePrefixForm(props: PropsType) {
                             {...field}
                             className="w-10 border-r-0 text-center"
                             maxLength={1}
+                            autoCapitalize="characters"
                           />
                         </FormControl>
                       </div>

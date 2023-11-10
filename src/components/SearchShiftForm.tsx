@@ -15,9 +15,13 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
-import { sevenShiftRegex, shiftRowRegex } from "~/utils/regex";
+import { shiftNameRegex, shiftRowRegex } from "~/utils/regex";
 import { rawShiftArraySchema } from "~/utils/customTypes";
-import { autoPrefix, getNextWeekDates } from "~/utils/helper";
+import {
+  autoPrefix,
+  getDutyNumberPreview,
+  getNextWeekDates,
+} from "~/utils/helper";
 import moment from "moment";
 
 import { useEffect, useState } from "react";
@@ -68,7 +72,7 @@ export default function SearchShiftForm() {
             name="shiftRow"
             render={({ field }) => {
               const values: unknown =
-                field.value.length > 0 && field.value.match(sevenShiftRegex);
+                field.value.length > 0 && field.value.match(shiftNameRegex);
               const validatedRawShiftArray =
                 rawShiftArraySchema.safeParse(values);
 
