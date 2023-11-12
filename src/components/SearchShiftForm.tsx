@@ -17,11 +17,7 @@ import router from "next/router";
 
 import { shiftNameRegex, shiftRowRegex } from "~/utils/regex";
 import { rawShiftArraySchema } from "~/utils/customTypes";
-import {
-  autoPrefix,
-  getDutyNumberPreview,
-  getNextWeekDates,
-} from "~/utils/helper";
+import { autoPrefix, getNextWeekDates } from "~/utils/helper";
 import moment from "moment";
 
 import { useEffect, useState } from "react";
@@ -37,7 +33,7 @@ export default function SearchShiftForm() {
     ReturnType<typeof getNextWeekDates>
   >([]);
   const [timetable, setTimetable] = useState<ReturnType<typeof autoPrefix>>([]);
-  const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
+  const [parent] = useAutoAnimate(/* optional config */);
 
   useEffect(() => {
     setTimetable(autoPrefix());
@@ -87,7 +83,6 @@ export default function SearchShiftForm() {
                     />
                   </FormControl>
                   <FormDescription className="gap-4" ref={parent}>
-                    {!field.value && "請輸入更號以預覽"}
                     {formattedDates.map((date, i) => {
                       return (
                         <p key={date} className="py-1 font-mono tracking-wide">
