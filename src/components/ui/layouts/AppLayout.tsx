@@ -19,7 +19,7 @@ export default function Layout({ children }: PropType) {
         <link rel="icon" href="public/images/favicon.ico" />
       </Head>
 
-      <main className="relative flex w-auto items-start justify-center">
+      <main className="relative flex w-auto items-start justify-center px-4">
         <div className="pb-10">{children}</div>
         <Navbar />
       </main>

@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
-import { abbreviatedDutyNumber } from "~/utils/regex";
+import { abbreviatedDutyNumber, shiftNameRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Toggle } from "./ui/toggle";
@@ -26,11 +26,14 @@ console.log(dayDetailName);
 const sevenSlotsSearchFormSchema = z.object({
   [dayDetailName]: z
     .object({
+      dayOff: z.boolean().default(false),
       shiftCode: z
-        .string()
-        .min(3)
-        .max(7, "最長更名不多於7個字，例991106a / 881101a")
-        .regex(abbreviatedDutyNumber, "不正確輸入"),
+        .string({
+          invalid_type_error: "請輸入正確的更號",
+          required_error: "請輸入更號",
+        })
+        .max(7, "最長更號不多於7個字，例991106a / 881101a")
+        .regex(shiftNameRegex, "不正確輸入"),
     })
     .array(),
 });
@@ -51,24 +54,35 @@ function SevenSlotsSearchForm() {
     defaultValues: {
       [dayDetailName]: [
         {
+          dayOff: false,
           shiftCode: "",
         },
         {
+          dayOff: false,
           shiftCode: "",
         },
         {
+          dayOff: false,
           shiftCode: "",
         },
         {
+          dayOff: false,
           shiftCode: "",
         },
         {
+          dayOff: false,
           shiftCode: "",
         },
         {
+          dayOff: false,
           shiftCode: "",
         },
         {
+          dayOff: false,
+          shiftCode: "",
+        },
+        {
+          dayOff: false,
           shiftCode: "",
         },
       ],
@@ -77,6 +91,7 @@ function SevenSlotsSearchForm() {
   });
 
   function prefixFormHandler(values: sevenSlotsSearchForm) {
+    console.log(values);
     return;
   }
 
@@ -107,15 +122,36 @@ function SevenSlotsSearchForm() {
                             {...field}
                             placeholder="101"
                             autoCapitalize="characters"
+                            disabled={
+                              sevenSlotsSearchForm.getValues()?.[
+                                "dayDetailName"
+                              ]?.[i]?.dayOff
+                            }
                           />
                         </FormControl>
-                        <FormControl>
+                        {/* <FormControl>
                           <Switch
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
-                        </FormControl>
+                        </FormControl> */}
                       </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={sevenSlotsSearchForm.control}
+                  name={`${dayDetailName}[${i}].dayOff`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+
                       <FormMessage />
                     </FormItem>
                   )}
