@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -19,6 +17,8 @@ import { type WeekPrefix } from "@prisma/client";
 import moment from "moment";
 import { api } from "~/utils/api";
 import { autoPrefix, getWeekNumber } from "~/utils/helper";
+import { Label } from "./ui/label";
+import { Skeleton } from "./ui/skeleton";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -35,14 +35,45 @@ const prefixFormSchema = z.object({
 
 type PrefixFormSchema = z.infer<typeof prefixFormSchema>;
 
-type PropsType = {
+type DynamicUpdatePrefixFormProps = {
+  currentWeekNumber: number;
   dates: Date[];
   weekPrefix?: WeekPrefix;
   autoPrefix: ReturnType<typeof autoPrefix>;
 };
 
-function DynamicUpdatePrefixForm(props: PropsType) {
-  const currentWeekNumber = getWeekNumber();
+function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
+  const { data: currentWeekPreix, isLoading: currentWeekPrefixLoading } =
+    api.prefixController.getPrefixGivenWeekNumber.useQuery({
+      weekNumber: props.currentWeekNumber,
+    });
+
+  const prefixDetails = !currentWeekPrefixLoading
+    ? currentWeekPreix!.result.prefixes.map((prefix, i) => {
+        return {
+          alphabeticPrefix: prefix.slice(0, 1),
+          numericPrefix: props.autoPrefix[i]?.prefix as string,
+        };
+      })
+    : [
+        {
+          alphabeticPrefix: "L",
+          numericPrefix: "00",
+        },
+      ];
+
+  const prefixForm = useForm<PrefixFormSchema>({
+    resolver: zodResolver(prefixFormSchema),
+    defaultValues: {
+      weekNumber: props.currentWeekNumber,
+      weeks: prefixDetails,
+    },
+    values: {
+      weekNumber: props.currentWeekNumber,
+      weeks: prefixDetails,
+    },
+    mode: "onChange",
+  });
 
   const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({
@@ -53,37 +84,26 @@ function DynamicUpdatePrefixForm(props: PropsType) {
       },
     });
 
-  const prefixDetails = props.weekPrefix?.prefixes.map((prefix, i) => {
-    return {
-      alphabeticPrefix: prefix.slice(0, 1),
-      numericPrefix: props.autoPrefix[i]?.prefix,
-    };
-  });
-
-  const prefixForm = useForm<PrefixFormSchema>({
-    resolver: zodResolver(prefixFormSchema),
-    defaultValues: {
-      weekNumber: currentWeekNumber + 1,
-      weeks: prefixDetails,
-    },
-    mode: "onChange",
-  });
-
   function prefixFormHandler(values: PrefixFormSchema) {
     const completePrefix = values.weeks.map(
       ({ alphabeticPrefix, numericPrefix }) =>
-        alphabeticPrefix.concat(numericPrefix)
+        `${alphabeticPrefix}${numericPrefix}`
     );
 
     console.log({
-      weekNumber: values.weekNumber,
+      weekNumber: 46,
       prefixes: completePrefix,
     });
 
-    updatePrefixes({
-      weekNumber: values.weekNumber,
-      prefixes: completePrefix,
-    });
+    // updatePrefixes({
+    //   prefixes: completePrefix,
+    //   weekNumber: 47,
+    // });
+
+    // updatePrefixes({
+    //   weekNumber: values.weekNumber,
+    //   prefixes: completePrefix,
+    // });
   }
 
   return (
@@ -103,11 +123,43 @@ function DynamicUpdatePrefixForm(props: PropsType) {
                   更表期數
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    className="w-14 text-center"
-                    maxLength={2}
-                  />
+                  <>
+                    <Button
+                      variant={"secondary"}
+                      type="button"
+                      onClick={() => {
+                        return prefixForm.setValue(
+                          "weekNumber",
+                          field.value + 1,
+                          {
+                            shouldDirty: true,
+                            shouldTouch: true,
+                            shouldValidate: true,
+                          }
+                        );
+                      }}
+                    >
+                      +
+                    </Button>
+                    <Label>{field.value}</Label>
+                    <Button
+                      variant={"secondary"}
+                      type="button"
+                      onClick={() => {
+                        return prefixForm.setValue(
+                          "weekNumber",
+                          field.value - 1,
+                          {
+                            shouldDirty: true,
+                            shouldTouch: true,
+                            shouldValidate: true,
+                          }
+                        );
+                      }}
+                    >
+                      -
+                    </Button>
+                  </>
                 </FormControl>
               </div>
               <FormMessage />
@@ -176,7 +228,7 @@ function DynamicUpdatePrefixForm(props: PropsType) {
           disabled={updatingPrefixes}
           className="items-center justify-center self-center tracking-wider"
         >
-          {`更改${currentWeekNumber + 1}週時間表`}
+          {`更改${prefixForm.getValues("weekNumber")}週時間表`}
         </Button>
       </form>
     </Form>

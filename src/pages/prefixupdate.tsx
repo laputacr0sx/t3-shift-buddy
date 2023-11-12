@@ -5,45 +5,25 @@ import { api } from "~/utils/api";
 
 import { autoPrefix, getNextWeekDates, getWeekNumber } from "~/utils/helper";
 import { type NextPageWithLayout } from "./_app";
-import { type ReactElement } from "react";
+import { useEffect, type ReactElement, useState } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 
-const PrefixUpdateForm: NextPageWithLayout = () => {
-  const weekNumber = getWeekNumber();
+const PrefixUpdate: NextPageWithLayout = () => {
+  const [currentWeekNumber, setCurrentWeekNumber] = useState(getWeekNumber());
 
-  const {
-    data: currentWeekPreix,
-    isLoading: currentWeekPrefixLoading,
-    error: currenWeekPrefixError,
-  } = api.prefixController.getPrefixGivenWeekNumber.useQuery({
-    weekNumber: weekNumber,
-  });
+  useEffect(() => {
+    const weekNumber = getWeekNumber();
 
-  if (currentWeekPrefixLoading)
-    return (
-      <>
-        <Skeleton className={"h-3 w-10 rounded-md"} />
-      </>
-    );
-
-  if (currenWeekPrefixError) {
-    return <>{currenWeekPrefixError.message}</>;
-  }
+    setCurrentWeekNumber(weekNumber);
+  }, [currentWeekNumber]);
 
   return (
     <div>
       <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
         改更易
       </h1>
-      {currentWeekPreix.error && (
-        <p className="text-center text-red-500">
-          {currentWeekPreix.error.message}
-        </p>
-      )}
-      <h2 className="justify-center py-2 text-center font-mono text-xl font-semibold text-foreground">
-        {`第${weekNumber}週時間表`}
-      </h2>
+
       <div className="flex items-center justify-center gap-4">
         {/* <PrefixChangingForm
           dates={getNextWeekDates()}
@@ -51,8 +31,8 @@ const PrefixUpdateForm: NextPageWithLayout = () => {
         /> */}
 
         <DynamicUpdatePrefixForm
+          currentWeekNumber={currentWeekNumber}
           dates={getNextWeekDates()}
-          weekPrefix={currentWeekPreix.result}
           autoPrefix={autoPrefix()}
         />
       </div>
@@ -60,8 +40,8 @@ const PrefixUpdateForm: NextPageWithLayout = () => {
   );
 };
 
-PrefixUpdateForm.getLayout = function getLayout(page: ReactElement) {
+PrefixUpdate.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default PrefixUpdateForm;
+export default PrefixUpdate;

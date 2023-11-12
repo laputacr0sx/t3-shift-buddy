@@ -85,7 +85,7 @@ export const shiftControllerRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       const prefix = await ctx.prisma.weekPrefix.findMany({
-        orderBy: { updatedAt: "desc" },
+        orderBy: { weekNumber: "desc" },
         take: 1,
       });
 
