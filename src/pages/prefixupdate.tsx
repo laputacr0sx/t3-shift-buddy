@@ -35,12 +35,28 @@ const PrefixUpdate: NextPageWithLayout = () => {
       </>
     );
 
-  const prefixDetails = currentWeekPreix.result.prefixes.map((prefix, i) => {
+  const prefixDetails = autoPrefix().map(({ prefix: numericPrefix }) => {
+    const alphabeticPrefix =
+      currentWeekPreix.result.prefixes
+        .filter((prefix) => numericPrefix === prefix.slice(1))[0]
+        ?.slice(0, 1) || "";
+
+    console.log(alphabeticPrefix, numericPrefix);
+
     return {
-      alphabeticPrefix: prefix.slice(0, 1),
-      numericPrefix: autoPrefix()[i]?.prefix as string,
+      alphabeticPrefix,
+      numericPrefix,
     };
   });
+
+  // const prefixDetails = currentWeekPreix.result.prefixes.map((prefix, i) => {
+  //   const numericPrefix = autoPrefix()[i]?.prefix as string;
+
+  //   return {
+  //     alphabeticPrefix: prefix.slice(0, 1),
+  //     numericPrefix,
+  //   };
+  // });
 
   return (
     <div>

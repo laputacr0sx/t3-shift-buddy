@@ -19,6 +19,7 @@ import { api } from "~/utils/api";
 import { autoPrefix, getWeekNumber } from "~/utils/helper";
 import { Label } from "./ui/label";
 import { Skeleton } from "./ui/skeleton";
+import { Minus, Plus } from "lucide-react";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -110,6 +111,7 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                 <FormControl>
                   <>
                     <Button
+                      disabled
                       variant={"ghost"}
                       type="button"
                       onClick={() => {
@@ -124,10 +126,11 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                         );
                       }}
                     >
-                      +
+                      <Plus />
                     </Button>
                     <Label>{field.value}</Label>
                     <Button
+                      disabled
                       variant={"ghost"}
                       type="button"
                       onClick={() => {
@@ -142,7 +145,7 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                         );
                       }}
                     >
-                      -
+                      <Minus />
                     </Button>
                   </>
                 </FormControl>
@@ -199,7 +202,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                   )}
                 />
               </section>
-
               <FormDescription>
                 {autoPrefixOnDate?.racingDetails?.keyMatches}
                 {autoPrefixOnDate?.holidayDetails?.summary}
