@@ -8,7 +8,7 @@ export function getWeekNumber(queryDate?: Date) {
   return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
-export const getNextWeekDates = (weekNumber?: number, format?: string) => {
+export const getNextWeekDates = (weekNumber?: number) => {
   const validWeekNumber = weekNumber ? weekNumber : getWeekNumber() + 1;
   const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
 
