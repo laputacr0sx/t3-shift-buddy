@@ -16,12 +16,24 @@ import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { abbreviatedDutyNumber } from "~/utils/regex";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { Toggle } from "./ui/toggle";
+import { Switch } from "./ui/switch";
 
-const sevenSlotsSearchFormSchema = z
-  .object({
-    shiftCode: z.string().regex(abbreviatedDutyNumber),
-  })
-  .array();
+const dayDetailName = `Y${moment().year()}W${moment().week()}`;
+console.log(dayDetailName);
+
+const sevenSlotsSearchFormSchema = z.object({
+  [dayDetailName]: z
+    .object({
+      shiftCode: z
+        .string()
+        .min(3)
+        .max(7, "最長更名不多於7個字，例991106a / 881101a")
+        .regex(abbreviatedDutyNumber, "不正確輸入"),
+    })
+    .array(),
+});
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -36,7 +48,31 @@ function SevenSlotsSearchForm() {
 
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: zodResolver(sevenSlotsSearchFormSchema),
-    defaultValues: [{ shiftCode: "0" }],
+    defaultValues: {
+      [dayDetailName]: [
+        {
+          shiftCode: "",
+        },
+        {
+          shiftCode: "",
+        },
+        {
+          shiftCode: "",
+        },
+        {
+          shiftCode: "",
+        },
+        {
+          shiftCode: "",
+        },
+        {
+          shiftCode: "",
+        },
+        {
+          shiftCode: "",
+        },
+      ],
+    },
     mode: "onChange",
   });
 
@@ -56,7 +92,7 @@ function SevenSlotsSearchForm() {
               <section className="flex items-center justify-center">
                 <FormField
                   control={sevenSlotsSearchForm.control}
-                  name={`${i}.shiftCode` as const}
+                  name={`${dayDetailName}[${i}].shiftCode`}
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex items-center justify-between gap-4 font-mono">
@@ -67,7 +103,17 @@ function SevenSlotsSearchForm() {
                           {autoDayDetail[i]?.prefix}
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} autoCapitalize="characters" />
+                          <Input
+                            {...field}
+                            placeholder="101"
+                            autoCapitalize="characters"
+                          />
+                        </FormControl>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
                         </FormControl>
                       </div>
                       <FormMessage />
@@ -78,6 +124,20 @@ function SevenSlotsSearchForm() {
             </fieldset>
           );
         })}
+        <div className="flex justify-center gap-8">
+          <Button type="submit" variant={"outline"}>
+            查下週更資料
+          </Button>
+          <Button
+            type="reset"
+            variant={"destructive"}
+            onClick={() => {
+              sevenSlotsSearchForm.reset();
+            }}
+          >
+            重置
+          </Button>
+        </div>
       </form>
     </Form>
   );
