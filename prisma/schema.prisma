@@ -72,6 +72,9 @@ model AbbreviatedPrefix {
   prefix          String
   timetable       String
   dateOfEffective DateTime
+  isActive        Boolean
+  isDeprecated    Boolean
+  isSpecial       Boolean
 }
 
 enum Location {

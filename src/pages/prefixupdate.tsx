@@ -12,11 +12,35 @@ import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 const PrefixUpdate: NextPageWithLayout = () => {
   const [currentWeekNumber, setCurrentWeekNumber] = useState(getWeekNumber());
 
+  const {
+    data: currentWeekPreix,
+    isLoading: currentWeekPrefixLoading,
+    error: currentPrefixError,
+  } = api.prefixController.getPrefixGivenWeekNumber.useQuery({
+    weekNumber: currentWeekNumber,
+  });
+
   useEffect(() => {
     const weekNumber = getWeekNumber();
 
     setCurrentWeekNumber(weekNumber);
   }, [currentWeekNumber]);
+
+  if (currentWeekPrefixLoading) return <>Loading...</>;
+
+  if (currentPrefixError)
+    return (
+      <>
+        <h1>{currentPrefixError.message}</h1>
+      </>
+    );
+
+  const prefixDetails = currentWeekPreix.result.prefixes.map((prefix, i) => {
+    return {
+      alphabeticPrefix: prefix.slice(0, 1),
+      numericPrefix: autoPrefix()[i]?.prefix as string,
+    };
+  });
 
   return (
     <div>
@@ -33,7 +57,7 @@ const PrefixUpdate: NextPageWithLayout = () => {
         <DynamicUpdatePrefixForm
           currentWeekNumber={currentWeekNumber}
           dates={getNextWeekDates()}
-          autoPrefix={autoPrefix()}
+          prefixDetails={prefixDetails}
         />
       </div>
     </div>

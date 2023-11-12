@@ -38,38 +38,23 @@ type PrefixFormSchema = z.infer<typeof prefixFormSchema>;
 type DynamicUpdatePrefixFormProps = {
   currentWeekNumber: number;
   dates: Date[];
-  weekPrefix?: WeekPrefix;
-  autoPrefix: ReturnType<typeof autoPrefix>;
+  prefixDetails: {
+    alphabeticPrefix: string;
+    numericPrefix: string;
+  }[];
 };
 
 function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
-  const { data: currentWeekPreix, isLoading: currentWeekPrefixLoading } =
-    api.prefixController.getPrefixGivenWeekNumber.useQuery({
-      weekNumber: props.currentWeekNumber,
-    });
-
-  const prefixDetails = !currentWeekPrefixLoading
-    ? currentWeekPreix!.result.prefixes.map((prefix, i) => {
-        return {
-          alphabeticPrefix: prefix.slice(0, 1),
-          numericPrefix: props.autoPrefix[i]?.prefix as string,
-        };
-      })
-    : [
-        {
-          alphabeticPrefix: "L",
-          numericPrefix: "00",
-        },
-      ];
+  const { currentWeekNumber, prefixDetails } = props;
 
   const prefixForm = useForm<PrefixFormSchema>({
     resolver: zodResolver(prefixFormSchema),
     defaultValues: {
-      weekNumber: props.currentWeekNumber,
+      weekNumber: currentWeekNumber,
       weeks: prefixDetails,
     },
     values: {
-      weekNumber: props.currentWeekNumber,
+      weekNumber: currentWeekNumber,
       weeks: prefixDetails,
     },
     mode: "onChange",
@@ -125,7 +110,7 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                 <FormControl>
                   <>
                     <Button
-                      variant={"secondary"}
+                      variant={"ghost"}
                       type="button"
                       onClick={() => {
                         return prefixForm.setValue(
@@ -143,7 +128,7 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                     </Button>
                     <Label>{field.value}</Label>
                     <Button
-                      variant={"secondary"}
+                      variant={"ghost"}
                       type="button"
                       onClick={() => {
                         return prefixForm.setValue(

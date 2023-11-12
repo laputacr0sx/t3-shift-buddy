@@ -32,6 +32,8 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     { refetchOnWindowFocus: false }
   );
 
+  console.log(shiftDetails);
+
   if (shiftsArrayLoading) return <TableLoading />;
   if (shiftsArrayError) return <>{shiftsArrayError.message}</>;
 

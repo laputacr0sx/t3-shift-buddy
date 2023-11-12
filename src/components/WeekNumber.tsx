@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Plus, Minus, RotateCcw } from "lucide-react";
 import moment from "moment";
+import { Label } from "./ui/label";
 
 type WeekNumberProps = {
   userWeekNumberInput: number;
@@ -24,7 +25,7 @@ function WeekNumber({
       >
         <Minus size={20} />
       </Button>
-      {userWeekNumberInput}
+      <Label>{userWeekNumberInput}</Label>
       <Button
         onClick={() => {
           setUserWeekNumberInput(() => {
