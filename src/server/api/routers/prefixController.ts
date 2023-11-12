@@ -78,9 +78,20 @@ export const prefixControllerRouter = createTRPCRouter({
       })
     )
 
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.weekPrefix.create({
-        data: { ...input },
+    .mutation(async ({ input, ctx }) => {
+      const relatedWeekPrefix = await ctx.prisma.weekPrefix.findUnique({
+        where: { weekNumber: input.weekNumber },
       });
+
+      return relatedWeekPrefix
+        ? await ctx.prisma.weekPrefix.update({
+            where: { weekNumber: input.weekNumber },
+            data: {
+              prefixes: input.prefixes,
+            },
+          })
+        : await ctx.prisma.weekPrefix.create({
+            data: { ...input },
+          });
     }),
 });

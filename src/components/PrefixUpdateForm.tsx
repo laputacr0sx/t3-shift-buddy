@@ -61,12 +61,14 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
     mode: "onChange",
   });
 
-  const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
+  const { mutate: createPrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({
       onSuccess: async () => {
         await api
           .useContext()
-          .prefixController.getPrefixGivenWeekNumber.invalidate();
+          .prefixController.getPrefixGivenWeekNumber.invalidate({
+            weekNumber: currentWeekNumber,
+          });
       },
     });
 
@@ -77,19 +79,14 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
     );
 
     console.log({
-      weekNumber: 46,
+      weekNumber: currentWeekNumber,
       prefixes: completePrefix,
     });
 
-    // updatePrefixes({
-    //   prefixes: completePrefix,
-    //   weekNumber: 47,
-    // });
-
-    // updatePrefixes({
-    //   weekNumber: values.weekNumber,
-    //   prefixes: completePrefix,
-    // });
+    createPrefixes({
+      weekNumber: values.weekNumber,
+      prefixes: completePrefix,
+    });
   }
 
   return (
@@ -111,7 +108,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                 <FormControl>
                   <>
                     <Button
-                      disabled
                       variant={"ghost"}
                       type="button"
                       onClick={() => {
@@ -130,7 +126,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
                     </Button>
                     <Label>{field.value}</Label>
                     <Button
-                      disabled
                       variant={"ghost"}
                       type="button"
                       onClick={() => {
