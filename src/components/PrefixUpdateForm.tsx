@@ -62,13 +62,13 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
 
   const { mutate: createPrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({
-      onSuccess: async () => {
-        await api
-          .useContext()
-          .prefixController.getPrefixGivenWeekNumber.invalidate({
-            weekNumber: currentWeekNumber,
-          });
-      },
+      // onSuccess: async () => {
+      //   await api
+      //     .useContext()
+      //     .prefixController.getPrefixGivenWeekNumber.invalidate({
+      //       weekNumber: currentWeekNumber,
+      //     });
+      // },
     });
 
   function prefixFormHandler(values: PrefixFormSchema) {
