@@ -15,7 +15,7 @@ import router from "next/router";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
-import { shiftNameRegex } from "~/utils/regex";
+import { inputShiftCodeRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -27,7 +27,7 @@ const sevenSlotsSearchFormSchema = z.object({
     .object({
       shiftCode: z
         .string()
-        .regex(shiftNameRegex, "不正確輸入")
+        .regex(inputShiftCodeRegex, "不正確輸入")
         .max(7, "最長更號不多於7個字，例991106a / 881101a"),
     })
     .array()
@@ -91,9 +91,12 @@ const SevenSlotsSearchForm = () => {
   // f: Friday,
   // s: Saturday,
   // u: Sunday
-  const weekDays = ["m", "t", "w", "r", "f", "s", "u"] as const;
 
-  const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = (data) => {
+  const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
+    data
+  ) => {
+    let urlParams = "";
+
     const weekDetails = data[dayDetailName]?.reduce<
       { shiftCode: string; date: Date }[]
     >((result, dayDetail, i) => {
@@ -104,9 +107,20 @@ const SevenSlotsSearchForm = () => {
       return result;
     }, []);
 
-    console.log(weekDetails);
+    for (const detail of weekDetails || []) {
+      const dayString = moment(detail.date).locale("en").format("dd");
 
-    return weekDetails;
+      const result = `${dayString}${detail.shiftCode}`;
+      console.log(result);
+      urlParams += result;
+    }
+
+    // await router.push(`weekdetails/${urlParams}`);
+
+    await router.push({
+      pathname: "/weekdetails/[shiftsequence]",
+      query: { shiftsequence: urlParams },
+    });
 
     // for (const { shiftCode } of data[dayDetailName] || []) {
     //   console.log(shiftCode ? shiftCode : "empty");
