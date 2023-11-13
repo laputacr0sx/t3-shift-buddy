@@ -11,13 +11,13 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
+import router from "next/router";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { shiftNameRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 
 const dayDetailName = `Y${moment().year()}W${moment().week()}`;
@@ -48,11 +48,11 @@ const SevenSlotsSearchForm = () => {
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
-      console.log("formData", data);
-      console.log(
-        "validation result",
-        await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
-      );
+      // console.log("formData", data);
+      // console.log(
+      //   "validation result",
+      //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+      // );
       return zodResolver(sevenSlotsSearchFormSchema)(data, context, options);
     },
     // resolver: zodResolver(sevenSlotsSearchFormSchema),
@@ -84,9 +84,47 @@ const SevenSlotsSearchForm = () => {
     },
   });
 
+  // m: Monday,
+  // t: Tuesday,
+  // w: Wednesday,
+  // r: Thursday,
+  // f: Friday,
+  // s: Saturday,
+  // u: Sunday
+  const weekDays = ["m", "t", "w", "r", "f", "s", "u"] as const;
+
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = (data) => {
-    console.log(data);
-    return;
+    const weekDetails = data[dayDetailName]?.reduce<
+      { shiftCode: string; date: Date }[]
+    >((result, dayDetail, i) => {
+      if (dayDetail.shiftCode) {
+        const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").toDate();
+        result.push({ shiftCode: dayDetail.shiftCode, date });
+      }
+      return result;
+    }, []);
+
+    // const weekDetails = autoDayDetail.map((dayDetail, index) => {
+    //   const shiftCode = data[dayDetailName]?.[index]?.shiftCode;
+
+    //   if (!shiftCode) return;
+
+    //   return {
+    //     date: dayDetail.date,
+    //     prefix: dayDetail.prefix,
+    //     weekDays: weekDays[index],
+    //     shiftCode,
+    //   };
+    // });
+
+    console.log(weekDetails);
+
+    return weekDetails;
+
+    // for (const { shiftCode } of data[dayDetailName] || []) {
+    //   console.log(shiftCode ? shiftCode : "empty");
+    // }
+    // await router.push(`/weekdetails/123`);
   };
 
   return (
@@ -98,7 +136,6 @@ const SevenSlotsSearchForm = () => {
         <fieldset className="flex justify-between font-mono">
           <Label>Date</Label>
           <Label>Number</Label>
-          {/* <Label>DayOff</Label> */}
         </fieldset>
         {autoDayDetail.map((day, i) => {
           return (

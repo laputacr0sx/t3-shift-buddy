@@ -1,6 +1,6 @@
 import React, { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
-import { type NextPageWithLayout } from "./_app";
+import { type NextPageWithLayout } from "../_app";
 import SevenSlotsSearchForm from "~/components/SevenSlotsSearch";
 import Image from "next/image";
 
