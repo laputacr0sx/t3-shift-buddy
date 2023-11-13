@@ -21,7 +21,6 @@ import { Toggle } from "./ui/toggle";
 import { Switch } from "./ui/switch";
 
 const dayDetailName = `Y${moment().year()}W${moment().week()}`;
-console.log(dayDetailName);
 
 const sevenSlotsSearchFormSchema = z.object({
   [dayDetailName]: z
@@ -32,8 +31,8 @@ const sevenSlotsSearchFormSchema = z.object({
           invalid_type_error: "請輸入正確的更號",
           required_error: "請輸入更號",
         })
-        .max(7, "最長更號不多於7個字，例991106a / 881101a")
-        .regex(shiftNameRegex, "不正確輸入"),
+        .regex(shiftNameRegex, "不正確輸入")
+        .max(7, "最長更號不多於7個字，例991106a / 881101a"),
     })
     .array(),
 });
@@ -120,6 +119,7 @@ function SevenSlotsSearchForm() {
                         <FormControl>
                           <Input
                             {...field}
+                            className="w-[90px]"
                             placeholder="101"
                             autoCapitalize="characters"
                             disabled={
