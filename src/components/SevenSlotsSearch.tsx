@@ -26,9 +26,7 @@ const sevenSlotsSearchFormSchema = z.object({
   [dayDetailName]: z
     .object({
       shiftCode: z
-        .string({
-          invalid_type_error: "請輸入正確的更號",
-        })
+        .string()
         .regex(shiftNameRegex, "不正確輸入")
         .max(7, "最長更號不多於7個字，例991106a / 881101a"),
     })
@@ -48,8 +46,6 @@ const SevenSlotsSearchForm = () => {
   }, []);
 
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
-    shouldFocusError: true,
-    delayError: 200,
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
       console.log("formData", data);
@@ -60,6 +56,7 @@ const SevenSlotsSearchForm = () => {
       return zodResolver(sevenSlotsSearchFormSchema)(data, context, options);
     },
     // resolver: zodResolver(sevenSlotsSearchFormSchema),
+    mode: "onChange",
     defaultValues: {
       [dayDetailName]: [
         {
@@ -85,7 +82,6 @@ const SevenSlotsSearchForm = () => {
         },
       ],
     },
-    mode: "onBlur",
   });
 
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = (data) => {
@@ -97,7 +93,7 @@ const SevenSlotsSearchForm = () => {
     <Form {...sevenSlotsSearchForm}>
       <form
         onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}
-        className=" flex w-fit flex-col space-y-2"
+        className="flex w-fit flex-col space-y-2 "
       >
         <fieldset className="flex justify-between font-mono">
           <Label>Date</Label>

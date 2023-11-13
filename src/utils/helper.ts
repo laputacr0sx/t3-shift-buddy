@@ -4,10 +4,20 @@ import { toast } from "~/components/ui/useToast";
 import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
 
+/**
+ * Returns the ISO week number of the given date.
+ * @param queryDate The date to get the week number for. Defaults to the current date.
+ * @returns The ISO week number of the given date.
+ */
 export function getWeekNumber(queryDate?: Date) {
   return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
+/**
+ * Returns an array of dates for the next week, starting from the given week number.
+ * @param weekNumber The week number to start from. Defaults to the current week number.
+ * @returns An array of dates for the next week, starting from the given week number.
+ */
 export const getNextWeekDates = (weekNumber?: number) => {
   const validWeekNumber = weekNumber ? weekNumber : getWeekNumber() + 1;
   const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
@@ -23,6 +33,11 @@ export const getNextWeekDates = (weekNumber?: number) => {
   return weekArr;
 };
 
+/**
+ * Converts a raw duration string (e.g. "01:30") to a decimal representation (e.g. "0.83").
+ * @param rawDuration The raw duration string to convert.
+ * @returns The converted decimal representation of the duration string.
+ */
 export function convertDurationDecimal(rawDuration: string): string {
   const [wHour, wMinute] = rawDuration.split(":");
   if (!wMinute || !wHour) return "0";
@@ -30,6 +45,11 @@ export function convertDurationDecimal(rawDuration: string): string {
   return `${parseInt(wHour) + minuteDecimal}`;
 }
 
+/**
+ * Returns a string representation of the selected shifts, wrapped in code blocks.
+ * @param selectedShifts The selected shifts to convert to a string representation.
+ * @returns The string representation of the selected shifts, wrapped in code blocks.
+ */
 export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
   let completeString = "```\n";
   for (const dayDetail of selectedShifts) {
@@ -59,6 +79,10 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
   return completeString;
 }
 
+/**
+ * Copies the given selected shifts to the clipboard as a code block.
+ * @param selectedShifts The selected shifts to copy to the clipboard.
+ */
 export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
   if (!navigator || !navigator.clipboard)
     throw Error("No navigator object nor clipboard found");
@@ -74,6 +98,11 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 
+/**
+ * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
+ * @param weekNumber The week number to get the details for. Defaults to the current week number.
+ * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
+ */
 export const autoPrefix = (weekNumber?: number) => {
   const correspondingDates = getNextWeekDates(
     weekNumber ?? getWeekNumber() + 1
