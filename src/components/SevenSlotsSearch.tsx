@@ -25,16 +25,15 @@ const dayDetailName = `Y${moment().year()}W${moment().week()}`;
 const sevenSlotsSearchFormSchema = z.object({
   [dayDetailName]: z
     .object({
-      dayOff: z.boolean().default(false),
       shiftCode: z
         .string({
           invalid_type_error: "請輸入正確的更號",
-          required_error: "請輸入更號",
         })
         .regex(shiftNameRegex, "不正確輸入")
         .max(7, "最長更號不多於7個字，例991106a / 881101a"),
     })
-    .array(),
+    .array()
+    .length(7),
 });
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
@@ -49,7 +48,18 @@ const SevenSlotsSearchForm = () => {
   }, []);
 
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
-    resolver: zodResolver(sevenSlotsSearchFormSchema),
+    shouldFocusError: true,
+    delayError: 200,
+    resolver: async (data, context, options) => {
+      // you can debug your validation schema here
+      console.log("formData", data);
+      console.log(
+        "validation result",
+        await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+      );
+      return zodResolver(sevenSlotsSearchFormSchema)(data, context, options);
+    },
+    // resolver: zodResolver(sevenSlotsSearchFormSchema),
     defaultValues: {
       [dayDetailName]: [
         {
@@ -75,11 +85,11 @@ const SevenSlotsSearchForm = () => {
         },
       ],
     },
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = (data) => {
-    console.log(data[dayDetailName]);
+    console.log(data);
     return;
   };
 
@@ -92,7 +102,7 @@ const SevenSlotsSearchForm = () => {
         <fieldset className="flex justify-between font-mono">
           <Label>Date</Label>
           <Label>Number</Label>
-          <Label>DayOff</Label>
+          {/* <Label>DayOff</Label> */}
         </fieldset>
         {autoDayDetail.map((day, i) => {
           return (
@@ -105,17 +115,17 @@ const SevenSlotsSearchForm = () => {
                     return (
                       <FormItem>
                         <div className="flex items-center justify-between gap-4 font-mono">
-                          <FormLabel className="items-center text-xs">
+                          <FormLabel className="items-center">
                             {moment(day.date, "YYYYMMDD ddd").format(
-                              `DD/MM（dd）`
-                            )}
+                              `DD/MM(dd)`
+                            )}{" "}
                             {autoDayDetail[i]?.prefix}
                           </FormLabel>
                           <FormControl>
                             <Input
                               {...field}
-                              className="w-[90px]"
-                              placeholder="101 / 881101"
+                              className="w-[90px] font-mono tracking-wide"
+                              placeholder="101/991106"
                               autoCapitalize="characters"
                               autoComplete="off"
                               autoCorrect="off"
@@ -129,7 +139,7 @@ const SevenSlotsSearchForm = () => {
                     );
                   }}
                 />
-                <FormField
+                {/* <FormField
                   control={sevenSlotsSearchForm.control}
                   name={`${dayDetailName}[${i}].dayOff` as const}
                   render={({ field }) => {
@@ -148,7 +158,7 @@ const SevenSlotsSearchForm = () => {
                       </FormItem>
                     );
                   }}
-                />
+                /> */}
               </section>
             </fieldset>
           );

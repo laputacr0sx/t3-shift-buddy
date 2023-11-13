@@ -22,11 +22,10 @@ function TouchPad(props: TouchPadProps) {
             variant={"default"}
             onClick={(e) => {
               e.preventDefault();
-
               const originInput = rowForm.getValues("shiftRow");
               rowForm.setValue("shiftRow", originInput.concat(each));
             }}
-            className="border-b-2 font-mono tracking-wide text-slate-50"
+            className="border-b-2 font-mono tracking-wide"
           >
             {each}
           </Button>
