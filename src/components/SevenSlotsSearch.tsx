@@ -104,19 +104,6 @@ const SevenSlotsSearchForm = () => {
       return result;
     }, []);
 
-    // const weekDetails = autoDayDetail.map((dayDetail, index) => {
-    //   const shiftCode = data[dayDetailName]?.[index]?.shiftCode;
-
-    //   if (!shiftCode) return;
-
-    //   return {
-    //     date: dayDetail.date,
-    //     prefix: dayDetail.prefix,
-    //     weekDays: weekDays[index],
-    //     shiftCode,
-    //   };
-    // });
-
     console.log(weekDetails);
 
     return weekDetails;

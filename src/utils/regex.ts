@@ -2,6 +2,9 @@ export const shiftRowRegex =
   /(?:(?:1|3|5|6)(?:[0-5])(?:\d{1})|(?:9|8)(?:\d{5})(?:[a-z]?)|(RD|CL|AL|GH|SH)){7}/gim;
 
 export const shiftNameRegex =
+  /([1356][0-5]\d{1})|([98]\d{5}[a-z]?)|(RD|CL|AL|GH|SH)/gim;
+
+export const inputShiftCodeRegex =
   /(^[1356][0-5]\d{1}$)|([98]\d{5}[a-z]?)|(RD|CL|AL|GH|SH)|^\s*$/gm;
 // /(^([1356][0-5]\d{1}){0,1}$)|(^(98)\d{5}[a-z]?){0,1}|((RD|CL|AL|GH|SH)){0,1}/gim;
 // /(?:^(?:1|3|5|6)(?:[0-5])(?:\d{1}$)|(?:^9|8)(?:\d{5})(?:[a-z]?)|(RD|CL|AL|GH|SH))/gim;
