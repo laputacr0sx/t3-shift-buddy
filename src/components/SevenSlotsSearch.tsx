@@ -10,15 +10,15 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
-import { abbreviatedDutyNumber, shiftNameRegex } from "~/utils/regex";
+import { shiftNameRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Toggle } from "./ui/toggle";
 import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
 
 const dayDetailName = `Y${moment().year()}W${moment().week()}`;
 
@@ -39,7 +39,7 @@ const sevenSlotsSearchFormSchema = z.object({
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
-function SevenSlotsSearchForm() {
+const SevenSlotsSearchForm = () => {
   const [autoDayDetail, setAutoDayDetail] = useState<
     ReturnType<typeof autoPrefix>
   >([]);
@@ -53,35 +53,24 @@ function SevenSlotsSearchForm() {
     defaultValues: {
       [dayDetailName]: [
         {
-          dayOff: false,
           shiftCode: "",
         },
         {
-          dayOff: false,
           shiftCode: "",
         },
         {
-          dayOff: false,
           shiftCode: "",
         },
         {
-          dayOff: false,
           shiftCode: "",
         },
         {
-          dayOff: false,
           shiftCode: "",
         },
         {
-          dayOff: false,
           shiftCode: "",
         },
         {
-          dayOff: false,
-          shiftCode: "",
-        },
-        {
-          dayOff: false,
           shiftCode: "",
         },
       ],
@@ -89,10 +78,10 @@ function SevenSlotsSearchForm() {
     mode: "onChange",
   });
 
-  function prefixFormHandler(values: sevenSlotsSearchForm) {
-    console.log(values);
+  const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = (data) => {
+    console.log(data[dayDetailName]);
     return;
-  }
+  };
 
   return (
     <Form {...sevenSlotsSearchForm}>
@@ -100,61 +89,65 @@ function SevenSlotsSearchForm() {
         onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}
         className=" flex w-fit flex-col space-y-2"
       >
+        <fieldset className="flex justify-between font-mono">
+          <Label>Date</Label>
+          <Label>Number</Label>
+          <Label>DayOff</Label>
+        </fieldset>
         {autoDayDetail.map((day, i) => {
           return (
             <fieldset key={day.date}>
-              <section className="flex items-center justify-center">
+              <section className="flex items-center justify-center gap-2">
                 <FormField
                   control={sevenSlotsSearchForm.control}
                   name={`${dayDetailName}[${i}].shiftCode`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center justify-between gap-4 font-mono">
-                        <FormLabel className="items-center">
-                          {moment(day.date, "YYYYMMDD ddd").format(
-                            "DD/MM（dd）"
-                          )}
-                          {autoDayDetail[i]?.prefix}
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            className="w-[90px]"
-                            placeholder="101"
-                            autoCapitalize="characters"
-                            disabled={
-                              sevenSlotsSearchForm.getValues()?.[
-                                "dayDetailName"
-                              ]?.[i]?.dayOff
-                            }
-                          />
-                        </FormControl>
-                        {/* <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl> */}
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <div className="flex items-center justify-between gap-4 font-mono">
+                          <FormLabel className="items-center text-xs">
+                            {moment(day.date, "YYYYMMDD ddd").format(
+                              `DD/MM（dd）`
+                            )}
+                            {autoDayDetail[i]?.prefix}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              className="w-[90px]"
+                              placeholder="101 / 881101"
+                              autoCapitalize="characters"
+                              autoComplete="off"
+                              autoCorrect="off"
+                              spellCheck="false"
+                              autoFocus
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
                 <FormField
                   control={sevenSlotsSearchForm.control}
-                  name={`${dayDetailName}[${i}].dayOff`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
+                  name={`${dayDetailName}[${i}].dayOff` as const}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormControl>
+                          <div className="flex items-center justify-between gap-4 font-mono">
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </div>
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </section>
             </fieldset>
@@ -177,6 +170,6 @@ function SevenSlotsSearchForm() {
       </form>
     </Form>
   );
-}
+};
 
 export default SevenSlotsSearchForm;
