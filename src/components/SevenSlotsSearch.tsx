@@ -152,9 +152,9 @@ const SevenSlotsSearchForm = ({
 
   return (
     <>
-      <h2 className="justify-center py-2 text-center text-xl font-medium text-foreground">
+      <p className="justify-center text-center text-xs font-thin text-foreground">
         期數：{dayDetailName}
-      </h2>
+      </p>
       <Form {...sevenSlotsSearchForm}>
         <form
           onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}

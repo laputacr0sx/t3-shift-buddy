@@ -44,15 +44,7 @@ function Navbar() {
             <p className="text-[10px]">更餡</p>
           </Link>
         </li>
-        <li>
-          <Link
-            href={"/feature"}
-            className={"flex flex-col items-center justify-center"}
-          >
-            <FlaskConical className="m-2" size={18} />
-            <p className="text-[10px]">實驗</p>
-          </Link>
-        </li>
+
         <li>
           <Link
             href={"/annual"}
