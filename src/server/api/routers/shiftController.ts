@@ -6,6 +6,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
   abbreviatedDutyNumber,
   dutyInputRegExValidator,
+  inputShiftCodeRegex,
   shiftNameRegex,
 } from "~/utils/regex";
 
@@ -80,7 +81,8 @@ export const shiftControllerRouter = createTRPCRouter({
   getWeekShiftWithPrefix: publicProcedure
     .input(
       z.object({
-        shiftArray: z.string().regex(shiftNameRegex).array().length(7),
+        // shiftArray: z.string().regex(shiftNameRegex).array().min(1),
+        shiftArray: z.string().regex(inputShiftCodeRegex).array().min(1),
       })
     )
     .query(async ({ input, ctx }) => {

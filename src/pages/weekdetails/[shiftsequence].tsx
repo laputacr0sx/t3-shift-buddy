@@ -6,6 +6,9 @@ import { api } from "~/utils/api";
 
 import { useRouter } from "next/router";
 import { Button } from "~/components/ui/button";
+import { getNextWeekDates } from "~/utils/helper";
+import { urlShiftSequenceRegex } from "~/utils/regex";
+import moment from "moment";
 
 // export const getServerSideProps = ({
 //   params,
@@ -19,11 +22,33 @@ import { Button } from "~/components/ui/button";
 // };
 
 function WeekDetails() {
-  // { shiftSequence }: { shiftSequence: string }
   const router = useRouter();
-  console.log(router.query);
 
-  const { shiftsequence } = router.query;
+  const { shiftsequence, weekNumber } = router.query;
+
+  const validShiftSequence = shiftsequence
+    ?.toString()
+    .match(urlShiftSequenceRegex);
+
+  const validWeekNumber = weekNumber?.toString() ?? "";
+
+  const correspondingWeekDates = getNextWeekDates(validWeekNumber);
+
+  const validShiftArray = validShiftSequence?.reduce((result, shift, i) => {
+    const shortWeekDay = moment(correspondingWeekDates[i])
+      .locale("en")
+      .format("dd");
+
+    const shiftWeekDay = shift.match(/\d+|AL|RD|CL|GH|SH/gim)?.[0];
+    console.log(shiftWeekDay);
+
+    if (shiftWeekDay === shortWeekDay) {
+    }
+
+    return result;
+  }, []);
+
+  console.log(validShiftArray);
 
   // const {
   //   data: weeekShifts,
@@ -36,8 +61,8 @@ function WeekDetails() {
   // if (weekShiftsError) return <>{weekShiftsError.message}</>;
 
   return (
-    <div>
-      <section>
+    <div className="">
+      <section className="absolute left-0 top-0">
         <Button
           onClick={() => {
             router.back();
@@ -46,7 +71,7 @@ function WeekDetails() {
           Back
         </Button>
       </section>
-      {shiftsequence}
+      <section className="justify-center self-center">{shiftsequence}</section>
     </div>
   );
 }

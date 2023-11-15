@@ -37,7 +37,7 @@ import {
 import { cn } from "~/lib/utils";
 import { ArrowRight, CalendarIcon, Minus, RotateCcw } from "lucide-react";
 import moment from "moment";
-import { getWeekNumber } from "~/utils/helper";
+import { getWeekNumberByDate } from "~/utils/helper";
 import { useMemo } from "react";
 import { Label } from "./ui/label";
 import { Calendar } from "./ui/exchangeCalendar";
@@ -271,7 +271,9 @@ export default function DynamicDynamicForm() {
   });
 
   const weekNumberMemoized = useMemo(() => {
-    return getWeekNumber(dynamicForm.getValues(`responsibleDay`)).toString();
+    return getWeekNumberByDate(
+      dynamicForm.getValues(`responsibleDay`)
+    ).toString();
   }, [dynamicForm, dynamicForm.watch("responsibleDay")]);
 
   const onSubmit = (values: DynamicFormData) => console.log(values);

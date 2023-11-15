@@ -22,7 +22,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { getWeekNumber } from "~/utils/helper";
+import { getWeekNumberByDate } from "~/utils/helper";
 import { cn } from "~/lib/utils";
 import { ArrowRight, Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/exchangeCalendar";
@@ -62,7 +62,7 @@ export default function ExchangeForm() {
   });
 
   const weekNumberMemoized = useMemo(() => {
-    return getWeekNumber(
+    return getWeekNumberByDate(
       exchangeForm.getValues("candidate1.correspondingDate")
     ).toString();
   }, [exchangeForm, exchangeForm.watch("candidate1.correspondingDate")]);

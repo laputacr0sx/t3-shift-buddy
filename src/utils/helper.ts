@@ -9,7 +9,7 @@ import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
  * @param queryDate The date to get the week number for. Defaults to the current date.
  * @returns The ISO week number of the given date.
  */
-export function getWeekNumber(queryDate?: Date) {
+export function getWeekNumberByDate(queryDate?: Date) {
   return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
@@ -18,8 +18,10 @@ export function getWeekNumber(queryDate?: Date) {
  * @param weekNumber The week number to start from. Defaults to the current week number.
  * @returns An array of dates for the next week, starting from the given week number.
  */
-export const getNextWeekDates = (weekNumber?: number) => {
-  const validWeekNumber = weekNumber ? weekNumber : getWeekNumber() + 1;
+export const getNextWeekDates = (weekNumber?: string) => {
+  const validWeekNumber = weekNumber
+    ? parseInt(weekNumber)
+    : getWeekNumberByDate() + 1;
   const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
 
   let weekArr = new Array<Date>();
@@ -101,10 +103,10 @@ import fixtures from "~/utils/hkjcFixture";
  * @param weekNumber The week number to get the details for. Defaults to the current week number.
  * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  */
-export const autoPrefix = (weekNumber?: number) => {
-  const correspondingDates = getNextWeekDates(
-    weekNumber ?? getWeekNumber() + 1
-  );
+export const autoPrefix = (weekNumber?: string) => {
+  const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
+
+  const correspondingDates = getNextWeekDates(nextWeekNumber);
 
   const formattedDated = correspondingDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");
@@ -156,8 +158,8 @@ export const getDutyNumberPreview = (
   shifts: string[],
   weekNumber?: number
 ): string[] => {
-  const dutyNumbers: string[] = [];
-  const weekPreview = autoPrefix(weekNumber);
+  const dayDetail: string[] = [];
+  const weekPreview = autoPrefix(weekNumber?.toString());
 
   weekPreview.forEach((day, i) => {
     let dayDetailString = "";
@@ -170,10 +172,10 @@ export const getDutyNumberPreview = (
       shiftCode ? day.prefix.concat(shiftCode) : shiftName
     }`;
 
-    dutyNumbers.push(dayDetailString);
+    dayDetail.push(dayDetailString);
   });
 
-  console.log(dutyNumbers);
+  console.log(dayDetail);
 
-  return dutyNumbers;
+  return dayDetail;
 };

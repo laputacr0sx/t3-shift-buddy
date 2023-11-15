@@ -1,6 +1,10 @@
 import { api } from "~/utils/api";
 
-import { autoPrefix, getNextWeekDates, getWeekNumber } from "~/utils/helper";
+import {
+  autoPrefix,
+  getNextWeekDates,
+  getWeekNumberByDate,
+} from "~/utils/helper";
 import { type NextPageWithLayout } from "./_app";
 import { useEffect, type ReactElement, useState } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
@@ -8,7 +12,9 @@ import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 import moment from "moment";
 
 const PrefixUpdate: NextPageWithLayout = () => {
-  const [currentWeekNumber, setCurrentWeekNumber] = useState(getWeekNumber());
+  const [currentWeekNumber, setCurrentWeekNumber] = useState(
+    getWeekNumberByDate()
+  );
 
   const {
     data: currentWeekPreix,
@@ -19,7 +25,7 @@ const PrefixUpdate: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    const weekNumber = getWeekNumber();
+    const weekNumber = getWeekNumberByDate();
 
     setCurrentWeekNumber(weekNumber);
   }, [currentWeekNumber]);

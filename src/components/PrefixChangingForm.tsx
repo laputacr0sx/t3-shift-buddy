@@ -18,7 +18,7 @@ import { prefixRegex } from "~/utils/regex";
 import { type WeekPrefix } from "@prisma/client";
 import moment from "moment";
 import { api } from "~/utils/api";
-import { getWeekNumber } from "~/utils/helper";
+import { getWeekNumberByDate } from "~/utils/helper";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -39,7 +39,7 @@ type PropsType = {
 };
 
 function PrefixChangingForm(props: PropsType) {
-  const currentWeekNumber = getWeekNumber();
+  const currentWeekNumber = getWeekNumberByDate();
 
   const { mutate: updatePrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({

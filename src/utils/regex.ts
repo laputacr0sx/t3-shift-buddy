@@ -4,6 +4,8 @@ export const shiftRowRegex =
 export const shiftNameRegex =
   /([1356][0-5]\d{1})|([98]\d{5}[a-z]?)|(RD|CL|AL|GH|SH)/gim;
 
+export const urlShiftSequenceRegex = /[a-zA-z]{2}(\d+|RD|AL|CL|GH|SH)/gim;
+
 export const inputShiftCodeRegex =
   /(^[1356][0-5]\d{1}$)|([98]\d{5}[a-z]?)|(RD|CL|AL|GH|SH)|^\s*$/gm;
 // /(^([1356][0-5]\d{1}){0,1}$)|(^(98)\d{5}[a-z]?){0,1}|((RD|CL|AL|GH|SH)){0,1}/gim;
