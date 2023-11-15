@@ -1,6 +1,6 @@
 import moment from "moment";
 import { type Row } from "@tanstack/react-table";
-import { toast } from "~/components/ui/useToast";
+import { toast } from "react-hot-toast";
 import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
 
@@ -90,9 +90,7 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
   const completeString = getSelectedShiftsString(selectedShifts);
 
   await navigator.clipboard.writeText(completeString);
-  toast({
-    description: "已複製資料",
-  });
+  toast("已複製資料");
 }
 
 import holidayJson from "~/utils/holidayHK";

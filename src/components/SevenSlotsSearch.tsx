@@ -11,7 +11,8 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import router from "next/router";
+
+import { useRouter } from "next/router";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
@@ -19,6 +20,7 @@ import { inputShiftCodeRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import toast from "react-hot-toast";
 
 const dayDetailName = `Y${moment().year()}W${moment().week()}`;
 
@@ -36,7 +38,14 @@ const sevenSlotsSearchFormSchema = z.object({
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
-const SevenSlotsSearchForm = () => {
+// document this react component
+
+const SevenSlotsSearchForm = ({
+  preloadSequence,
+}: {
+  preloadSequence?: string;
+}) => {
+  const router = useRouter();
   const [autoDayDetail, setAutoDayDetail] = useState<
     ReturnType<typeof autoPrefix>
   >([]);
@@ -44,6 +53,9 @@ const SevenSlotsSearchForm = () => {
   useEffect(() => {
     setAutoDayDetail(autoPrefix());
   }, []);
+
+  if (typeof preloadSequence !== "undefined") {
+  }
 
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -53,7 +65,17 @@ const SevenSlotsSearchForm = () => {
       //   "validation result",
       //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
       // );
-      return zodResolver(sevenSlotsSearchFormSchema)(data, context, options);
+      const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
+        data,
+        context,
+        options
+      );
+
+      console.log({ temp: JSON.stringify(Object.values(zodResolved.values)) });
+
+      // console.log(JSON.stringify(zodResolved.values));
+
+      return zodResolved;
     },
     // resolver: zodResolver(sevenSlotsSearchFormSchema),
     mode: "onChange",
@@ -84,26 +106,21 @@ const SevenSlotsSearchForm = () => {
     },
   });
 
-  // m: Monday,
-  // t: Tuesday,
-  // w: Wednesday,
-  // r: Thursday,
-  // f: Friday,
-  // s: Saturday,
-  // u: Sunday
-
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
     data
   ) => {
-    let urlParams = "";
+    let queryString = "";
 
     const weekDetails = data[dayDetailName]?.reduce<
       { shiftCode: string; date: Date }[]
     >((result, dayDetail, i) => {
+      const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").toDate();
       if (dayDetail.shiftCode) {
-        const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").toDate();
         result.push({ shiftCode: dayDetail.shiftCode, date });
       }
+      // else {
+      //   result.push({ shiftCode: "0", date });
+      // }
       return result;
     }, []);
 
@@ -111,21 +128,23 @@ const SevenSlotsSearchForm = () => {
       const dayString = moment(detail.date).locale("en").format("dd");
 
       const result = `${dayString}${detail.shiftCode}`;
-      console.log(result);
-      urlParams += result;
+      // console.log(result);
+      queryString += result;
     }
 
-    // await router.push(`weekdetails/${urlParams}`);
+    console.log({ queryString });
+
+    if (queryString.length <= 0) {
+      toast("請輸入最少一更", {
+        icon: "❌",
+        className: "dark:bg-red-950 dark:text-foreground",
+      });
+    }
 
     await router.push({
       pathname: "/weekdetails/[shiftsequence]",
-      query: { shiftsequence: urlParams },
+      query: { shiftsequence: queryString, date: true, ignore: true },
     });
-
-    // for (const { shiftCode } of data[dayDetailName] || []) {
-    //   console.log(shiftCode ? shiftCode : "empty");
-    // }
-    // await router.push(`/weekdetails/123`);
   };
 
   return (
@@ -134,10 +153,10 @@ const SevenSlotsSearchForm = () => {
         onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}
         className="flex w-fit flex-col space-y-2 "
       >
-        <fieldset className="flex justify-between font-mono">
+        {/* <fieldset className="flex justify-between font-mono">
           <Label>Date</Label>
           <Label>Number</Label>
-        </fieldset>
+        </fieldset> */}
         {autoDayDetail.map((day, i) => {
           return (
             <fieldset key={day.date}>
@@ -204,8 +223,9 @@ const SevenSlotsSearchForm = () => {
           <Button
             type="reset"
             variant={"destructive"}
-            onClick={() => {
+            onClick={async () => {
               sevenSlotsSearchForm.reset();
+              await router.replace("/weekdetails");
             }}
           >
             重置
