@@ -23,7 +23,6 @@ import moment from "moment";
 
 function WeekDetails() {
   const router = useRouter();
-
   const { shiftsequence, weekNumber } = router.query;
 
   const validShiftSequence = shiftsequence
@@ -34,21 +33,36 @@ function WeekDetails() {
 
   const correspondingWeekDates = getNextWeekDates(validWeekNumber);
 
-  const validShiftArray = validShiftSequence?.reduce((result, shift, i) => {
-    const shortWeekDay = moment(correspondingWeekDates[i])
-      .locale("en")
-      .format("dd");
+  const test = validShiftSequence?.forEach((shift) => {
+    const shortDay = shift.match(/[a-z]{2}/gim)?.[0] as string;
 
-    const shiftWeekDay = shift.match(/\d+|AL|RD|CL|GH|SH/gim)?.[0];
-    console.log(shiftWeekDay);
+    const position = correspondingWeekDates
+      .map((date) => moment(date).locale("en").format("dd"))
+      .indexOf(shortDay);
 
-    if (shiftWeekDay === shortWeekDay) {
-    }
+    console.log(position);
+    return;
+  });
 
-    return result;
-  }, []);
+  // const validShiftArray = correspondingWeekDates.reduce<string[]>(
+  //   (result, date, i) => {
+  //     const shortWeekDay = moment(date).locale("en").format("dd");
+  //     const shift = validShiftSequence?.[i];
+  //     const shiftWeekDay = shift?.match(/[a-z]{2}/gim)?.[0];
 
-  console.log(validShiftArray);
+  //     console.log(shiftWeekDay, shortWeekDay);
+
+  //     if (shiftWeekDay === shortWeekDay) {
+  //       const shiftCode = shift?.match(/\d+|AL|RD|CL|GH|SH/gim)?.[0] as string;
+  //       result.push(shiftCode);
+  //     }
+
+  //     return result;
+  //   },
+  //   []
+  // );
+
+  console.log(test);
 
   // const {
   //   data: weeekShifts,

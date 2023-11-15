@@ -184,12 +184,11 @@ const SevenSlotsSearchForm = ({
                               <Input
                                 {...field}
                                 className="w-[90px] font-mono tracking-wide"
-                                placeholder="101/991106"
+                                placeholder="101"
                                 autoCapitalize="characters"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 spellCheck="false"
-                                autoFocus
                               />
                             </FormControl>
                           </div>
