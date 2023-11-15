@@ -5,6 +5,23 @@ import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
 
 /**
+ * Returns Moment Object from today to next sunday included.
+
+ * @returns Moment Object from today to next sunday included.
+ */
+export const getDatesFromToday = () => {
+  const today = moment().startOf("day");
+  const nextWeek = today.clone().add(1, "week");
+  const nextSunday = nextWeek.clone().add(1, "week").startOf("week");
+  const dates = [];
+  while (today.isSameOrBefore(nextSunday)) {
+    dates.push(today.clone());
+    today.add(1, "day");
+  }
+  return dates;
+};
+
+/**
  * Returns the ISO week number of the given date.
  * @param queryDate The date to get the week number for. Defaults to the current date.
  * @returns The ISO week number of the given date.
@@ -104,12 +121,12 @@ import fixtures from "~/utils/hkjcFixture";
  * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  */
 export const autoPrefix = (weekNumber?: string) => {
-  const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
+  // const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
-  const correspondingDates = getNextWeekDates(nextWeekNumber);
+  const correspondingDates = getDatesFromToday();
 
   const formattedDated = correspondingDates.map((date) => {
-    return moment(date).locale("zh-hk").format("YYYYMMDD");
+    return date.locale("zh-hk").format("YYYYMMDD");
   });
 
   const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
@@ -153,6 +170,56 @@ export const autoPrefix = (weekNumber?: string) => {
 
   return prefixes;
 };
+// export const autoPrefix = (weekNumber?: string) => {
+//   const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
+
+//   const correspondingDates = getNextWeekDates(nextWeekNumber);
+
+//   const formattedDated = correspondingDates.map((date) => {
+//     return moment(date).locale("zh-hk").format("YYYYMMDD");
+//   });
+
+//   const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
+//     vevent.flatMap(({ dtstart }) =>
+//       dtstart.filter((date) => typeof date === "string")
+//     )
+//   );
+//   const prefixes = [];
+
+//   for (const date of formattedDated) {
+//     const isHoliday = !!publicHolidays.filter((holiday) => holiday === date)[0];
+
+//     const racingDetails = fixtures.filter(
+//       ({ date: fixtureDay }) =>
+//         moment(fixtureDay).locale("zh-hk").format("YYYYMMDD") === date
+//     )[0];
+
+//     const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
+//       ({ dtstart }) => dtstart.includes(date)
+//     )[0];
+
+//     const weekDayNum = moment(date).isoWeekday();
+
+//     const prefix = racingDetails
+//       ? racingDetails.nightRacing === 0
+//         ? "71"
+//         : racingDetails.nightRacing === 1 && racingDetails.venue === "H"
+//         ? "14"
+//         : "13"
+//       : weekDayNum === 6 || weekDayNum === 7 || isHoliday
+//       ? "75"
+//       : "15";
+
+//     prefixes.push({
+//       date: moment(date).format("YYYYMMDD ddd"),
+//       prefix,
+//       racingDetails,
+//       holidayDetails,
+//     });
+//   }
+
+//   return prefixes;
+// };
 
 export const getDutyNumberPreview = (
   shifts: string[],

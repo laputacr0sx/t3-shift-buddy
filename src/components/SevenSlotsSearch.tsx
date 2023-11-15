@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { useRouter } from "next/router";
 
@@ -20,7 +20,7 @@ import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+
 import toast from "react-hot-toast";
 
 const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
@@ -33,8 +33,7 @@ const sevenSlotsSearchFormSchema = z.object({
         .regex(inputShiftCodeRegex, "不正確輸入")
         .max(7, "最長更號不多於7個字，例991106a / 881101a"),
     })
-    .array()
-    .length(7),
+    .array(),
 });
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
@@ -147,7 +146,6 @@ const SevenSlotsSearchForm = ({
       query: {
         shiftsequence: queryString,
         weekNumber,
-        // date: true, ignore: true
       },
     });
   };
