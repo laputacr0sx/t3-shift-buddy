@@ -44,7 +44,6 @@ function Navbar() {
             <p className="text-[10px]">更餡</p>
           </Link>
         </li>
-
         <li>
           <Link
             href={"/annual"}

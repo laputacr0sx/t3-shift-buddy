@@ -4,17 +4,39 @@ import { toast } from "react-hot-toast";
 import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
 
+// check if today is after wednesday
+export const isTodayAfterWednesday = (day?: moment.Moment) => {
+  day = day ?? moment();
+  const wednesday = moment().day(3);
+  return day.isAfter(wednesday);
+};
+
 /**
  * Returns Moment Object from today to next sunday included.
-
  * @returns Moment Object from today to next sunday included.
  */
-export const getDatesFromToday = () => {
+// export const getDatesFromToday = () => {
+//   const today = moment().startOf("day");
+//   const nextWeek = today
+//     .clone()
+//     .add(isTodayAfterWednesday(today) ? 1 : 0, "week");
+//   const nextSunday = nextWeek.clone().add(1, "week").startOf("week");
+//   const dates = [];
+//   while (today.isSameOrBefore(nextSunday)) {
+//     dates.push(today.clone());
+//     today.add(1, "day");
+//   }
+//   return dates;
+// };
+export const getDatesTillSunday = () => {
   const today = moment().startOf("day");
-  const nextWeek = today.clone().add(1, "week");
-  const nextSunday = nextWeek.clone().add(1, "week").startOf("week");
+  const endOfWeek = today
+    .clone()
+    .add(isTodayAfterWednesday(today) ? 1 : 0, "week")
+    .endOf("isoWeek");
+
   const dates = [];
-  while (today.isSameOrBefore(nextSunday)) {
+  while (today.isSameOrBefore(endOfWeek)) {
     dates.push(today.clone());
     today.add(1, "day");
   }
@@ -123,10 +145,10 @@ import fixtures from "~/utils/hkjcFixture";
 export const autoPrefix = (weekNumber?: string) => {
   // const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
-  const correspondingDates = getDatesFromToday();
+  const correspondingDates = getNextWeekDates();
 
   const formattedDated = correspondingDates.map((date) => {
-    return date.locale("zh-hk").format("YYYYMMDD");
+    return moment(date).locale("zh-hk").format("YYYYMMDD");
   });
 
   const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>

@@ -16,7 +16,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import moment from "moment";
-import { autoPrefix } from "~/utils/helper";
+import { autoPrefix, isTodayAfterWednesday } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -152,15 +152,13 @@ const SevenSlotsSearchForm = ({
 
   return (
     <>
-      <p className="justify-center text-center text-xs font-thin text-foreground">
-        期數：{dayDetailName}
-      </p>
+      <p className="justify-center text-center text-xs font-thin text-foreground"></p>
       <Form {...sevenSlotsSearchForm}>
         <form
           onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}
           className="flex w-fit flex-col space-y-2 "
         >
-          <FormDescription></FormDescription>
+          <FormDescription>期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
             return (
               <fieldset key={day.date}>
