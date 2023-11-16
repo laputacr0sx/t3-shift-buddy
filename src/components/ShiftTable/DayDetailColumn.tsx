@@ -43,7 +43,7 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           onClick={() => {
             atcb_action({
               name: dutyNumber,
-              options: ["Apple", "Google"],
+              options: ["Apple", "Google", "Microsoft365", "iCal"],
               location: bNL,
               startDate: bND,
               endDate: bFD,

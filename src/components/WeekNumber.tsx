@@ -15,7 +15,7 @@ function WeekNumber({
 }: WeekNumberProps) {
   return (
     <div className="flex items-center justify-center pt-2 font-mono font-extrabold">
-      週數
+      <p>週數</p>
       <Button
         onClick={() => {
           setUserWeekNumberInput(() => {

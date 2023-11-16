@@ -32,8 +32,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     { refetchOnWindowFocus: false }
   );
 
-  console.log(shiftDetails);
-
   if (shiftsArrayLoading) return <TableLoading />;
 
   if (shiftsArrayError) return <>{shiftsArrayError.message}</>;
@@ -54,7 +52,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center justify-center">
       <WeekNumber
         userWeekNumberInput={userWeekNumberInput}
         setUserWeekNumberInput={setUserWeekNumberInput}

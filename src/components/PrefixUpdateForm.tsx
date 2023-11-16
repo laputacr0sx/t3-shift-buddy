@@ -37,7 +37,7 @@ type PrefixFormSchema = z.infer<typeof prefixFormSchema>;
 
 type DynamicUpdatePrefixFormProps = {
   currentWeekNumber: number;
-  dates: Date[];
+  dates: moment.Moment[];
   prefixDetails: {
     alphabeticPrefix: string;
     numericPrefix: string;

@@ -6,7 +6,7 @@ import {
   getWeekNumberByDate,
 } from "~/utils/helper";
 import { type NextPageWithLayout } from "./_app";
-import { useEffect, type ReactElement, useState } from "react";
+import { useEffect, type ReactElement, useState, useMemo } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 import moment from "moment";
@@ -15,18 +15,28 @@ const PrefixUpdate: NextPageWithLayout = () => {
   const [currentWeekNumber, setCurrentWeekNumber] = useState(
     getWeekNumberByDate()
   );
+  const [prefixDetail, setPrefixDetail] = useState<
+    {
+      alphabeticPrefix: string;
+      numericPrefix: string;
+    }[]
+  >([]);
 
   const {
     data: currentWeekPreix,
     isLoading: currentWeekPrefixLoading,
     error: currentPrefixError,
-  } = api.prefixController.getPrefixGivenWeekNumber.useQuery({
-    weekNumber: currentWeekNumber,
-  });
+  } = api.prefixController.getPrefixGivenWeekNumber.useQuery(
+    {
+      weekNumber: currentWeekNumber,
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   useEffect(() => {
     const weekNumber = getWeekNumberByDate();
-
     setCurrentWeekNumber(weekNumber);
   }, [currentWeekNumber]);
 
@@ -45,6 +55,12 @@ const PrefixUpdate: NextPageWithLayout = () => {
         .filter((prefix) => numericPrefix === prefix.slice(1))[0]
         ?.slice(0, 1) || "";
 
+    console.log(alphabeticPrefix, numericPrefix);
+
+    // setPrefixDetail((prev) => [
+    //   ...prev,
+    //   { alphabeticPrefix, numericPrefix },
+    // ]);
     return {
       alphabeticPrefix,
       numericPrefix,
