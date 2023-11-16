@@ -35,6 +35,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   console.log(shiftDetails);
 
   if (shiftsArrayLoading) return <TableLoading />;
+
   if (shiftsArrayError) return <>{shiftsArrayError.message}</>;
 
   const nextWeekDates = getNextWeekDates(userWeekNumberInput.toString());

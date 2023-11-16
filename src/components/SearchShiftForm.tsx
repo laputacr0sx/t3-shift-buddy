@@ -110,7 +110,7 @@ export default function SearchShiftForm() {
                           {formatedDate} _{day.prefix}
                           {(validatedRawShiftArray.success &&
                             validatedRawShiftArray.data[i]) ||
-                            "___"}
+                            "___"}{" "}
                           {day.holidayDetails?.summary ??
                           day.racingDetails?.venue === "S"
                             ? "沙田"

@@ -3,12 +3,10 @@ import { Skeleton } from "./ui/skeleton";
 
 function TableLoading() {
   return (
-    <div className="flex items-center justify-center space-x-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </div>
+    <div className="flex flex-col items-center justify-center gap-5 pt-5">
+      <Skeleton className="h-14 w-40 " />
+
+      <Skeleton className="h-screen w-80" />
     </div>
   );
 }
