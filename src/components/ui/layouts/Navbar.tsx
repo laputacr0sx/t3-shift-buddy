@@ -12,11 +12,11 @@ import { ModeToggle } from "../../ModeToggle";
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 function Navbar() {
-  const { isSignedIn } = useUser();
+  // const { isSignedIn } = useUser();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[9999] flex h-12 items-center justify-between bg-navbar text-navbar-foreground">
-      <div className="mx-2 self-center align-middle">
+      {/* <div className="mx-2 self-center align-middle">
         {isSignedIn ? (
           <UserButton afterSignOutUrl="/" />
         ) : (
@@ -24,8 +24,8 @@ function Navbar() {
             <UserCircle2 />
           </SignInButton>
         )}
-      </div>
-      <ul className="flex flex-row justify-start gap-2">
+      </div> */}
+      <ul className="flex flex-row justify-center gap-2 ">
         <li>
           <Link
             href={"/"}

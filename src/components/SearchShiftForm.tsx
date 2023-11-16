@@ -82,7 +82,7 @@ export default function SearchShiftForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription className="gap-4" ref={parent}>
+                  {/* <FormDescription className="gap-4" ref={parent}>
                     {formattedDates.map((date, i) => {
                       return (
                         <p key={date} className="py-1 font-mono tracking-wide">
@@ -95,7 +95,7 @@ export default function SearchShiftForm() {
                         </p>
                       );
                     })}
-                  </FormDescription>
+                  </FormDescription> */}
                   <FormDescription className="gap-4" ref={parent}>
                     {timetable.map((day, i) => {
                       const formatedDate = moment(
@@ -111,8 +111,12 @@ export default function SearchShiftForm() {
                           {(validatedRawShiftArray.success &&
                             validatedRawShiftArray.data[i]) ||
                             "___"}
-                          {day.holidayDetails?.summary}{" "}
-                          {day.racingDetails?.venue}
+                          {day.holidayDetails?.summary ??
+                          day.racingDetails?.venue === "S"
+                            ? "沙田"
+                            : day.racingDetails?.venue === "H"
+                            ? "跑馬地"
+                            : ""}
                         </p>
                       );
                     })}

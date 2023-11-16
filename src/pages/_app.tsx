@@ -26,7 +26,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
-    <ClerkProvider {...pageProps}>
+    // <ClerkProvider {...pageProps}>
+    <>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -37,7 +38,9 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
       <Analytics />
-    </ClerkProvider>
+    </>
+
+    // </ClerkProvider>
   );
 };
 
