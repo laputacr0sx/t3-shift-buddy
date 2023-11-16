@@ -146,6 +146,7 @@ export const autoPrefix = (weekNumber?: string) => {
   // const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
   const correspondingDates = getNextWeekDates();
+  // const correspondingDates = getDatesTillSunday();
 
   const formattedDated = correspondingDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");

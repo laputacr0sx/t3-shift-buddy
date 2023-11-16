@@ -40,8 +40,8 @@ export default function SearchShiftForm() {
     setnextWeekDates(getNextWeekDates());
   }, []);
 
-  const formattedDates = nextWeekDates.map((date) =>
-    moment(date).format("DD/MM（dd）")
+  const formattedDates = timetable.map(({ date }) =>
+    moment(date, "YYYYMMDD ddd").format("DD/MM（dd）")
   );
 
   const rowForm = useForm<z.infer<typeof rowFormSchema>>({
@@ -92,6 +92,27 @@ export default function SearchShiftForm() {
                             "___"}
                           {timetable[i]?.holidayDetails?.summary}{" "}
                           {timetable[i]?.racingDetails?.venue}
+                        </p>
+                      );
+                    })}
+                  </FormDescription>
+                  <FormDescription className="gap-4" ref={parent}>
+                    {timetable.map((day, i) => {
+                      const formatedDate = moment(
+                        day.date,
+                        "YYYYMMDD ddd"
+                      ).format("DD/MM（dd）");
+                      return (
+                        <p
+                          key={day.date}
+                          className="py-1 font-mono tracking-wide"
+                        >
+                          {formatedDate} _{day.prefix}
+                          {(validatedRawShiftArray.success &&
+                            validatedRawShiftArray.data[i]) ||
+                            "___"}
+                          {day.holidayDetails?.summary}{" "}
+                          {day.racingDetails?.venue}
                         </p>
                       );
                     })}
