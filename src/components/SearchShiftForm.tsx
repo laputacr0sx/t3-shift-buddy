@@ -77,9 +77,10 @@ export default function SearchShiftForm() {
                   <FormLabel>整週番號</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       className="font-mono tracking-wide"
                       placeholder="101102103104105106RD"
-                      {...field}
+                      type="search"
                     />
                   </FormControl>
                   {/* <FormDescription className="gap-4" ref={parent}>

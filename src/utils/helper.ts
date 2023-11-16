@@ -12,33 +12,20 @@ export const isTodayAfterWednesday = (day?: moment.Moment) => {
 };
 
 /**
- * Returns Moment Object from today to next sunday included.
- * @returns Moment Object from today to next sunday included.
+ * Returns Moment Object from tomorrow to next sunday included.
+ * @returns Moment Object from tomorrow to next sunday included.
  */
-// export const getDatesFromToday = () => {
-//   const today = moment().startOf("day");
-//   const nextWeek = today
-//     .clone()
-//     .add(isTodayAfterWednesday(today) ? 1 : 0, "week");
-//   const nextSunday = nextWeek.clone().add(1, "week").startOf("week");
-//   const dates = [];
-//   while (today.isSameOrBefore(nextSunday)) {
-//     dates.push(today.clone());
-//     today.add(1, "day");
-//   }
-//   return dates;
-// };
 export const getDatesTillSunday = () => {
-  const today = moment().startOf("day");
-  const endOfWeek = today
+  const tomorrow = moment().add(1, "d").startOf("day");
+  const endOfWeek = tomorrow
     .clone()
-    .add(isTodayAfterWednesday(today) ? 1 : 0, "week")
+    .add(isTodayAfterWednesday(tomorrow) ? 1 : 0, "week")
     .endOf("isoWeek");
 
   const dates = [];
-  while (today.isSameOrBefore(endOfWeek)) {
-    dates.push(today.clone());
-    today.add(1, "day");
+  while (tomorrow.isSameOrBefore(endOfWeek)) {
+    dates.push(tomorrow.clone());
+    tomorrow.add(1, "day");
   }
   return dates;
 };
@@ -61,17 +48,15 @@ export const getNextWeekDates = (weekNumber?: string) => {
   const validWeekNumber = weekNumber
     ? parseInt(weekNumber)
     : getWeekNumberByDate() + 1;
-  const mondayFromWeekNumber = moment().day("Monday").week(validWeekNumber);
+  const startOfWeek = moment().week(validWeekNumber).startOf("isoWeek");
+  const endOfWeek = startOfWeek.clone().endOf("isoWeek");
 
-  let weekArr = new Array<Date>();
-
-  for (let i = 0; i < 7; i++) {
-    const date = mondayFromWeekNumber.add(i ? 1 : 0, "d");
-
-    weekArr = [...weekArr, date.toDate()];
+  const dates = [];
+  while (startOfWeek.isSameOrBefore(endOfWeek)) {
+    dates.push(startOfWeek.clone());
+    startOfWeek.add(1, "day");
   }
-
-  return weekArr;
+  return dates;
 };
 
 /**
@@ -142,11 +127,14 @@ import fixtures from "~/utils/hkjcFixture";
  * @param weekNumber The week number to get the details for. Defaults to the current week number.
  * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  */
-export const autoPrefix = (weekNumber?: string) => {
+export const autoPrefix = (moreDays = false, weekNumber?: string) => {
   // const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
-  const correspondingDates = getNextWeekDates();
-  // const correspondingDates = getDatesTillSunday();
+  const correspondingDates = moreDays
+    ? getDatesTillSunday()
+    : getNextWeekDates();
+
+  console.log(correspondingDates);
 
   const formattedDated = correspondingDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");
@@ -161,6 +149,7 @@ export const autoPrefix = (weekNumber?: string) => {
 
   for (const date of formattedDated) {
     const isHoliday = !!publicHolidays.filter((holiday) => holiday === date)[0];
+    const weekDayNum = moment(date).isoWeekday();
 
     const racingDetails = fixtures.filter(
       ({ date: fixtureDay }) =>
@@ -170,8 +159,6 @@ export const autoPrefix = (weekNumber?: string) => {
     const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
       ({ dtstart }) => dtstart.includes(date)
     )[0];
-
-    const weekDayNum = moment(date).isoWeekday();
 
     const prefix = racingDetails
       ? racingDetails.nightRacing === 0
@@ -249,7 +236,7 @@ export const getDutyNumberPreview = (
   weekNumber?: number
 ): string[] => {
   const dayDetail: string[] = [];
-  const weekPreview = autoPrefix(weekNumber?.toString());
+  const weekPreview = autoPrefix(false, weekNumber?.toString());
 
   weekPreview.forEach((day, i) => {
     let dayDetailString = "";

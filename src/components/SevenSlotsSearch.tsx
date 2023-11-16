@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import { autoPrefix, isTodayAfterWednesday } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 
 import toast from "react-hot-toast";
@@ -38,8 +38,6 @@ const sevenSlotsSearchFormSchema = z.object({
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
-// document this react component
-
 const SevenSlotsSearchForm = ({
   preloadSequence,
 }: {
@@ -51,57 +49,41 @@ const SevenSlotsSearchForm = ({
   >([]);
 
   useEffect(() => {
-    setAutoDayDetail(autoPrefix());
+    setAutoDayDetail(autoPrefix(true));
   }, []);
-
-  if (typeof preloadSequence !== "undefined") {
-  }
-
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
-      // console.log("formData", data);
-      // console.log(
-      //   "validation result",
-      //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
-      // );
+      console.log("formData", data);
+      console.log(
+        "validation result",
+        await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+      );
       const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
         data,
         context,
         options
       );
 
-      console.log({ temp: JSON.stringify(Object.values(zodResolved.values)) });
-
-      // console.log(JSON.stringify(zodResolved.values));
-
       return zodResolved;
     },
     // resolver: zodResolver(sevenSlotsSearchFormSchema),
     mode: "onChange",
     defaultValues: {
+      // [dayDetailName]: new Array(autoDayDetail.length).fill({
+      //   shiftCode: "",
+      // }),
       [dayDetailName]: [
-        {
-          shiftCode: "",
-        },
-        {
-          shiftCode: "",
-        },
-        {
-          shiftCode: "",
-        },
-        {
-          shiftCode: "",
-        },
-        {
-          shiftCode: "",
-        },
-        {
-          shiftCode: "",
-        },
-        {
-          shiftCode: "",
-        },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
+        { shiftCode: "" },
       ],
     },
   });
