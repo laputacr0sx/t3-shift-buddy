@@ -23,26 +23,9 @@ import moment from "moment";
 
 function WeekDetails() {
   const router = useRouter();
-  const { shiftsequence, weekNumber } = router.query;
+  const queryString = router.query;
 
-  const validShiftSequence = shiftsequence
-    ?.toString()
-    .match(urlShiftSequenceRegex);
-
-  const validWeekNumber = weekNumber?.toString() ?? "";
-
-  const correspondingWeekDates = getNextWeekDates(validWeekNumber);
-
-  const test = validShiftSequence?.forEach((shift) => {
-    const shortDay = shift.match(/[a-z]{2}/gim)?.[0] as string;
-
-    const position = correspondingWeekDates
-      .map((date) => moment(date).locale("en").format("dd"))
-      .indexOf(shortDay);
-
-    console.log(position);
-    return;
-  });
+  console.log(queryString);
 
   // const validShiftArray = correspondingWeekDates.reduce<string[]>(
   //   (result, date, i) => {
@@ -61,8 +44,6 @@ function WeekDetails() {
   //   },
   //   []
   // );
-
-  console.log(test);
 
   // const {
   //   data: weeekShifts,
@@ -85,7 +66,9 @@ function WeekDetails() {
           Back
         </Button>
       </section>
-      <section className="justify-center self-center">{shiftsequence}</section>
+      <section className="justify-center self-center">
+        {JSON.stringify(queryString)}
+      </section>
     </div>
   );
 }

@@ -54,11 +54,11 @@ const SevenSlotsSearchForm = ({
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
-      console.log("formData", data);
-      console.log(
-        "validation result",
-        await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
-      );
+      // console.log("formData", data);
+      // console.log(
+      //   "validation result",
+      //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+      // );
       const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
         data,
         context,
@@ -92,26 +92,25 @@ const SevenSlotsSearchForm = ({
     data
   ) => {
     let queryString = "";
-    let weekNumber;
 
     const weekDetails = data[dayDetailName]?.reduce<
       { shiftCode: string; date: Date }[]
-    >((result, dayDetail, i) => {
+    >((weekDetails, dayDetail, i) => {
       const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").toDate();
-      weekNumber = moment(date).isoWeek();
+
       if (dayDetail.shiftCode) {
-        result.push({ shiftCode: dayDetail.shiftCode, date });
+        weekDetails.push({ shiftCode: dayDetail.shiftCode, date });
       }
       // else {
       //   result.push({ shiftCode: "0", date });
       // }
-      return result;
+      return weekDetails;
     }, []);
 
     for (const detail of weekDetails || []) {
       const dayString = moment(detail.date).locale("en").format("dd");
-      const result = `${dayString}${detail.shiftCode}`;
-      queryString += result;
+      const query = `${dayString}=${detail.shiftCode}&`;
+      queryString += `${query}`;
     }
 
     // console.log({ queryString });
@@ -124,10 +123,9 @@ const SevenSlotsSearchForm = ({
     }
 
     await router.push({
-      pathname: "/weekdetails/[shiftsequence]",
+      pathname: "/weekdetails/",
       query: {
         shiftsequence: queryString,
-        weekNumber,
       },
     });
   };

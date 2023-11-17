@@ -5,7 +5,7 @@ import { DayDetailColumn } from "~/components/ShiftTable/DayDetailColumn";
 import { DayDetailTable } from "~/components/ShiftTable/DayDetailTable";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
-import { proShiftNameRegex, shiftNameRegex } from "~/utils/regex";
+import { proShiftNameRegex } from "~/utils/regex";
 import Layout from "~/components/ui/layouts/AppLayout";
 import {
   type DayDetail,
@@ -15,7 +15,6 @@ import {
 } from "~/utils/customTypes";
 import TableLoading from "~/components/TableLoading";
 import WeekNumber from "~/components/WeekNumber";
-import { useRouter } from "next/router";
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   // function WholeWeek() {
@@ -53,8 +52,6 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     } as DayDetail;
   }
 
-  console.log(dayDetails);
-
   return (
     <div className="flex flex-col items-center justify-center">
       <WeekNumber
@@ -87,8 +84,6 @@ export const getServerSideProps = ({
   const rawShiftArray: unknown =
     validatedShiftSequence.data.match(proShiftNameRegex);
   const validatedRawShiftArray = rawShiftArraySchema.safeParse(rawShiftArray);
-
-  console.log(validatedRawShiftArray.success && validatedRawShiftArray.data);
 
   if (!validatedRawShiftArray.success) {
     console.error(validatedRawShiftArray.error);
