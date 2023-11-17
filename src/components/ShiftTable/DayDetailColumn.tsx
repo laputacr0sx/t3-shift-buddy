@@ -48,7 +48,7 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
-              description: `[${bFL}] ${durationDecimal} ${remarks}`,
+              description: `[${bFL}]\n${durationDecimal}\n${remarks}`,
               endTime: bFT,
               hideIconButton: true,
               hideBackground: true,
@@ -141,9 +141,12 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
         ),
         cell: ({ row }) => {
           const duration: string = row.getValue("duration");
+          const durationDecimal = duration
+            ? convertDurationDecimal(duration)
+            : duration;
           return (
             <span className="block py-2 text-center align-middle font-medium text-slate-600 dark:text-slate-200">
-              {duration}
+              {durationDecimal}
             </span>
           );
         },
