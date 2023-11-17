@@ -38,19 +38,21 @@ const sevenSlotsSearchFormSchema = z.object({
 
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
-const SevenSlotsSearchForm = ({
-  preloadSequence,
-}: {
-  preloadSequence?: string;
-}) => {
+const SevenSlotsSearchForm = () => {
   const router = useRouter();
   const [autoDayDetail, setAutoDayDetail] = useState<
     ReturnType<typeof autoPrefix>
   >([]);
+  const [isValidQuery, setIsValidQuery] = useState(false);
 
   useEffect(() => {
     setAutoDayDetail(autoPrefix(true));
   }, []);
+
+  useEffect(() => {
+    setIsValidQuery(Object.keys(router.query).length > 0);
+  }, [router.query]);
+
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
@@ -91,7 +93,7 @@ const SevenSlotsSearchForm = ({
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
     data
   ) => {
-    let queryString = "";
+    const queryObject: Record<string, any> = {};
 
     const weekDetails = data[dayDetailName]?.reduce<
       { shiftCode: string; date: Date }[]
@@ -108,25 +110,16 @@ const SevenSlotsSearchForm = ({
     }, []);
 
     for (const detail of weekDetails || []) {
-      const dayString = moment(detail.date).locale("en").format("dd");
-      const query = `${dayString}=${detail.shiftCode}&`;
-      queryString += `${query}`;
+      const dayString = moment(detail.date).format("YYYYMMDD");
+
+      queryObject[dayString] = detail.shiftCode;
     }
 
     // console.log({ queryString });
 
-    if (queryString.length <= 0) {
-      toast("請輸入最少一更", {
-        icon: "❌",
-        className: "dark:bg-red-950 dark:text-foreground",
-      });
-    }
-
     await router.push({
       pathname: "/weekdetails/",
-      query: {
-        shiftsequence: queryString,
-      },
+      query: queryObject,
     });
   };
 
@@ -173,26 +166,6 @@ const SevenSlotsSearchForm = ({
                       );
                     }}
                   />
-                  {/* <FormField
-                  control={sevenSlotsSearchForm.control}
-                  name={`${dayDetailName}[${i}].dayOff` as const}
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <div className="flex items-center justify-between gap-4 font-mono">
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </div>
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                /> */}
                 </section>
               </fieldset>
             );
@@ -214,6 +187,7 @@ const SevenSlotsSearchForm = ({
           </div>
         </form>
       </Form>
+      {isValidQuery ? <>This is query component</> : null}
     </>
   );
 };
