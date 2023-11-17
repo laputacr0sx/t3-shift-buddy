@@ -1,6 +1,9 @@
 export const shiftRowRegex =
   /(?:(?:1|3|5|6)(?:[0-5])(?:\d{1})|(?:9|8)(?:\d{5})(?:[a-z]?)|(RD|CL|AL|GH|SH)){7}/gim;
 
+export const proShiftNameRegex =
+  /([89]\d{5}[a-zA-Z]?)(?=(RD|AL|CL|GH|SH))|(RD|AL|CL|GH|SH)|([89]\d{5}[a-zA-Z]?)|([1356][0-5]\d)/gim;
+
 export const shiftNameRegex =
   /([1356][0-5]\d{1})|([98]\d{5}[a-z]?)|(RD|CL|AL|GH|SH)/gim;
 
@@ -13,8 +16,7 @@ export const inputShiftCodeRegex =
 
 export const shiftNumberRegex = /(?:(?:1|3|5|6)[0-5]\d{1})/;
 
-export const abbreviatedDutyNumber =
-  /(?:(?:(?:1|3|5|6)[0-5]\d{1})|(?:9|8)(?:\d{5})(?:[a-z]?))/gim;
+export const abbreviatedDutyNumber = /^([1356][0-5]\d{1})/gim;
 
 export const shiftCodeRegex =
   /(^\d{3}$)|(^(?:[A-Z])(?:1[3|4|5]|7[1|5])(\d{3}$)){1}/gim;

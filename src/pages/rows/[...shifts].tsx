@@ -5,7 +5,7 @@ import { DayDetailColumn } from "~/components/ShiftTable/DayDetailColumn";
 import { DayDetailTable } from "~/components/ShiftTable/DayDetailTable";
 import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
-import { proShiftNameRegex, shiftNameRegex } from "~/utils/regex";
+import { shiftNameRegex } from "~/utils/regex";
 import Layout from "~/components/ui/layouts/AppLayout";
 import {
   type DayDetail,
@@ -17,11 +17,16 @@ import TableLoading from "~/components/TableLoading";
 import WeekNumber from "~/components/WeekNumber";
 import { useRouter } from "next/router";
 
-function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
-  // function WholeWeek() {
+// function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
+function WholeWeek() {
   const [userWeekNumberInput, setUserWeekNumberInput] = useState(
     moment().week() + 1
   );
+
+  const router = useRouter();
+  const { query } = router;
+
+  console.log({ query });
 
   const {
     data: shiftDetails,
@@ -29,7 +34,7 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
     error: shiftsArrayError,
   } = api.shiftController.getWeekShiftWithPrefix.useQuery(
     {
-      shiftArray: legitRawShiftArray,
+      shiftArray: [""],
     },
     { refetchOnWindowFocus: false }
   );
@@ -85,8 +90,10 @@ export const getServerSideProps = ({
   }
 
   const rawShiftArray: unknown =
-    validatedShiftSequence.data.match(proShiftNameRegex);
+    validatedShiftSequence.data.match(shiftNameRegex);
   const validatedRawShiftArray = rawShiftArraySchema.safeParse(rawShiftArray);
+
+  console.log({ rawShiftArray });
 
   console.log(validatedRawShiftArray.success && validatedRawShiftArray.data);
 

@@ -53,6 +53,8 @@ export default function SearchShiftForm() {
   });
 
   async function onSubmitForRow(values: z.infer<typeof rowFormSchema>) {
+    console.log({ values });
+
     await router.push(`wholeweek/${values.shiftRow.toUpperCase()}`);
   }
 
