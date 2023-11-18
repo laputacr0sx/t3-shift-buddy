@@ -54,10 +54,10 @@ function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <WeekNumber
+      {/* <WeekNumber
         userWeekNumberInput={userWeekNumberInput}
         setUserWeekNumberInput={setUserWeekNumberInput}
-      />
+      /> */}
       <div className="flex h-full w-screen flex-col gap-2 py-2">
         {shiftDetails ? (
           <DayDetailTable columns={DayDetailColumn} data={dayDetails} />

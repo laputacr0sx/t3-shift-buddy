@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { z } from "zod";
 
 import {
   Form,
@@ -16,12 +16,11 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
 import moment from "moment";
-import { autoPrefix, isTodayAfterWednesday } from "~/utils/helper";
+import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
-
-import toast from "react-hot-toast";
+import { encode } from "querystring";
 
 const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -43,14 +42,15 @@ const SevenSlotsSearchForm = () => {
   const [autoDayDetail, setAutoDayDetail] = useState<
     ReturnType<typeof autoPrefix>
   >([]);
-  const [isValidQuery, setIsValidQuery] = useState(false);
+
+  const [searchParams, setSearchParams] = useState<URLSearchParams>();
 
   useEffect(() => {
     setAutoDayDetail(autoPrefix(true));
   }, []);
 
   useEffect(() => {
-    setIsValidQuery(Object.keys(router.query).length > 0);
+    setSearchParams(new URLSearchParams(encode(router.query)));
   }, [router.query]);
 
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
@@ -93,39 +93,38 @@ const SevenSlotsSearchForm = () => {
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
     data
   ) => {
-    const queryObject: Record<string, any> = {};
+    const queryObject: Record<string, string> = {};
 
     const weekDetails = data[dayDetailName]?.reduce<
-      { shiftCode: string; date: Date }[]
+      { shiftCode: string; date: moment.Moment }[]
     >((weekDetails, dayDetail, i) => {
-      const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").toDate();
-
+      const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd");
       if (dayDetail.shiftCode) {
         weekDetails.push({ shiftCode: dayDetail.shiftCode, date });
       }
-      // else {
-      //   result.push({ shiftCode: "0", date });
-      // }
       return weekDetails;
     }, []);
 
-    for (const detail of weekDetails || []) {
-      const dayString = moment(detail.date).format("YYYYMMDD");
+    for (const { date, shiftCode } of weekDetails || []) {
+      const dayString = date.format("YYYYMMDD");
 
-      queryObject[dayString] = detail.shiftCode;
+      queryObject[dayString] = shiftCode;
     }
 
-    // console.log({ queryString });
-
-    await router.push({
-      pathname: "/weekdetails/",
-      query: queryObject,
-    });
+    await router.push(
+      {
+        pathname: router.pathname,
+        query: queryObject,
+      },
+      undefined,
+      {
+        scroll: false,
+      }
+    );
   };
 
   return (
     <>
-      <p className="justify-center text-center text-xs font-thin text-foreground"></p>
       <Form {...sevenSlotsSearchForm}>
         <form
           onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}
@@ -187,7 +186,45 @@ const SevenSlotsSearchForm = () => {
           </div>
         </form>
       </Form>
-      {isValidQuery ? <>This is query component</> : null}
+      {!!searchParams?.size ? (
+        <section id="query-result">
+          <h1>TITLE</h1>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+          <p>query exist</p>
+        </section>
+      ) : null}
     </>
   );
 };

@@ -21,13 +21,12 @@ import {
   shiftRowRegex,
 } from "~/utils/regex";
 import { rawShiftArraySchema } from "~/utils/customTypes";
-import { autoPrefix, getWeekNumberByDate } from "~/utils/helper";
+import { autoPrefix } from "~/utils/helper";
 import moment from "moment";
 
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import TouchPad from "./ui/touch-pad";
-import WeekNumber from "./WeekNumber";
 
 const rowFormSchema = z.object({
   shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
