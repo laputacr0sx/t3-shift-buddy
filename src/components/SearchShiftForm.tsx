@@ -15,9 +15,13 @@ import { Input } from "~/components/ui/input";
 import { useForm } from "react-hook-form";
 import router from "next/router";
 
-import { shiftNameRegex, shiftRowRegex } from "~/utils/regex";
+import {
+  abbreviatedDutyNumber,
+  shiftNameRegex,
+  shiftRowRegex,
+} from "~/utils/regex";
 import { rawShiftArraySchema } from "~/utils/customTypes";
-import { autoPrefix, getNextWeekDates } from "~/utils/helper";
+import { autoPrefix } from "~/utils/helper";
 import moment from "moment";
 
 import { useEffect, useState } from "react";
@@ -29,20 +33,12 @@ const rowFormSchema = z.object({
 });
 
 export default function SearchShiftForm() {
-  const [nextWeekDates, setnextWeekDates] = useState<
-    ReturnType<typeof getNextWeekDates>
-  >([]);
   const [timetable, setTimetable] = useState<ReturnType<typeof autoPrefix>>([]);
   const [parent] = useAutoAnimate(/* optional config */);
 
   useEffect(() => {
     setTimetable(autoPrefix());
-    setnextWeekDates(getNextWeekDates());
   }, []);
-
-  const formattedDates = timetable.map(({ date }) =>
-    moment(date, "YYYYMMDD ddd").format("DD/MM（dd）")
-  );
 
   const rowForm = useForm<z.infer<typeof rowFormSchema>>({
     resolver: zodResolver(rowFormSchema),
@@ -86,15 +82,33 @@ export default function SearchShiftForm() {
                     />
                   </FormControl>
                   {/* <FormDescription className="gap-4" ref={parent}>
-                    {formattedDates.map((date, i) => {
+                    {timetable.map((day, i) => {
+                      const formatedDate = moment(
+                        day.date,
+                        "YYYYMMDD ddd"
+                      ).format("DD/MM（dd）");
                       return (
-                        <p key={date} className="py-1 font-mono tracking-wide">
-                          {date} _{timetable[i]?.prefix}
-                          {(validatedRawShiftArray.success &&
-                            validatedRawShiftArray.data[i]) ||
-                            "___"}
-                          {timetable[i]?.holidayDetails?.summary}{" "}
-                          {timetable[i]?.racingDetails?.venue}
+                        <p
+                          key={day.date}
+                          className="py-1 font-mono tracking-wide"
+                        >
+                          {formatedDate} _{day.prefix}
+                          {validatedRawShiftArray.success
+                            ? validatedRawShiftArray.data[i]
+                            : "___"}{" "}
+                          {day.holidayDetails?.summary ??
+                          day.racingDetails?.venue === "S"
+                            ? "沙田"
+                            : day.racingDetails?.venue === "H"
+                            ? "跑馬地"
+                            : ""}
+                          {day.racingDetails?.nightRacing === 0
+                            ? "日馬"
+                            : day.racingDetails?.nightRacing === 1
+                            ? "夜馬"
+                            : day.racingDetails?.nightRacing === 2
+                            ? "黃昏馬"
+                            : ""}
                         </p>
                       );
                     })}
@@ -108,17 +122,35 @@ export default function SearchShiftForm() {
                       return (
                         <p
                           key={day.date}
-                          className="py-1 font-mono tracking-wide"
+                          className="py-1 font-mono tracking-widest"
                         >
-                          {formatedDate} _{day.prefix}
-                          {(validatedRawShiftArray.success &&
-                            validatedRawShiftArray.data[i]) ||
-                            "___"}{" "}
+                          {formatedDate}
+                          {validatedRawShiftArray.success &&
+                          validatedRawShiftArray.data[i] ? (
+                            <>
+                              {validatedRawShiftArray.data[i]?.match(
+                                abbreviatedDutyNumber
+                              )
+                                ? `${day.prefix}${
+                                    validatedRawShiftArray.data[i] as string
+                                  }`
+                                : `${validatedRawShiftArray.data[i] as string}`}
+                            </>
+                          ) : (
+                            `${day.prefix}___`
+                          )}{" "}
                           {day.holidayDetails?.summary ??
                           day.racingDetails?.venue === "S"
                             ? "沙田"
                             : day.racingDetails?.venue === "H"
                             ? "跑馬地"
+                            : ""}
+                          {day.racingDetails?.nightRacing === 0
+                            ? "日馬"
+                            : day.racingDetails?.nightRacing === 1
+                            ? "夜馬"
+                            : day.racingDetails?.nightRacing === 2
+                            ? "黃昏馬"
                             : ""}
                         </p>
                       );

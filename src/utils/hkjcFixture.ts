@@ -1,4 +1,12 @@
-const fixtures = [
+export type Fixtures = {
+  date: string;
+  weekDay: number;
+  venue: "S" | "H";
+  nightRacing: 0 | 1 | 2;
+  keyMatches: string;
+}[];
+
+const fixtures: Fixtures = [
   {
     date: "2023-09-10",
     weekDay: 7,
@@ -534,7 +542,7 @@ const fixtures = [
   {
     date: "2024-06-02",
     weekDay: 7,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
     keyMatches: "S",
   },
@@ -548,9 +556,9 @@ const fixtures = [
   {
     date: "2024-06-08",
     weekDay: 6,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
-    keyMatches: "S",
+    keyMatches: "",
   },
   {
     date: "2024-06-12",
@@ -562,14 +570,14 @@ const fixtures = [
   {
     date: "2024-06-16",
     weekDay: 7,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
     keyMatches: "S",
   },
   {
     date: "2024-06-23",
     weekDay: 7,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
     keyMatches: "S",
   },
@@ -583,7 +591,7 @@ const fixtures = [
   {
     date: "2024-07-01",
     weekDay: 1,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
     keyMatches: "S",
   },
@@ -597,7 +605,7 @@ const fixtures = [
   {
     date: "2024-07-07",
     weekDay: 7,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
     keyMatches: "S",
   },
@@ -611,7 +619,7 @@ const fixtures = [
   {
     date: "2024-07-14",
     weekDay: 7,
-    venue: "T",
+    venue: "S",
     nightRacing: 2,
     keyMatches: "S",
   },
