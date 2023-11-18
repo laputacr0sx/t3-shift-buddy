@@ -128,11 +128,11 @@ import fixtures from "~/utils/hkjcFixture";
  * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  */
 export const autoPrefix = (moreDays = false, weekNumber?: string) => {
-  // const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
+  const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
   const correspondingDates = moreDays
     ? getDatesTillSunday()
-    : getNextWeekDates();
+    : getNextWeekDates(nextWeekNumber);
 
   const formattedDated = correspondingDates.map((date) => {
     return moment(date).locale("zh-hk").format("YYYYMMDD");

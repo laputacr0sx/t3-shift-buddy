@@ -21,20 +21,22 @@ import {
   shiftRowRegex,
 } from "~/utils/regex";
 import { rawShiftArraySchema } from "~/utils/customTypes";
-import { autoPrefix } from "~/utils/helper";
+import { autoPrefix, getWeekNumberByDate } from "~/utils/helper";
 import moment from "moment";
 
 import { useEffect, useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import TouchPad from "./ui/touch-pad";
+import WeekNumber from "./WeekNumber";
 
 const rowFormSchema = z.object({
   shiftRow: z.string().regex(shiftRowRegex, "輸入更號不正確"),
 });
 
 export default function SearchShiftForm() {
+  const [parent] = useAutoAnimate();
+
   const [timetable, setTimetable] = useState<ReturnType<typeof autoPrefix>>([]);
-  const [parent] = useAutoAnimate(/* optional config */);
 
   useEffect(() => {
     setTimetable(autoPrefix());
@@ -81,7 +83,7 @@ export default function SearchShiftForm() {
                       type="search"
                     />
                   </FormControl>
-                  {/* <FormDescription className="gap-4" ref={parent}>
+                  <FormDescription className="flex flex-col gap-1" ref={parent}>
                     {timetable.map((day, i) => {
                       const formatedDate = moment(
                         day.date,
@@ -91,38 +93,6 @@ export default function SearchShiftForm() {
                         <p
                           key={day.date}
                           className="py-1 font-mono tracking-wide"
-                        >
-                          {formatedDate} _{day.prefix}
-                          {validatedRawShiftArray.success
-                            ? validatedRawShiftArray.data[i]
-                            : "___"}{" "}
-                          {day.holidayDetails?.summary ??
-                          day.racingDetails?.venue === "S"
-                            ? "沙田"
-                            : day.racingDetails?.venue === "H"
-                            ? "跑馬地"
-                            : ""}
-                          {day.racingDetails?.nightRacing === 0
-                            ? "日馬"
-                            : day.racingDetails?.nightRacing === 1
-                            ? "夜馬"
-                            : day.racingDetails?.nightRacing === 2
-                            ? "黃昏馬"
-                            : ""}
-                        </p>
-                      );
-                    })}
-                  </FormDescription> */}
-                  <FormDescription className="gap-4" ref={parent}>
-                    {timetable.map((day, i) => {
-                      const formatedDate = moment(
-                        day.date,
-                        "YYYYMMDD ddd"
-                      ).format("DD/MM（dd）");
-                      return (
-                        <p
-                          key={day.date}
-                          className="py-1 font-mono tracking-widest"
                         >
                           {formatedDate}
                           {validatedRawShiftArray.success &&
