@@ -12,15 +12,17 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useSpring, config } from "@react-spring/web";
 
 import { useRouter } from "next/router";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { encode } from "querystring";
+import Link from "next/link";
 
 const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -39,11 +41,21 @@ type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 const SevenSlotsSearchForm = () => {
   const router = useRouter();
+  const queryResultRef = useRef<HTMLElement | null>(null);
+
   const [autoDayDetail, setAutoDayDetail] = useState<
     ReturnType<typeof autoPrefix>
   >([]);
-
   const [searchParams, setSearchParams] = useState<URLSearchParams>();
+
+  const [y, setY] = useSpring(() => ({
+    immediate: false,
+    config: config.slow,
+    y: 0,
+    onFrame: (props: { y: number }) => {
+      window.scroll(0, props.y);
+    },
+  }));
 
   useEffect(() => {
     setAutoDayDetail(autoPrefix(true));
@@ -93,23 +105,18 @@ const SevenSlotsSearchForm = () => {
   const prefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
     data
   ) => {
-    const queryObject: Record<string, string> = {};
-
-    const weekDetails = data[dayDetailName]?.reduce<
-      { shiftCode: string; date: moment.Moment }[]
-    >((weekDetails, dayDetail, i) => {
-      const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd");
-      if (dayDetail.shiftCode) {
-        weekDetails.push({ shiftCode: dayDetail.shiftCode, date });
-      }
-      return weekDetails;
-    }, []);
-
-    for (const { date, shiftCode } of weekDetails || []) {
-      const dayString = date.format("YYYYMMDD");
-
-      queryObject[dayString] = shiftCode;
-    }
+    const queryObject = data[dayDetailName]?.reduce<Record<string, string>>(
+      (dayDetails, dayDetail, i) => {
+        const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
+          "YYYYMMDD"
+        );
+        if (dayDetail.shiftCode) {
+          dayDetails[date] = dayDetail.shiftCode;
+        }
+        return dayDetails;
+      },
+      {}
+    );
 
     await router.push(
       {
@@ -125,6 +132,17 @@ const SevenSlotsSearchForm = () => {
 
   return (
     <>
+      <Link href={"#query-result"}>To result</Link>
+      <Button
+        onClick={() => {
+          // setY.start({ y: 500 });
+          setY.start({
+            y: queryResultRef.current?.getBoundingClientRect().top,
+          });
+        }}
+      >
+        Spring Effect
+      </Button>
       <Form {...sevenSlotsSearchForm}>
         <form
           onSubmit={sevenSlotsSearchForm.handleSubmit(prefixFormHandler)}
@@ -186,42 +204,9 @@ const SevenSlotsSearchForm = () => {
           </div>
         </form>
       </Form>
-      {!!searchParams?.size ? (
-        <section id="query-result">
-          <h1>TITLE</h1>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
-          <p>query exist</p>
+      {searchParams?.size ? (
+        <section id="query-result" ref={queryResultRef} className="bg h-screen">
+          <h1>Query Result</h1>
           <p>query exist</p>
         </section>
       ) : null}
