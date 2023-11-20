@@ -9,6 +9,7 @@ import {
   abbreviatedDutyNumber,
   dutyInputRegExValidator,
   inputShiftCodeRegex,
+  proShiftNameRegex,
   shiftNameRegex,
 } from "~/utils/regex";
 
@@ -80,7 +81,21 @@ export const shiftControllerRouter = createTRPCRouter({
       return resultShiftArray;
     }),
 
-  getShiftDetailWithNumericPrefix: publicProcedure.query(async () => {
+  getShiftDetailWithNumericPrefix: publicProcedure
+    .input(
+      z
+        .object({
+          date: z.string().regex(/\d{8}/gim).catch(""),
+          shift: z.string().regex(proShiftNameRegex).catch("RD"),
+        })
+        .array()
+        .optional()
+    )
+    .query(({ ctx, input }) => {
+      return input;
+    }),
+
+  getDayWeather: publicProcedure.query(async () => {
     const hkoUri =
       "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";
 
