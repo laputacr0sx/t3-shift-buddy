@@ -2,6 +2,8 @@ import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { weatherSchema } from "~/utils/customTypes";
+import { fetchTyped } from "~/utils/helper";
 
 import {
   abbreviatedDutyNumber,
@@ -78,6 +80,14 @@ export const shiftControllerRouter = createTRPCRouter({
       return resultShiftArray;
     }),
 
+  getShiftDetailWithNumericPrefix: publicProcedure.query(async () => {
+    const hkoUri =
+      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";
+
+    const weatherResult = await fetchTyped(hkoUri, weatherSchema);
+    return weatherResult;
+  }),
+
   getWeekShiftWithPrefix: publicProcedure
     .input(
       z.object({
@@ -101,7 +111,7 @@ export const shiftControllerRouter = createTRPCRouter({
           message: "latest prefix not found",
         });
 
-      console.log(input);
+      console.log(input, latestPrefix);
 
       const combinedDutyName = new Array<string>(7);
 

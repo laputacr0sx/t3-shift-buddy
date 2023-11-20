@@ -17,6 +17,8 @@ import TableLoading from "~/components/TableLoading";
 import WeekNumber from "~/components/WeekNumber";
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
+  console.log(legitRawShiftArray);
+
   // function WholeWeek() {
   const [userWeekNumberInput, setUserWeekNumberInput] = useState(
     moment().week() + 1

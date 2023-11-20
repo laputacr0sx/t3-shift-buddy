@@ -7,12 +7,12 @@ import { autoPrefix } from "~/utils/helper";
 autoPrefix();
 
 const Home: NextPageWithLayout = () => (
-  <div>
+  <>
     <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
       出更易
     </h1>
     <SearchShiftForm />
-  </div>
+  </>
 );
 
 Home.getLayout = function getLayout(page: ReactElement) {

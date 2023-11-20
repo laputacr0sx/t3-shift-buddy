@@ -121,6 +121,7 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
 
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
+import { z } from "zod";
 
 /**
  * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
@@ -253,4 +254,20 @@ export const getDutyNumberPreview = (
   console.log(dayDetail);
 
   return dayDetail;
+};
+
+export const fetchTyped = async <S extends z.Schema>(
+  url: string,
+  schema: S,
+  params?: RequestInit
+): Promise<z.infer<S>> => {
+  const res = await fetch(url, {
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+    },
+    ...params,
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return schema.parse(await res.json());
 };
