@@ -3,6 +3,9 @@ import { type Row } from "@tanstack/react-table";
 import { toast } from "react-hot-toast";
 import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
+import holidayJson from "~/utils/holidayHK";
+import fixtures from "~/utils/hkjcFixture";
+import { z } from "zod";
 
 // check if today is after wednesday
 export const isTodayAfterWednesday = (day?: moment.Moment) => {
@@ -96,7 +99,7 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
         .locale("zh-hk")
         .format("DD/MM(dd)");
       const durationDecimal = convertDurationDecimal(duration);
-      dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}]<${remarks}>\n`;
+      dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}] <${remarks}> \n`;
     }
     completeString = completeString + dayString;
   }
@@ -118,10 +121,6 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
   await navigator.clipboard.writeText(completeString);
   toast("已複製資料");
 }
-
-import holidayJson from "~/utils/holidayHK";
-import fixtures from "~/utils/hkjcFixture";
-import { z } from "zod";
 
 /**
  * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.

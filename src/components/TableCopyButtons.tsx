@@ -23,6 +23,8 @@ function TableCopyButtons({
 }: TableCopyButtonsProps) {
   const completeShiftString = getSelectedShiftsString(selectedShifts);
 
+  const completeShiftURLComponent = encodeURIComponent(completeShiftString);
+
   return (
     <>
       <div className="flex items-center justify-around gap-4">
@@ -48,7 +50,7 @@ function TableCopyButtons({
         </Button>
       </div>
       <Link
-        href={`whatsapp://send?text=${completeShiftString}`}
+        href={`whatsapp://send?text=${completeShiftURLComponent}`}
         className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
       >
         <MessageCircle className="m-2 h-4 w-4 self-center" />
