@@ -145,6 +145,8 @@ const SevenSlotsSearchForm = () => {
         scroll: false,
       }
     );
+
+    // await router.push({ pathname: router.pathname });
   };
 
   const onInvalidPrefixFormHandler: SubmitErrorHandler<sevenSlotsSearchForm> = (
@@ -157,17 +159,10 @@ const SevenSlotsSearchForm = () => {
   return (
     <>
       <Link href={"#query-result"}>To result</Link>
-      <Button
-        variant={"outline"}
-        disabled
-        onClick={() => {
-          // setY.start({ y: 500 });
-        }}
-      >
-        Spring Effect
-      </Button>
+
       <Form {...sevenSlotsSearchForm}>
         <form
+          id="form"
           onSubmit={sevenSlotsSearchForm.handleSubmit(
             onValidPrefixFormHandler,
             onInvalidPrefixFormHandler
@@ -245,7 +240,7 @@ const SevenSlotsSearchForm = () => {
           <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
             Query Result
           </h1>
-          <Button>Back To Top</Button>
+          <Link href="#title">Back To Top</Link>
           {shiftDetailLoading ? null : (
             <p className="w-full break-words">{JSON.stringify(shiftDetail)}</p>
           )}
