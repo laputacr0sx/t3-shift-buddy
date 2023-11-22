@@ -24,6 +24,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import useShiftQuery from "~/hooks/useShiftQuery";
+import { api } from "~/utils/api";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -57,9 +58,21 @@ const SevenSlotsSearchForm = () => {
     return dateAndShifts;
   }, [newSearchParams]);
 
-  console.log(getShiftArrayFromSearchParam);
+  const handleQueryCb = useCallback(
+    async (data: SevenSlotsSearchForm) =>
+      await handleQuery(autoDayDetail, data),
+    [autoDayDetail, handleQuery]
+  );
 
-  console.log("form component is rendered");
+  const {
+    data: queryData,
+    isLoading: queryIsLoading,
+    error: queryError,
+  } = api.shiftController.getShiftDetailWithoutAlphabeticPrefix.useQuery(
+    getShiftArrayFromSearchParam
+  );
+
+  console.log(getShiftArrayFromSearchParam);
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -95,12 +108,6 @@ const SevenSlotsSearchForm = () => {
       ],
     },
   });
-
-  const handleQueryCb = useCallback(
-    async (data: SevenSlotsSearchForm) =>
-      await handleQuery(autoDayDetail, data),
-    [autoDayDetail, handleQuery]
-  );
 
   const onValidPrefixFormHandler: SubmitHandler<SevenSlotsSearchForm> = async (
     data
@@ -190,6 +197,7 @@ const SevenSlotsSearchForm = () => {
                 sevenSlotsSearchForm.reset();
                 setNewSearchParams(null);
                 await router.replace("/weekdetails#title");
+                router.reload();
               }}
             >
               重置
@@ -203,6 +211,12 @@ const SevenSlotsSearchForm = () => {
             未來更序
           </h1>
           <Link href="#title">Back To Top</Link>
+          <br />
+          {queryIsLoading ? null : queryError ? (
+            <p>{queryError.message}</p>
+          ) : (
+            "result loaded"
+          )}
         </section>
       ) : null}
     </>

@@ -4,8 +4,6 @@ import { type NextPageWithLayout } from "../_app";
 import SevenSlotsSearchForm from "~/components/SevenSlotsSearch";
 
 const SevenSlots: NextPageWithLayout = () => {
-  console.log("whole page is rendered");
-
   return (
     <React.Fragment>
       <h1

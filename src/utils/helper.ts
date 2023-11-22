@@ -270,3 +270,18 @@ export const fetchTyped = async <S extends z.Schema>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return schema.parse(await res.json());
 };
+
+export function getJointDutyNumber(prefixes: string[], shiftCodes: string[]) {
+  // const prefixes = ["J15", "D14", "V71", "C75"];
+  // const shiftCodes = ["15129", "15107", "75123", "71129", "15133", "14134"];
+
+  const mapResult = shiftCodes.flatMap((shiftCode) => {
+    return prefixes.flatMap((prefix) => {
+      const isNumericPrefixEqual = prefix.slice(1) === shiftCode.slice(0, 2);
+      if (!isNumericPrefixEqual) return [];
+      return prefix.slice(0, 1).concat(shiftCode);
+    });
+  });
+
+  return mapResult;
+}

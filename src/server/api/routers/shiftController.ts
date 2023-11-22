@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { weatherSchema } from "~/utils/customTypes";
-import { fetchTyped } from "~/utils/helper";
+import { fetchTyped, getJointDutyNumber } from "~/utils/helper";
 
 import {
   abbreviatedDutyNumber,
@@ -81,21 +81,40 @@ export const shiftControllerRouter = createTRPCRouter({
       return resultShiftArray;
     }),
 
-  getShiftDetailWithNumericPrefix: publicProcedure
+  getShiftDetailWithoutAlphabeticPrefix: publicProcedure
     .input(
       z
         .object({
           date: z.string().regex(/\d{8}/gim),
-          shift: z.string().regex(proShiftNameRegex),
+          shiftCode: z.string().regex(proShiftNameRegex),
         })
         .array()
     )
-    .query(({ ctx, input }) => {
-      const demo = input.map((day) => day.date);
+    .query(async ({ ctx, input }) => {
+      const prefixChronological = await ctx.prisma.weekPrefix
+        .findMany({
+          orderBy: { weekNumber: "desc" },
+          take: 1,
+        })
+        .then((weekPrefix) =>
+          weekPrefix.flatMap(({ prefixes }) =>
+            prefixes.flatMap((prefix) => prefix)
+          )
+        )
+        .catch(() => {
+          throw new TRPCError({ code: "BAD_REQUEST" });
+        });
 
-      console.log(demo);
+      const distinctPrefix = Array.from(new Set(prefixChronological));
+      const shiftCodeOnly = input.map((day) => day.shiftCode);
 
-      return input;
+      const jointDutyNumber = getJointDutyNumber(distinctPrefix, shiftCodeOnly);
+
+      const resultShiftArray = await ctx.prisma.shift.findMany({
+        where: { dutyNumber: { in: jointDutyNumber } },
+      });
+
+      return resultShiftArray;
     }),
 
   getDayWeather: publicProcedure.query(async () => {
