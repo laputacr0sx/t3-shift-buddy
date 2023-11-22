@@ -85,13 +85,16 @@ export const shiftControllerRouter = createTRPCRouter({
     .input(
       z
         .object({
-          date: z.string().regex(/\d{8}/gim).catch(""),
-          shift: z.string().regex(proShiftNameRegex).catch("RD"),
+          date: z.string().regex(/\d{8}/gim),
+          shift: z.string().regex(proShiftNameRegex),
         })
         .array()
-        .optional()
     )
     .query(({ ctx, input }) => {
+      const demo = input.map((day) => day.date);
+
+      console.log(demo);
+
       return input;
     }),
 

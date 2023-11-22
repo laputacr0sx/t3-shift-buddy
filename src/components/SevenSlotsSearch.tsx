@@ -16,20 +16,16 @@ import {
   type SubmitErrorHandler,
   useForm,
 } from "react-hook-form";
-import { useSpring, config } from "@react-spring/web";
-
-import { useRouter } from "next/router";
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
-import { abbreviatedDutyNumber, inputShiftCodeRegex } from "~/utils/regex";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { inputShiftCodeRegex } from "~/utils/regex";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { api } from "~/utils/api";
-import { useSearchParams } from "next/navigation";
+import useShiftQuery from "~/hooks/useShiftQuery";
 
-const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
+export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
 const sevenSlotsSearchFormSchema = z.object({
   [dayDetailName]: z
@@ -46,36 +42,34 @@ const sevenSlotsSearchFormSchema = z.object({
 type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 const SevenSlotsSearchForm = () => {
-  const searchParams = useSearchParams();
-
-  const router = useRouter();
-  const queryResultRef = useRef<HTMLElement | null>(null);
-
+  const { router, handleQuery } = useShiftQuery();
   const [autoDayDetail, setAutoDayDetail] = useState<
     ReturnType<typeof autoPrefix>
   >([]);
+  const [newSearchParams, setNewSearchParams] =
+    useState<URLSearchParams | null>(null);
 
   useEffect(() => {
     setAutoDayDetail(autoPrefix(true));
   }, []);
 
-  const getShiftArrayFromSearchParam = useMemo(() => {
-    const dateAndShifts: Record<string, string>[] = [];
-    if (!searchParams?.size) return;
-    for (const [date, shiftCode] of searchParams) {
-      dateAndShifts.push({ date, shiftCode });
-    }
-    return dateAndShifts;
-  }, [searchParams]);
+  // const createQueryString = useCallback(
+  //   (date: string, shiftCode: string) => {
+  //     const param = new URLSearchParams(searchParams);
+  //     param.set(date, shiftCode);
+  //     return param.toString();
+  //   },
+  //   [searchParams]
+  // );
 
-  const { data: shiftDetail, isLoading: shiftDetailLoading } =
-    api.shiftController.getShiftDetailWithNumericPrefix.useQuery(
-      getShiftArrayFromSearchParam,
-      {
-        refetchOnWindowFocus: false,
-        enabled: !!getShiftArrayFromSearchParam,
-      }
-    );
+  // const getShiftArrayFromSearchParam = useMemo(() => {
+  //   const dateAndShifts: { date: string; shiftCode: string }[] = [];
+  //   // if (!searchParams?.size) return;
+  //   for (const [date, shiftCode] of searchParams) {
+  //     dateAndShifts.push({ date, shiftCode });
+  //   }
+  //   return dateAndShifts;
+  // }, [searchParams]);
 
   const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -94,9 +88,10 @@ const SevenSlotsSearchForm = () => {
       return zodResolved;
     },
     // resolver: zodResolver(sevenSlotsSearchFormSchema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       [dayDetailName]: [
+        { shiftCode: "" },
         { shiftCode: "" },
         { shiftCode: "" },
         { shiftCode: "" },
@@ -114,39 +109,10 @@ const SevenSlotsSearchForm = () => {
   const onValidPrefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
     data
   ) => {
-    const queryObject = data[dayDetailName]?.reduce<Record<string, string>>(
-      (dayDetails, dayDetail, i) => {
-        const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
-          "YYYYMMDD"
-        );
-        const prefix = autoDayDetail[i]?.prefix as string;
+    const newSearch = await handleQuery(autoDayDetail, data);
 
-        const shiftCodeWithPrefix = dayDetail.shiftCode.match(
-          abbreviatedDutyNumber
-        )
-          ? `${prefix}${dayDetail.shiftCode}`
-          : `${dayDetail.shiftCode}`;
-
-        if (dayDetail.shiftCode) {
-          dayDetails[date] = shiftCodeWithPrefix;
-        }
-        return dayDetails;
-      },
-      {}
-    );
-
-    await router.push(
-      {
-        pathname: router.pathname,
-        query: queryObject,
-      },
-      undefined,
-      {
-        scroll: false,
-      }
-    );
-
-    // await router.push({ pathname: router.pathname });
+    console.log(newSearch);
+    setNewSearchParams(newSearch);
   };
 
   const onInvalidPrefixFormHandler: SubmitErrorHandler<sevenSlotsSearchForm> = (
@@ -218,7 +184,7 @@ const SevenSlotsSearchForm = () => {
             <Button
               type="submit"
               variant={"outline"}
-              disabled={!!sevenSlotsSearchForm.formState.errors.root?.message}
+              // disabled={!!sevenSlotsSearchForm.formState.errors.root?.message}
             >
               查下週更資料
             </Button>
@@ -235,15 +201,12 @@ const SevenSlotsSearchForm = () => {
           </div>
         </form>
       </Form>
-      {searchParams?.size ? (
-        <section id="query-result" ref={queryResultRef} className="bg h-screen">
+      {newSearchParams?.size ? (
+        <section id="query-result" className="bg h-screen">
           <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
-            Query Result
+            未來更序
           </h1>
           <Link href="#title">Back To Top</Link>
-          {shiftDetailLoading ? null : (
-            <p className="w-full break-words">{JSON.stringify(shiftDetail)}</p>
-          )}
         </section>
       ) : null}
     </>
