@@ -1,8 +1,11 @@
 import moment from "moment";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import { dayDetailName } from "~/components/SevenSlotsSearch";
-import { autoPrefix } from "~/utils/helper";
+import {
+  type SevenSlotsSearchForm,
+  dayDetailName,
+} from "~/components/SevenSlotsSearch";
+import { type autoPrefix } from "~/utils/helper";
 import { abbreviatedDutyNumber } from "~/utils/regex";
 
 function useShiftQuery() {
@@ -12,12 +15,10 @@ function useShiftQuery() {
 
   const handleQuery = async (
     autoDayDetail: ReturnType<typeof autoPrefix>,
-    data: {
-      [x: string]: {
-        shiftCode: string;
-      }[];
-    }
+    data: SevenSlotsSearchForm
   ) => {
+    console.log("handleQuery func called");
+
     const newParams = new URLSearchParams(searchParams.toString());
 
     data[dayDetailName]?.forEach(({ shiftCode }, i) => {

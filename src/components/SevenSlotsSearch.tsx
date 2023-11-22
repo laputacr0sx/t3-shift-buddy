@@ -20,7 +20,7 @@ import {
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import useShiftQuery from "~/hooks/useShiftQuery";
@@ -32,46 +32,36 @@ const sevenSlotsSearchFormSchema = z.object({
     .object({
       shiftCode: z
         .string()
-        .regex(inputShiftCodeRegex, "不正確輸入")
+        .regex(inputShiftCodeRegex, "不是正確的更份號碼")
         .max(7, "最長更號不多於7個字，例991106a / 881101a"),
     })
     .array()
     .min(1, "At least one shift code must be provided"),
 });
 
-type sevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
+export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 const SevenSlotsSearchForm = () => {
   const { router, handleQuery } = useShiftQuery();
-  const [autoDayDetail, setAutoDayDetail] = useState<
-    ReturnType<typeof autoPrefix>
-  >([]);
   const [newSearchParams, setNewSearchParams] =
     useState<URLSearchParams | null>(null);
 
-  useEffect(() => {
-    setAutoDayDetail(autoPrefix(true));
-  }, []);
+  const autoDayDetail = useMemo(() => autoPrefix(true), []);
 
-  // const createQueryString = useCallback(
-  //   (date: string, shiftCode: string) => {
-  //     const param = new URLSearchParams(searchParams);
-  //     param.set(date, shiftCode);
-  //     return param.toString();
-  //   },
-  //   [searchParams]
-  // );
+  const getShiftArrayFromSearchParam = useMemo(() => {
+    const dateAndShifts: { date: string; shiftCode: string }[] = [];
+    if (newSearchParams === null) return dateAndShifts;
+    for (const [date, shiftCode] of newSearchParams) {
+      dateAndShifts.push({ date, shiftCode });
+    }
+    return dateAndShifts;
+  }, [newSearchParams]);
 
-  // const getShiftArrayFromSearchParam = useMemo(() => {
-  //   const dateAndShifts: { date: string; shiftCode: string }[] = [];
-  //   // if (!searchParams?.size) return;
-  //   for (const [date, shiftCode] of searchParams) {
-  //     dateAndShifts.push({ date, shiftCode });
-  //   }
-  //   return dateAndShifts;
-  // }, [searchParams]);
+  console.log(getShiftArrayFromSearchParam);
 
-  const sevenSlotsSearchForm = useForm<sevenSlotsSearchForm>({
+  console.log("form component is rendered");
+
+  const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
       // console.log("formData", data);
@@ -106,16 +96,21 @@ const SevenSlotsSearchForm = () => {
     },
   });
 
-  const onValidPrefixFormHandler: SubmitHandler<sevenSlotsSearchForm> = async (
+  const handleQueryCb = useCallback(
+    async (data: SevenSlotsSearchForm) =>
+      await handleQuery(autoDayDetail, data),
+    [autoDayDetail, handleQuery]
+  );
+
+  const onValidPrefixFormHandler: SubmitHandler<SevenSlotsSearchForm> = async (
     data
   ) => {
-    const newSearch = await handleQuery(autoDayDetail, data);
-
-    console.log(newSearch);
+    const newSearch = await handleQueryCb(data);
     setNewSearchParams(newSearch);
+    await router.push("#query-result");
   };
 
-  const onInvalidPrefixFormHandler: SubmitErrorHandler<sevenSlotsSearchForm> = (
+  const onInvalidPrefixFormHandler: SubmitErrorHandler<SevenSlotsSearchForm> = (
     error
   ) => {
     console.error({ error });
@@ -193,7 +188,8 @@ const SevenSlotsSearchForm = () => {
               variant={"destructive"}
               onClick={async () => {
                 sevenSlotsSearchForm.reset();
-                await router.replace("/weekdetails");
+                setNewSearchParams(null);
+                await router.replace("/weekdetails#title");
               }}
             >
               重置
@@ -201,7 +197,7 @@ const SevenSlotsSearchForm = () => {
           </div>
         </form>
       </Form>
-      {newSearchParams?.size ? (
+      {newSearchParams ? (
         <section id="query-result" className="bg h-screen">
           <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
             未來更序
