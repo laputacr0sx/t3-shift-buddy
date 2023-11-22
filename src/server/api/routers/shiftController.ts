@@ -106,15 +106,18 @@ export const shiftControllerRouter = createTRPCRouter({
         });
 
       const distinctPrefix = Array.from(new Set(prefixChronological));
+      console.log(distinctPrefix);
+
       const shiftCodeOnly = input.map((day) => day.shiftCode);
 
       const jointDutyNumber = getJointDutyNumber(distinctPrefix, shiftCodeOnly);
+      console.log(jointDutyNumber);
 
-      const resultShiftArray = await ctx.prisma.shift.findMany({
+      const resultDuties = await ctx.prisma.shift.findMany({
         where: { dutyNumber: { in: jointDutyNumber } },
       });
 
-      return resultShiftArray;
+      return resultDuties;
     }),
 
   getDayWeather: publicProcedure.query(async () => {

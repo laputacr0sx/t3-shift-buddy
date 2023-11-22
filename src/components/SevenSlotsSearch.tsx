@@ -25,6 +25,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import useShiftQuery from "~/hooks/useShiftQuery";
 import { api } from "~/utils/api";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -43,13 +44,15 @@ const sevenSlotsSearchFormSchema = z.object({
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 const SevenSlotsSearchForm = () => {
+  const [parent] = useAutoAnimate();
+
   const { router, handleQuery } = useShiftQuery();
   const [newSearchParams, setNewSearchParams] =
     useState<URLSearchParams | null>(null);
 
   const autoDayDetail = useMemo(() => autoPrefix(true), []);
 
-  const getShiftArrayFromSearchParam = useMemo(() => {
+  const shiftsFromSearchParamMemo = useMemo(() => {
     const dateAndShifts: { date: string; shiftCode: string }[] = [];
     if (newSearchParams === null) return dateAndShifts;
     for (const [date, shiftCode] of newSearchParams) {
@@ -69,10 +72,11 @@ const SevenSlotsSearchForm = () => {
     isLoading: queryIsLoading,
     error: queryError,
   } = api.shiftController.getShiftDetailWithoutAlphabeticPrefix.useQuery(
-    getShiftArrayFromSearchParam
+    shiftsFromSearchParamMemo,
+    { enabled: !!shiftsFromSearchParamMemo }
   );
 
-  console.log(getShiftArrayFromSearchParam);
+  console.log(shiftsFromSearchParamMemo);
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -139,6 +143,9 @@ const SevenSlotsSearchForm = () => {
         >
           <FormDescription>期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
+            const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
+              "DD/MM（dd）"
+            );
             return (
               <fieldset key={day.date}>
                 <section className="flex items-stretch justify-between gap-2">
@@ -150,10 +157,7 @@ const SevenSlotsSearchForm = () => {
                         <FormItem>
                           <div className="flex items-center justify-between gap-4 font-mono">
                             <FormLabel className="items-center">
-                              {moment(day.date, "YYYYMMDD ddd").format(
-                                `DD/MM(dd)`
-                              )}{" "}
-                              {autoDayDetail[i]?.prefix}
+                              {formatedDate} {autoDayDetail[i]?.prefix}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -186,7 +190,7 @@ const SevenSlotsSearchForm = () => {
             <Button
               type="submit"
               variant={"outline"}
-              // disabled={!!sevenSlotsSearchForm.formState.errors.root?.message}
+              disabled={!sevenSlotsSearchForm.formState.isDirty}
             >
               查下週更資料
             </Button>
@@ -196,7 +200,7 @@ const SevenSlotsSearchForm = () => {
               onClick={async () => {
                 sevenSlotsSearchForm.reset();
                 setNewSearchParams(null);
-                await router.replace("/weekdetails#title");
+                await router.replace("/weekdetails");
                 router.reload();
               }}
             >
