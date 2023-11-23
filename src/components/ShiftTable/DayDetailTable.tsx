@@ -104,7 +104,7 @@ export function DayDetailTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <Separator className="w-[90%]" />
+      {/* <Separator className="w-[90%]" /> */}
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
         selectedShifts={selectedShifts}

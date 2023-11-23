@@ -28,6 +28,7 @@ import { api } from "~/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DayDetailTable } from "./ShiftTable/DayDetailTable";
 import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
+import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -132,8 +133,15 @@ const SevenSlotsSearchForm = () => {
 
   return (
     <>
-      <Link href={"#query-result"}>To result</Link>
-
+      {newSearchParams ? (
+        <Button
+          onClick={async () => {
+            await router.push("#query-result");
+          }}
+        >
+          <ArrowDownToLine />
+        </Button>
+      ) : null}
       <Form {...sevenSlotsSearchForm}>
         <form
           id="form"
@@ -215,14 +223,23 @@ const SevenSlotsSearchForm = () => {
         <section
           ref={parent}
           id="query-result"
-          className="flex h-screen min-h-screen w-min flex-col items-center justify-center"
+          className="h-screen min-h-screen w-full items-center justify-center bg-opacity-20"
         >
-          <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
+          <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
             未來更序
           </h1>
-          <Link href="#title">Back To Top</Link>
+
+          <Button
+            onClick={async () => {
+              await router.push("#title");
+            }}
+          >
+            <ArrowUpToLine />
+          </Button>
           <br />
-          {queryIsLoading ? null : queryError ? (
+          {queryIsLoading ? (
+            <>loading details...</>
+          ) : queryError ? (
             <p>{queryError.message}</p>
           ) : (
             <DayDetailTable columns={DayDetailColumn} data={queryData} />
