@@ -149,7 +149,7 @@ const SevenSlotsSearchForm = () => {
             onValidPrefixFormHandler,
             onInvalidPrefixFormHandler
           )}
-          className="flex min-h-screen w-full flex-col items-stretch space-y-2 px-12"
+          // className="flex min-h-screen w-full flex-col items-stretch space-y-2 px-8"
         >
           <FormDescription>期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
@@ -158,7 +158,7 @@ const SevenSlotsSearchForm = () => {
             );
             return (
               <fieldset key={day.date}>
-                <section className="flex items-stretch justify-between gap-2">
+                <section className="flex justify-start gap-1">
                   <FormField
                     control={sevenSlotsSearchForm.control}
                     name={`${dayDetailName}[${i}].shiftCode`}
@@ -167,12 +167,13 @@ const SevenSlotsSearchForm = () => {
                         <FormItem>
                           <div className="flex items-center justify-between gap-4 font-mono">
                             <FormLabel className="items-center">
-                              {formatedDate} {autoDayDetail[i]?.prefix}
+                              {formatedDate}
+                              {autoDayDetail[i]?.prefix}
                             </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
-                                className="w-[88px] font-mono tracking-wide"
+                                className="w-[88px] font-mono tracking-tight "
                                 maxLength={7}
                                 placeholder="101"
                                 autoCapitalize="characters"
@@ -185,6 +186,28 @@ const SevenSlotsSearchForm = () => {
                               {sevenSlotsSearchForm.watch(field.name)
                                 ? field.value
                                 : ""}
+                            </FormDescription>
+                            <FormDescription ref={parent}>
+                              <p
+                                key={day.date}
+                                className="py-1 font-mono text-xs tracking-tighter"
+                              >
+                                {/* {formatedDate} */}
+
+                                {day.holidayDetails?.summary ??
+                                day.racingDetails?.venue === "S"
+                                  ? "沙田"
+                                  : day.racingDetails?.venue === "H"
+                                  ? "跑馬地"
+                                  : ""}
+                                {day.racingDetails?.nightRacing === 0
+                                  ? "日馬"
+                                  : day.racingDetails?.nightRacing === 1
+                                  ? "夜馬"
+                                  : day.racingDetails?.nightRacing === 2
+                                  ? "黃昏馬"
+                                  : ""}
+                              </p>
                             </FormDescription>
                           </div>
                           <FormMessage />
