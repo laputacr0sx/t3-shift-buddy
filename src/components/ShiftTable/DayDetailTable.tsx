@@ -49,7 +49,7 @@ export function DayDetailTable<TData, TValue>({
     : (table.getRowModel().flatRows as Row<DayDetail>[]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex w-auto flex-col gap-4">
       <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
         <Table>
           <TableHeader>

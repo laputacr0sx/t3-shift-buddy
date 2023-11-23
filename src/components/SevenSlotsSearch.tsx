@@ -97,7 +97,7 @@ const SevenSlotsSearchForm = () => {
       return zodResolved;
     },
     // resolver: zodResolver(sevenSlotsSearchFormSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       [dayDetailName]: [
         { shiftCode: "" },
@@ -212,7 +212,11 @@ const SevenSlotsSearchForm = () => {
         </form>
       </Form>
       {newSearchParams ? (
-        <section ref={parent} id="query-result" className="bg h-screen">
+        <section
+          ref={parent}
+          id="query-result"
+          className="flex h-screen min-h-screen w-min flex-col items-center justify-center"
+        >
           <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
             未來更序
           </h1>
@@ -221,9 +225,7 @@ const SevenSlotsSearchForm = () => {
           {queryIsLoading ? null : queryError ? (
             <p>{queryError.message}</p>
           ) : (
-            <div className="w-full">
-              <DayDetailTable columns={DayDetailColumn} data={queryData} />
-            </div>
+            <DayDetailTable columns={DayDetailColumn} data={queryData} />
             // queryData.map((data, i) => <p key={i}>{data.dutyNumber}</p>)
           )}
         </section>
