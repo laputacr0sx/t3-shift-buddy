@@ -26,6 +26,7 @@ import Link from "next/link";
 import useShiftQuery from "~/hooks/useShiftQuery";
 import { api } from "~/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { DayDetail } from "~/utils/customTypes";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -61,11 +62,11 @@ const SevenSlotsSearchForm = () => {
     return dateAndShifts;
   }, [newSearchParams]);
 
-  const handleQueryCb = useCallback(
-    async (data: SevenSlotsSearchForm) =>
-      await handleQuery(autoDayDetail, data),
-    [autoDayDetail, handleQuery]
-  );
+  // const handleQueryCb = useCallback(
+  //   async (data: SevenSlotsSearchForm) =>
+  //     await handleQuery(autoDayDetail, data),
+  //   [autoDayDetail, handleQuery, data]
+  // );
 
   const {
     data: queryData,
@@ -73,10 +74,10 @@ const SevenSlotsSearchForm = () => {
     error: queryError,
   } = api.shiftController.getShiftDetailWithoutAlphabeticPrefix.useQuery(
     shiftsFromSearchParamMemo,
-    { enabled: !!shiftsFromSearchParamMemo }
+    { enabled: !!shiftsFromSearchParamMemo, refetchOnWindowFocus: false }
   );
 
-  console.log(shiftsFromSearchParamMemo);
+  // console.log(shiftsFromSearchParamMemo);
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -116,7 +117,7 @@ const SevenSlotsSearchForm = () => {
   const onValidPrefixFormHandler: SubmitHandler<SevenSlotsSearchForm> = async (
     data
   ) => {
-    const newSearch = await handleQueryCb(data);
+    const newSearch = await handleQuery(autoDayDetail, data);
     setNewSearchParams(newSearch);
     await router.push("#query-result");
   };
@@ -210,7 +211,7 @@ const SevenSlotsSearchForm = () => {
         </form>
       </Form>
       {newSearchParams ? (
-        <section id="query-result" className="bg h-screen">
+        <section ref={parent} id="query-result" className="bg h-screen">
           <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
             未來更序
           </h1>
@@ -219,7 +220,7 @@ const SevenSlotsSearchForm = () => {
           {queryIsLoading ? null : queryError ? (
             <p>{queryError.message}</p>
           ) : (
-            "result loaded"
+            queryData.map((data, i) => <p key={i}>{data.dutyNumber}</p>)
           )}
         </section>
       ) : null}

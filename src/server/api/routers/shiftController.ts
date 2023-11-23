@@ -117,6 +117,12 @@ export const shiftControllerRouter = createTRPCRouter({
         where: { dutyNumber: { in: jointDutyNumber } },
       });
 
+      const result = input.map((day) => {
+        resultDuties.filter((duty) => duty.dutyNumber === day.shiftCode);
+      });
+
+      console.log(result);
+
       return resultDuties;
     }),
 

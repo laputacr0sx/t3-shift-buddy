@@ -11,7 +11,7 @@ import { abbreviatedDutyNumber } from "~/utils/regex";
 function useShiftQuery() {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
   const handleQuery = async (
     autoDayDetail: ReturnType<typeof autoPrefix>,
@@ -19,7 +19,8 @@ function useShiftQuery() {
   ) => {
     console.log("handleQuery func called");
 
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams();
+    // searchParams.toString()
 
     data[dayDetailName]?.forEach(({ shiftCode }, i) => {
       const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
