@@ -48,7 +48,9 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
               startDate: bND,
               endDate: bFD,
               startTime: bNT,
-              description: `[${bFL}]\n${durationDecimal}\n${remarks}`,
+              description: `收工地點：${bFL}
+工時：${durationDecimal}
+備註：${remarks}`,
               endTime: bFT,
               hideIconButton: true,
               hideBackground: true,

@@ -123,7 +123,6 @@ export const shiftControllerRouter = createTRPCRouter({
             if (isCorrespondingDuty) {
               return duty;
             }
-            // return dutyDetail;
           }),
           date: day.date,
         };

@@ -285,3 +285,21 @@ export function getJointDutyNumber(prefixes: string[], shiftCodes: string[]) {
 
   return mapResult;
 }
+
+export function getChineseDuration(
+  location: "HUH" | "SHT" | "SHS" | "HTD" | "LOW" | "TAW" | "TWD" | "FTRH"
+) {
+  const chineseDuration = {
+    HUH: "紅磡",
+    SHT: "沙田",
+    SHS: "上水",
+    HTD: "何東樓",
+    LOW: "羅湖",
+    TAW: "大圍",
+    TWD: "大圍車廠",
+    FTRH: "火炭大樓",
+  };
+
+  return chineseDuration[location];
+  //
+}
