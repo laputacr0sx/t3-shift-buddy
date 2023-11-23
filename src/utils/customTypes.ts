@@ -28,6 +28,7 @@ export const dayDetailSchema = z.object({
   bFL: z.enum(workLocation),
   duration: z.string(),
   remarks: z.string(),
+  staffId: z.string().nullable(),
 });
 
 export type DayDetail = z.infer<typeof dayDetailSchema>;

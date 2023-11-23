@@ -14,7 +14,6 @@ import {
   shiftSequenceSchema,
 } from "~/utils/customTypes";
 import TableLoading from "~/components/TableLoading";
-import WeekNumber from "~/components/WeekNumber";
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   console.log(legitRawShiftArray);

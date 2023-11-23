@@ -1,6 +1,7 @@
 import moment from "moment";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import {
   type SevenSlotsSearchForm,
   dayDetailName,
@@ -13,31 +14,34 @@ function useShiftQuery() {
   const pathname = usePathname();
   // const searchParams = useSearchParams();
 
-  const handleQuery = async (
-    autoDayDetail: ReturnType<typeof autoPrefix>,
-    data: SevenSlotsSearchForm
-  ) => {
-    console.log("handleQuery func called");
+  const handleQuery = useCallback(
+    async (
+      autoDayDetail: ReturnType<typeof autoPrefix>,
+      data: SevenSlotsSearchForm
+    ) => {
+      console.log("handleQuery func called");
 
-    const newParams = new URLSearchParams();
-    // searchParams.toString()
+      const newParams = new URLSearchParams();
+      // searchParams.toString()
 
-    data[dayDetailName]?.forEach(({ shiftCode }, i) => {
-      const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
-        "YYYYMMDD"
-      );
-      const prefix = autoDayDetail[i]?.prefix as string;
-      const shiftCodeWithPrefix = shiftCode.match(abbreviatedDutyNumber)
-        ? `${prefix}${shiftCode}`
-        : `${shiftCode}`;
-      if (shiftCode) {
-        newParams.set(date, shiftCodeWithPrefix);
-      }
-    });
-    await router.push(`${pathname}?${newParams.toString()}`);
+      data[dayDetailName]?.forEach(({ shiftCode }, i) => {
+        const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
+          "YYYYMMDD"
+        );
+        const prefix = autoDayDetail[i]?.prefix as string;
+        const shiftCodeWithPrefix = shiftCode.match(abbreviatedDutyNumber)
+          ? `${prefix}${shiftCode}`
+          : `${shiftCode}`;
+        if (shiftCode) {
+          newParams.set(date, shiftCodeWithPrefix);
+        }
+      });
+      await router.push(`${pathname}?${newParams.toString()}`);
 
-    return newParams;
-  };
+      return newParams;
+    },
+    [pathname, router]
+  );
 
   return { router, handleQuery };
 }

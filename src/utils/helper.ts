@@ -5,7 +5,7 @@ import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, shiftNumberRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
-import { z } from "zod";
+import { type z } from "zod";
 
 // check if today is after wednesday
 export const isTodayAfterWednesday = (day?: moment.Moment) => {

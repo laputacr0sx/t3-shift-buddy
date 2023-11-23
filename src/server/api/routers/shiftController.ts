@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { weatherSchema } from "~/utils/customTypes";
+import { DayDetail, weatherSchema } from "~/utils/customTypes";
 import { fetchTyped, getJointDutyNumber } from "~/utils/helper";
 
 import {
@@ -106,19 +106,27 @@ export const shiftControllerRouter = createTRPCRouter({
         });
 
       const distinctPrefix = Array.from(new Set(prefixChronological));
-      console.log(distinctPrefix);
 
       const shiftCodeOnly = input.map((day) => day.shiftCode);
 
       const jointDutyNumber = getJointDutyNumber(distinctPrefix, shiftCodeOnly);
-      console.log(jointDutyNumber);
 
       const resultDuties = await ctx.prisma.shift.findMany({
         where: { dutyNumber: { in: jointDutyNumber } },
       });
 
-      const result = input.map((day) => {
-        resultDuties.filter((duty) => duty.dutyNumber === day.shiftCode);
+      const result = input.flatMap((day) => {
+        return {
+          ...resultDuties.filter((duty) => {
+            const isCorrespondingDuty =
+              duty.dutyNumber.slice(1) === day.shiftCode;
+            if (isCorrespondingDuty) {
+              return duty;
+            }
+            // return dutyDetail;
+          }),
+          date: day.date,
+        };
       });
 
       console.log(result);

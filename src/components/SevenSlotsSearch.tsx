@@ -20,13 +20,12 @@ import {
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import useShiftQuery from "~/hooks/useShiftQuery";
 import { api } from "~/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { DayDetail } from "~/utils/customTypes";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -65,7 +64,7 @@ const SevenSlotsSearchForm = () => {
   // const handleQueryCb = useCallback(
   //   async (data: SevenSlotsSearchForm) =>
   //     await handleQuery(autoDayDetail, data),
-  //   [autoDayDetail, handleQuery, data]
+  //   [autoDayDetail, handleQuery]
   // );
 
   const {
