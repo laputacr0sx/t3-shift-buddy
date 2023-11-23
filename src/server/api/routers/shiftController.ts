@@ -7,6 +7,7 @@ import { fetchTyped, getJointDutyNumber } from "~/utils/helper";
 
 import {
   abbreviatedDutyNumber,
+  dayOffRegex,
   dutyInputRegExValidator,
   inputShiftCodeRegex,
   proShiftNameRegex,
@@ -115,22 +116,32 @@ export const shiftControllerRouter = createTRPCRouter({
         where: { dutyNumber: { in: jointDutyNumber } },
       });
 
-      const result = input.flatMap((day) => {
-        return {
-          ...resultDuties.filter((duty) => {
-            const isCorrespondingDuty =
-              duty.dutyNumber.slice(1) === day.shiftCode;
-            if (isCorrespondingDuty) {
-              return duty;
-            }
-          }),
-          date: day.date,
-        };
-      });
+      const reduceResult = input.reduce<DayDetail[]>((accumulatedDays, day) => {
+        if (day.shiftCode.match(dayOffRegex)) {
+          accumulatedDays.push({
+            date: day.date,
+            title: day.shiftCode,
+            dutyNumber: day.shiftCode,
+          } as DayDetail);
+        }
 
-      console.log(result);
+        const temp = resultDuties.filter(
+          (duty) => duty.dutyNumber.slice(1) === day.shiftCode
+        )[0];
 
-      return resultDuties;
+        if (temp)
+          accumulatedDays.push({
+            ...temp,
+            date: day.date,
+            title: temp.dutyNumber,
+          } as DayDetail);
+
+        return accumulatedDays;
+      }, []);
+
+      console.log(reduceResult);
+
+      return reduceResult;
     }),
 
   getDayWeather: publicProcedure.query(async () => {

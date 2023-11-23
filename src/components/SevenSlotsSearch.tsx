@@ -26,6 +26,8 @@ import Link from "next/link";
 import useShiftQuery from "~/hooks/useShiftQuery";
 import { api } from "~/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { DayDetailTable } from "./ShiftTable/DayDetailTable";
+import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -219,7 +221,10 @@ const SevenSlotsSearchForm = () => {
           {queryIsLoading ? null : queryError ? (
             <p>{queryError.message}</p>
           ) : (
-            queryData.map((data, i) => <p key={i}>{data.dutyNumber}</p>)
+            <div className="w-full">
+              <DayDetailTable columns={DayDetailColumn} data={queryData} />
+            </div>
+            // queryData.map((data, i) => <p key={i}>{data.dutyNumber}</p>)
           )}
         </section>
       ) : null}

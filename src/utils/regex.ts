@@ -3,6 +3,8 @@ import { z } from "zod";
 export const shiftRowRegex =
   /(?:(?:1|3|5|6)(?:[0-5])(?:\d{1})|(?:9|8)(?:\d{5})(?:[a-z]?)|(RD|CL|AL|GH|SH)){7}/gim;
 
+export const dayOffRegex = /(RD|AL|CL|GH|SH|MA_L|WB_L)/gim;
+
 export const proShiftNameRegex =
   /([89]\d{5}[a-zA-Z]?)(?=(RD|AL|CL|GH|SH))|(RD|AL|CL|GH|SH)|([89]\d{5}[a-zA-Z]?)|([1356][0-5]\d)/gim;
 
