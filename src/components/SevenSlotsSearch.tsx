@@ -149,7 +149,7 @@ const SevenSlotsSearchForm = () => {
             onValidPrefixFormHandler,
             onInvalidPrefixFormHandler
           )}
-          // className="flex min-h-screen w-full flex-col items-stretch space-y-2 px-8"
+          className="flex min-h-screen w-full flex-col space-y-2 px-8"
         >
           <FormDescription>期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {

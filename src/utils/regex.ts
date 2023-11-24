@@ -5,6 +5,8 @@ export const shiftRowRegex =
 
 export const dayOffRegex = /(RD|AL|CL|GH|SH|MA_L|WB_L)/gim;
 
+export const specialDutyRegex = /([89]\d{5}[a-zA-Z]?)/gim;
+
 export const proShiftNameRegex =
   /([89]\d{5}[a-zA-Z]?)(?=(RD|AL|CL|GH|SH))|(RD|AL|CL|GH|SH)|([89]\d{5}[a-zA-Z]?)|([1356][0-5]\d)/gim;
 
