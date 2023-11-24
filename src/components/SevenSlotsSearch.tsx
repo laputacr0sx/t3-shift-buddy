@@ -183,9 +183,11 @@ const SevenSlotsSearchForm = () => {
                               />
                             </FormControl>
                             <FormDescription>
-                              {sevenSlotsSearchForm.watch(field.name)
-                                ? field.value
-                                : ""}
+                              {sevenSlotsSearchForm.control.getFieldState(
+                                field.name
+                              ).invalid
+                                ? null
+                                : field.value}
                             </FormDescription>
                             <FormDescription ref={parent}>
                               <p
@@ -246,7 +248,7 @@ const SevenSlotsSearchForm = () => {
         <section
           ref={parent}
           id="query-result"
-          className="h-screen min-h-screen w-full items-center justify-center bg-opacity-20"
+          className="h-screen min-h-screen w-full items-center justify-center"
         >
           <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
             未來更序
@@ -266,7 +268,6 @@ const SevenSlotsSearchForm = () => {
             <p>{queryError.message}</p>
           ) : (
             <DayDetailTable columns={DayDetailColumn} data={queryData} />
-            // queryData.map((data, i) => <p key={i}>{data.dutyNumber}</p>)
           )}
         </section>
       ) : null}
