@@ -3,6 +3,7 @@ import {
   CalendarDays,
   FlaskConical,
   Home,
+  Library,
   Table,
   UserCircle2,
 } from "lucide-react";
@@ -28,11 +29,21 @@ function Navbar() {
         </li>
         <li>
           <Link
-            href={"/allShifts"}
+            href={"/weekdetails"}
             className={"flex flex-col items-center justify-center"}
           >
             <Table className="m-2" size={18} />
-            <p className="text-[10px]">更餡</p>
+
+            <p className="text-[10px]">出更易</p>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href={"/allShifts"}
+            className={"flex flex-col items-center justify-center"}
+          >
+            <Library className="m-2" size={18} />
+            <p className="text-[10px]">查更易</p>
           </Link>
         </li>
         <li>

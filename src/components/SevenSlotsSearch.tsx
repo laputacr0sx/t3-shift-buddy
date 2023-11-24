@@ -22,13 +22,15 @@ import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
 import { useMemo, useState } from "react";
 import { Button } from "./ui/button";
-import Link from "next/link";
+
 import useShiftQuery from "~/hooks/useShiftQuery";
 import { api } from "~/utils/api";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DayDetailTable } from "./ShiftTable/DayDetailTable";
 import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
+
 import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
+import { Skeleton } from "./ui/skeleton";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -138,6 +140,7 @@ const SevenSlotsSearchForm = () => {
     <>
       {newSearchParams ? (
         <Button
+          className=""
           onClick={async () => {
             await router.push("#query-result");
           }}
@@ -263,7 +266,9 @@ const SevenSlotsSearchForm = () => {
           </Button>
           <br />
           {queryIsLoading ? (
-            <>loading details...</>
+            <div className="flex flex-col items-center justify-center gap-5 pt-5">
+              <Skeleton className="h-80 w-72" />
+            </div>
           ) : queryError ? (
             <p>{queryError.message}</p>
           ) : (

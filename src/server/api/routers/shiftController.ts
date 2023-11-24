@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { DayDetail, weatherSchema } from "~/utils/customTypes";
+import { type DayDetail, weatherSchema } from "~/utils/customTypes";
 import { fetchTyped, getJointDutyNumbers } from "~/utils/helper";
 
 import {
@@ -141,8 +141,6 @@ export const shiftControllerRouter = createTRPCRouter({
 
         return accumulatedDays;
       }, []);
-
-      console.log(reduceResult);
 
       return reduceResult;
     }),
