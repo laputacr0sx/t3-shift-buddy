@@ -41,7 +41,7 @@ export function DayDetailTable<TData, TValue>({
     },
   });
 
-  console.log(table.getColumn("date"));
+  // console.log(table.getColumn("date"));
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
   const selectedShifts = isSomeRowSelected

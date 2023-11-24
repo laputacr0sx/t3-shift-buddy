@@ -117,18 +117,21 @@ const SevenSlotsSearchForm = () => {
   });
 
   const onValidPrefixFormHandler: SubmitHandler<SevenSlotsSearchForm> = async (
-    data
+    data,
+    e
   ) => {
+    e?.preventDefault();
     const newSearch = await handleQuery(autoDayDetail, data);
     setNewSearchParams(newSearch);
     await router.push("#query-result");
   };
 
   const onInvalidPrefixFormHandler: SubmitErrorHandler<SevenSlotsSearchForm> = (
-    error
+    error,
+    e
   ) => {
+    e?.preventDefault();
     console.error({ error });
-    //
   };
 
   return (
@@ -149,12 +152,12 @@ const SevenSlotsSearchForm = () => {
             onValidPrefixFormHandler,
             onInvalidPrefixFormHandler
           )}
-          className="flex min-h-screen w-full flex-col space-y-2 px-8"
+          className="flex min-h-screen w-full flex-col space-y-2 px-4"
         >
           <FormDescription>期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
             const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
-              "DD/MM（dd）"
+              "DD/MM(dd)"
             );
             return (
               <fieldset key={day.date}>
@@ -165,10 +168,9 @@ const SevenSlotsSearchForm = () => {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <div className="flex items-center justify-between gap-4 font-mono">
-                            <FormLabel className="items-center">
-                              {formatedDate}
-                              {autoDayDetail[i]?.prefix}
+                          <div className="flex w-full items-center justify-between gap-2 font-mono">
+                            <FormLabel className="items-center text-xs sm:tracking-tighter">
+                              {formatedDate} {autoDayDetail[i]?.prefix}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -192,23 +194,21 @@ const SevenSlotsSearchForm = () => {
                             <FormDescription ref={parent}>
                               <p
                                 key={day.date}
-                                className="py-1 font-mono text-xs tracking-tighter"
+                                className="text-xs font-thin tracking-tighter"
                               >
-                                {/* {formatedDate} */}
-
                                 {day.holidayDetails?.summary ??
                                 day.racingDetails?.venue === "S"
                                   ? "沙田"
                                   : day.racingDetails?.venue === "H"
                                   ? "跑馬地"
-                                  : ""}
+                                  : null}
                                 {day.racingDetails?.nightRacing === 0
                                   ? "日馬"
                                   : day.racingDetails?.nightRacing === 1
                                   ? "夜馬"
                                   : day.racingDetails?.nightRacing === 2
                                   ? "黃昏馬"
-                                  : ""}
+                                  : null}
                               </p>
                             </FormDescription>
                           </div>
