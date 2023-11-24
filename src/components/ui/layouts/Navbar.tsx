@@ -1,16 +1,7 @@
-import {
-  ArrowLeftRight,
-  CalendarDays,
-  FlaskConical,
-  Home,
-  Library,
-  Table,
-  UserCircle2,
-} from "lucide-react";
+import { CalendarDays, Home, Library, Table } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
-import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 function Navbar() {
   // const { isSignedIn } = useUser();
