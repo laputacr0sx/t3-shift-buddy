@@ -5,7 +5,7 @@ import { type DayDetail } from "~/utils/customTypes";
 import { atcb_action } from "add-to-calendar-button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Button } from "../ui/button";
-import { convertDurationDecimal } from "~/utils/helper";
+import { convertDurationDecimal, getChineseLocation } from "~/utils/helper";
 import { CalendarPlus } from "lucide-react";
 
 // This type is used to define the shape of our data.
@@ -24,10 +24,10 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
 
     cell: ({ row }) => {
       const dutyNumber: string = row.getValue("dutyNumber");
-      const bNL: string = row.getValue("bNL");
+      const bNL: string = getChineseLocation(row.getValue("bNL"));
       const bND: string = moment(row.getValue("date")).format("YYYY-MM-DD");
       const bNT: string = row.getValue("bNT");
-      const bFL: string = row.getValue("bFL");
+      const bFL: string = getChineseLocation(row.getValue("bFL"));
       const bFT: string = row.getValue("bFT");
       const duration: string = row.getValue("duration");
       const durationDecimal = duration
@@ -169,7 +169,7 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           </span>
         ),
         cell: ({ row }) => {
-          const bNL: string = row.getValue("bNL");
+          const bNL: string = getChineseLocation(row.getValue("bNL"));
           return (
             <span className="block py-2 text-center align-middle font-medium text-teal-600 dark:text-teal-200">
               {bNL}
@@ -229,7 +229,7 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           </span>
         ),
         cell: ({ row }) => {
-          const bFL: string = row.getValue("bFL");
+          const bFL: string = getChineseLocation(row.getValue("bFL"));
           return (
             <span className="block py-2 text-center align-middle font-medium text-rose-600 dark:text-rose-200">
               {bFL}

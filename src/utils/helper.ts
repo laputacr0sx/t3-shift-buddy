@@ -295,7 +295,7 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
   return mapResult;
 }
 
-export function getChineseDuration(
+export function getChineseLocation(
   location: "HUH" | "SHT" | "SHS" | "HTD" | "LOW" | "TAW" | "TWD" | "FTRH"
 ) {
   const chineseDuration = {
