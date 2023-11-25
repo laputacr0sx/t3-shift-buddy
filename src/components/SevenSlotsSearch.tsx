@@ -78,7 +78,7 @@ const SevenSlotsSearchForm = () => {
     error: queryError,
   } = api.shiftController.getShiftDetailWithoutAlphabeticPrefix.useQuery(
     shiftsFromSearchParamMemo,
-    { enabled: !!shiftsFromSearchParamMemo, refetchOnWindowFocus: false }
+    { enabled: !!shiftsFromSearchParamMemo.length, refetchOnWindowFocus: false }
   );
 
   // console.log(shiftsFromSearchParamMemo);
