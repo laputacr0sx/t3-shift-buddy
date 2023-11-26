@@ -120,9 +120,9 @@ const SevenSlotsSearchForm = () => {
 
   const onValidPrefixFormHandler: SubmitHandler<SevenSlotsSearchForm> = async (
     data,
-    e
+    event
   ) => {
-    e?.preventDefault();
+    event?.preventDefault();
     const newSearch = await handleQuery(autoDayDetail, data);
     setNewSearchParams(newSearch);
     await router.push("#query-result");
@@ -130,9 +130,9 @@ const SevenSlotsSearchForm = () => {
 
   const onInvalidPrefixFormHandler: SubmitErrorHandler<SevenSlotsSearchForm> = (
     error,
-    e
+    event
   ) => {
-    e?.preventDefault();
+    event?.preventDefault();
     console.error({ error });
   };
 

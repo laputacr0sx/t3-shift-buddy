@@ -4,8 +4,6 @@ import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import { autoPrefix } from "~/utils/helper";
 
-autoPrefix();
-
 const Home: NextPageWithLayout = () => (
   <>
     <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
