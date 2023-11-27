@@ -290,10 +290,3 @@ export function getChineseLocation(
 
   return chineseDuration[location];
 }
-
-const testEdgeFunction = () => {
-  // uncalled function running on edge
-  return "edge function is running!";
-};
-
-console.log(testEdgeFunction());

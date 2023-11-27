@@ -30,11 +30,21 @@ export type Exchange = z.infer<typeof exchangeSchema>;
 const columnHelper = createColumnHelper<Exchange>();
 
 export const ExchangeColumn: ColumnDef<Exchange>[] = [
-  { id: "name", accessorKey: "name", header: "姓名" },
-  { id: "staffId", accessorKey: "staffId", header: "員工號碼" },
-  { id: "grade", accessorKey: "grade", header: "職級" },
-  { id: "weekNumber", accessorKey: "weekNumber", header: "週數" },
-  { id: "status", accessorKey: "", header: "狀態" },
+  columnHelper.group({
+    id: "staffDetails",
+    header: () => (
+      <span className="block border-x border-solid border-sky-700 text-center align-middle text-xl text-slate-700 dark:border-sky-300 dark:text-slate-300">
+        員工詳情
+      </span>
+    ),
+    columns: [
+      { id: "name", accessorKey: "name", header: "姓名" },
+      { id: "staffId", accessorKey: "staffId", header: "員工號碼" },
+      { id: "grade", accessorKey: "grade", header: "職級" },
+      { id: "weekNumber", accessorKey: "weekNumber", header: "週數" },
+      { id: "status", accessorKey: "", header: "狀態" },
+    ],
+  }),
   columnHelper.group({
     id: "exchangeDetails",
     header: () => (
@@ -44,12 +54,8 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
     ),
     columns: days.map((day) => {
       const dateKey = moment(day.date, "YYYYMMDD ddd").format("YYYYMMDD");
-      const dateShort = moment(day.date, "YYYYMMDD ddd")
-        // .locale("zh-hk")
-        .format("DD/MM");
-      const weekDay = moment(day.date, "YYYYMMDD ddd")
-        // .locale("zh-hk")
-        .format("dd");
+      const dateShort = moment(day.date, "YYYYMMDD ddd").format("DD/MM");
+      const weekDay = moment(day.date, "YYYYMMDD ddd").format("dd");
 
       return {
         accessorKey: dateKey,
@@ -61,7 +67,10 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
           </section>
         ),
         cell: ({ column, row }) => {
-          // console.log(row.getAllCells());
+          console.log(row.getValue(dateKey));
+
+          const thisRowValue: string = row.getValue(dateKey);
+          return <p>{thisRowValue}</p>;
         },
       };
     }),
