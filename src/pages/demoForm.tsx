@@ -127,14 +127,13 @@ export default function DemoExchangeForm() {
             grade: "G50",
             staffId: "6029XX",
             rowSequence: "A80",
-            exchangeDetails: [
-              { dateKey: "20231128", shiftCode: "133" },
-              { dateKey: "20231129", shiftCode: "134" },
-              { dateKey: "20231130", shiftCode: "135" },
-              { dateKey: "20231201", shiftCode: "136" },
-              { dateKey: "20231202", shiftCode: "137" },
-              { dateKey: "20231203", shiftCode: "138" },
-            ],
+            exchangeDetails: {
+              "20231129": "134",
+              "20231130": "135",
+              "20231201": "136",
+              "20231202": "137",
+              "20231203": "138",
+            },
             weekNumber: "48",
           },
           {
@@ -142,11 +141,17 @@ export default function DemoExchangeForm() {
             grade: "G50",
             staffId: "6093XX",
             rowSequence: "B80",
-            exchangeDetails: [],
+            exchangeDetails: {
+              "20231129": "502",
+            },
             weekNumber: "48",
           },
         ]}
       />
     </div>
   );
+}
+
+{
+  happy: "123";
 }

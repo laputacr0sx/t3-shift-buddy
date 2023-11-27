@@ -16,12 +16,13 @@ export const exchangeSchema = z.object({
   // grade: z.enum(["G40", "G50", "S10", "S20"]),
   grade: z.string(),
   weekNumber: z.string(),
-  exchangeDetails: z
-    .object({
-      dateKey: z.string().length(8),
-      shiftCode: z.string().max(7),
-    })
-    .array(),
+  // exchangeDetails: z
+  //   .object({
+  //     dateKey: z.string().length(8),
+  //     shiftCode: z.string().max(7),
+  //   })
+  //   .array(),
+  exchangeDetails: z.record(z.string().length(8), z.string().max(7)),
   rowSequence: z.string(),
 });
 
@@ -58,19 +59,24 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
       const weekDay = moment(day.date, "YYYYMMDD ddd").format("dd");
 
       return {
-        accessorKey: dateKey,
+        accessorKey: `exchangeDetails.${dateKey}`,
         header: () => (
           <section className="flex flex-col px-0 text-center align-middle font-mono">
-            <span>{dateShort}</span>
-            <span>{weekDay}</span>
-            <span>{day.prefix}</span>
+            <p>{dateShort}</p>
+            <p>{weekDay}</p>
+            <p>{day.prefix}</p>
           </section>
         ),
-        cell: ({ column, row }) => {
-          console.log(row.getValue(dateKey));
 
-          const thisRowValue: string = row.getValue(dateKey);
-          return <p>{thisRowValue}</p>;
+        cell: ({ column, row, cell }) => {
+          console.log(row.getValue(`exchangeDetails_${dateKey}`));
+          console.log(cell.id);
+          console.log(column.id);
+
+          const thisRowValue: string = row.getValue(
+            `exchangeDetails_${dateKey}`
+          );
+          return <p className="text-center align-middle">{thisRowValue}</p>;
         },
       };
     }),
