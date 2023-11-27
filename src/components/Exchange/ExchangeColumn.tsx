@@ -8,6 +8,8 @@ import { autoPrefix } from "~/utils/helper";
 
 const days = autoPrefix(true);
 
+// console.log(days);
+
 export const exchangeSchema = z.object({
   name: z.string(),
   staffId: z.string().length(6),
@@ -42,33 +44,24 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
     ),
     columns: days.map((day) => {
       const dateKey = moment(day.date, "YYYYMMDD ddd").format("YYYYMMDD");
-
       const dateShort = moment(day.date, "YYYYMMDD ddd")
-        .locale("zh-hk")
+        // .locale("zh-hk")
         .format("DD/MM");
-
       const weekDay = moment(day.date, "YYYYMMDD ddd")
-        .locale("zh-hk")
+        // .locale("zh-hk")
         .format("dd");
 
       return {
         accessorKey: dateKey,
         header: () => (
-          <section className="flex flex-col text-center align-middle font-mono text-rose-700 dark:text-rose-300">
+          <section className="flex flex-col px-0 text-center align-middle font-mono">
             <span>{dateShort}</span>
-
-            <span className="text-center align-middle font-mono text-rose-700 dark:text-rose-300">
-              {weekDay}
-            </span>
-
-            <span className="text-center align-middle font-mono text-rose-700 dark:text-rose-300">
-              {day.prefix}
-            </span>
+            <span>{weekDay}</span>
+            <span>{day.prefix}</span>
           </section>
         ),
         cell: ({ column, row }) => {
-          //
-          console.log(row.getValue("exchangeDetails"));
+          // console.log(row.getAllCells());
         },
       };
     }),
@@ -76,5 +69,5 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
   // { id: "exchangeDetails", accessorKey: "", header: "調更詳情" },
   { id: "rowSequence", accessorKey: "rowSequence", header: "編定輪次" },
   { id: "oddHours", accessorKey: "", header: "私鐘" },
-  { id: "signature", accessorKey: "", header: "Signature" },
+  { id: "signature", accessorKey: "", header: "簽名" },
 ];

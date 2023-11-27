@@ -176,8 +176,6 @@ export const shiftControllerRouter = createTRPCRouter({
           message: "latest prefix not found",
         });
 
-      console.log(input, latestPrefix);
-
       const combinedDutyName = new Array<string>(7);
 
       for (let i = 0; i < combinedDutyName.length; i++) {

@@ -1,9 +1,13 @@
-"use client";
-
+import { useMemo } from "react";
 import { ExchangeColumn } from "~/components/Exchange/ExchangeColumn";
 import { ExchangeTable } from "~/components/Exchange/ExchangeTable";
+import { autoPrefix } from "~/utils/helper";
 
 export default function DemoExchangeForm() {
+  const days = useMemo(() => {
+    return autoPrefix(true);
+  }, []);
+
   return (
     <div className="flex flex-col gap-4">
       <section className="flex justify-center pt-20 text-center align-middle">

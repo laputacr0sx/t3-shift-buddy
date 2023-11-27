@@ -2,7 +2,6 @@ import SearchShiftForm from "~/components/SearchShiftForm";
 import { type NextPageWithLayout } from "./_app";
 import { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
-import { autoPrefix } from "~/utils/helper";
 
 const Home: NextPageWithLayout = () => (
   <>

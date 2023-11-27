@@ -12,6 +12,11 @@ import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
 
+moment.updateLocale("zh-hk", {
+  weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
+  weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
+});
+
 // check if today is after wednesday
 export const isTodayAfterWednesday = (day?: moment.Moment) => {
   day = day ?? moment();
@@ -132,7 +137,7 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
  * @param weekNumber The week number to get the details for. Defaults to the current week number.
  * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  */
-export const autoPrefix = (moreDays = false, weekNumber?: string) => {
+export function autoPrefix(moreDays = false, weekNumber?: string) {
   const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
   const correspondingDates = moreDays
@@ -182,7 +187,7 @@ export const autoPrefix = (moreDays = false, weekNumber?: string) => {
   }
 
   return prefixes;
-};
+}
 // export const autoPrefix = (weekNumber?: string) => {
 //   const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
@@ -234,32 +239,6 @@ export const autoPrefix = (moreDays = false, weekNumber?: string) => {
 //   return prefixes;
 // };
 
-export const getDutyNumberPreview = (
-  shifts: string[],
-  weekNumber?: number
-): string[] => {
-  const dayDetail: string[] = [];
-  const weekPreview = autoPrefix(false, weekNumber?.toString());
-
-  weekPreview.forEach((day, i) => {
-    let dayDetailString = "";
-    const date = moment(day.date, "YYYYMMDD ddd");
-
-    const shiftName = shifts[i] as string;
-    const shiftCode = shiftName.match(shiftNumberRegex)?.[0];
-
-    dayDetailString = `${date.format("DD/MM(dd)")} ${
-      shiftCode ? day.prefix.concat(shiftCode) : shiftName
-    }`;
-
-    dayDetail.push(dayDetailString);
-  });
-
-  console.log(dayDetail);
-
-  return dayDetail;
-};
-
 export const fetchTyped = async <S extends z.Schema>(
   url: string,
   schema: S,
@@ -310,5 +289,11 @@ export function getChineseLocation(
   };
 
   return chineseDuration[location];
-  //
 }
+
+const testEdgeFunction = () => {
+  // uncalled function running on edge
+  return "edge function is running!";
+};
+
+console.log(testEdgeFunction());
