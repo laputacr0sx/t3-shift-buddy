@@ -10,6 +10,7 @@ export default function DemoExchangeForm() {
 
   return (
     <div className="flex flex-col gap-4">
+      {/* 
       <section className="flex justify-center pt-20 text-center align-middle">
         <table
           className={
@@ -119,6 +120,8 @@ export default function DemoExchangeForm() {
           </tbody>
         </table>
       </section>
+          */}
+
       <ExchangeTable
         columns={ExchangeColumn}
         data={[
@@ -134,7 +137,7 @@ export default function DemoExchangeForm() {
               "20231202": "137",
               "20231203": "138",
             },
-            weekNumber: "48",
+            weekNumber: "49",
           },
           {
             name: "WKSO",
@@ -144,7 +147,7 @@ export default function DemoExchangeForm() {
             exchangeDetails: {
               "20231129": "502",
             },
-            weekNumber: "48",
+            weekNumber: "49",
           },
         ]}
       />
