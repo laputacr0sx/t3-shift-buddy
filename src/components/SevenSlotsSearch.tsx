@@ -20,7 +20,7 @@ import {
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 
 import useShiftQuery from "~/hooks/useShiftQuery";
@@ -31,6 +31,7 @@ import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
 
 import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
+import { encode } from "querystring";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -55,6 +56,13 @@ const SevenSlotsSearchForm = () => {
   const [newSearchParams, setNewSearchParams] =
     useState<URLSearchParams | null>(null);
 
+  const existingQuery = useMemo(() => {
+    const queryParams = new URLSearchParams(encode(router.query));
+    setNewSearchParams(queryParams);
+  }, [router.query]);
+
+  existingQuery;
+
   const autoDayDetail = useMemo(() => autoPrefix(true), []);
 
   const shiftsFromSearchParamMemo = useMemo(() => {
@@ -66,12 +74,6 @@ const SevenSlotsSearchForm = () => {
     return dateAndShifts;
   }, [newSearchParams]);
 
-  // const handleQueryCb = useCallback(
-  //   async (data: SevenSlotsSearchForm) =>
-  //     await handleQuery(autoDayDetail, data),
-  //   [autoDayDetail, handleQuery]
-  // );
-
   const {
     data: queryData,
     isLoading: queryIsLoading,
@@ -81,16 +83,14 @@ const SevenSlotsSearchForm = () => {
     { enabled: !!shiftsFromSearchParamMemo.length, refetchOnWindowFocus: false }
   );
 
-  // console.log(shiftsFromSearchParamMemo);
-
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
-      // console.log("formData", data);
-      // console.log(
-      //   "validation result",
-      //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
-      // );
+      console.log("formData", data);
+      console.log(
+        "validation result",
+        await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+      );
       const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
         data,
         context,
@@ -99,7 +99,6 @@ const SevenSlotsSearchForm = () => {
 
       return zodResolved;
     },
-    // resolver: zodResolver(sevenSlotsSearchFormSchema),
     mode: "onChange",
     defaultValues: {
       [dayDetailName]: [
@@ -157,7 +156,7 @@ const SevenSlotsSearchForm = () => {
           )}
           className="flex min-h-screen w-full flex-col space-y-2 px-4"
         >
-          <FormDescription>期數：{dayDetailName}</FormDescription>
+          <FormDescription>下週期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
             const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
               "DD/MM(dd)"

@@ -1,6 +1,7 @@
 import moment from "moment";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 import { useCallback } from "react";
 import {
   type SevenSlotsSearchForm,
@@ -9,7 +10,7 @@ import {
 import { type autoPrefix } from "~/utils/helper";
 import { abbreviatedDutyNumber } from "~/utils/regex";
 
-function useShiftQuery() {
+function useShiftQuery(existingQuery?: URLSearchParams) {
   const router = useRouter();
   const pathname = usePathname();
   // const searchParams = useSearchParams();
@@ -19,10 +20,7 @@ function useShiftQuery() {
       autoDayDetail: ReturnType<typeof autoPrefix>,
       data: SevenSlotsSearchForm
     ) => {
-      console.log("handleQuery func called");
-
       const newParams = new URLSearchParams();
-      // searchParams.toString()
 
       data[dayDetailName]?.forEach(({ shiftCode }, i) => {
         const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
