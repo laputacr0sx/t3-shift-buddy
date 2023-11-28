@@ -101,17 +101,9 @@ export function DayDetailTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={4} className="text-right">
-                Total
-              </TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
-            </TableRow>
-          </TableFooter>
         </Table>
       </div>
-      {/* <Separator className="w-[90%]" /> */}
+
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
         selectedShifts={selectedShifts}
