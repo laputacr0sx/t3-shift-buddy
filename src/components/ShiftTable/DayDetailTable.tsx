@@ -14,6 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from "~/components/ui/table";
 
 import { Separator } from "../ui/separator";
@@ -40,8 +41,6 @@ export function DayDetailTable<TData, TValue>({
       rowSelection,
     },
   });
-
-  // console.log(table.getColumn("date"));
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
   const selectedShifts = isSomeRowSelected
@@ -102,6 +101,14 @@ export function DayDetailTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={4} className="text-right">
+                Total
+              </TableCell>
+              <TableCell className="text-right">$2,500.00</TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </div>
       {/* <Separator className="w-[90%]" /> */}

@@ -114,7 +114,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
       }),
       columnHelper.accessor("dutyNumber", {
         header: () => (
@@ -130,7 +129,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
       }),
       {
         accessorKey: "duration",
@@ -150,7 +148,16 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
+        footer: (props) => {
+          console.log(
+            props.table.getFilteredRowModel().rows.reduce((sum, row) => {
+              const durationStr: string = row.getValue("duration");
+              const durationInt: number = parseInt(durationStr);
+
+              return sum + durationInt;
+            }, 0)
+          );
+        },
       },
     ],
   }),
@@ -176,7 +183,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
       }),
       columnHelper.accessor("bNT", {
         header: () => (
@@ -192,7 +198,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
       }),
     ],
   }),
@@ -219,7 +224,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
       },
       {
         accessorKey: "bFL",
@@ -236,7 +240,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
-        footer: (props) => props.column.id,
       },
     ],
   }),
