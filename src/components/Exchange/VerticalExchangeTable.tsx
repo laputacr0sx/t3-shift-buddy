@@ -23,7 +23,7 @@ interface DataTableProps<TData, TValue> {
   daysDetails: ReturnType<typeof autoPrefix>;
 }
 
-export function ExchangeTable<TData, TValue>({
+export function VerticalExchangeTable<TData, TValue>({
   columns,
   data,
   daysDetails,
@@ -36,16 +36,17 @@ export function ExchangeTable<TData, TValue>({
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
+      <div className="mx-2 overflow-hidden rounded-2xl border-x border-solid border-sky-800 font-mono dark:border-sky-300">
         <Table>
-          <TableHeader>
+          <TableHeader className="flex flex-row ">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="grid">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      colSpan={header.colSpan}
+                      // colSpan={header.colSpan}
+                      rowSpan={4}
                       className="whitespace-nowrap align-middle text-sky-700 dark:text-sky-200"
                     >
                       {header.isPlaceholder
@@ -64,32 +65,22 @@ export function ExchangeTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
                 return (
-                  <Fragment key={row.id}>
-                    <TableRow
-                      key={`${row.id}_before`}
-                      data-state={row.getIsSelected() && "selected"}
-                      id={`${row.id}_before`}
-                    >
-                      {row.getVisibleCells().map((cell) => {
-                        return (
-                          <TableCell
-                            key={cell.id}
-                            className="whitespace-nowrap"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                    <TableRow
-                      key={`${row.id}_after`}
-                      data-state={row.getIsSelected() && "selected"}
-                      id={`${row.id}_after`}
-                    ></TableRow>
-                  </Fragment>
+                  <TableRow
+                    key={`${row.id}`}
+                    data-state={row.getIsSelected() && "selected"}
+                    id={`${row.id}`}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id} className="whitespace-nowrap">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
                 );
               })
             ) : (
