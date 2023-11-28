@@ -15,15 +15,18 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import { autoPrefix } from "~/utils/helper";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  daysDetails: ReturnType<typeof autoPrefix>;
 }
 
 export function ExchangeTable<TData, TValue>({
   columns,
   data,
+  daysDetails,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -39,8 +42,6 @@ export function ExchangeTable<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  // console.log(header.id);c
-
                   return (
                     <TableHead
                       key={header.id}

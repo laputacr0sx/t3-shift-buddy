@@ -8,8 +8,6 @@ import { autoPrefix } from "~/utils/helper";
 
 const days = autoPrefix(true);
 
-// console.log(days);
-
 export const exchangeSchema = z.object({
   name: z.string(),
   staffId: z.string().length(6),
@@ -69,6 +67,7 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
         ),
 
         cell: ({ column, row, cell }) => {
+          console.log({ column, row, cell });
           const thisRowValue: string = row.getValue(
             `exchangeDetails_${dateKey}`
           );
@@ -77,8 +76,7 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
       };
     }),
   }),
-  // { id: "exchangeDetails", accessorKey: "", header: "調更詳情" },
   { id: "rowSequence", accessorKey: "rowSequence", header: "編定輪次" },
   { id: "oddHours", accessorKey: "", header: "私鐘" },
-  { id: "signature", accessorKey: "", header: "簽名" },
+  // { id: "signature", accessorKey: "", header: "簽名" },
 ];
