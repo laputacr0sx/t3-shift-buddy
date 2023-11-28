@@ -14,12 +14,6 @@ export const exchangeSchema = z.object({
   // grade: z.enum(["G40", "G50", "S10", "S20"]),
   grade: z.string(),
   weekNumber: z.string(),
-  // exchangeDetails: z
-  //   .object({
-  //     dateKey: z.string().length(8),
-  //     shiftCode: z.string().max(7),
-  //   })
-  //   .array(),
   exchangeDetails: z.record(z.string().length(8), z.string().max(7)),
   rowSequence: z.string(),
 });
@@ -67,7 +61,7 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
         ),
 
         cell: ({ column, row, cell }) => {
-          console.log({ column, row, cell });
+          // console.log({ column, row, cell });
           const thisRowValue: string = row.getValue(
             `exchangeDetails_${dateKey}`
           );

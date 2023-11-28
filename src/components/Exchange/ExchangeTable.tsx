@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 import {
   type ColumnDef,
@@ -62,21 +62,57 @@ export function ExchangeTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="whitespace-nowrap">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                return (
+                  <Fragment key={row.id}>
+                    <TableRow
+                      key={`${row.id}_before`}
+                      data-state={row.getIsSelected() && "selected"}
+                      id={`${row.id}_before`}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            className="whitespace-nowrap"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                    <TableRow
+                      key={`${row.id}_after`}
+                      data-state={row.getIsSelected() && "selected"}
+                      id={`${row.id}_after`}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        switch (cell.id) {
+                          case "0_status":
+                            return (
+                              <TableCell
+                                key={cell.id}
+                                className="whitespace-nowrap"
+                              ></TableCell>
+                            );
+                          case "1_status": {
+                            return (
+                              <TableCell
+                                key={cell.id}
+                                className="whitespace-nowrap"
+                              ></TableCell>
+                            );
+                          }
+                          default:
+                        }
+                      })}
+                    </TableRow>
+                  </Fragment>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell
