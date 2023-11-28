@@ -32,6 +32,15 @@ import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
 import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
 import { encode } from "querystring";
+import { Switch } from "./ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { dayOff } from "~/utils/customTypes";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -86,11 +95,11 @@ const SevenSlotsSearchForm = () => {
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
-      console.log("formData", data);
-      console.log(
-        "validation result",
-        await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
-      );
+      // console.log("formData", data);
+      // console.log(
+      //   "validation result",
+      //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+      // );
       const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
         data,
         context,
@@ -161,9 +170,18 @@ const SevenSlotsSearchForm = () => {
             const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
               "DD/MM(dd)"
             );
+            let isOff = false;
             return (
               <fieldset key={day.date}>
-                <section className="flex justify-start gap-1">
+                <section className="flex items-center justify-start gap-2">
+                  <Switch
+                    defaultChecked
+                    onCheckedChange={(checked) => {
+                      sevenSlotsSearchForm.reset();
+                      isOff = !checked;
+                      console.log(isOff);
+                    }}
+                  />
                   <FormField
                     control={sevenSlotsSearchForm.control}
                     name={`${dayDetailName}[${i}].shiftCode`}
@@ -174,18 +192,38 @@ const SevenSlotsSearchForm = () => {
                             <FormLabel className="items-center text-xs sm:tracking-tighter">
                               {formatedDate} {autoDayDetail[i]?.prefix}
                             </FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                className="w-[88px] font-mono tracking-tight "
-                                maxLength={7}
-                                placeholder="101"
-                                autoCapitalize="characters"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                spellCheck="false"
-                              />
-                            </FormControl>
+                            {isOff ? (
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="請揀選假期類別" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {dayOff.map((off) => (
+                                    <SelectItem key={off} value={off}>
+                                      {off}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            ) : (
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  className="w-[88px] font-mono tracking-tight "
+                                  maxLength={7}
+                                  placeholder="101"
+                                  autoCapitalize="characters"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  spellCheck="false"
+                                />
+                              </FormControl>
+                            )}
                             <FormDescription>
                               {sevenSlotsSearchForm.control.getFieldState(
                                 field.name

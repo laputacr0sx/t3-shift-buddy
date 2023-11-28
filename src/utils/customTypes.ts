@@ -11,6 +11,9 @@ export const workLocation = [
   "TAW",
   "TWD",
 ] as const;
+
+export const dayOff = ["RD", "CL", "AL", "GH", "SH", "WB_L", "MA_L"] as const;
+
 export interface WeekComplex {
   date: Date;
   title: string;
