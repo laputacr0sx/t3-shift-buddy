@@ -43,6 +43,7 @@ import {
 import { dayOff } from "~/utils/customTypes";
 import { cn } from "~/lib/utils";
 import { Separator } from "./ui/separator";
+import { Badge } from "./ui/badge";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -273,7 +274,14 @@ const SevenSlotsSearchForm = () => {
                     }}
                   />
                 </section>
-                {isSunday && <Separator className="rounded" />}
+                {isSunday && (
+                  <>
+                    <Separator className="rounded" />
+                    <Badge variant={"outline"} className="w-fit">
+                      W49
+                    </Badge>
+                  </>
+                )}
               </fieldset>
             );
           })}
