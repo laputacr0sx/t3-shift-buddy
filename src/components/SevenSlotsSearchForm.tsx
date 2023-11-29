@@ -326,7 +326,6 @@ const SevenSlotsSearchForm = () => {
           <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
             未來更序
           </h1>
-
           <Button
             onClick={async () => {
               await router.push("#title");
