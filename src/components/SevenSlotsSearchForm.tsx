@@ -42,6 +42,7 @@ import {
 } from "./ui/select";
 import { dayOff } from "~/utils/customTypes";
 import { cn } from "~/lib/utils";
+import { Separator } from "./ui/separator";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -177,8 +178,11 @@ const SevenSlotsSearchForm = () => {
               moment(day.date, "YYYYMMDD ddd").isoWeekday() === 7 ||
               !!day.holidayDetails;
 
+            const isSunday =
+              moment(day.date, "YYYYMMDD ddd").isoWeekday() === 7;
+
             return (
-              <fieldset key={day.date}>
+              <fieldset key={day.date} className="flex flex-col gap-2">
                 <section className="flex items-center justify-start gap-2">
                   {/* <Switch
                     defaultChecked
@@ -199,7 +203,7 @@ const SevenSlotsSearchForm = () => {
                               className={cn(
                                 "items-center rounded px-1 text-xs",
                                 isRedDay &&
-                                  "bg-rose-500/20 dark:bg-rose-300/20",
+                                  "bg-rose-500/40 dark:bg-rose-300/40",
                                 day.racingDetails?.nightRacing === 0
                                   ? "border-b-2 border-b-lime-500 dark:border-b-lime-300 "
                                   : day.racingDetails?.nightRacing === 1
@@ -209,7 +213,7 @@ const SevenSlotsSearchForm = () => {
                                   : ""
                               )}
                             >
-                              {formatedDate} {autoDayDetail[i]?.prefix}
+                              {formatedDate}
                             </FormLabel>
                             {isOff ? (
                               <Select
@@ -233,9 +237,9 @@ const SevenSlotsSearchForm = () => {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  className="w-[88px] font-mono tracking-tight "
+                                  className="w-[88px] font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300"
                                   maxLength={7}
-                                  placeholder="101"
+                                  placeholder={`xxx / xxxxxx`}
                                   autoCapitalize="characters"
                                   autoComplete="off"
                                   autoCorrect="off"
@@ -269,6 +273,7 @@ const SevenSlotsSearchForm = () => {
                     }}
                   />
                 </section>
+                {isSunday && <Separator className="rounded bg-emerald-900" />}
               </fieldset>
             );
           })}
