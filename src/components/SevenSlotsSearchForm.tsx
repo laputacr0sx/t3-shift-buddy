@@ -168,22 +168,25 @@ const SevenSlotsSearchForm = () => {
         >
           <FormDescription>下週期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
+            const correspondingDate = moment(day.date, "YYYYMMDD ddd");
             const isOff = false;
 
-            const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
-              "DD/MM(dd)"
-            );
+            const formatedDate = correspondingDate.format("DD/MM(dd)");
 
             const isRedDay =
-              moment(day.date, "YYYYMMDD ddd").isoWeekday() === 6 ||
-              moment(day.date, "YYYYMMDD ddd").isoWeekday() === 7 ||
+              correspondingDate.isoWeekday() === 6 ||
+              correspondingDate.isoWeekday() === 7 ||
               !!day.holidayDetails;
 
-            const isSunday =
-              moment(day.date, "YYYYMMDD ddd").isoWeekday() === 7;
+            const isMonday = correspondingDate.isoWeekday() === 1;
 
             return (
               <fieldset key={day.date} className="flex flex-col gap-2">
+                {(i === 0 || isMonday) && (
+                  <Badge variant={"outline"} className="w-fit">
+                    {`W${correspondingDate.format("w")}`}
+                  </Badge>
+                )}
                 <section className="flex items-center justify-start gap-2">
                   {/* <Switch
                     defaultChecked
@@ -193,6 +196,7 @@ const SevenSlotsSearchForm = () => {
                       console.log(isOff);
                     }}
                   /> */}
+
                   <FormField
                     control={sevenSlotsSearchForm.control}
                     name={`${dayDetailName}[${i}].shiftCode`}
@@ -274,14 +278,6 @@ const SevenSlotsSearchForm = () => {
                     }}
                   />
                 </section>
-                {isSunday && (
-                  <>
-                    <Separator className="rounded" />
-                    <Badge variant={"outline"} className="w-fit">
-                      W49
-                    </Badge>
-                  </>
-                )}
               </fieldset>
             );
           })}
