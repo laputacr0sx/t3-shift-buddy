@@ -53,7 +53,7 @@ export function DayDetailTable<TData, TValue>({
     <div className="flex w-auto flex-col gap-4">
       <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
         <Table>
-          <TableCaption>
+          <TableCaption className="pb-3">
             <p>
               <span className="">
                 如欲將更份加至Google月曆，必須於PlayStore下載並安裝

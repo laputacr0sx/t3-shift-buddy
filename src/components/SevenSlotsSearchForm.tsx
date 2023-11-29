@@ -41,6 +41,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { dayOff } from "~/utils/customTypes";
+import { cn } from "~/lib/utils";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -168,6 +169,12 @@ const SevenSlotsSearchForm = () => {
             const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
               "DD/MM(dd)"
             );
+
+            const isRedDay =
+              moment(day.date, "YYYYMMDD ddd").isoWeekday() === 6 ||
+              moment(day.date, "YYYYMMDD ddd").isoWeekday() === 7 ||
+              !!day.holidayDetails;
+
             const isOff = false;
             return (
               <fieldset key={day.date}>
@@ -187,7 +194,12 @@ const SevenSlotsSearchForm = () => {
                       return (
                         <FormItem>
                           <div className="flex w-full items-center justify-between gap-2 font-mono">
-                            <FormLabel className="items-center text-xs sm:tracking-tighter">
+                            <FormLabel
+                              className={cn(
+                                "t items-center text-xs",
+                                isRedDay && "text-red-800 dark:text-red-500"
+                              )}
+                            >
                               {formatedDate} {autoDayDetail[i]?.prefix}
                             </FormLabel>
                             {isOff ? (
@@ -222,7 +234,7 @@ const SevenSlotsSearchForm = () => {
                                 />
                               </FormControl>
                             )}
-                            <FormDescription>
+                            <FormDescription className="font-mono tracking-wider">
                               {sevenSlotsSearchForm.control.getFieldState(
                                 field.name
                               ).invalid ? null : (
