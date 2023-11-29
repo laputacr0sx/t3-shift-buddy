@@ -273,7 +273,7 @@ const SevenSlotsSearchForm = () => {
                     }}
                   />
                 </section>
-                {isSunday && <Separator className="rounded bg-emerald-900" />}
+                {isSunday && <Separator className="rounded" />}
               </fieldset>
             );
           })}
