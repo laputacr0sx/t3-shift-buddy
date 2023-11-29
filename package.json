@@ -51,6 +51,7 @@
     "@vercel/analytics": "^1.0.1",
     "add-to-calendar-button": "^2.2.9",
     "add-to-calendar-button-react": "^2.4.3",
+    "axios": "^1.6.2",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",

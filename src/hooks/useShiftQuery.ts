@@ -1,7 +1,7 @@
 import moment from "moment";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+
 import { useCallback } from "react";
 import {
   type SevenSlotsSearchForm,
@@ -10,7 +10,7 @@ import {
 import { type autoPrefix } from "~/utils/helper";
 import { abbreviatedDutyNumber } from "~/utils/regex";
 
-function useShiftQuery(existingQuery?: URLSearchParams) {
+function useShiftQuery() {
   const router = useRouter();
   const pathname = usePathname();
   // const searchParams = useSearchParams();

@@ -300,7 +300,7 @@ const SevenSlotsSearchForm = () => {
               onClick={async () => {
                 sevenSlotsSearchForm.reset();
                 setNewSearchParams(null);
-                await router.replace("/weekdetails");
+                await router.replace("/");
                 router.reload();
               }}
             >
