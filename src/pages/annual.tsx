@@ -90,7 +90,7 @@ const AnnualLeaves: NextPageWithLayout = () => {
   return (
     <div className="relative">
       <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
-        大假易
+        日曆
       </h1>
       <FixtureLegend />
       <Calendar

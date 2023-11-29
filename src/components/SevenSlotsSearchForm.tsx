@@ -244,37 +244,23 @@ const SevenSlotsSearchForm = () => {
                               </FormControl>
                             )}
                             <FormDescription className="font-mono tracking-wider">
-                              {sevenSlotsSearchForm.control.getFieldState(
-                                field.name
-                              ).invalid ? null : (
-                                <>
-                                  {(field.value as string).match(
-                                    abbreviatedDutyNumber
-                                  )
-                                    ? `${day.prefix}${field.value as string}`
-                                    : `${field.value as string}`}
-                                </>
+                              {sevenSlotsSearchForm.getValues(field.name) ? (
+                                sevenSlotsSearchForm.control.getFieldState(
+                                  field.name
+                                ).invalid ? (
+                                  `${day.prefix}___`
+                                ) : (
+                                  <>
+                                    {(field.value as string).match(
+                                      abbreviatedDutyNumber
+                                    )
+                                      ? `${day.prefix}${field.value as string}`
+                                      : `${field.value as string}`}
+                                  </>
+                                )
+                              ) : (
+                                `${day.prefix}___`
                               )}
-                            </FormDescription>
-                            <FormDescription ref={parent}>
-                              <p
-                                key={day.date}
-                                className="text-xs font-thin tracking-tighter"
-                              >
-                                {/* {day.holidayDetails?.summary ??
-                                day.racingDetails?.venue === "S"
-                                  ? "沙田"
-                                  : day.racingDetails?.venue === "H"
-                                  ? "跑馬地"
-                                  : null}
-                                {day.racingDetails?.nightRacing === 0
-                                  ? "日馬"
-                                  : day.racingDetails?.nightRacing === 1
-                                  ? "夜馬"
-                                  : day.racingDetails?.nightRacing === 2
-                                  ? "黃昏馬"
-                                  : null} */}
-                              </p>
                             </FormDescription>
                           </div>
                           <FormMessage />

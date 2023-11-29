@@ -33,7 +33,7 @@ function Navbar() {
             className={"flex flex-col items-center justify-center"}
           >
             <Library className="m-2" size={18} />
-            <p className="text-[10px]">查更易</p>
+            <p className="text-[10px]">搵更易</p>
           </Link>
         </li>
         <li>
