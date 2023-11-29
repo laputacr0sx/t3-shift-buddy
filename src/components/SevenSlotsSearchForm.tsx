@@ -166,6 +166,8 @@ const SevenSlotsSearchForm = () => {
         >
           <FormDescription>下週期數：{dayDetailName}</FormDescription>
           {autoDayDetail.map((day, i) => {
+            const isOff = false;
+
             const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
               "DD/MM(dd)"
             );
@@ -175,7 +177,6 @@ const SevenSlotsSearchForm = () => {
               moment(day.date, "YYYYMMDD ddd").isoWeekday() === 7 ||
               !!day.holidayDetails;
 
-            const isOff = false;
             return (
               <fieldset key={day.date}>
                 <section className="flex items-center justify-start gap-2">
@@ -196,8 +197,17 @@ const SevenSlotsSearchForm = () => {
                           <div className="flex w-full items-center justify-between gap-2 font-mono">
                             <FormLabel
                               className={cn(
-                                "t items-center text-xs",
-                                isRedDay && "text-red-800 dark:text-red-500"
+                                "items-center rounded px-1 text-xs",
+                                isRedDay &&
+                                  // "rounded border-b border-b-rose-700  dark:border-b-rose-500",
+                                  " bg-rose-500/20 dark:bg-rose-300/20",
+                                day.racingDetails?.nightRacing === 0
+                                  ? "border-b-2 border-b-lime-500 dark:border-b-lime-300 "
+                                  : day.racingDetails?.nightRacing === 1
+                                  ? "border-b-2 border-b-violet-500 dark:border-b-violet-300"
+                                  : day.racingDetails?.nightRacing === 2
+                                  ? "border-b-2 border-b-amber-500 dark:border-b-amber-300"
+                                  : ""
                               )}
                             >
                               {formatedDate} {autoDayDetail[i]?.prefix}

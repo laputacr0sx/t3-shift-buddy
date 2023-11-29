@@ -5,7 +5,7 @@ import {
   useReactTable,
   type Row,
 } from "@tanstack/react-table";
-import React, { Fragment } from "react";
+import React from "react";
 
 import {
   Table,
@@ -59,7 +59,7 @@ export function DayDetailTable<TData, TValue>({
                 如欲將更份加至Google月曆，必須於PlayStore下載並安裝
               </span>
               <Link
-                className="text-lime-500"
+                className="font-serif font-extrabold tracking-widest text-lime-800 dark:text-lime-600"
                 href={
                   "https://play.google.com/store/apps/details?id=com.google.android.calendar&pcampaignid=web_share"
                 }

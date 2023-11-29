@@ -2,12 +2,7 @@ import moment from "moment";
 import { type Row } from "@tanstack/react-table";
 import { toast } from "react-hot-toast";
 import { type DayDetail } from "./customTypes";
-import {
-  abbreviatedDutyNumber,
-  completeShiftNameRegex,
-  shiftNumberRegex,
-  specialDutyRegex,
-} from "./regex";
+import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
