@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import {
   type SevenSlotsSearchForm,
   dayDetailName,
-} from "~/components/SevenSlotsSearch";
+} from "~/components/SevenSlotsSearchForm";
 import { type autoPrefix } from "~/utils/helper";
 import { abbreviatedDutyNumber } from "~/utils/regex";
 

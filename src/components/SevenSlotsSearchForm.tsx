@@ -19,8 +19,8 @@ import {
 
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
-import { inputShiftCodeRegex } from "~/utils/regex";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { abbreviatedDutyNumber, inputShiftCodeRegex } from "~/utils/regex";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 
 import useShiftQuery from "~/hooks/useShiftQuery";
@@ -32,7 +32,7 @@ import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
 import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
 import { encode } from "querystring";
-import { Switch } from "./ui/switch";
+
 import {
   Select,
   SelectContent,
@@ -225,9 +225,15 @@ const SevenSlotsSearchForm = () => {
                             <FormDescription>
                               {sevenSlotsSearchForm.control.getFieldState(
                                 field.name
-                              ).invalid
-                                ? null
-                                : field.value}
+                              ).invalid ? null : (
+                                <>
+                                  {(field.value as string).match(
+                                    abbreviatedDutyNumber
+                                  )
+                                    ? `${day.prefix}${field.value as string}`
+                                    : `${field.value as string}`}
+                                </>
+                              )}
                             </FormDescription>
                             <FormDescription ref={parent}>
                               <p
