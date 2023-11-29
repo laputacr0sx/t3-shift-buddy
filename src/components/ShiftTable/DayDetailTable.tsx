@@ -5,7 +5,7 @@ import {
   useReactTable,
   type Row,
 } from "@tanstack/react-table";
-import React from "react";
+import React, { Fragment } from "react";
 
 import {
   Table,
@@ -14,12 +14,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter,
+  TableCaption,
 } from "~/components/ui/table";
 
 import { Separator } from "../ui/separator";
 import { type DayDetail } from "~/utils/customTypes";
 import TableCopyButtons from "../TableCopyButtons";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,6 +53,22 @@ export function DayDetailTable<TData, TValue>({
     <div className="flex w-auto flex-col gap-4">
       <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
         <Table>
+          <TableCaption>
+            <p>
+              <span className="">
+                如欲將更份加至Google月曆，必須於PlayStore下載並安裝
+              </span>
+              <Link
+                className="text-lime-500"
+                href={
+                  "https://play.google.com/store/apps/details?id=com.google.android.calendar&pcampaignid=web_share"
+                }
+              >
+                Google Calendar
+              </Link>
+              <span>，方可正常使用</span>
+            </p>
+          </TableCaption>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

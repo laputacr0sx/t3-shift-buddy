@@ -20,7 +20,7 @@ import {
 import moment from "moment";
 import { autoPrefix } from "~/utils/helper";
 import { inputShiftCodeRegex } from "~/utils/regex";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 
 import useShiftQuery from "~/hooks/useShiftQuery";
@@ -65,12 +65,10 @@ const SevenSlotsSearchForm = () => {
   const [newSearchParams, setNewSearchParams] =
     useState<URLSearchParams | null>(null);
 
-  const existingQuery = useMemo(() => {
+  useEffect(() => {
     const queryParams = new URLSearchParams(encode(router.query));
     !!queryParams.size && setNewSearchParams(queryParams);
   }, [router.query]);
-
-  existingQuery;
 
   const autoDayDetail = useMemo(() => autoPrefix(true), []);
 
