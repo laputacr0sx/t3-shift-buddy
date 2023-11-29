@@ -1,13 +1,31 @@
-import { CalendarDays, Home, Library, Table } from "lucide-react";
+import { CalendarDays, Home, Library } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 function Navbar() {
-  // const { isSignedIn } = useUser();
+  const { isSignedIn } = useUser();
+
+  console.log(isSignedIn);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[9999] flex h-12 justify-center bg-navbar text-navbar-foreground">
+      <div className="absolute left-0">
+        <SignedIn>
+          IN
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+      </div>
       <ul className="flex flex-row items-center justify-between gap-2">
         <li>
           <Link
