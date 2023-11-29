@@ -15,6 +15,7 @@ import {
   type SubmitHandler,
   type SubmitErrorHandler,
   useForm,
+  useFormState,
 } from "react-hook-form";
 
 import moment from "moment";
@@ -44,6 +45,7 @@ import { dayOff } from "~/utils/customTypes";
 import { cn } from "~/lib/utils";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
+import { Switch } from "./ui/switch";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -149,7 +151,6 @@ const SevenSlotsSearchForm = () => {
     <>
       {newSearchParams ? (
         <Button
-          className=""
           onClick={async () => {
             await router.push("#query-result");
           }}
@@ -164,12 +165,13 @@ const SevenSlotsSearchForm = () => {
             onValidPrefixFormHandler,
             onInvalidPrefixFormHandler
           )}
-          className="flex min-h-screen w-full flex-col items-center space-y-2 px-4"
+          className="flex min-h-screen w-full flex-col items-center space-y-1"
         >
           <FormDescription>
             <p>
               <span>於輸入框內輸入更號，例：</span>
-              <span>J15101</span>
+              <span className="font-mono">J15101</span>
+              <span>則輸入101</span>
             </p>
           </FormDescription>
           {autoDayDetail.map((day, i) => {
@@ -186,14 +188,20 @@ const SevenSlotsSearchForm = () => {
             const isMonday = correspondingDate.isoWeekday() === 1;
 
             return (
-              <fieldset key={day.date} className="flex flex-col gap-2">
+              <fieldset
+                key={day.date}
+                className="flex w-full flex-col justify-center gap-2"
+              >
                 {(i === 0 || isMonday) && (
-                  <Badge variant={"outline"} className="w-fit">
+                  <Badge variant={"outline"} className="w-fit border-green-400">
                     {`W${correspondingDate.format("w")}`}
                   </Badge>
                 )}
-                <section className="flex items-center justify-center gap-2">
+                <section
+                // className="w-content flex flex-col gap-2 space-y-0 xs:w-full xs:flex-row xs:items-center xs:justify-between"
+                >
                   {/* <Switch
+                    disabled
                     defaultChecked
                     onCheckedChange={(checked) => {
                       sevenSlotsSearchForm.reset();
@@ -208,10 +216,11 @@ const SevenSlotsSearchForm = () => {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <div className="flex w-full flex-col justify-between gap-1 font-mono xs:flex-row xs:items-center xs:gap-2 ">
+                          {/* <div className="flex w-full flex-col justify-between gap-1 font-mono xs:flex-row xs:items-center xs:justify-between xs:gap-2 "> */}
+                          <div className="w-content flex flex-col gap-2 space-y-0 xs:w-full xs:flex-row xs:items-center xs:justify-start">
                             <FormLabel
                               className={cn(
-                                "w-fit items-center rounded px-1 text-xs",
+                                "w-fit items-center rounded px-1 font-mono",
                                 isRedDay &&
                                   "bg-rose-500/40 dark:bg-rose-300/40",
                                 day.racingDetails?.nightRacing === 0
@@ -247,7 +256,7 @@ const SevenSlotsSearchForm = () => {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-[88px]"
+                                  className="w-min font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300"
                                   maxLength={7}
                                   placeholder={`xxx / xxxxxx`}
                                   autoCapitalize="characters"

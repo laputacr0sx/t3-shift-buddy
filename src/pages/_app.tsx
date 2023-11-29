@@ -19,11 +19,6 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
-  // moment.updateLocale("zh-hk", {
-  //   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
-  //   weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
-  // });
-
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     // <ClerkProvider {...pageProps}>
