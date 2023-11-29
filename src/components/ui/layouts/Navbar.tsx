@@ -15,19 +15,18 @@ function Navbar() {
             className={"flex flex-col items-center justify-center gap-0"}
           >
             <Home className="m-2" size={18} />
-            <p className="text-[10px]">首頁</p>
+            <p className="text-[10px]">出更易</p>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             href={"/weekdetails"}
             className={"flex flex-col items-center justify-center"}
           >
             <Table className="m-2" size={18} />
-
-            <p className="text-[10px]">出更易</p>
+            <p className="text-[10px]">首頁</p>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             href={"/allShifts"}

@@ -1,19 +1,24 @@
-import SearchShiftForm from "~/components/SearchShiftForm";
-import { type NextPageWithLayout } from "./_app";
-import { type ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
+import { type NextPageWithLayout } from "./_app";
+import SevenSlotsSearchForm from "~/components/SevenSlotsSearchForm";
 
-const Home: NextPageWithLayout = () => (
-  <>
-    <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
-      出更易
-    </h1>
-    <SearchShiftForm />
-  </>
-);
+const SevenSlots: NextPageWithLayout = () => {
+  return (
+    <React.Fragment>
+      <h1
+        id="title"
+        className="justify-center py-5 text-center text-4xl font-semibold text-foreground"
+      >
+        出更易
+      </h1>
+      <SevenSlotsSearchForm />
+    </React.Fragment>
+  );
+};
 
-Home.getLayout = function getLayout(page: ReactElement) {
+SevenSlots.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default Home;
+export default SevenSlots;

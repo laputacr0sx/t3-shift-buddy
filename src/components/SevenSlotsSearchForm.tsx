@@ -199,8 +199,7 @@ const SevenSlotsSearchForm = () => {
                               className={cn(
                                 "items-center rounded px-1 text-xs",
                                 isRedDay &&
-                                  // "rounded border-b border-b-rose-700  dark:border-b-rose-500",
-                                  " bg-rose-500/20 dark:bg-rose-300/20",
+                                  "bg-rose-500/20 dark:bg-rose-300/20",
                                 day.racingDetails?.nightRacing === 0
                                   ? "border-b-2 border-b-lime-500 dark:border-b-lime-300 "
                                   : day.racingDetails?.nightRacing === 1
@@ -262,7 +261,7 @@ const SevenSlotsSearchForm = () => {
                                 key={day.date}
                                 className="text-xs font-thin tracking-tighter"
                               >
-                                {day.holidayDetails?.summary ??
+                                {/* {day.holidayDetails?.summary ??
                                 day.racingDetails?.venue === "S"
                                   ? "沙田"
                                   : day.racingDetails?.venue === "H"
@@ -274,7 +273,7 @@ const SevenSlotsSearchForm = () => {
                                   ? "夜馬"
                                   : day.racingDetails?.nightRacing === 2
                                   ? "黃昏馬"
-                                  : null}
+                                  : null} */}
                               </p>
                             </FormDescription>
                           </div>
