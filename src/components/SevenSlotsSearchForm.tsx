@@ -167,11 +167,11 @@ const SevenSlotsSearchForm = () => {
           )}
           className="flex min-h-screen w-full flex-col items-center space-y-1"
         >
-          <FormDescription>
+          <FormDescription className="text-xs">
+            <p>於輸入框內輸入更號，例：</p>
             <p>
-              <span>於輸入框內輸入更號，例：</span>
-              <span className="font-mono">J15101</span>
-              <span>則輸入101</span>
+              J15101則輸入101；
+              991104則輸入991104；881113則輸入881113；如此類推。
             </p>
           </FormDescription>
           {autoDayDetail.map((day, i) => {
