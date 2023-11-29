@@ -1,5 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
+import moment from "moment";
 
 import {
   Form,
@@ -11,27 +12,28 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
+import { Skeleton } from "~/components/ui/skeleton";
+import { Badge } from "~/components/ui/badge";
+
 import {
   type SubmitHandler,
   type SubmitErrorHandler,
   useForm,
-  useFormState,
 } from "react-hook-form";
 
-import moment from "moment";
+import { api } from "~/utils/api";
 import { autoPrefix } from "~/utils/helper";
 import { abbreviatedDutyNumber, inputShiftCodeRegex } from "~/utils/regex";
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "./ui/button";
-
 import useShiftQuery from "~/hooks/useShiftQuery";
-import { api } from "~/utils/api";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { DayDetailTable } from "./ShiftTable/DayDetailTable";
 import { DayDetailColumn } from "./ShiftTable/DayDetailColumn";
 
 import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
-import { Skeleton } from "./ui/skeleton";
+
 import { encode } from "querystring";
 
 import {
@@ -43,9 +45,6 @@ import {
 } from "./ui/select";
 import { dayOff } from "~/utils/customTypes";
 import { cn } from "~/lib/utils";
-import { Separator } from "./ui/separator";
-import { Badge } from "./ui/badge";
-import { Switch } from "./ui/switch";
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
 
@@ -54,8 +53,8 @@ const sevenSlotsSearchFormSchema = z.object({
     .object({
       shiftCode: z
         .string()
-        .regex(inputShiftCodeRegex, "不是正確的更份號碼")
-        .max(7, "最長更號不多於7個字，例991106a / 881101a"),
+        .regex(inputShiftCodeRegex, "錯誤更份號碼")
+        .max(7, "最長更號不多於7個字，例991127A / 881101a"),
     })
     .array()
     .min(1, "At least one shift code must be provided"),
