@@ -164,9 +164,14 @@ const SevenSlotsSearchForm = () => {
             onValidPrefixFormHandler,
             onInvalidPrefixFormHandler
           )}
-          className="flex min-h-screen w-full flex-col space-y-2 px-4"
+          className="flex min-h-screen w-full flex-col items-center space-y-2 px-4"
         >
-          <FormDescription>下週期數：{dayDetailName}</FormDescription>
+          <FormDescription>
+            <p>
+              <span>於輸入框內輸入更號，例：</span>
+              <span>J15101</span>
+            </p>
+          </FormDescription>
           {autoDayDetail.map((day, i) => {
             const correspondingDate = moment(day.date, "YYYYMMDD ddd");
             const isOff = false;
@@ -187,7 +192,7 @@ const SevenSlotsSearchForm = () => {
                     {`W${correspondingDate.format("w")}`}
                   </Badge>
                 )}
-                <section className="flex items-center justify-start gap-2">
+                <section className="flex items-center justify-center gap-2">
                   {/* <Switch
                     defaultChecked
                     onCheckedChange={(checked) => {
@@ -203,10 +208,10 @@ const SevenSlotsSearchForm = () => {
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <div className="flex w-full items-center justify-between gap-2 font-mono">
+                          <div className="flex w-full flex-col justify-between gap-1 font-mono xs:flex-row xs:items-center xs:gap-2 ">
                             <FormLabel
                               className={cn(
-                                "items-center rounded px-1 text-xs",
+                                "w-fit items-center rounded px-1 text-xs",
                                 isRedDay &&
                                   "bg-rose-500/40 dark:bg-rose-300/40",
                                 day.racingDetails?.nightRacing === 0
@@ -242,7 +247,7 @@ const SevenSlotsSearchForm = () => {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  className="w-[88px] font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300"
+                                  className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-[88px]"
                                   maxLength={7}
                                   placeholder={`xxx / xxxxxx`}
                                   autoCapitalize="characters"
@@ -252,7 +257,7 @@ const SevenSlotsSearchForm = () => {
                                 />
                               </FormControl>
                             )}
-                            <FormDescription className="font-mono tracking-wider">
+                            <FormDescription className="invisible font-mono tracking-wider xs:visible">
                               {sevenSlotsSearchForm.getValues(field.name) ? (
                                 sevenSlotsSearchForm.control.getFieldState(
                                   field.name

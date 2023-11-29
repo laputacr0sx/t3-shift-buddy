@@ -66,7 +66,7 @@ export function DayDetailTable<TData, TValue>({
               >
                 Google Calendar
               </Link>
-              <span>，方可正常使用</span>
+              <span>，方可正常使用。</span>
             </p>
           </TableCaption>
           <TableHeader>
@@ -121,7 +121,6 @@ export function DayDetailTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
         selectedShifts={selectedShifts}

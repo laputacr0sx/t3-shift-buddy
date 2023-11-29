@@ -1,6 +1,10 @@
 import { type Config } from "tailwindcss";
 
-// import { fontFamily } from "tailwindcss/defaultTheme";
+import {
+  fontFamily,
+  screens as defaultScreens,
+} from "tailwindcss/defaultTheme";
+// const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 
@@ -13,12 +17,14 @@ export default {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
+    screens: {
+      xs: "320px",
+      ...defaultScreens,
+      "2xl": "1536px",
+    },
     container: {
       center: true,
       padding: "1rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       colors: {
