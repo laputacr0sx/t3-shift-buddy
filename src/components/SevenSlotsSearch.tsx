@@ -67,7 +67,7 @@ const SevenSlotsSearchForm = () => {
 
   const existingQuery = useMemo(() => {
     const queryParams = new URLSearchParams(encode(router.query));
-    setNewSearchParams(queryParams);
+    !!queryParams.size && setNewSearchParams(queryParams);
   }, [router.query]);
 
   existingQuery;
@@ -170,18 +170,18 @@ const SevenSlotsSearchForm = () => {
             const formatedDate = moment(day.date, "YYYYMMDD ddd").format(
               "DD/MM(dd)"
             );
-            let isOff = false;
+            const isOff = false;
             return (
               <fieldset key={day.date}>
                 <section className="flex items-center justify-start gap-2">
-                  <Switch
+                  {/* <Switch
                     defaultChecked
                     onCheckedChange={(checked) => {
                       sevenSlotsSearchForm.reset();
                       isOff = !checked;
                       console.log(isOff);
                     }}
-                  />
+                  /> */}
                   <FormField
                     control={sevenSlotsSearchForm.control}
                     name={`${dayDetailName}[${i}].shiftCode`}
