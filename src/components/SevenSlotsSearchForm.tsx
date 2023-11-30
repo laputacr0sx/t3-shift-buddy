@@ -258,7 +258,7 @@ const SevenSlotsSearchForm = () => {
                               <FormControl>
                                 <Input
                                   {...field}
-                                  className="w-min font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300"
+                                  className="w-24 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300"
                                   maxLength={7}
                                   placeholder={`xxx / xxxxxx`}
                                   autoCapitalize="characters"

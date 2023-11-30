@@ -7,11 +7,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Button } from "../ui/button";
 import { convertDurationDecimal, getChineseLocation } from "~/utils/helper";
 import { CalendarPlus } from "lucide-react";
-import { TableCell, TableRow } from "../ui/table";
 import { Badge } from "../ui/badge";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 
 const columnHelper = createColumnHelper<DayDetail>();
 
@@ -113,7 +109,10 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           return (
             <>
               {(row.id === "0" || moment(date).isoWeekday() === 1) && (
-                <Badge variant={"outline"} className="w-fit border-green-400">
+                <Badge
+                  variant={"outline"}
+                  className="w-fit border-green-400 py-0"
+                >
                   {`W${moment(date).format("w")}`}
                 </Badge>
               )}
