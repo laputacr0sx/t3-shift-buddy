@@ -44,9 +44,8 @@ export function DayDetailTable<TData, TValue>({
   });
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
-  const selectedShifts = isSomeRowSelected
-    ? (table.getSelectedRowModel().flatRows as Row<DayDetail>[])
-    : (table.getRowModel().flatRows as Row<DayDetail>[]);
+  const selectedShifts = table.getSelectedRowModel()
+    .flatRows as Row<DayDetail>[];
 
   return (
     <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">

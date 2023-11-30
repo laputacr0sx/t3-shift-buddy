@@ -18,28 +18,28 @@ function TableCopyButtons({
   const completeShiftsString = getSelectedShiftsString(selectedShifts);
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
 
+  const numberOfSelectedShifts = selectedShifts.length;
+
   return (
     <>
       <div className="flex items-center justify-around gap-4">
         <Button
           className="my-2 self-center align-middle font-light"
           variant={"outline"}
-          disabled={!isSomeRowSelected}
+          disabled={!numberOfSelectedShifts}
           onClick={() => tableCopyHandler(selectedShifts)}
         >
-          複製
-          <span className="font-extrabold">已選</span>
-          資料
-        </Button>
-        <Button
-          className="my-2 self-center align-middle font-light"
-          disabled={isSomeRowSelected}
-          variant={"outline"}
-          onClick={() => tableCopyHandler(selectedShifts)}
-        >
-          複製
-          <span className="font-extrabold">整週</span>
-          資料
+          {!!numberOfSelectedShifts ? (
+            <p className="tracking-widest">
+              <span>複製</span>
+              <span className="font-mono font-extrabold">
+                {`${numberOfSelectedShifts}`}
+              </span>
+              <span>更資料</span>
+            </p>
+          ) : (
+            "未選取任何更份"
+          )}
         </Button>
       </div>
       <Link
