@@ -6,6 +6,7 @@ import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
+import { api } from "./api";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
@@ -132,6 +133,7 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
  * @param weekNumber The week number to get the details for. Defaults to the current week number.
  * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  */
+
 export function autoPrefix(moreDays = false, weekNumber?: string) {
   const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
 
@@ -183,56 +185,6 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
 
   return prefixes;
 }
-// export const autoPrefix = (weekNumber?: string) => {
-//   const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
-
-//   const correspondingDates = getNextWeekDates(nextWeekNumber);
-
-//   const formattedDated = correspondingDates.map((date) => {
-//     return moment(date).locale("zh-hk").format("YYYYMMDD");
-//   });
-
-//   const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
-//     vevent.flatMap(({ dtstart }) =>
-//       dtstart.filter((date) => typeof date === "string")
-//     )
-//   );
-//   const prefixes = [];
-
-//   for (const date of formattedDated) {
-//     const isHoliday = !!publicHolidays.filter((holiday) => holiday === date)[0];
-
-//     const racingDetails = fixtures.filter(
-//       ({ date: fixtureDay }) =>
-//         moment(fixtureDay).locale("zh-hk").format("YYYYMMDD") === date
-//     )[0];
-
-//     const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
-//       ({ dtstart }) => dtstart.includes(date)
-//     )[0];
-
-//     const weekDayNum = moment(date).isoWeekday();
-
-//     const prefix = racingDetails
-//       ? racingDetails.nightRacing === 0
-//         ? "71"
-//         : racingDetails.nightRacing === 1 && racingDetails.venue === "H"
-//         ? "14"
-//         : "13"
-//       : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-//       ? "75"
-//       : "15";
-
-//     prefixes.push({
-//       date: moment(date).format("YYYYMMDD ddd"),
-//       prefix,
-//       racingDetails,
-//       holidayDetails,
-//     });
-//   }
-
-//   return prefixes;
-// };
 
 export const fetchTyped = async <S extends z.Schema>(
   url: string,

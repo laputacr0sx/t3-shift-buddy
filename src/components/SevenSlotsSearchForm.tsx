@@ -94,7 +94,13 @@ const SevenSlotsSearchForm = () => {
     { enabled: !!shiftsFromSearchParamMemo.length, refetchOnWindowFocus: false }
   );
 
-  const data = api.prefixController;
+  const {
+    data: prefixData,
+    isLoading: prefixIsLoading,
+    error: prefixError,
+  } = api.prefixController.getLatestPrefix.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -177,17 +183,19 @@ const SevenSlotsSearchForm = () => {
             </p>
           </FormDescription>
           {autoDayDetail.map((day, i) => {
-            const correspondingDate = moment(day.date, "YYYYMMDD ddd");
             const isOff = false;
-
+            const correspondingDate = moment(day.date, "YYYYMMDD ddd");
             const formatedDate = correspondingDate.format("DD/MM(dd)");
-
             const isRedDay =
               correspondingDate.isoWeekday() === 6 ||
               correspondingDate.isoWeekday() === 7 ||
               !!day.holidayDetails;
 
             const isMonday = correspondingDate.isoWeekday() === 1;
+
+            const legitPrefix = !prefixIsLoading
+              ? (prefixData?.filter((x) => x.includes(day.prefix))[0] as string)
+              : day.prefix;
 
             return (
               <fieldset
@@ -273,18 +281,18 @@ const SevenSlotsSearchForm = () => {
                                 sevenSlotsSearchForm.control.getFieldState(
                                   field.name
                                 ).invalid ? (
-                                  `${day.prefix}___`
+                                  `${legitPrefix}___`
                                 ) : (
                                   <>
                                     {(field.value as string).match(
                                       abbreviatedDutyNumber
                                     )
-                                      ? `${day.prefix}${field.value as string}`
+                                      ? `${legitPrefix}${field.value as string}`
                                       : `${field.value as string}`}
                                   </>
                                 )
                               ) : (
-                                `${day.prefix}___`
+                                `${legitPrefix}___`
                               )}
                             </FormDescription>
                           </div>
