@@ -153,6 +153,7 @@ const SevenSlotsSearchForm = () => {
           onClick={async () => {
             await router.push("#query-result");
           }}
+          className="absolute right-2 top-6"
         >
           <ArrowDownToLine />
         </Button>
@@ -166,7 +167,7 @@ const SevenSlotsSearchForm = () => {
           )}
           className="flex min-h-screen w-full flex-col items-center space-y-1"
         >
-          <FormDescription className="text-xs">
+          <FormDescription className="pb-2 text-xs">
             <p>於輸入框內輸入更號，例：</p>
             <p>
               J15101則輸入101；
@@ -330,6 +331,7 @@ const SevenSlotsSearchForm = () => {
             onClick={async () => {
               await router.push("#title");
             }}
+            className="absolute right-2 top-6"
           >
             <ArrowUpToLine />
           </Button>
