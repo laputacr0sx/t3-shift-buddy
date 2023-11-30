@@ -18,20 +18,20 @@ export const prefixControllerRouter = createTRPCRouter({
     return result;
   }),
 
-  getCurrentPrefix: publicProcedure.query(async ({ ctx }) => {
-    const result = await ctx.prisma.weekPrefix.findMany({
-      orderBy: { updatedAt: "desc" },
-      take: 1,
-    });
+  // getCurrentPrefix: publicProcedure.query(async ({ ctx }) => {
+  //   const result = await ctx.prisma.weekPrefix.findMany({
+  //     orderBy: { updatedAt: "desc" },
+  //     take: 1,
+  //   });
 
-    if (!result?.[0])
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "result not found",
-      });
+  //   if (!result?.[0])
+  //     throw new TRPCError({
+  //       code: "INTERNAL_SERVER_ERROR",
+  //       message: "result not found",
+  //     });
 
-    return result?.[0];
-  }),
+  //   return result?.[0];
+  // }),
 
   getPrefixGivenWeekNumber: publicProcedure
     .input(

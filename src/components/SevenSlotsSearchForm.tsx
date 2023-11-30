@@ -94,6 +94,8 @@ const SevenSlotsSearchForm = () => {
     { enabled: !!shiftsFromSearchParamMemo.length, refetchOnWindowFocus: false }
   );
 
+  const data = api.prefixController;
+
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
       // you can debug your validation schema here
@@ -194,7 +196,7 @@ const SevenSlotsSearchForm = () => {
               >
                 {(i === 0 || isMonday) && (
                   <Badge variant={"outline"} className="w-fit border-green-400">
-                    {`W${correspondingDate.format("w")}`}
+                    {`Y${correspondingDate.year()}W${correspondingDate.week()}`}
                   </Badge>
                 )}
                 <section
