@@ -25,7 +25,7 @@ function TableCopyButtons({
       <div className="flex items-center justify-around gap-4">
         <Button
           className="my-2 self-center align-middle font-light"
-          variant={"outline"}
+          variant={"secondary"}
           disabled={!numberOfSelectedShifts}
           onClick={() => tableCopyHandler(selectedShifts)}
         >

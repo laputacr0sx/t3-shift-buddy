@@ -108,14 +108,14 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           const formattedDate = moment(date).locale("zh-hk").format("DD/MM dd");
           return (
             <>
-              {(row.id === "0" || moment(date).isoWeekday() === 1) && (
+              {/* {(row.id === "0" || moment(date).isoWeekday() === 1) && (
                 <Badge
                   variant={"outline"}
                   className="w-fit border-green-400 py-0"
                 >
                   {`W${moment(date).format("w")}`}
                 </Badge>
-              )}
+              )} */}
               <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
                 {formattedDate}
               </span>

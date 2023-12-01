@@ -12,7 +12,16 @@ export const workLocation = [
   "TWD",
 ] as const;
 
-export const dayOff = ["RD", "CL", "AL", "GH", "SH", "WB_L", "MA_L"] as const;
+export const dayOff = [
+  "RD",
+  "CL",
+  "AL",
+  "GH",
+  "SH",
+  "WB_L",
+  "MA_L",
+  "ALS",
+] as const;
 
 export interface WeekComplex {
   date: Date;
