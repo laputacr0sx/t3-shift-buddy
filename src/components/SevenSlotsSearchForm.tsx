@@ -206,12 +206,12 @@ const SevenSlotsSearchForm = () => {
                   name={`${dayDetailName}[${i}].shiftCode`}
                   render={({ field }) => {
                     return (
-                      <FormItem className="flex flex-col">
+                      <FormItem className="w-content flex flex-col xs:w-full">
                         {/* <div className="w-content xs:(w-full justify-start) flex flex-row flex-col items-center gap-2 space-y-0 "> */}
-                        <div className="w-content flex flex-col gap-2 space-y-0 xs:w-full xs:flex-row xs:items-center xs:justify-between">
+                        <div className="w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-around xs:gap-0">
                           <FormLabel
                             className={cn(
-                              "w-fit items-center rounded px-1 font-mono",
+                              "w-fit items-center rounded px-1 font-mono text-sm xs:text-base",
                               isRedDay && "bg-rose-500/40 dark:bg-rose-300/40",
                               day.racingDetails?.nightRacing === 0
                                 ? "border-b-2 border-b-lime-500 dark:border-b-lime-300 "
@@ -244,7 +244,7 @@ const SevenSlotsSearchForm = () => {
                           <FormControl>
                             <Input
                               {...field}
-                              className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300"
+                              className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
                               maxLength={7}
                               placeholder={`xxx / xxxxxx`}
                               autoCapitalize="characters"
