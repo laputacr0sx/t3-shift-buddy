@@ -198,7 +198,7 @@ const SevenSlotsSearchForm = () => {
                     variant={"outline"}
                     className="w-fit border-green-700 dark:border-green-400 "
                   >
-                    <Label>{`Y${correspondingDate.year()}W${correspondingDate.week()}`}</Label>
+                    <Label>{`Y${correspondingDate.year()}W${correspondingDate.isoWeek()}`}</Label>
                   </Badge>
                 )}
                 <FormField
