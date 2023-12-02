@@ -319,7 +319,7 @@ const SevenSlotsSearchForm = () => {
             onClick={async () => {
               await router.push("#title");
             }}
-            className="absolute right-2 top-6"
+            className="absolute right-0 top-1"
           >
             <ArrowUpToLine />
           </Button>
