@@ -48,6 +48,7 @@
     "@trpc/next": "^10.26.0",
     "@trpc/react-query": "^10.26.0",
     "@trpc/server": "^10.26.0",
+    "@upstash/ratelimit": "^1.0.0",
     "@upstash/redis": "^1.25.1",
     "@vercel/analytics": "^1.0.1",
     "add-to-calendar-button": "^2.2.9",
