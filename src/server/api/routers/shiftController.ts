@@ -15,14 +15,14 @@ import {
 } from "~/utils/regex";
 
 export const shiftControllerRouter = createTRPCRouter({
-  getAllShifts: publicProcedure.query(({ ctx }) =>
-    ctx.prisma.shift.findMany({
+  getAllShifts: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.shift.findMany({
       where: { dutyNumber: { contains: "" } },
       orderBy: {
         dutyNumber: "asc",
       },
-    })
-  ),
+    });
+  }),
 
   getAllShiftsWithInfinite: publicProcedure
     .input(

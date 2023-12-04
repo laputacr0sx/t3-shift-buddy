@@ -18,7 +18,7 @@ function Navbar() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[9999] h-12 bg-navbar text-navbar-foreground">
       <div className="flex justify-between">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center pl-1">
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
