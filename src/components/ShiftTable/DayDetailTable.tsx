@@ -1,3 +1,5 @@
+import React from "react";
+import Link from "next/link";
 import {
   type ColumnDef,
   flexRender,
@@ -5,7 +7,6 @@ import {
   useReactTable,
   type Row,
 } from "@tanstack/react-table";
-import React from "react";
 
 import {
   Table,
@@ -15,13 +16,11 @@ import {
   TableHeader,
   TableRow,
   TableCaption,
+  TableFooter,
 } from "~/components/ui/table";
+import TableCopyButtons from "~/components/TableCopyButtons";
 
-import { Separator } from "../ui/separator";
 import { type DayDetail } from "~/utils/customTypes";
-import TableCopyButtons from "../TableCopyButtons";
-import { Button } from "../ui/button";
-import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,12 +44,11 @@ export function DayDetailTable<TData, TValue>({
   });
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
-  const selectedShifts = isSomeRowSelected
-    ? (table.getSelectedRowModel().flatRows as Row<DayDetail>[])
-    : (table.getRowModel().flatRows as Row<DayDetail>[]);
+  const selectedShifts = table.getSelectedRowModel()
+    .flatRows as Row<DayDetail>[];
 
   return (
-    <div className="flex w-auto flex-col gap-4">
+    <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">
       <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
         <Table>
           <TableCaption className="pb-3">
@@ -119,6 +117,22 @@ export function DayDetailTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
+          <TableFooter>
+            {table.getFooterGroups().map((footerGroup) => (
+              <TableRow key={footerGroup.id}>
+                {footerGroup.headers.map((header) => (
+                  <TableHead key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.footer,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableFooter>
         </Table>
       </div>
       <TableCopyButtons

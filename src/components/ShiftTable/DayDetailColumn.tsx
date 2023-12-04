@@ -7,9 +7,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Button } from "../ui/button";
 import { convertDurationDecimal, getChineseLocation } from "~/utils/helper";
 import { CalendarPlus } from "lucide-react";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import { Badge } from "../ui/badge";
 
 const columnHelper = createColumnHelper<DayDetail>();
 
@@ -109,9 +107,19 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           const date = row.getValue("date") satisfies Date;
           const formattedDate = moment(date).locale("zh-hk").format("DD/MM dd");
           return (
-            <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
-              {formattedDate}
-            </span>
+            <>
+              {/* {(row.id === "0" || moment(date).isoWeekday() === 1) && (
+                <Badge
+                  variant={"outline"}
+                  className="w-fit border-green-400 py-0"
+                >
+                  {`W${moment(date).format("w")}`}
+                </Badge>
+              )} */}
+              <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
+                {formattedDate}
+              </span>
+            </>
           );
         },
       }),
@@ -129,6 +137,7 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
             </span>
           );
         },
+        footer: () => <p>TotalHours:</p>,
       }),
       {
         accessorKey: "duration",
@@ -149,14 +158,20 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           );
         },
         footer: (props) => {
-          console.log(
-            props.table.getFilteredRowModel().rows.reduce((sum, row) => {
-              const durationStr: string = row.getValue("duration");
-              const durationInt: number = parseInt(durationStr);
+          const totalHours = props.table
+            .getFilteredRowModel()
+            .rows.reduce((sum, row) => {
+              const date = moment(row.getValue("date"));
+              const duration: string = row.getValue("duration");
+              const durationDecimal = duration
+                ? convertDurationDecimal(duration)
+                : "0";
+              const durationInt: number = parseFloat(durationDecimal);
 
               return sum + durationInt;
-            }, 0)
-          );
+            }, 0);
+
+          return <p>{totalHours}</p>;
         },
       },
     ],

@@ -19,8 +19,8 @@ export default function Layout({ children }: PropType) {
         <link rel="icon" href="public/images/favicon.ico" />
       </Head>
 
-      <main className="relative flex min-h-fit w-auto flex-col items-center justify-center px-4 pb-14">
-        {/* min-w-full */}
+      <main className="relative flex min-h-[calc(100%+3.5rem)] w-screen flex-col items-center justify-center px-4 pb-14 xs:min-h-fit xs:pb-0">
+        {/* min-w-full  min-h-fit*/}
         {children}
         <Navbar />
       </main>

@@ -118,7 +118,7 @@ const FormControl = React.forwardRef<
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
-      className={cn(className, error && "border-x-2 border-x-destructive ")}
+      className={cn(className, error && "border-x-4 border-x-destructive ")}
       {...props}
     />
   );
