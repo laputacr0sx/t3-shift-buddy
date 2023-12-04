@@ -20,7 +20,7 @@ function Navbar() {
       <div className="flex justify-between">
         <div className="flex items-center justify-center">
           <SignedIn>
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           </SignedIn>
           <SignedOut>
             <SignInButton>
