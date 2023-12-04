@@ -1,7 +1,8 @@
-import { CalendarDays, Home, Library } from "lucide-react";
+import { CalendarDays, Home, Library, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
+
 import {
   SignInButton,
   SignedIn,
@@ -9,6 +10,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
+import { Button } from "../button";
 
 function Navbar() {
   const { isSignedIn } = useUser();
@@ -21,7 +23,11 @@ function Navbar() {
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <SignInButton />
+            <SignInButton>
+              <Button variant={"ghost"}>
+                <User className="m-2" size={18} />
+              </Button>
+            </SignInButton>
           </SignedOut>
         </div>
         <ul className="flex flex-row items-center justify-between gap-2">
