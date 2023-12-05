@@ -60,7 +60,7 @@ export const ExchangeColumn: ColumnDef<Exchange>[] = [
           </section>
         ),
 
-        cell: ({ column, row, cell }) => {
+        cell: ({ row }) => {
           // console.log({ column, row, cell });
           const thisRowValue: string = row.getValue(
             `exchangeDetails_${dateKey}`

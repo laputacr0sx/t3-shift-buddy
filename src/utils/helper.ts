@@ -6,7 +6,6 @@ import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
-import { api } from "./api";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],

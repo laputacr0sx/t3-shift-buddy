@@ -13,7 +13,7 @@ import {
 import { Button } from "../button";
 
 function Navbar() {
-  const { isSignedIn } = useUser();
+  // const { isSignedIn } = useUser();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[9999] h-12 bg-navbar text-navbar-foreground">

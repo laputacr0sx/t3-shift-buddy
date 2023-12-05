@@ -12,7 +12,6 @@ import {
   type UseFormReset,
   type SubmitHandler,
 } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -90,7 +89,7 @@ type EditProps = {
   reset: UseFormReset<DynamicFormData>;
 };
 
-const Edit = ({ update, index, control, value, reset }: EditProps) => {
+const Edit = ({ index, control, reset }: EditProps) => {
   const dynamicForm = useForm<DynamicFormData>({
     resolver: zodResolver(dynamicFormSchema),
     defaultValues: { [fieldArrayName]: [] },
@@ -99,7 +98,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
 
   const {
     handleSubmit: handleCandidateSubmit,
-    setValue,
+
     getValues,
   } = dynamicForm;
 

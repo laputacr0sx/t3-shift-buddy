@@ -7,7 +7,6 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Button } from "../ui/button";
 import { convertDurationDecimal, getChineseLocation } from "~/utils/helper";
 import { CalendarPlus } from "lucide-react";
-import { Badge } from "../ui/badge";
 
 const columnHelper = createColumnHelper<DayDetail>();
 
@@ -161,7 +160,6 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
           const totalHours = props.table
             .getFilteredRowModel()
             .rows.reduce((sum, row) => {
-              const date = moment(row.getValue("date"));
               const duration: string = row.getValue("duration");
               const durationDecimal = duration
                 ? convertDurationDecimal(duration)
