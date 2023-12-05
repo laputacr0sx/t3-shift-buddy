@@ -9,10 +9,10 @@
 
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type Session } from "next-auth";
+// import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { getServerAuthSession } from "~/server/auth";
+// import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 // Clerk implementation //
@@ -107,7 +107,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 //   const { req, res } = opts;
 
 //   // Get the session from the server using the getServerSession wrapper function
-//   const session = await getServerAuthSession({ req, res });
+// const session = await getServerAuthSession({ req, res });
 
 //   return createInnerTRPCContext({
 //     session,
