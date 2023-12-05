@@ -207,7 +207,6 @@ const SevenSlotsSearchForm = () => {
                   render={({ field }) => {
                     return (
                       <FormItem className="w-content flex flex-col xs:w-full">
-                        {/* <div className="w-content xs:(w-full justify-start) flex flex-row flex-col items-center gap-2 space-y-0 "> */}
                         <div className="w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-around xs:gap-0">
                           <FormLabel
                             className={cn(
@@ -253,28 +252,7 @@ const SevenSlotsSearchForm = () => {
                               spellCheck="false"
                             />
                           </FormControl>
-
-                          {/* <FormDescription className="invisible font-mono tracking-wider xs:visible">
-                          {sevenSlotsSearchForm.getValues(field.name) ? (
-                            sevenSlotsSearchForm.control.getFieldState(
-                              field.name
-                            ).invalid ? (
-                              `${legitPrefix}___`
-                            ) : (
-                              <>
-                                {(field.value as string).match(
-                                  abbreviatedDutyNumber
-                                )
-                                  ? `${legitPrefix}${field.value as string}`
-                                  : `${field.value as string}`}
-                              </>
-                            )
-                          ) : (
-                            `${legitPrefix}___`
-                          )}
-                        </FormDescription> */}
                         </div>
-
                         <FormMessage />
                       </FormItem>
                     );

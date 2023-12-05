@@ -35,8 +35,6 @@ const ratelimit = new Ratelimit({
 });
 
 export const shiftControllerRouter = createTRPCRouter({
-  tryAuth: protectedProcedure.query(({ ctx }) => ctx.auth.userId),
-
   getAllShifts: publicProcedure.query(async ({ ctx }) => {
     const { success } = await ratelimit.limit(ctx.auth.userId ?? "");
 
