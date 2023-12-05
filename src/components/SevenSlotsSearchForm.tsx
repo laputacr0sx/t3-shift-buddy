@@ -90,7 +90,7 @@ const SevenSlotsSearchForm = () => {
   const {
     data: prefixData,
     isLoading: prefixIsLoading,
-    error: prefixError,
+    // error: prefixError,
   } = api.prefixController.getLatestPrefix.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });

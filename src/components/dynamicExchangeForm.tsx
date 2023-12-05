@@ -9,7 +9,7 @@ import {
   type UseFieldArrayUpdate,
   type FieldArrayWithId,
   type UseFormReset,
-  type SubmitHandler,
+  // type SubmitHandler,
 } from "react-hook-form";
 
 import {
@@ -97,15 +97,15 @@ type EditProps = {
 const Edit = ({ update, index, control, value, reset }: EditProps) => {
   const dynamicForm = useForm<DynamicFormData>({});
 
-  const {
-    handleSubmit: handleCandidateSubmit,
-    setValue,
-    getValues,
-  } = dynamicForm;
+  // const {
+  //   handleSubmit: handleCandidateSubmit,
+  //   setValue,
+  //   getValues,
+  // } = dynamicForm;
 
-  const onCandidateSubmit: SubmitHandler<DynamicFormData> = (data) => {
-    console.log(data);
-  };
+  // const onCandidateSubmit: SubmitHandler<DynamicFormData> = (data) => {
+  //   console.log(data);
+  // };
 
   return (
     <>

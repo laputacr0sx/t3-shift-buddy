@@ -11,10 +11,7 @@ type TableCopyButtonsProps = {
   selectedShifts: Row<DayDetail>[];
 };
 
-function TableCopyButtons({
-  isSomeRowSelected,
-  selectedShifts,
-}: TableCopyButtonsProps) {
+function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
   const completeShiftsString = getSelectedShiftsString(selectedShifts);
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
 

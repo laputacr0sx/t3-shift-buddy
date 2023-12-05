@@ -8,7 +8,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "~/components/ui/theme-provider";
 import { type NextPage } from "next";
-import moment from "moment";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 
 import {
   type ColumnDef,
@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { autoPrefix } from "~/utils/helper";
+import { type autoPrefix } from "~/utils/helper";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -26,8 +26,8 @@ interface DataTableProps<TData, TValue> {
 export function ExchangeTable<TData, TValue>({
   columns,
   data,
-  daysDetails,
-}: DataTableProps<TData, TValue>) {
+}: // daysDetails,
+DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
