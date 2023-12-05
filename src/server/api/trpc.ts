@@ -7,12 +7,12 @@
  * need to use are documented accordingly near the end.
  */
 
-import { type inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-// import { type Session } from "next-auth";
+import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-// import { getServerAuthSession } from "~/server/auth";
+import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 // Clerk implementation //
@@ -22,22 +22,24 @@ import {
   type SignedOutAuthObject,
 } from "@clerk/nextjs/server";
 
-interface AuthContext {
+type CreateContextOptions = {
   auth: SignedInAuthObject | SignedOutAuthObject;
-}
+};
 
-export const createContextInner = ({ auth }: AuthContext) => {
+export const createContextInner = (opts: CreateContextOptions) => {
   return {
-    auth,
+    auth: opts.auth,
     prisma,
   };
 };
 
 export const createContext = (opts: CreateNextContextOptions) => {
-  return createContextInner({ auth: getAuth(opts.req) });
+  const { req } = opts;
+  const authSession = getAuth(req);
+  return createContextInner({ auth: authSession });
 };
 
-export type Context = inferAsyncReturnType<typeof createContext>;
+export type Context = ReturnType<typeof createContext>;
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
@@ -61,7 +63,6 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   return next({
     ctx: {
       auth: ctx.auth,
-      prisma,
     },
   });
 });
@@ -72,7 +73,6 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * 1. CONTEXT
  *
  * This section defines the "contexts" that are available in the backend API.
- *
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 
