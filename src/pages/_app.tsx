@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "~/components/ui/theme-provider";
 import { type NextPage } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -31,6 +32,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
       <Analytics />
+      <SpeedInsights />
     </ClerkProvider>
   );
 };
