@@ -7,35 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model WeekDuty {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  staffId   String
-
-  @@index([staffId])
-}
-
-model Duty {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  sequence String
-  Staff    Staff?  @relation(fields: [staffId], references: [id])
-  staffId  String?
-}
-
-model Staff {
-  id          String  @id @default(uuid())
-  staffNumber String
-  nickName    String?
-  defaultArea Area?
-
-  currentRosterRow Int
-  duty             Duty[]
-  shifts           Shift[]
-}
-
 model Shift {
   id         String  @id @default(uuid())
   dutyNumber String
@@ -45,7 +16,6 @@ model Shift {
   bFL        String
   duration   String
   remarks    String
-  Staff      Staff?  @relation(fields: [staffId], references: [id])
   staffId    String?
 }
 
@@ -55,19 +25,6 @@ model WeekPrefix {
   updatedAt  DateTime @updatedAt
   weekNumber Int      @unique
   prefixes   String[]
-}
-
-model AbbreviatedPrefix {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  prefix          String
-  timetable       String
-  dateOfEffective DateTime
-  isActive        Boolean
-  isDeprecated    Boolean
-  isSpecial       Boolean
 }
 
 enum Location {
