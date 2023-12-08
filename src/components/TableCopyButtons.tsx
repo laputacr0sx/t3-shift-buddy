@@ -13,6 +13,9 @@ type TableCopyButtonsProps = {
 
 function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
   const completeShiftsString = getSelectedShiftsString(selectedShifts);
+
+  console.log(completeShiftsString);
+
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
 
   const numberOfSelectedShifts = selectedShifts.length;

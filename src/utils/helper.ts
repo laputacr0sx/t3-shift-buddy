@@ -101,6 +101,15 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
       const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
         dayDetail.original;
       const date = moment(dayDetail.original.date)
+        // .locale("zh-hk")
+        // .calendar({
+        //   nextDay(m, now) {
+        //     console.log({ m, now });
+        //     return "";
+        //   },
+        // });
+
+        // const date = moment(dayDetail.original.date)
         .locale("zh-hk")
         .format("DD/MM(dd)");
       const durationDecimal = convertDurationDecimal(duration);
