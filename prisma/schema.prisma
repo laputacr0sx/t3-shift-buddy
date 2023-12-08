@@ -36,13 +36,6 @@ model Staff {
   shifts           Shift[]
 }
 
-enum Area {
-  KLN
-  SHS
-  ENT
-  SPC
-}
-
 model Shift {
   id         String  @id @default(uuid())
   dutyNumber String
@@ -83,4 +76,11 @@ enum Location {
   LOW
   HTD
   TWD
+}
+
+enum Area {
+  KLN
+  SHS
+  ENT
+  SPC
 }
