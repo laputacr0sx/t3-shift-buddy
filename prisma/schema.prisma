@@ -4,27 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model Shift {
-  id         String  @id @default(uuid())
-  dutyNumber String
-  bNL        String
-  bNT        String
-  bFT        String
-  bFL        String
-  duration   String
-  remarks    String
-  staffId    String?
-}
-
-model WeekPrefix {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  weekNumber Int      @unique
-  prefixes   String[]
+  // url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:92086125felix@localhost:5432/postgres"
 }
 
 enum Location {
@@ -41,4 +22,88 @@ enum Area {
   SHS
   ENT
   SPC
+}
+
+enum Grade {
+  G40
+  G50
+  S10
+  S20
+  S30
+}
+
+enum SystemRole {
+  ADMIN
+  USER
+  POWER_USER
+}
+
+model Duty {
+  dutyNumber  String   @id @unique
+  bNL         Location
+  bNT         String
+  bFT         String
+  bFL         Location
+  duration    String
+  remarks     String
+  timetableId String
+  sequenceId  String
+
+  timetable Timetable @relation(fields: [timetableId], references: [id])
+  sequence  Sequence  @relation(fields: [sequenceId], references: [id])
+}
+
+model User {
+  id         String     @id @default(uuid())
+  loginId    String
+  password   String
+  systemRole SystemRole @default(USER)
+  Staff      Staff?
+}
+
+model Staff {
+  id         String   @id @unique
+  name       String
+  email      String
+  dateOfJoin DateTime
+  gradeId    Grade    @default(G40)
+  areaId     Area     @default(KLN)
+  sequenceId String
+  rosters    Roster[]
+  userId     String   @unique
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Timetable {
+  id              String   @id @unique
+  createdAt       DateTime
+  toc             String
+  dateOfEffective DateTime
+  isSpecial       Boolean
+  // prefix J15/C75/V71/D14
+  prefix          String
+  rosterId        String?
+  Duty            Duty[]
+
+  rosters Roster? @relation(fields: [rosterId], references: [id])
+}
+
+model Roster {
+  id           String   @id @unique
+  published_at DateTime
+
+  sequenceId Sequence[]
+  staffId    String
+  Timetable  Timetable[]
+
+  published_by Staff @relation(fields: [staffId], references: [id])
+}
+
+model Sequence {
+  id       String  @id @unique
+  duties   Duty[]
+  rosterId String?
+
+  Roster Roster? @relation(fields: [rosterId], references: [id])
 }
