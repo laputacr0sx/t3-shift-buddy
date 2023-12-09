@@ -29,6 +29,7 @@ model WeekPrefix {
 
 enum Location {
   HUH
+  SHT
   SHS
   LOW
   HTD

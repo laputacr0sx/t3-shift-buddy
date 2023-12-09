@@ -35,8 +35,6 @@ export const prefixControllerRouter = createTRPCRouter({
 
     const distinctPrefix = Array.from(new Set(prefixChronological));
 
-    console.log(distinctPrefix);
-
     return distinctPrefix;
   }),
 

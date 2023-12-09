@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Noto Naskh Arabic
+- Font Author: Copyright 2022 The Noto Project Authors (https://github.com/notofonts/arabic)
+- Font Source: http://fonts.gstatic.com/s/notonaskharabic/v33/RrQ5bpV-9Dd1b1OAGA6M9PkyDuVBePeKNaxcsss0Y7bwWslkrK0z9_Mnuw.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
