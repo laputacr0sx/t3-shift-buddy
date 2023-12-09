@@ -229,9 +229,9 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
   return mapResult;
 }
 
-export function getChineseLocation(
-  location: "HUH" | "SHT" | "SHS" | "HTD" | "LOW" | "TAW" | "TWD" | "FTRH"
-) {
+export function getChineseLocation(location: unknown) {
+  type ChineseKey = keyof typeof chineseDuration;
+
   const chineseDuration = {
     HUH: "紅磡",
     SHT: "沙田",
@@ -243,5 +243,5 @@ export function getChineseLocation(
     FTRH: "火炭大樓",
   };
 
-  return chineseDuration[location];
+  return chineseDuration[location as ChineseKey];
 }

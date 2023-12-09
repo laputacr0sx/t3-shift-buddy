@@ -1,11 +1,7 @@
 import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { type DayDetail, weatherSchema } from "~/utils/customTypes";
 import { fetchTyped, getJointDutyNumbers } from "~/utils/helper";
 
