@@ -39,25 +39,61 @@ enum SystemRole {
 }
 
 model Duty {
-  dutyNumber  String   @id @unique
-  bNL         Location
-  bNT         String
-  bFT         String
-  bFL         Location
-  duration    String
-  remarks     String
-  timetableId String
-  sequenceId  String
+  dutyNumber String   @id @unique
+  bNL        Location
+  bNT        String
+  bFT        String
+  bFL        Location
+  duration   String
+  remarks    String
+  // sequenceId  String
 
-  Timetable Timetable[]
-  Sequence  Sequence[]
+  Timetable    Timetable? @relation(fields: [timetableToc], references: [toc])
+  timetableToc String?
+}
+
+model Timetable {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  toc             String   @id @unique
+  dateOfEffective DateTime
+  isSpecial       Boolean
+  // prefix J15/C75/V71/D14
+  prefix          String
+
+  Duty   Duty[]
+  Roster Roster[]
+}
+
+model Roster {
+  id          String   @id @unique
+  publishedAt DateTime @default(now())
+  publisherId String   @default("602949")
+
+  Sequence   Sequence[]
+  Timetables Timetable[]
+}
+
+model Sequence {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  id          String   @id @unique
+  dutyNumbers String[]
+
+  rosterId String
+  Roster   Roster @relation(fields: [rosterId], references: [id])
+
+  staffId String
+  Staff   Staff  @relation(fields: [staffId], references: [id])
 }
 
 model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  id         String     @id @default(uuid())
+  id         String     @id @unique @default(uuid())
   loginId    String
   password   String
   systemRole SystemRole @default(USER)
@@ -80,41 +116,4 @@ model Staff {
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
-}
-
-model Timetable {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  toc             String   @id @unique
-  dateOfEffective DateTime
-  isSpecial       Boolean
-  // prefix J15/C75/V71/D14
-  prefix          String
-
-  Duty   Duty[]
-  Roster Roster[]
-}
-
-model Roster {
-  id          String   @id
-  publishedAt DateTime
-  publisherId String
-
-  Sequence   Sequence[]
-  Timetables Timetable[]
-}
-
-model Sequence {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  id    String @id @unique
-  dutis Duty[]
-
-  rosterId String
-  Roster   Roster @relation(fields: [rosterId], references: [id])
-
-  staffId String
-  Staff   Staff  @relation(fields: [staffId], references: [id])
 }

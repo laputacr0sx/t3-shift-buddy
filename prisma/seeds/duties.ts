@@ -1,4 +1,4 @@
-import { Duty } from "@prisma/client";
+import { type Duty } from "@prisma/client";
 
 export const duties: Duty[] = [
   {
@@ -9,8 +9,7 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HUHP1 TAKEOVER 0013",
-    sequenceId: "",
-    timetableId: "",
+    timetableToc: null,
   },
   {
     dutyNumber: "V71102",
@@ -20,8 +19,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN24 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71103",
@@ -31,8 +30,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71104",
@@ -42,8 +41,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71105",
@@ -53,8 +52,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "KB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71106",
@@ -64,8 +63,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71107",
@@ -75,8 +74,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HUHP1 PICK UP 8004",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71108",
@@ -86,8 +85,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71109",
@@ -97,8 +96,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "FOTP1 RUN17 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71110",
@@ -108,8 +107,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HTD RUN18 PD+SHTP3 RUN20 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71111",
@@ -119,8 +118,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "SHTP4 RUN30 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71112",
@@ -130,8 +129,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71113",
@@ -141,8 +140,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MKK3S RUN4 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71114",
@@ -152,8 +151,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71115",
@@ -163,8 +162,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71116",
@@ -174,8 +173,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71118",
@@ -185,8 +184,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71119",
@@ -196,8 +195,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "MKK3N RUN5 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71120",
@@ -207,8 +206,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "MKK3S RUN19 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71121",
@@ -218,8 +217,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HTD RUN13 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71122",
@@ -229,8 +228,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71123",
@@ -240,8 +239,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71124",
@@ -251,8 +250,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71125",
@@ -262,8 +261,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71126",
@@ -273,8 +272,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71127",
@@ -284,8 +283,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71128",
@@ -295,8 +294,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71129",
@@ -306,8 +305,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHTP3 RUN7 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71130",
@@ -317,8 +316,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "MKK3N RUN26 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71131",
@@ -328,8 +327,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "KB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71132",
@@ -339,8 +338,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71134",
@@ -350,8 +349,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71135",
@@ -361,8 +360,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HUHP1 RUN2 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71136",
@@ -372,8 +371,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71137",
@@ -383,8 +382,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71138",
@@ -394,8 +393,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "MKKP1 RUN27 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71139",
@@ -405,8 +404,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71140",
@@ -416,8 +415,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "KB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71141",
@@ -427,8 +426,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71142",
@@ -438,8 +437,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71143",
@@ -449,8 +448,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71144",
@@ -460,8 +459,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71145",
@@ -471,8 +470,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71146",
@@ -482,8 +481,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71147",
@@ -493,8 +492,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71148",
@@ -504,8 +503,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71149",
@@ -515,8 +514,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71150",
@@ -526,8 +525,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MKKP1 RUN3 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71151",
@@ -537,8 +536,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71152",
@@ -548,8 +547,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HUHP1 RUN4 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71153",
@@ -559,8 +558,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "SHTP1 RUN14 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71154",
@@ -570,8 +569,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHT4S RUN28 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71155",
@@ -581,8 +580,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71156",
@@ -592,8 +591,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71157",
@@ -603,8 +602,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71158",
@@ -614,8 +613,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71159",
@@ -625,8 +624,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71301",
@@ -636,8 +635,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71302",
@@ -647,8 +646,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71303",
@@ -658,8 +657,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET12",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71304",
@@ -669,8 +668,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET6",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71305",
@@ -680,8 +679,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET5",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71306",
@@ -691,8 +690,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71308",
@@ -702,8 +701,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71309",
@@ -713,8 +712,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71310",
@@ -724,8 +723,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71311",
@@ -735,8 +734,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71312",
@@ -746,8 +745,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71313",
@@ -757,8 +756,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET8",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71314",
@@ -768,8 +767,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET3",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71315",
@@ -779,8 +778,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71316",
@@ -790,8 +789,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71317",
@@ -801,8 +800,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET11",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71318",
@@ -812,8 +811,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET10",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71319",
@@ -823,8 +822,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET2",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71320",
@@ -834,8 +833,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71321",
@@ -845,8 +844,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET9",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71322",
@@ -856,8 +855,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET7",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71323",
@@ -867,8 +866,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET4",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71501",
@@ -878,8 +877,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71502",
@@ -889,8 +888,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "LOWP1 RUN20 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71503",
@@ -900,8 +899,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHT4S RUN8 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71504",
@@ -911,8 +910,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71505",
@@ -922,8 +921,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LMCP2 RUN22 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71506",
@@ -933,8 +932,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LG2N RUN25 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71507",
@@ -944,8 +943,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SG3N RUN15 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71508",
@@ -955,8 +954,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "FOTP1 RUN10 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71509",
@@ -966,8 +965,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71510",
@@ -977,8 +976,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHSP2 RUN21 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71511",
@@ -988,8 +987,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG1N RUN16 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71512",
@@ -999,8 +998,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SG2S RUN14 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71513",
@@ -1010,8 +1009,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LG1S RUN16 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71514",
@@ -1021,8 +1020,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LOW STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71515",
@@ -1032,8 +1031,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71516",
@@ -1043,8 +1042,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2S RUN24 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71518",
@@ -1054,8 +1053,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71519",
@@ -1065,8 +1064,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71520",
@@ -1076,8 +1075,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71521",
@@ -1087,8 +1086,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:30",
     remarks: "HTD RUN8 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71522",
@@ -1098,8 +1097,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN2 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71523",
@@ -1109,8 +1108,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LG1N RUN18 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71524",
@@ -1120,8 +1119,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LOWP3 RUN21 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71525",
@@ -1131,8 +1130,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71526",
@@ -1142,8 +1141,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LOWP3 RUN11 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71527",
@@ -1153,8 +1152,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "SB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71528",
@@ -1164,8 +1163,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP2 RUN23 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71529",
@@ -1175,8 +1174,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "FOTP4 RUN11 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71530",
@@ -1186,8 +1185,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HTD RUN3 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71531",
@@ -1197,8 +1196,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:45",
     remarks: "HTD RUN10 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71532",
@@ -1208,8 +1207,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LOW STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71534",
@@ -1219,8 +1218,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SHTP4 RUN9 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71535",
@@ -1230,8 +1229,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "SHTP1 RUN6 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71536",
@@ -1241,8 +1240,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71537",
@@ -1252,8 +1251,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN1 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71538",
@@ -1263,8 +1262,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LMCP1 RUN7 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71539",
@@ -1274,8 +1273,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2N RUN19 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71540",
@@ -1285,8 +1284,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN25 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71541",
@@ -1296,8 +1295,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71542",
@@ -1307,8 +1306,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "FOTP4 RUN23 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71543",
@@ -1318,8 +1317,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "TAPP1 RUN29 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71544",
@@ -1329,8 +1328,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHSP2 RUN13 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71545",
@@ -1340,8 +1339,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "TAPP1 RUN12 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71546",
@@ -1351,8 +1350,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71547",
@@ -1362,8 +1361,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SG2S RUN12 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71548",
@@ -1373,8 +1372,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SG3N RUN6 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71549",
@@ -1384,8 +1383,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP1 RUN22 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71550",
@@ -1395,8 +1394,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LG2S RUN17 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71551",
@@ -1406,8 +1405,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LOWP1 RUN9 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71552",
@@ -1417,8 +1416,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71553",
@@ -1428,8 +1427,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LG1S RUN15 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71601",
@@ -1439,8 +1438,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ADMP7 PD+PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71602",
@@ -1450,8 +1449,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN26 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71603",
@@ -1461,8 +1460,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71604",
@@ -1472,8 +1471,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN27 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71605",
@@ -1483,8 +1482,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71606",
@@ -1494,8 +1493,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN28 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71607",
@@ -1505,8 +1504,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN29 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71608",
@@ -1516,8 +1515,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN30 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71609",
@@ -1527,8 +1526,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71610",
@@ -1538,8 +1537,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71611",
@@ -1549,8 +1548,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71612",
@@ -1560,8 +1559,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71613",
@@ -1571,8 +1570,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71614",
@@ -1582,8 +1581,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "V71615",
@@ -1593,8 +1592,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14101",
@@ -1604,8 +1603,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HUHP1 TAKEOVER 0013",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14102",
@@ -1615,8 +1614,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN24 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14103",
@@ -1626,8 +1625,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14104",
@@ -1637,8 +1636,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14105",
@@ -1648,8 +1647,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "KB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14106",
@@ -1659,8 +1658,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14107",
@@ -1670,8 +1669,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 PICK UP 8004",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14108",
@@ -1681,8 +1680,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14109",
@@ -1692,8 +1691,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN13 PU+FOTP1 RUN27 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14110",
@@ -1703,8 +1702,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "HTD RUN16 PD+SHTP3 RUN25 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14111",
@@ -1714,8 +1713,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14112",
@@ -1725,8 +1724,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "ADM PICK UP 0014",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14113",
@@ -1736,8 +1735,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKK3S RUN4 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14114",
@@ -1747,8 +1746,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14115",
@@ -1758,8 +1757,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14116",
@@ -1769,8 +1768,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14117",
@@ -1780,8 +1779,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14118",
@@ -1791,8 +1790,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14119",
@@ -1802,8 +1801,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKK3N RUN5 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14120",
@@ -1813,8 +1812,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN29 PD+MKK3S RUN5 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14121",
@@ -1824,8 +1823,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:15",
     remarks: "HTD RUN2 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14122",
@@ -1835,8 +1834,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14123",
@@ -1846,8 +1845,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14124",
@@ -1857,8 +1856,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14125",
@@ -1868,8 +1867,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HTD RUN27 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14126",
@@ -1879,8 +1878,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "ADM STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14127",
@@ -1890,8 +1889,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN8 PU+SHTP4 RUN4 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14128",
@@ -1901,8 +1900,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14129",
@@ -1912,8 +1911,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHTP3 RUN7 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14130",
@@ -1923,8 +1922,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "MKK3N RUN20 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14131",
@@ -1934,8 +1933,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "KB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14132",
@@ -1945,8 +1944,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14133",
@@ -1956,8 +1955,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14134",
@@ -1967,8 +1966,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14135",
@@ -1978,8 +1977,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HUHP1 RUN2 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14136",
@@ -1989,8 +1988,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14137",
@@ -2000,8 +1999,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14138",
@@ -2011,8 +2010,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MKKP1 RUN32 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14139",
@@ -2022,8 +2021,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14140",
@@ -2033,8 +2032,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "KB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14141",
@@ -2044,8 +2043,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14142",
@@ -2055,8 +2054,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14143",
@@ -2066,8 +2065,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14144",
@@ -2077,8 +2076,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14145",
@@ -2088,8 +2087,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14146",
@@ -2099,8 +2098,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14147",
@@ -2110,8 +2109,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14148",
@@ -2121,8 +2120,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14149",
@@ -2132,8 +2131,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 PICK UP 8002",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14150",
@@ -2143,8 +2142,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKKP1 RUN3 PU+HTD RUN51 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14151",
@@ -2154,8 +2153,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HTD RUN26 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14152",
@@ -2165,8 +2164,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HUHP1 RUN31 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14153",
@@ -2176,8 +2175,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SHTP1 RUN13 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14154",
@@ -2187,8 +2186,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHT4S RUN26 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14155",
@@ -2198,8 +2197,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14156",
@@ -2209,8 +2208,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN31 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14157",
@@ -2220,8 +2219,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14158",
@@ -2231,8 +2230,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14159",
@@ -2242,8 +2241,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD RUN7 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14301",
@@ -2253,8 +2252,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14302",
@@ -2264,8 +2263,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14303",
@@ -2275,8 +2274,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET12",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14304",
@@ -2286,8 +2285,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET6",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14305",
@@ -2297,8 +2296,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET5",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14306",
@@ -2308,8 +2307,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14308",
@@ -2319,8 +2318,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14309",
@@ -2330,8 +2329,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14310",
@@ -2341,8 +2340,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14311",
@@ -2352,8 +2351,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14312",
@@ -2363,8 +2362,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14313",
@@ -2374,8 +2373,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET8",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14314",
@@ -2385,8 +2384,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET3",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14315",
@@ -2396,8 +2395,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14316",
@@ -2407,8 +2406,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14317",
@@ -2418,8 +2417,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET11",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14318",
@@ -2429,8 +2428,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET10",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14319",
@@ -2440,8 +2439,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET2",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14320",
@@ -2451,8 +2450,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14321",
@@ -2462,8 +2461,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET9",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14322",
@@ -2473,8 +2472,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET7",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14323",
@@ -2484,8 +2483,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET4",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14501",
@@ -2495,8 +2494,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HTD RUN29 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14502",
@@ -2506,8 +2505,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LOWP1 RUN20 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14503",
@@ -2517,8 +2516,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHT4S RUN8 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14504",
@@ -2528,8 +2527,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SG2S RUN8 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14505",
@@ -2539,8 +2538,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LMCP2 RUN24 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14506",
@@ -2550,8 +2549,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "ADM PICK UP 0372+LG2S RUN14 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14507",
@@ -2561,8 +2560,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SG3N RUN15 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14508",
@@ -2572,8 +2571,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:30",
     remarks: "FOTP1 RUN10 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14509",
@@ -2583,8 +2582,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14510",
@@ -2594,8 +2593,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHSP2 RUN18 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14511",
@@ -2605,8 +2604,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "HTD RUN15 PU+LG2N RUN3 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14512",
@@ -2616,8 +2615,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SG2S RUN14 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14513",
@@ -2627,8 +2626,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN28 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14514",
@@ -2638,8 +2637,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LOW STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14515",
@@ -2649,8 +2648,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SG3N RUN22 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14516",
@@ -2660,8 +2659,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG1N RUN9 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14517",
@@ -2671,8 +2670,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LG1N RUN18 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14518",
@@ -2682,8 +2681,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14519",
@@ -2693,8 +2692,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN30 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14520",
@@ -2704,8 +2703,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14521",
@@ -2715,8 +2714,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN21 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14522",
@@ -2726,8 +2725,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14523",
@@ -2737,8 +2736,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14524",
@@ -2748,8 +2747,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LOWP3 RUN21 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14525",
@@ -2759,8 +2758,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "LMC STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14526",
@@ -2770,8 +2769,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LOWP1 RUN10 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14527",
@@ -2781,8 +2780,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "SB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14528",
@@ -2792,8 +2791,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP2 RUN23 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14529",
@@ -2803,8 +2802,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "FOTP4 RUN11 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14530",
@@ -2814,8 +2813,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN6 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14531",
@@ -2825,8 +2824,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HTD RUN23 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14532",
@@ -2836,8 +2835,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LG1N RUN3 PU+LOW STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14533",
@@ -2847,8 +2846,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LG1S RUN16 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14534",
@@ -2858,8 +2857,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHTP4 RUN9 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14535",
@@ -2869,8 +2868,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "SHTP1 RUN6 PU+LG1N PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14536",
@@ -2880,8 +2879,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14537",
@@ -2891,8 +2890,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:15",
     remarks: "HTD RUN30 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14538",
@@ -2902,8 +2901,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LMCP1 RUN28 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14539",
@@ -2913,8 +2912,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2N RUN19 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14540",
@@ -2924,8 +2923,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HTD RUN25 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14541",
@@ -2935,8 +2934,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14542",
@@ -2946,8 +2945,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "FOTP4 RUN17 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14543",
@@ -2957,8 +2956,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HTD RUN17 PU+TAPP1 RUN1 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14544",
@@ -2968,8 +2967,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHSP2 RUN13 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14545",
@@ -2979,8 +2978,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "TAPP1 RUN12 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14546",
@@ -2990,8 +2989,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14547",
@@ -3001,8 +3000,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:15",
     remarks: "HTD RUN15 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14548",
@@ -3012,8 +3011,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LMC STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14549",
@@ -3023,8 +3022,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LMCP1 RUN22 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14550",
@@ -3034,8 +3033,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LG2S RUN17 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14551",
@@ -3045,8 +3044,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LOWP3 RUN11 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14552",
@@ -3056,8 +3055,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14553",
@@ -3067,8 +3066,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "LG1S RUN12 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14554",
@@ -3078,8 +3077,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN32 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14555",
@@ -3089,8 +3088,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14556",
@@ -3100,8 +3099,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14601",
@@ -3111,8 +3110,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ADMP7 PD+PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14602",
@@ -3122,8 +3121,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN51 PU+EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14603",
@@ -3133,8 +3132,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14604",
@@ -3144,8 +3143,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14605",
@@ -3155,8 +3154,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14606",
@@ -3166,8 +3165,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14607",
@@ -3177,8 +3176,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14608",
@@ -3188,8 +3187,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14609",
@@ -3199,8 +3198,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14610",
@@ -3210,8 +3209,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14611",
@@ -3221,8 +3220,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14612",
@@ -3232,8 +3231,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "D14613",
@@ -3243,8 +3242,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15101",
@@ -3254,8 +3253,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HUHP1 TAKEOVER 0013",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15102",
@@ -3265,8 +3264,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN24 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15103",
@@ -3276,8 +3275,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15104",
@@ -3287,8 +3286,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15105",
@@ -3298,8 +3297,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "KB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15106",
@@ -3309,8 +3308,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15107",
@@ -3320,8 +3319,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 PICK UP 8004",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15108",
@@ -3331,8 +3330,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15109",
@@ -3342,8 +3341,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN13 PU+FOTP1 RUN27 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15110",
@@ -3353,8 +3352,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "HTD RUN16 PD+SHTP3 RUN2 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15111",
@@ -3364,8 +3363,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15112",
@@ -3375,8 +3374,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "ADM PICK UP 0014",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15113",
@@ -3386,8 +3385,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKK3S RUN4 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15114",
@@ -3397,8 +3396,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15115",
@@ -3408,8 +3407,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15116",
@@ -3419,8 +3418,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15117",
@@ -3430,8 +3429,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15118",
@@ -3441,8 +3440,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15119",
@@ -3452,8 +3451,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKK3N RUN5 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15120",
@@ -3463,8 +3462,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN17 PD+MKK3S RUN10 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15121",
@@ -3474,8 +3473,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD RUN14 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15122",
@@ -3485,8 +3484,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15123",
@@ -3496,8 +3495,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15124",
@@ -3507,8 +3506,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15125",
@@ -3518,8 +3517,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HTD RUN27 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15126",
@@ -3529,8 +3528,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "ADM STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15127",
@@ -3540,8 +3539,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHTP4 RUN4 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15128",
@@ -3551,8 +3550,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15129",
@@ -3562,8 +3561,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHTP3 RUN7 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15130",
@@ -3573,8 +3572,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "MKK3N RUN20 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15131",
@@ -3584,8 +3583,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "KB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15132",
@@ -3595,8 +3594,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15133",
@@ -3606,8 +3605,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15134",
@@ -3617,8 +3616,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15135",
@@ -3628,8 +3627,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HUHP1 RUN2 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15136",
@@ -3639,8 +3638,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15137",
@@ -3650,8 +3649,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15138",
@@ -3661,8 +3660,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MKKP1 RUN32 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15139",
@@ -3672,8 +3671,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15140",
@@ -3683,8 +3682,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "KB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15141",
@@ -3694,8 +3693,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15142",
@@ -3705,8 +3704,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15143",
@@ -3716,8 +3715,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15144",
@@ -3727,8 +3726,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15145",
@@ -3738,8 +3737,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15146",
@@ -3749,8 +3748,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15147",
@@ -3760,8 +3759,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15148",
@@ -3771,8 +3770,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15149",
@@ -3782,8 +3781,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 PICK UP 8002",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15150",
@@ -3793,8 +3792,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKKP1 RUN3 PU+HTD RUN51 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15151",
@@ -3804,8 +3803,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HTD RUN26 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15152",
@@ -3815,8 +3814,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HUHP1 RUN31 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15153",
@@ -3826,8 +3825,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SHTP1 RUN13 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15154",
@@ -3837,8 +3836,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHT4S RUN26 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15155",
@@ -3848,8 +3847,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15156",
@@ -3859,8 +3858,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN31 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15157",
@@ -3870,8 +3869,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15158",
@@ -3881,8 +3880,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15159",
@@ -3892,8 +3891,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD RUN7 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15301",
@@ -3903,8 +3902,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15302",
@@ -3914,8 +3913,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15303",
@@ -3925,8 +3924,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET12",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15304",
@@ -3936,8 +3935,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET6",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15305",
@@ -3947,8 +3946,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET5",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15306",
@@ -3958,8 +3957,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15308",
@@ -3969,8 +3968,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15309",
@@ -3980,8 +3979,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15310",
@@ -3991,8 +3990,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15311",
@@ -4002,8 +4001,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15312",
@@ -4013,8 +4012,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15313",
@@ -4024,8 +4023,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET8",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15314",
@@ -4035,8 +4034,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET3",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15315",
@@ -4046,8 +4045,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15316",
@@ -4057,8 +4056,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15317",
@@ -4068,8 +4067,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET11",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15318",
@@ -4079,8 +4078,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET10",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15319",
@@ -4090,8 +4089,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET2",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15320",
@@ -4101,8 +4100,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15321",
@@ -4112,8 +4111,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET9",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15322",
@@ -4123,8 +4122,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET7",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15323",
@@ -4134,8 +4133,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET4",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15501",
@@ -4145,8 +4144,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HTD RUN29 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15502",
@@ -4156,8 +4155,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LOWP1 RUN20 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15503",
@@ -4167,8 +4166,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHT4S RUN8 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15504",
@@ -4178,8 +4177,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SG2S RUN8 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15505",
@@ -4189,8 +4188,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LMCP2 RUN12 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15506",
@@ -4200,8 +4199,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "ADM PICK UP 0372+LG2S RUN30 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15507",
@@ -4211,8 +4210,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SG3N RUN15 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15508",
@@ -4222,8 +4221,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:30",
     remarks: "FOTP1 RUN10 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15509",
@@ -4233,8 +4232,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15510",
@@ -4244,8 +4243,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHSP2 RUN18 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15511",
@@ -4255,8 +4254,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "HTD RUN15 PU+LG2N RUN15 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15512",
@@ -4266,8 +4265,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SG2S RUN14 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15513",
@@ -4277,8 +4276,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN28 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15514",
@@ -4288,8 +4287,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LOW STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15515",
@@ -4299,8 +4298,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SG3N RUN22 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15516",
@@ -4310,8 +4309,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG1N RUN9 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15517",
@@ -4321,8 +4320,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LG1N RUN18 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15518",
@@ -4332,8 +4331,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15519",
@@ -4343,8 +4342,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN30 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15520",
@@ -4354,8 +4353,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15521",
@@ -4365,8 +4364,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN21 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15522",
@@ -4376,8 +4375,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15523",
@@ -4387,8 +4386,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15524",
@@ -4398,8 +4397,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LOWP3 RUN21 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15525",
@@ -4409,8 +4408,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "LMC STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15526",
@@ -4420,8 +4419,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LOWP1 RUN3 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15527",
@@ -4431,8 +4430,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "SB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15528",
@@ -4442,8 +4441,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP2 RUN23 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15529",
@@ -4453,8 +4452,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "FOTP4 RUN11 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15530",
@@ -4464,8 +4463,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN6 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15531",
@@ -4475,8 +4474,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HTD RUN23 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15532",
@@ -4486,8 +4485,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LG1N RUN3 PU+LOW STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15533",
@@ -4497,8 +4496,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LG1S RUN16 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15534",
@@ -4508,8 +4507,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHTP4 RUN9 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15535",
@@ -4519,8 +4518,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "SHTP1 RUN6 PU+LG1N PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15536",
@@ -4530,8 +4529,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15537",
@@ -4541,8 +4540,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:15",
     remarks: "HTD RUN29 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15538",
@@ -4552,8 +4551,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LMCP1 RUN28 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15539",
@@ -4563,8 +4562,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2N RUN19 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15540",
@@ -4574,8 +4573,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HTD RUN25 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15541",
@@ -4585,8 +4584,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15542",
@@ -4596,8 +4595,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "FOTP4 RUN24 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15543",
@@ -4607,8 +4606,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HTD RUN17 PU+TAPP1 RUN1 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15544",
@@ -4618,8 +4617,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHSP2 RUN13 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15545",
@@ -4629,8 +4628,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "TAPP1 RUN12 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15546",
@@ -4640,8 +4639,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15547",
@@ -4651,8 +4650,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD RUN8 PU+HTD RUN25 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15548",
@@ -4662,8 +4661,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LMC STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15549",
@@ -4673,8 +4672,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LMCP1 RUN22 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15550",
@@ -4684,8 +4683,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LG2S RUN17 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15551",
@@ -4695,8 +4694,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LOWP3 RUN11 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15552",
@@ -4706,8 +4705,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15553",
@@ -4717,8 +4716,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LG1S RUN5 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15554",
@@ -4728,8 +4727,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN32 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15555",
@@ -4739,8 +4738,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15556",
@@ -4750,8 +4749,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15601",
@@ -4761,8 +4760,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ADMP7 PD+PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15602",
@@ -4772,8 +4771,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN51 PU+EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15603",
@@ -4783,8 +4782,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15604",
@@ -4794,8 +4793,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15605",
@@ -4805,8 +4804,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15606",
@@ -4816,8 +4815,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15607",
@@ -4827,8 +4826,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15608",
@@ -4838,8 +4837,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15609",
@@ -4849,8 +4848,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15610",
@@ -4860,8 +4859,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15611",
@@ -4871,8 +4870,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15612",
@@ -4882,8 +4881,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "J15613",
@@ -4893,8 +4892,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13101",
@@ -4904,8 +4903,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HUHP1 TAKEOVER 0013",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13102",
@@ -4915,8 +4914,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN24 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13103",
@@ -4926,8 +4925,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13104",
@@ -4937,8 +4936,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13105",
@@ -4948,8 +4947,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "KB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13106",
@@ -4959,8 +4958,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13107",
@@ -4970,8 +4969,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 PICK UP 8004",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13108",
@@ -4981,8 +4980,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13109",
@@ -4992,8 +4991,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN13 PU+FOTP1 RUN27 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13110",
@@ -5003,8 +5002,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "HTD RUN16 PD+SHTP3 RUN25 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13111",
@@ -5014,8 +5013,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13112",
@@ -5025,8 +5024,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "ADM PICK UP 0014",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13113",
@@ -5036,8 +5035,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKK3S RUN4 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13114",
@@ -5047,8 +5046,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13115",
@@ -5058,8 +5057,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13116",
@@ -5069,8 +5068,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13117",
@@ -5080,8 +5079,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13118",
@@ -5091,8 +5090,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13119",
@@ -5102,8 +5101,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKK3N RUN5 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13120",
@@ -5113,8 +5112,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN29 PD+MKK3S RUN5 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13121",
@@ -5124,8 +5123,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:15",
     remarks: "HTD RUN2 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13122",
@@ -5135,8 +5134,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13123",
@@ -5146,8 +5145,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13124",
@@ -5157,8 +5156,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13125",
@@ -5168,8 +5167,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HTD RUN27 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13126",
@@ -5179,8 +5178,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "ADM STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13127",
@@ -5190,8 +5189,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "HTD RUN8 PU+SHTP4 RUN4 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13128",
@@ -5201,8 +5200,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13129",
@@ -5212,8 +5211,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHTP3 RUN7 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13130",
@@ -5223,8 +5222,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "MKK3N RUN20 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13131",
@@ -5234,8 +5233,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "KB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13132",
@@ -5245,8 +5244,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13133",
@@ -5256,8 +5255,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13134",
@@ -5267,8 +5266,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13135",
@@ -5278,8 +5277,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HUHP1 RUN2 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13136",
@@ -5289,8 +5288,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13137",
@@ -5300,8 +5299,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13138",
@@ -5311,8 +5310,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MKKP1 RUN32 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13139",
@@ -5322,8 +5321,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13140",
@@ -5333,8 +5332,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "KB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13141",
@@ -5344,8 +5343,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13142",
@@ -5355,8 +5354,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13143",
@@ -5366,8 +5365,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13144",
@@ -5377,8 +5376,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13145",
@@ -5388,8 +5387,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13146",
@@ -5399,8 +5398,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13147",
@@ -5410,8 +5409,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13148",
@@ -5421,8 +5420,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13149",
@@ -5432,8 +5431,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 PICK UP 8002",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13150",
@@ -5443,8 +5442,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "MKKP1 RUN3 PU+HTD RUN51 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13151",
@@ -5454,8 +5453,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HTD RUN26 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13152",
@@ -5465,8 +5464,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HUHP1 RUN31 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13153",
@@ -5476,8 +5475,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SHTP1 RUN13 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13154",
@@ -5487,8 +5486,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHT4S RUN26 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13155",
@@ -5498,8 +5497,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13156",
@@ -5509,8 +5508,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "HTD RUN31 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13157",
@@ -5520,8 +5519,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13158",
@@ -5531,8 +5530,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13159",
@@ -5542,8 +5541,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HTD RUN7 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13301",
@@ -5553,8 +5552,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13302",
@@ -5564,8 +5563,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13303",
@@ -5575,8 +5574,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET12",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13304",
@@ -5586,8 +5585,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET6",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13305",
@@ -5597,8 +5596,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET5",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13306",
@@ -5608,8 +5607,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13308",
@@ -5619,8 +5618,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13309",
@@ -5630,8 +5629,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13310",
@@ -5641,8 +5640,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13311",
@@ -5652,8 +5651,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13312",
@@ -5663,8 +5662,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13313",
@@ -5674,8 +5673,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET8",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13314",
@@ -5685,8 +5684,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET3",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13315",
@@ -5696,8 +5695,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13316",
@@ -5707,8 +5706,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13317",
@@ -5718,8 +5717,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET11",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13318",
@@ -5729,8 +5728,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET10",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13319",
@@ -5740,8 +5739,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET2",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13320",
@@ -5751,8 +5750,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13321",
@@ -5762,8 +5761,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET9",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13322",
@@ -5773,8 +5772,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET7",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13323",
@@ -5784,8 +5783,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET4",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13501",
@@ -5795,8 +5794,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HTD RUN29 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13502",
@@ -5806,8 +5805,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LOWP1 RUN20 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13503",
@@ -5817,8 +5816,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHT4S RUN8 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13504",
@@ -5828,8 +5827,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SG2S RUN8 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13505",
@@ -5839,8 +5838,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LMCP2 RUN24 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13506",
@@ -5850,8 +5849,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "ADM PICK UP 0372+LG2S RUN14 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13507",
@@ -5861,8 +5860,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SG3N RUN15 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13508",
@@ -5872,8 +5871,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:30",
     remarks: "FOTP1 RUN10 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13509",
@@ -5883,8 +5882,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13510",
@@ -5894,8 +5893,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHSP2 RUN18 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13511",
@@ -5905,8 +5904,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "HTD RUN15 PU+LG2N RUN3 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13512",
@@ -5916,8 +5915,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SG2S RUN14 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13513",
@@ -5927,8 +5926,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN28 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13514",
@@ -5938,8 +5937,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LOW STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13515",
@@ -5949,8 +5948,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SG3N RUN22 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13516",
@@ -5960,8 +5959,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG1N RUN9 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13517",
@@ -5971,8 +5970,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LG1N RUN18 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13518",
@@ -5982,8 +5981,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13519",
@@ -5993,8 +5992,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN30 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13520",
@@ -6004,8 +6003,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13521",
@@ -6015,8 +6014,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN21 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13522",
@@ -6026,8 +6025,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13523",
@@ -6037,8 +6036,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13524",
@@ -6048,8 +6047,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LOWP3 RUN21 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13525",
@@ -6059,8 +6058,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "LMC STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13526",
@@ -6070,8 +6069,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LOWP1 RUN10 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13527",
@@ -6081,8 +6080,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "SB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13528",
@@ -6092,8 +6091,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP2 RUN23 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13529",
@@ -6103,8 +6102,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "FOTP4 RUN11 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13530",
@@ -6114,8 +6113,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD RUN6 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13531",
@@ -6125,8 +6124,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HTD RUN23 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13532",
@@ -6136,8 +6135,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LG1N RUN3 PU+LOW STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13533",
@@ -6147,8 +6146,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LG1S RUN16 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13534",
@@ -6158,8 +6157,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SHTP4 RUN9 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13535",
@@ -6169,8 +6168,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "SHTP1 RUN6 PU+LG1N PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13536",
@@ -6180,8 +6179,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13537",
@@ -6191,8 +6190,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:15",
     remarks: "HTD RUN30 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13538",
@@ -6202,8 +6201,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LMCP1 RUN28 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13539",
@@ -6213,8 +6212,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2N RUN19 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13540",
@@ -6224,8 +6223,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HTD RUN25 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13541",
@@ -6235,8 +6234,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13542",
@@ -6246,8 +6245,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "FOTP4 RUN17 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13543",
@@ -6257,8 +6256,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HTD RUN17 PU+TAPP1 RUN1 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13544",
@@ -6268,8 +6267,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHSP2 RUN13 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13545",
@@ -6279,8 +6278,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "TAPP1 RUN12 PU+HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13546",
@@ -6290,8 +6289,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13547",
@@ -6301,8 +6300,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:15",
     remarks: "HTD RUN15 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13548",
@@ -6312,8 +6311,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LMC STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13549",
@@ -6323,8 +6322,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LMCP1 RUN22 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13550",
@@ -6334,8 +6333,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LG2S RUN17 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13551",
@@ -6345,8 +6344,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LOWP3 RUN11 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13552",
@@ -6356,8 +6355,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13553",
@@ -6367,8 +6366,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "LG1S RUN12 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13554",
@@ -6378,8 +6377,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN32 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13555",
@@ -6389,8 +6388,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13556",
@@ -6400,8 +6399,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13601",
@@ -6411,8 +6410,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ADMP7 PD+PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13602",
@@ -6422,8 +6421,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HTD RUN51 PU+EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13603",
@@ -6433,8 +6432,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13604",
@@ -6444,8 +6443,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13605",
@@ -6455,8 +6454,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13606",
@@ -6466,8 +6465,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13607",
@@ -6477,8 +6476,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13608",
@@ -6488,8 +6487,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13609",
@@ -6499,8 +6498,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:15",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13610",
@@ -6510,8 +6509,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13611",
@@ -6521,8 +6520,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13612",
@@ -6532,8 +6531,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "U13613",
@@ -6543,8 +6542,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75101",
@@ -6554,8 +6553,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "HUHP1 TAKEOVER 0013",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75102",
@@ -6565,8 +6564,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HTD RUN24 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75103",
@@ -6576,8 +6575,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75104",
@@ -6587,8 +6586,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75105",
@@ -6598,8 +6597,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "KB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75106",
@@ -6609,8 +6608,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75107",
@@ -6620,8 +6619,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "HUHP1 PICK UP 8004",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75108",
@@ -6631,8 +6630,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75109",
@@ -6642,8 +6641,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "FOTP1 RUN17 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75110",
@@ -6653,8 +6652,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHTP3 RUN13 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75111",
@@ -6664,8 +6663,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHTP4 RUN28 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75112",
@@ -6675,8 +6674,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75113",
@@ -6686,8 +6685,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MKK3S RUN4 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75114",
@@ -6697,8 +6696,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75115",
@@ -6708,8 +6707,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75116",
@@ -6719,8 +6718,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75118",
@@ -6730,8 +6729,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HUHP4 BOARD 8008",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75119",
@@ -6741,8 +6740,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "MKK3N RUN5 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75120",
@@ -6752,8 +6751,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "MKK3S RUN1 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75121",
@@ -6763,8 +6762,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:45",
     remarks: "HTD PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75122",
@@ -6774,8 +6773,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75123",
@@ -6785,8 +6784,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75124",
@@ -6796,8 +6795,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75125",
@@ -6807,8 +6806,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75126",
@@ -6818,8 +6817,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ADM STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75127",
@@ -6829,8 +6828,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75128",
@@ -6840,8 +6839,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75129",
@@ -6851,8 +6850,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SHTP3 RUN7 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75130",
@@ -6862,8 +6861,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MKK3N RUN26 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75131",
@@ -6873,8 +6872,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "KB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75132",
@@ -6884,8 +6883,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75134",
@@ -6895,8 +6894,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75135",
@@ -6906,8 +6905,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HUHP1 RUN2 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75136",
@@ -6917,8 +6916,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75137",
@@ -6928,8 +6927,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75138",
@@ -6939,8 +6938,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "MKKP1 RUN20 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75139",
@@ -6950,8 +6949,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75140",
@@ -6961,8 +6960,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "KB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75141",
@@ -6972,8 +6971,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75142",
@@ -6983,8 +6982,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75143",
@@ -6994,8 +6993,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75144",
@@ -7005,8 +7004,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75145",
@@ -7016,8 +7015,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75146",
@@ -7027,8 +7026,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75147",
@@ -7038,8 +7037,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75148",
@@ -7049,8 +7048,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75149",
@@ -7060,8 +7059,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HUHP1 PICK UP 8002",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75150",
@@ -7071,8 +7070,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MKKP1 RUN3 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75151",
@@ -7082,8 +7081,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75152",
@@ -7093,8 +7092,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "HUHP1 RUN7 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75153",
@@ -7104,8 +7103,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "SHTP1 RUN14 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75154",
@@ -7115,8 +7114,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHT4S RUN19 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75155",
@@ -7126,8 +7125,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75156",
@@ -7137,8 +7136,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75157",
@@ -7148,8 +7147,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75158",
@@ -7159,8 +7158,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75159",
@@ -7170,8 +7169,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75301",
@@ -7181,8 +7180,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75302",
@@ -7192,8 +7191,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75303",
@@ -7203,8 +7202,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET12",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75304",
@@ -7214,8 +7213,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET6",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75305",
@@ -7225,8 +7224,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET5",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75306",
@@ -7236,8 +7235,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75308",
@@ -7247,8 +7246,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:15",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75309",
@@ -7258,8 +7257,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75310",
@@ -7269,8 +7268,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75311",
@@ -7280,8 +7279,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "MTT",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75312",
@@ -7291,8 +7290,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75313",
@@ -7302,8 +7301,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET8",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75314",
@@ -7313,8 +7312,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET3",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75315",
@@ -7324,8 +7323,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75316",
@@ -7335,8 +7334,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-AM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75317",
@@ -7346,8 +7345,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET11",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75318",
@@ -7357,8 +7356,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET10",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75319",
@@ -7368,8 +7367,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET2",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75320",
@@ -7379,8 +7378,8 @@ export const duties: Duty[] = [
     bFL: "LOW",
     duration: "07:30",
     remarks: "RS-PM",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75321",
@@ -7390,8 +7389,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET9",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75322",
@@ -7401,8 +7400,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET7",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75323",
@@ -7412,8 +7411,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ET4",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75501",
@@ -7423,8 +7422,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75502",
@@ -7434,8 +7433,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "LOWP1 RUN20 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75503",
@@ -7445,8 +7444,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHT4S RUN8 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75504",
@@ -7456,8 +7455,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75505",
@@ -7467,8 +7466,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LMCP2 RUN22 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75506",
@@ -7478,8 +7477,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LG2N RUN25 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75507",
@@ -7489,8 +7488,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SG3N RUN15 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75508",
@@ -7500,8 +7499,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "FOTP1 RUN10 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75509",
@@ -7511,8 +7510,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75510",
@@ -7522,8 +7521,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SHSP2 RUN21 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75511",
@@ -7533,8 +7532,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG1N RUN16 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75512",
@@ -7544,8 +7543,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SG2S RUN14 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75513",
@@ -7555,8 +7554,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LG1S RUN16 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75514",
@@ -7566,8 +7565,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LOW STEP1",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75515",
@@ -7577,8 +7576,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75516",
@@ -7588,8 +7587,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2S RUN24 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75518",
@@ -7599,8 +7598,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/E",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75519",
@@ -7610,8 +7609,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75520",
@@ -7621,8 +7620,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75521",
@@ -7632,8 +7631,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:30",
     remarks: "HTD RUN8 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75522",
@@ -7643,8 +7642,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "HTD RUN2 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75523",
@@ -7654,8 +7653,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LG1N RUN18 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75524",
@@ -7665,8 +7664,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "LOWP3 RUN21 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75525",
@@ -7676,8 +7675,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75526",
@@ -7687,8 +7686,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LOWP3 RUN10 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75527",
@@ -7698,8 +7697,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "SB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75528",
@@ -7709,8 +7708,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP2 RUN23 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75529",
@@ -7720,8 +7719,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "FOTP4 RUN11 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75530",
@@ -7731,8 +7730,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "HTD RUN3 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75531",
@@ -7742,8 +7741,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:45",
     remarks: "HTD RUN11 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75532",
@@ -7753,8 +7752,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "LOW STEP END",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75534",
@@ -7764,8 +7763,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "SHTP4 RUN9 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75535",
@@ -7775,8 +7774,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "SHTP1 RUN6 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75536",
@@ -7786,8 +7785,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75537",
@@ -7797,8 +7796,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "HTD RUN18 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75538",
@@ -7808,8 +7807,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LMCP1 RUN4 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75539",
@@ -7819,8 +7818,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "LG2N RUN19 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75540",
@@ -7830,8 +7829,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HTD RUN25 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75541",
@@ -7841,8 +7840,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "SB/M",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75542",
@@ -7852,8 +7851,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "FOTP4 RUN23 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75543",
@@ -7863,8 +7862,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "TAPP1 RUN9 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75544",
@@ -7874,8 +7873,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SHSP2 RUN13 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75545",
@@ -7885,8 +7884,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:30",
     remarks: "TAPP1 RUN12 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75546",
@@ -7896,8 +7895,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75547",
@@ -7907,8 +7906,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "SG2S RUN15 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75548",
@@ -7918,8 +7917,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "SG3N RUN6 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75549",
@@ -7929,8 +7928,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LMCP1 RUN22 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75550",
@@ -7940,8 +7939,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "LG2S RUN17 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75551",
@@ -7951,8 +7950,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "LOWP1 RUN12 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75552",
@@ -7962,8 +7961,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:45",
     remarks: "HB/L",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75553",
@@ -7973,8 +7972,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "LG1S RUN27 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75601",
@@ -7984,8 +7983,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "ADMP7 PD+PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75602",
@@ -7995,8 +7994,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "HTD RUN26 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75603",
@@ -8006,8 +8005,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75604",
@@ -8017,8 +8016,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75605",
@@ -8028,8 +8027,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75606",
@@ -8039,8 +8038,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:15",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75607",
@@ -8050,8 +8049,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75608",
@@ -8061,8 +8060,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75609",
@@ -8072,8 +8071,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75610",
@@ -8083,8 +8082,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "HTD RUN51+HTD RUN27 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75611",
@@ -8094,8 +8093,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "08:00",
     remarks: "HTD RUN52+HTD RUN28 PU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75612",
@@ -8105,8 +8104,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "08:00",
     remarks: "HTD RUN28 PD",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "C75613",
@@ -8116,8 +8115,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:45",
     remarks: "EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881113A",
@@ -8127,8 +8126,8 @@ export const duties: Duty[] = [
     bFL: "TAD",
     duration: "07:30",
     remarks: "Local Training Day",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881103",
@@ -8138,8 +8137,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EAL EMU Refresher Course",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881111A",
@@ -8149,8 +8148,8 @@ export const duties: Duty[] = [
     bFL: "TAD",
     duration: "07:30",
     remarks: "EAL E-Train Refresher Course",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881004A",
@@ -8160,8 +8159,8 @@ export const duties: Duty[] = [
     bFL: "TAD",
     duration: "07:15",
     remarks: "Mandatory Basic Safety Training",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881000",
@@ -8171,8 +8170,8 @@ export const duties: Duty[] = [
     bFL: "TAD",
     duration: "07:00",
     remarks: "EAL Train Captain Course",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881011",
@@ -8182,8 +8181,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "EMU Driving Practical Training (Empty Train)",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881012",
@@ -8193,8 +8192,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU Driving Practical Training (Empty Train)",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881077A",
@@ -8205,8 +8204,8 @@ export const duties: Duty[] = [
     duration: "03:30",
     remarks:
       "Mandartory Basic Safty Training Revaliation (摰蝬澈隤脩) 撣哨撣嗅﹦銵憟喳鈭航鋆",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881077B",
@@ -8217,8 +8216,8 @@ export const duties: Duty[] = [
     duration: "03:30",
     remarks:
       "Mandartory Basic Safty Training Revaliation (摰蝬澈隤脩) 撣哨撣嗅﹦銵憟喳鈭航鋆",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881001",
@@ -8228,8 +8227,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Week End Programme / Road Familiariztation",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881007",
@@ -8239,8 +8238,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Qualification Exam for EMU",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881125A",
@@ -8250,8 +8249,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU Test Run - overnight * Operating Training",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881030",
@@ -8261,8 +8260,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU Driving Practical Training (Involved DE/DL)",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881110",
@@ -8272,8 +8271,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:00",
     remarks: "EMU Defect Handling Stock Training",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881166A",
@@ -8283,8 +8282,8 @@ export const duties: Duty[] = [
     bFL: "TAD",
     duration: "07:00",
     remarks: "TCI Refresher Course",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "881031A",
@@ -8294,8 +8293,8 @@ export const duties: Duty[] = [
     bFL: "FTRH",
     duration: "07:00",
     remarks: "ISDP",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882107A",
@@ -8305,8 +8304,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Caring Program",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882101A",
@@ -8316,8 +8315,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882101B",
@@ -8327,8 +8326,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882102A",
@@ -8338,8 +8337,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882103A",
@@ -8349,8 +8348,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "07:30",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882103B",
@@ -8360,8 +8359,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882104A",
@@ -8371,8 +8370,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882104B",
@@ -8382,8 +8381,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:45",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882105A",
@@ -8393,8 +8392,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "882105B",
@@ -8404,8 +8403,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Intensive Programme",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "991104",
@@ -8415,8 +8414,7 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "撌亦頠/頛潛",
-    sequenceId: "",
-    timetableId: "",
+    timetableToc: null,
   },
   {
     dutyNumber: "991105",
@@ -8426,8 +8424,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU/LOW 蝧",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "991106",
@@ -8437,8 +8435,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU/LOW 蝧/頛潛",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992207A",
@@ -8448,8 +8446,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Night Time Test Run (1152B)",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045B",
@@ -8459,8 +8457,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045C",
@@ -8470,8 +8468,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045D",
@@ -8481,8 +8479,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045E",
@@ -8492,8 +8490,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045F",
@@ -8503,8 +8501,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045G",
@@ -8514,8 +8512,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045H",
@@ -8525,8 +8523,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992045N",
@@ -8536,8 +8534,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:30",
     remarks: "Spare Duty for New Timetable Support",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "992104A",
@@ -8547,8 +8545,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "EMU Test Run -overnight",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "991105C",
@@ -8558,8 +8556,8 @@ export const duties: Duty[] = [
     bFL: "HTD",
     duration: "06:00",
     remarks: "EMU Test Run - Daytmie",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "990004A",
@@ -8569,8 +8567,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Follow Up",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "990023C",
@@ -8580,8 +8578,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "Overnight Joint Exercise",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "990006",
@@ -8591,8 +8589,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "SCC Meeting",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "990014",
@@ -8602,8 +8600,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "∪極隢株岷",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "990007B",
@@ -8613,8 +8611,8 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "06:00",
     remarks: "HF Experience Sharing Forum Helper",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
   {
     dutyNumber: "990003C",
@@ -8624,7 +8622,7 @@ export const duties: Duty[] = [
     bFL: "HUH",
     duration: "07:00",
     remarks: "孵",
-    sequenceId: "",
-    timetableId: "",
+
+    timetableToc: null,
   },
 ];
