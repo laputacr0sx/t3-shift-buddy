@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
   url      = "postgresql://postgres:92086125felix@localhost:5432/postgres"
 }
 
@@ -14,7 +13,8 @@ enum Location {
   SHS
   LOW
   HTD
-  TWD
+  TAD
+  FTRH
 }
 
 enum Area {
@@ -49,61 +49,72 @@ model Duty {
   timetableId String
   sequenceId  String
 
-  timetable Timetable @relation(fields: [timetableId], references: [id])
-  sequence  Sequence  @relation(fields: [sequenceId], references: [id])
+  Timetable Timetable[]
+  Sequence  Sequence[]
 }
 
 model User {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   id         String     @id @default(uuid())
   loginId    String
   password   String
   systemRole SystemRole @default(USER)
+  staffId    String
   Staff      Staff?
 }
 
 model Staff {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   id         String   @id @unique
   name       String
   email      String
   dateOfJoin DateTime
   gradeId    Grade    @default(G40)
   areaId     Area     @default(KLN)
-  sequenceId String
-  rosters    Roster[]
-  userId     String   @unique
 
-  user User @relation(fields: [userId], references: [id])
+  Sequence Sequence[]
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Timetable {
-  id              String   @id @unique
-  createdAt       DateTime
-  toc             String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  toc             String   @id @unique
   dateOfEffective DateTime
   isSpecial       Boolean
   // prefix J15/C75/V71/D14
   prefix          String
-  rosterId        String?
-  Duty            Duty[]
 
-  rosters Roster? @relation(fields: [rosterId], references: [id])
+  Duty   Duty[]
+  Roster Roster[]
 }
 
 model Roster {
-  id           String   @id @unique
-  published_at DateTime
+  id          String   @id
+  publishedAt DateTime
+  publisherId String
 
-  sequenceId Sequence[]
-  staffId    String
-  Timetable  Timetable[]
-
-  published_by Staff @relation(fields: [staffId], references: [id])
+  Sequence   Sequence[]
+  Timetables Timetable[]
 }
 
 model Sequence {
-  id       String  @id @unique
-  duties   Duty[]
-  rosterId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  Roster Roster? @relation(fields: [rosterId], references: [id])
+  id    String @id @unique
+  dutis Duty[]
+
+  rosterId String
+  Roster   Roster @relation(fields: [rosterId], references: [id])
+
+  staffId String
+  Staff   Staff  @relation(fields: [staffId], references: [id])
 }

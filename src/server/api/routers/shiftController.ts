@@ -36,7 +36,7 @@ export const shiftControllerRouter = createTRPCRouter({
 
     if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
-    return ctx.prisma.shift.findMany({
+    return ctx.prisma.duty.findMany({
       where: { dutyNumber: { contains: "" } },
       orderBy: {
         dutyNumber: "asc",
@@ -44,34 +44,34 @@ export const shiftControllerRouter = createTRPCRouter({
     });
   }),
 
-  getAllShiftsWithInfinite: publicProcedure
-    .input(
-      z.object({
-        limit: z.number().min(1).max(100).nullish(),
-        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-      })
-    )
-    .query(async ({ input, ctx }) => {
-      const limit = input.limit ?? 20;
-      const { cursor } = input;
+  // getAllShiftsWithInfinite: publicProcedure
+  //   .input(
+  //     z.object({
+  //       limit: z.number().min(1).max(100).nullish(),
+  //       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+  //     })
+  //   )
+  //   .query(async ({ input, ctx }) => {
+  //     const limit = input.limit ?? 20;
+  //     const { cursor } = input;
 
-      const items = await ctx.prisma.shift.findMany({
-        take: limit + 1, // get an extra item at the end which we'll use as next cursor
-        cursor: cursor ? { id: cursor } : undefined,
-        orderBy: {
-          dutyNumber: "asc",
-        },
-      });
-      let nextCursor: typeof cursor | undefined = undefined;
-      if (items.length > limit) {
-        const nextItem = items.pop();
-        nextCursor = nextItem!.id;
-      }
-      return {
-        items,
-        nextCursor,
-      };
-    }),
+  //     const items = await ctx.prisma.duty.findMany({
+  //       take: limit + 1, // get an extra item at the end which we'll use as next cursor
+  //       cursor: cursor ? { id: cursor } : undefined,
+  //       orderBy: {
+  //         dutyNumber: "asc",
+  //       },
+  //     });
+  //     let nextCursor: typeof cursor | undefined = undefined;
+  //     if (items.length > limit) {
+  //       const nextItem = items.pop();
+  //       nextCursor = nextItem!.id;
+  //     }
+  //     return {
+  //       items,
+  //       nextCursor,
+  //     };
+  //   }),
 
   getShiftGivenDutyNumber: publicProcedure
     .input(
@@ -81,7 +81,7 @@ export const shiftControllerRouter = createTRPCRouter({
     )
 
     .query(({ input, ctx }) => {
-      const resultShift = ctx.prisma.shift.findMany({
+      const resultShift = ctx.prisma.duty.findMany({
         where: { dutyNumber: { endsWith: input.duty } },
       });
 
@@ -95,7 +95,7 @@ export const shiftControllerRouter = createTRPCRouter({
       })
     )
     .query(({ input, ctx }) => {
-      const resultShiftArray = ctx.prisma.shift.findMany({
+      const resultShiftArray = ctx.prisma.duty.findMany({
         where: { dutyNumber: { in: input.shiftArray } },
       });
 
@@ -135,7 +135,7 @@ export const shiftControllerRouter = createTRPCRouter({
         shiftCodeOnly
       );
 
-      const resultDuties = await ctx.prisma.shift.findMany({
+      const resultDuties = await ctx.prisma.duty.findMany({
         where: { dutyNumber: { in: jointDutyNumbers } },
       });
 
@@ -209,7 +209,7 @@ export const shiftControllerRouter = createTRPCRouter({
           : correspondingShift;
       }
 
-      const resultShiftArray = await ctx.prisma.shift.findMany({
+      const resultShiftArray = await ctx.prisma.duty.findMany({
         where: { dutyNumber: { in: combinedDutyName } },
       });
 

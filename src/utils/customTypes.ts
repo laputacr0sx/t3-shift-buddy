@@ -1,4 +1,3 @@
-import { type Shift } from "@prisma/client";
 import { z } from "zod";
 import { dutyInputRegExValidator, shiftNameRegex } from "./regex";
 
@@ -22,12 +21,6 @@ export const dayOff = [
   "MA_L",
   "ALS",
 ] as const;
-
-export interface WeekComplex {
-  date: Date;
-  title: string;
-  dutyObject: Shift;
-}
 
 export const dayDetailSchema = z.object({
   date: z.string().datetime(),
