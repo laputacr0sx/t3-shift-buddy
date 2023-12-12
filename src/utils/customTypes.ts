@@ -1,15 +1,8 @@
 import { z } from "zod";
 import { dutyInputRegExValidator, shiftNameRegex } from "./regex";
+import { Location } from "@prisma/client";
 
-export const workLocation = [
-  "HUH",
-  "SHT",
-  "SHS",
-  "HTD",
-  "LOW",
-  "TAW",
-  "TWD",
-] as const;
+export const workLocation = ["HUH", "SHT", "SHS", "HTD", "LOW", "TAD"] as const;
 
 export const dayOff = [
   "RD",

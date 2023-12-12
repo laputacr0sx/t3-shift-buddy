@@ -4,8 +4,13 @@ import { timetables } from "./seeds/timetables";
 import { duties } from "./seeds/duties";
 import { users } from "./seeds/users";
 import { staff } from "./seeds/staff";
+import { V71 } from "./seeds/timetables/V71";
+
+import { J15 } from "./seeds/timetables/J15";
+import { D14 } from "./seeds/timetables/D14";
+import { C75 } from "./seeds/timetables/C75";
+import { others } from "./seeds/timetables/others";
 import { roster } from "./seeds/roster";
-import { sequences } from "./seeds/sequences";
 
 async function main() {
   await prisma.user.createMany({ data: users });
@@ -17,29 +22,44 @@ async function main() {
   await prisma.timetable.createMany({ data: timetables });
   console.log("timetables seeded!");
 
-  await prisma.duty.createMany({ data: duties });
-  console.log("duties seeded!");
+  await prisma.duty.createMany({
+    data: [...V71, ...J15, ...C75, ...D14, ...others],
+  });
+  console.log("duties with toc seeded!");
 
   await prisma.roster.create({
     data: {
-      id: "Y2023W51",
-      publishedAt: new Date("2023-12-14T00:00:00.0000Z"),
-      publisherId: "602949",
+      ...roster,
       Sequence: {
         create: [
           {
-            id: "Y2023W50A83",
+            id: "Y2023W50A1",
             staffId: "602949",
             createdAt: new Date(),
             updatedAt: new Date(),
             dutyNumbers: [
               "RD",
               "J15133",
-              "J15140",
-              "D14135",
+              "D14140",
+              "J15135",
               "J15134",
               "F75602",
               "Y71107",
+            ],
+          },
+          {
+            id: "Y2023W50A2",
+            staffId: "589942",
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            dutyNumbers: [
+              "J15101",
+              "J15102",
+              "D15103",
+              "J15104",
+              "J15105",
+              "C75106",
+              "RD",
             ],
           },
         ],

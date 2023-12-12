@@ -35,15 +35,19 @@ export const databaseControllerRouter = createTRPCRouter({
         dutyNumber: z
           .string()
           .regex(dutyInputRegExValidator, "invalid dutyNumber"),
+        bNL: z.enum(workLocation, {
+          invalid_type_error: "workLocation not supported yet",
+        }),
         bNT: z.string(),
-        bNL: z.string(),
         bFT: z.string(),
-        bFL: z.string(),
+        bFL: z.enum(workLocation, {
+          invalid_type_error: "workLocation not supported yet",
+        }),
         duration: z.string(),
         remarks: z.string(),
       })
     )
     .mutation(({ input, ctx }) => {
-      return ctx.prisma.shift.create({ data: input });
+      return ctx.prisma.duty.create({ data: input });
     }),
 });

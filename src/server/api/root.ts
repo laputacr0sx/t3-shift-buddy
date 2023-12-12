@@ -1,7 +1,8 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { shiftControllerRouter } from "./routers/shiftController";
-import { prefixControllerRouter } from "./routers/prefixController";
+// import { prefixControllerRouter } from "./routers/prefixController";
 import { databaseControllerRouter } from "./routers/databaseController";
+import { timetableControllerRouter } from "./routers/timetableController";
 
 /**
  * This is the primary router for your server.
@@ -11,7 +12,8 @@ import { databaseControllerRouter } from "./routers/databaseController";
 export const appRouter = createTRPCRouter({
   databaseController: databaseControllerRouter,
   shiftController: shiftControllerRouter,
-  prefixController: prefixControllerRouter,
+  // prefixController: prefixControllerRouter,
+  timetableController: timetableControllerRouter,
 });
 
 // export type definition of API

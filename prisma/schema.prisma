@@ -17,7 +17,7 @@ enum Location {
   FTRH
 }
 
-enum Area {
+enum Category {
   KLN
   SHS
   ENT
@@ -46,10 +46,40 @@ model Duty {
   bFL        Location
   duration   String
   remarks    String
-  // sequenceId  String
 
   Timetable    Timetable? @relation(fields: [timetableToc], references: [toc])
   timetableToc String?
+}
+
+model Sequence {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // YYYYWWAAAA
+  // id = A1 / B1 / C13 / S1
+  id          String   @id @unique
+  dutyNumbers String[]
+
+  rosterId String
+  Roster   Roster @relation(fields: [rosterId], references: [id])
+
+  staffId String?
+  Staff   Staff?  @relation(fields: [staffId], references: [id])
+}
+
+model Roster {
+  // id = Y2023W50
+  id          String   @id @unique
+  publishedAt DateTime @default(now())
+  publisherId String   @default("602949")
+
+  // Timetables String[]   @default(["Sepcial", "Training"])
+  Sequence Sequence[]
+
+  Timetables Timetable[]
+
+  annualId Int?
+  Annual   Annual? @relation(fields: [annualId], references: [id])
 }
 
 model Timetable {
@@ -59,34 +89,12 @@ model Timetable {
   toc             String   @id @unique
   dateOfEffective DateTime
   isSpecial       Boolean
-  // prefix J15/C75/V71/D14
+  // prefix - non-unique, J15/C75/V71/D14
   prefix          String
 
-  Duty   Duty[]
+  Duty Duty[]
+
   Roster Roster[]
-}
-
-model Roster {
-  id          String   @id @unique
-  publishedAt DateTime @default(now())
-  publisherId String   @default("602949")
-
-  Sequence   Sequence[]
-  Timetables Timetable[]
-}
-
-model Sequence {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  id          String   @id @unique
-  dutyNumbers String[]
-
-  rosterId String
-  Roster   Roster @relation(fields: [rosterId], references: [id])
-
-  staffId String
-  Staff   Staff  @relation(fields: [staffId], references: [id])
 }
 
 model User {
@@ -109,11 +117,17 @@ model Staff {
   name       String
   email      String
   dateOfJoin DateTime
-  gradeId    Grade    @default(G40)
-  areaId     Area     @default(KLN)
+  grade      Grade    @default(G40)
+  category   Category @default(KLN)
 
   Sequence Sequence[]
 
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id])
+}
+
+model Annual {
+  id      Int      @unique
+  year    String
+  rosters Roster[]
 }

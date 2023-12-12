@@ -1,24 +1,38 @@
 import React, { type ReactElement } from "react";
-import Layout from "~/components/ui/layouts/AppLayout";
 import { type NextPageWithLayout } from "./_app";
-import SevenSlotsSearchForm from "~/components/SevenSlotsSearchForm";
+import Layout from "~/components/ui/layouts/AppLayout";
 
-const SevenSlots: NextPageWithLayout = () => {
+import { api } from "~/utils/api";
+import { slicedKLN } from "~/utils/standardRosters";
+
+const LandingPage: NextPageWithLayout = () => {
+  const {
+    data: timetableData,
+    isLoading: timetableLoading,
+    error: timetableError,
+  } = api.timetableController.getAllTimetables.useQuery();
+
+  console.log(slicedKLN);
+
   return (
-    <React.Fragment>
-      <h1
-        id="title"
-        className="justify-center py-5 text-center text-4xl font-semibold text-foreground"
-      >
-        出更易
-      </h1>
-      <SevenSlotsSearchForm />
-    </React.Fragment>
+    <div>
+      {timetableLoading ? (
+        <>Loading...</>
+      ) : timetableError ? (
+        <p>{timetableError.message}</p>
+      ) : (
+        timetableData.map((timetable) => (
+          <p key={timetable.toc}>
+            {timetable.prefix} {timetable.dateOfEffective.toDateString()}
+          </p>
+        ))
+      )}
+    </div>
   );
 };
 
-SevenSlots.getLayout = function getLayout(page: ReactElement) {
+LandingPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default SevenSlots;
+export default LandingPage;

@@ -1,218 +1,170 @@
-import { TRPCError } from "@trpc/server";
+import { TRPCError } from '@trpc/server';
 
-import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { type DayDetail, weatherSchema } from "~/utils/customTypes";
-import { fetchTyped, getJointDutyNumbers } from "~/utils/helper";
+import { z } from 'zod';
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { weatherSchema } from '~/utils/customTypes';
+import { fetchTyped } from '~/utils/helper';
 
-import {
-  abbreviatedDutyNumber,
-  dayOffRegex,
-  dutyInputRegExValidator,
-  inputShiftCodeRegex,
-  proShiftNameRegex,
-  shiftNameRegex,
-} from "~/utils/regex";
+import { dutyInputRegExValidator, shiftNameRegex } from '~/utils/regex';
 
-import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
-import { Redis } from "@upstash/redis"; // see below for cloudflare and fastly adapters
+import { Ratelimit } from '@upstash/ratelimit'; // for deno: see above
+import { Redis } from '@upstash/redis'; // see below for cloudflare and fastly adapters
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute.
 const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, "1 m"),
-  analytics: true,
-  /**
-   * Optional prefix for the keys used in redis. This is useful if you want to share a redis
-   * instance with other applications and want to avoid key collisions. The default prefix is
-   * "@upstash/ratelimit"
-   */
-  prefix: "@upstash/ratelimit",
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(10, '1 m'),
+    analytics: true,
+    /**
+     * Optional prefix for the keys used in redis. This is useful if you want to share a redis
+     * instance with other applications and want to avoid key collisions. The default prefix is
+     * "@upstash/ratelimit"
+     */
+    prefix: '@upstash/ratelimit'
 });
 
 export const shiftControllerRouter = createTRPCRouter({
-  getAllShifts: publicProcedure.query(async ({ ctx }) => {
-    const { success } = await ratelimit.limit(ctx.auth.userId ?? "");
+    getAllShifts: publicProcedure.query(async ({ ctx }) => {
+        const { success } = await ratelimit.limit(ctx.auth.userId ?? '');
 
-    if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+        if (!success) throw new TRPCError({ code: 'TOO_MANY_REQUESTS' });
 
-    return ctx.prisma.duty.findMany({
-      where: { dutyNumber: { contains: "" } },
-      orderBy: {
-        dutyNumber: "asc",
-      },
-    });
-  }),
-
-  // getAllShiftsWithInfinite: publicProcedure
-  //   .input(
-  //     z.object({
-  //       limit: z.number().min(1).max(100).nullish(),
-  //       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-  //     })
-  //   )
-  //   .query(async ({ input, ctx }) => {
-  //     const limit = input.limit ?? 20;
-  //     const { cursor } = input;
-
-  //     const items = await ctx.prisma.duty.findMany({
-  //       take: limit + 1, // get an extra item at the end which we'll use as next cursor
-  //       cursor: cursor ? { id: cursor } : undefined,
-  //       orderBy: {
-  //         dutyNumber: "asc",
-  //       },
-  //     });
-  //     let nextCursor: typeof cursor | undefined = undefined;
-  //     if (items.length > limit) {
-  //       const nextItem = items.pop();
-  //       nextCursor = nextItem!.id;
-  //     }
-  //     return {
-  //       items,
-  //       nextCursor,
-  //     };
-  //   }),
-
-  getShiftGivenDutyNumber: publicProcedure
-    .input(
-      z.object({
-        duty: z.string().regex(dutyInputRegExValidator, "invalid duty input"),
-      })
-    )
-
-    .query(({ input, ctx }) => {
-      const resultShift = ctx.prisma.duty.findMany({
-        where: { dutyNumber: { endsWith: input.duty } },
-      });
-
-      return resultShift;
+        return ctx.prisma.duty.findMany({
+            where: { dutyNumber: { contains: 'F75' } },
+            orderBy: {
+                dutyNumber: 'asc'
+            }
+        });
     }),
 
-  getWeekShift: publicProcedure
-    .input(
-      z.object({
-        shiftArray: z.string().regex(shiftNameRegex).array().length(7),
-      })
-    )
-    .query(({ input, ctx }) => {
-      const resultShiftArray = ctx.prisma.duty.findMany({
-        where: { dutyNumber: { in: input.shiftArray } },
-      });
+    // getAllShiftsWithInfinite: publicProcedure
+    //   .input(
+    //     z.object({
+    //       limit: z.number().min(1).max(100).nullish(),
+    //       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+    //     })
+    //   )
+    //   .query(async ({ input, ctx }) => {
+    //     const limit = input.limit ?? 20;
+    //     const { cursor } = input;
 
-      return resultShiftArray;
-    }),
+    //     const items = await ctx.prisma.duty.findMany({
+    //       take: limit + 1, // get an extra item at the end which we'll use as next cursor
+    //       cursor: cursor ? { id: cursor } : undefined,
+    //       orderBy: {
+    //         dutyNumber: "asc",
+    //       },
+    //     });
+    //     let nextCursor: typeof cursor | undefined = undefined;
+    //     if (items.length > limit) {
+    //       const nextItem = items.pop();
+    //       nextCursor = nextItem!.id;
+    //     }
+    //     return {
+    //       items,
+    //       nextCursor,
+    //     };
+    //   }),
 
-  getShiftDetailWithoutAlphabeticPrefix: publicProcedure
-    .input(
-      z
-        .object({
-          date: z.string().regex(/\d{8}/gim),
-          shiftCode: z.string().regex(proShiftNameRegex),
-        })
-        .array()
-    )
-    .query(async ({ ctx, input }) => {
-      const prefixChronological = await ctx.prisma.weekPrefix
-        .findMany({
-          orderBy: { weekNumber: "desc" },
-          take: 1,
-        })
-        .then((weekPrefix) =>
-          weekPrefix.flatMap(({ prefixes }) =>
-            prefixes.flatMap((prefix) => prefix)
-          )
+    getShiftGivenDutyNumber: publicProcedure
+        .input(
+            z.object({
+                duty: z
+                    .string()
+                    .regex(dutyInputRegExValidator, 'invalid duty input')
+            })
         )
-        .catch(() => {
-          throw new TRPCError({ code: "BAD_REQUEST" });
-        });
 
-      const distinctPrefix = Array.from(new Set(prefixChronological));
+        .query(({ input, ctx }) => {
+            const resultShift = ctx.prisma.duty.findMany({
+                where: { dutyNumber: { endsWith: input.duty } }
+            });
 
-      const shiftCodeOnly = input.map((day) => day.shiftCode);
+            return resultShift;
+        }),
 
-      const jointDutyNumbers = getJointDutyNumbers(
-        distinctPrefix,
-        shiftCodeOnly
-      );
+    getWeekShift: publicProcedure
+        .input(
+            z.object({
+                shiftArray: z.string().regex(shiftNameRegex).array().length(7)
+            })
+        )
+        .query(({ input, ctx }) => {
+            const resultShiftArray = ctx.prisma.duty.findMany({
+                where: { dutyNumber: { in: input.shiftArray } }
+            });
 
-      const resultDuties = await ctx.prisma.duty.findMany({
-        where: { dutyNumber: { in: jointDutyNumbers } },
-      });
+            return resultShiftArray;
+        }),
 
-      const reduceResult = input.reduce<DayDetail[]>((accumulatedDays, day) => {
-        if (day.shiftCode.match(dayOffRegex)) {
-          accumulatedDays.push({
-            date: day.date,
-            title: day.shiftCode,
-            dutyNumber: day.shiftCode,
-          } as DayDetail);
-        }
+    // getShiftDetailWithoutAlphabeticPrefix: publicProcedure
+    //   .input(
+    //     z
+    //       .object({
+    //         date: z.string().regex(/\d{8}/gim),
+    //         shiftCode: z.string().regex(proShiftNameRegex),
+    //       })
+    //       .array()
+    //   )
+    //   .query(async ({ ctx, input }) => {
+    //     const prefixChronological = await ctx.prisma.weekPrefix
+    //       .findMany({
+    //         orderBy: { weekNumber: "desc" },
+    //         take: 1,
+    //       })
+    //       .then((weekPrefix) =>
+    //         weekPrefix.flatMap(({ prefixes }) =>
+    //           prefixes.flatMap((prefix) => prefix)
+    //         )
+    //       )
+    //       .catch(() => {
+    //         throw new TRPCError({ code: "BAD_REQUEST" });
+    //       });
 
-        const temp = resultDuties.filter((duty) =>
-          duty.dutyNumber.match(day.shiftCode)
-        )[0];
+    //     const distinctPrefix = Array.from(new Set(prefixChronological));
 
-        if (temp)
-          accumulatedDays.push({
-            ...temp,
-            date: day.date,
-            title: temp.dutyNumber,
-          } as DayDetail);
+    //     const shiftCodeOnly = input.map((day) => day.shiftCode);
 
-        return accumulatedDays;
-      }, []);
+    //     const jointDutyNumbers = getJointDutyNumbers(
+    //       distinctPrefix,
+    //       shiftCodeOnly
+    //     );
 
-      return reduceResult;
-    }),
+    //     const resultDuties = await ctx.prisma.duty.findMany({
+    //       where: { dutyNumber: { in: jointDutyNumbers } },
+    //     });
 
-  getDayWeather: publicProcedure.query(async () => {
-    const hkoUri =
-      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";
+    //     const reduceResult = input.reduce<DayDetail[]>((accumulatedDays, day) => {
+    //       if (day.shiftCode.match(dayOffRegex)) {
+    //         accumulatedDays.push({
+    //           date: day.date,
+    //           title: day.shiftCode,
+    //           dutyNumber: day.shiftCode,
+    //         } as DayDetail);
+    //       }
 
-    const weatherResult = await fetchTyped(hkoUri, weatherSchema);
-    return weatherResult;
-  }),
+    //       const temp = resultDuties.filter((duty) =>
+    //         duty.dutyNumber.match(day.shiftCode)
+    //       )[0];
 
-  getWeekShiftWithPrefix: publicProcedure
-    .input(
-      z.object({
-        // shiftArray: z.string().regex(shiftNameRegex).array().min(1),
-        shiftArray: z.string().regex(inputShiftCodeRegex).array().min(1),
-      })
-    )
-    .query(async ({ input, ctx }) => {
-      const prefix = await ctx.prisma.weekPrefix.findMany({
-        orderBy: { weekNumber: "desc" },
-        take: 1,
-      });
+    //       if (temp)
+    //         accumulatedDays.push({
+    //           ...temp,
+    //           date: day.date,
+    //           title: temp.dutyNumber,
+    //         } as DayDetail);
 
-      const [latestPrefix] = prefix.map(({ prefixes }) =>
-        prefixes.map((prefix) => prefix)
-      );
+    //       return accumulatedDays;
+    //     }, []);
 
-      if (!latestPrefix)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "latest prefix not found",
-        });
+    //     return reduceResult;
+    //   }),
 
-      const combinedDutyName = new Array<string>(7);
+    getDayWeather: publicProcedure.query(async () => {
+        const hkoUri =
+            'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
 
-      for (let i = 0; i < combinedDutyName.length; i++) {
-        const correspondingPrefix = latestPrefix[i] as string;
-        const correspondingShift = input.shiftArray[i] as string;
-
-        const isShiftName = correspondingShift.match(abbreviatedDutyNumber);
-
-        combinedDutyName[i] = isShiftName
-          ? correspondingPrefix.concat(correspondingShift)
-          : correspondingShift;
-      }
-
-      const resultShiftArray = await ctx.prisma.duty.findMany({
-        where: { dutyNumber: { in: combinedDutyName } },
-      });
-
-      return { combinedDutyName, resultShiftArray };
-    }),
+        const weatherResult = await fetchTyped(hkoUri, weatherSchema);
+        return weatherResult;
+    })
 });
