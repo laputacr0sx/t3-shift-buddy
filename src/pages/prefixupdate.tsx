@@ -73,7 +73,7 @@ const PrefixUpdate: NextPageWithLayout = () => {
         改更易
       </h1>
       <p className="font-mono text-xs">
-        {moment().format(`今日係 YYYY年 第W週 MM月DD日`)}
+        {moment().format(`今日係 YYYY年 第W週 MM月DD日（ddd）`)}
       </p>
       <div className="flex items-center justify-center gap-4">
         <DynamicUpdatePrefixForm

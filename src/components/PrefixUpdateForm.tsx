@@ -77,11 +77,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
         `${alphabeticPrefix}${numericPrefix}`
     );
 
-    console.log({
-      weekNumber: currentWeekNumber,
-      prefixes: completePrefix,
-    });
-
     createPrefixes({
       weekNumber: values.weekNumber,
       prefixes: completePrefix,
