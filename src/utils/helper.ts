@@ -6,6 +6,7 @@ import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
+import { EventAttributes, ReturnObject, createEvents } from "ics";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
@@ -133,7 +134,47 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
   const completeString = getSelectedShiftsString(selectedShifts);
 
   await navigator.clipboard.writeText(completeString);
-  toast("已複製資料");
+  toast.success("已複製資料");
+}
+
+export async function getICSObject(
+  selectedShifts: Row<DayDetail>[]
+): Promise<File> {
+  const events = selectedShifts.map<EventAttributes>((shift) => {
+    const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks, staffId } =
+      shift.original;
+    const validDate = moment(date, "YYYY-MM-DD").format("YYYY-MM-DD");
+    const start = moment(`${validDate} ${bNT}`).toArray().splice(0, 5);
+    const end = moment(`${validDate} ${bFT}`).isAfter(
+      moment(`${validDate} ${bNT}`)
+    )
+      ? moment(`${validDate} ${bFT}`).toArray().splice(0, 5)
+      : moment(`${validDate} ${bFT}`).add(1, "d").toArray().splice(0, 5);
+    const durationDecimal = duration
+      ? convertDurationDecimal(duration)
+      : duration;
+
+    return {
+      start: start,
+      end: end,
+      title: dutyNumber,
+      description: `收工地點：${bFL}\n工時：${durationDecimal}\n備註：${remarks}`,
+      location: bNL,
+      busyStatus: "BUSY",
+    } as EventAttributes;
+  });
+
+  return await new Promise((resolve, reject) => {
+    createEvents(events, (error, value) => {
+      if (error) {
+        reject(error);
+      }
+
+      console.log(value);
+
+      resolve(new File([value], "testing.ics", { type: "text/calendar" }));
+    });
+  });
 }
 
 /**
