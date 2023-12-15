@@ -44,8 +44,9 @@ export function DayDetailTable<TData, TValue>({
   });
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
-  const selectedShifts = table.getSelectedRowModel()
-    .flatRows as Row<DayDetail>[];
+  const selectedShifts = table
+    .getSelectedRowModel()
+    .flatRows.map((shift) => shift.original);
 
   return (
     <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">
@@ -137,7 +138,7 @@ export function DayDetailTable<TData, TValue>({
       </div>
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
-        selectedShifts={selectedShifts}
+        selectedShifts={selectedShifts as DayDetail[]}
       />
     </div>
   );

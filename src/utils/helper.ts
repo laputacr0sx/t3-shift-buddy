@@ -85,23 +85,20 @@ export function convertDurationDecimal(rawDuration: string): string {
  * @param selectedShifts The selected shifts to convert to a string representation.
  * @returns The string representation of the selected shifts, wrapped in code blocks.
  */
-export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
+export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
   let completeString = "```\n";
   for (const dayDetail of selectedShifts) {
     let dayString = "";
 
-    if (!dayDetail.original.title.match(completeShiftNameRegex)) {
-      const { dutyNumber } = dayDetail.original;
+    if (!dayDetail.title.match(completeShiftNameRegex)) {
+      const { dutyNumber } = dayDetail;
 
-      const date = moment(dayDetail.original.date)
-        .locale("zh-hk")
-        .format("DD/MM(dd)");
+      const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM(dd)");
 
       dayString = `${date} ${dutyNumber}\n`;
     } else {
-      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
-        dayDetail.original;
-      const date = moment(dayDetail.original.date)
+      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } = dayDetail;
+      const date = moment(dayDetail.date)
         // .locale("zh-hk")
         // .calendar({
         //   nextDay(m, now) {
@@ -110,7 +107,7 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
         //   },
         // });
 
-        // const date = moment(dayDetail.original.date)
+        // const date = moment(dayDetail.date)
         .locale("zh-hk")
         .format("DD/MM(dd)");
       const durationDecimal = convertDurationDecimal(duration);
@@ -127,7 +124,7 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
  * Copies the given selected shifts to the clipboard as a code block.
  * @param selectedShifts The selected shifts to copy to the clipboard.
  */
-export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
+export async function tableCopyHandler(selectedShifts: DayDetail[]) {
   if (!navigator || !navigator.clipboard)
     throw Error("No navigator object nor clipboard found");
 
@@ -137,13 +134,18 @@ export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
   toast.success("已複製資料");
 }
 
-export async function getICSObject(
-  selectedShifts: Row<DayDetail>[]
-): Promise<File> {
+export function addOneToMonthNumber(dateArray: number[]): number[] {
+  const [year, month, ...rest] = dateArray;
+  const addedMonth = (month as number) + 1;
+
+  return [year, addedMonth, ...rest] as number[];
+}
+
+export async function getICSObject(selectedShifts: DayDetail[]): Promise<File> {
   const events = selectedShifts.map<EventAttributes>((shift) => {
-    const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks, staffId } =
-      shift.original;
-    const validDate = moment(date, "YYYY-MM-DD").format("YYYY-MM-DD");
+    const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks } = shift;
+    const validDate = moment(date, "YYYYMMDD").format("YYYY-MM-DD");
+
     const start = moment(`${validDate} ${bNT}`).toArray().splice(0, 5);
     const end = moment(`${validDate} ${bFT}`).isAfter(
       moment(`${validDate} ${bNT}`)
@@ -155,24 +157,33 @@ export async function getICSObject(
       : duration;
 
     return {
-      start: start,
-      end: end,
+      start: addOneToMonthNumber(start),
+      end: addOneToMonthNumber(end),
       title: dutyNumber,
-      description: `收工地點：${bFL}\n工時：${durationDecimal}\n備註：${remarks}`,
-      location: bNL,
+      description: `收工地點：${getChineseLocation(
+        bFL
+      )}\n工時：${durationDecimal}\n備註：${remarks}`,
+      location: getChineseLocation(bNL),
       busyStatus: "BUSY",
+      productId: "calendar",
+      classification: "PUBLIC",
+      sequence: 1,
+      // duration: {}
     } as EventAttributes;
   });
 
-  return await new Promise((resolve, reject) => {
+  return new Promise<File>((resolve, reject) => {
     createEvents(events, (error, value) => {
       if (error) {
         reject(error);
       }
 
-      console.log(value);
-
-      resolve(new File([value], "testing.ics", { type: "text/calendar" }));
+      console.log("cal from trpc", value);
+      resolve(
+        new File([value], "ics.ics", {
+          type: "text/calendar",
+        })
+      );
     });
   });
 }
@@ -271,9 +282,9 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
 }
 
 export function getChineseLocation(location: unknown) {
-  type ChineseKey = keyof typeof chineseDuration;
+  type ChineseKey = keyof typeof chineseLocation;
 
-  const chineseDuration = {
+  const chineseLocation = {
     HUH: "紅磡",
     SHT: "沙田",
     SHS: "上水",
@@ -284,5 +295,5 @@ export function getChineseLocation(location: unknown) {
     FTRH: "火炭大樓",
   };
 
-  return chineseDuration[location as ChineseKey];
+  return chineseLocation[location as ChineseKey];
 }

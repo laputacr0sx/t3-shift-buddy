@@ -30,7 +30,7 @@ export interface WeekComplex {
 }
 
 export const dayDetailSchema = z.object({
-  date: z.string().datetime(),
+  date: z.string(),
   title: z.string(),
   id: z.string().uuid(),
   dutyNumber: z.string().regex(dutyInputRegExValidator),

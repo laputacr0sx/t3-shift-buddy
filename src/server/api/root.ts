@@ -3,6 +3,7 @@ import { shiftControllerRouter } from "./routers/shiftController";
 import { prefixControllerRouter } from "./routers/prefixController";
 import { databaseControllerRouter } from "./routers/databaseController";
 import { userControllerRouter } from "./routers/userController";
+import { calendarControllerRouter } from "./routers/calendarController";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   shiftController: shiftControllerRouter,
   prefixController: prefixControllerRouter,
   userController: userControllerRouter,
+  calendarController: calendarControllerRouter,
 });
 
 // export type definition of API
