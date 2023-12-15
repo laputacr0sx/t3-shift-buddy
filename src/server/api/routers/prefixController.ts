@@ -22,20 +22,20 @@ export const prefixControllerRouter = createTRPCRouter({
     const prefixChronological = await ctx.prisma.weekPrefix
       .findMany({
         orderBy: { weekNumber: "desc" },
-        take: 1,
+        take: 2,
       })
       .then((weekPrefix) =>
-        weekPrefix.flatMap(({ prefixes }) =>
-          prefixes.flatMap((prefix) => prefix)
-        )
+        weekPrefix
+          .reverse()
+          .flatMap(({ prefixes }) => prefixes.flatMap((prefix) => prefix))
       )
       .catch(() => {
         throw new TRPCError({ code: "BAD_REQUEST" });
       });
 
-    const distinctPrefix = Array.from(new Set(prefixChronological));
+    // const distinctPrefix = Array.from(new Set(prefixChronological));
 
-    return distinctPrefix;
+    return prefixChronological;
   }),
 
   getPrefixGivenWeekNumber: publicProcedure

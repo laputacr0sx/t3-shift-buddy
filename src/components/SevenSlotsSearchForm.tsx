@@ -90,10 +90,12 @@ const SevenSlotsSearchForm = () => {
   const {
     data: prefixData,
     isLoading: prefixIsLoading,
-    // error: prefixError,
+    error: prefixError,
   } = api.prefixController.getLatestPrefix.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
+
+  console.log(prefixData?.slice(-autoDayDetail.length));
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -169,12 +171,19 @@ const SevenSlotsSearchForm = () => {
           className="flex min-h-screen w-full flex-col items-center space-y-1"
         >
           <FormDescription className="pb-2 text-xs">
-            <p>於輸入框內輸入更號，例：</p>
-            <p>
-              J15101則輸入101；
-              991104則輸入991104；881113則輸入881113；如此類推。
-            </p>
+            {prefixError ? (
+              <p className="text-destructive">更號前綴錯誤</p>
+            ) : (
+              <>
+                <p>於輸入框內輸入更號，例：</p>
+                <p>
+                  J15101則輸入101；
+                  991104則輸入991104；881113則輸入881113；如此類推。
+                </p>
+              </>
+            )}
           </FormDescription>
+
           {autoDayDetail.map((day, i) => {
             const correspondingDate = moment(day.date, "YYYYMMDD ddd");
             const formatedDate = correspondingDate.format("DD/MM(dd)");
@@ -185,7 +194,7 @@ const SevenSlotsSearchForm = () => {
             const isMonday = correspondingDate.isoWeekday() === 1;
 
             const legitPrefix = !prefixIsLoading
-              ? (prefixData?.filter((x) => x.includes(day.prefix))[0] as string)
+              ? prefixData?.slice(-autoDayDetail.length)[i]
               : `∆${day.prefix}`;
 
             return (
@@ -226,18 +235,20 @@ const SevenSlotsSearchForm = () => {
                               sevenSlotsSearchForm.control.getFieldState(
                                 field.name
                               ).invalid ? (
-                                `${legitPrefix}___`
+                                `${legitPrefix as string}___`
                               ) : (
                                 <>
                                   {(field.value as string).match(
                                     abbreviatedDutyNumber
                                   )
-                                    ? `${legitPrefix}${field.value as string}`
+                                    ? `${legitPrefix as string}${
+                                        field.value as string
+                                      }`
                                     : `${field.value as string}`}
                                 </>
                               )
                             ) : (
-                              `${legitPrefix}___`
+                              `${legitPrefix as string}___`
                             )}
                           </FormLabel>
                           <FormControl>
