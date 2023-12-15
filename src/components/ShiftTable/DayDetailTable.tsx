@@ -48,6 +48,10 @@ export function DayDetailTable<TData, TValue>({
     .getSelectedRowModel()
     .flatRows.map((shift) => shift.original);
 
+  const allShifts = table
+    .getRowModel()
+    .flatRows.flatMap((shift) => shift.original);
+
   return (
     <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">
       <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">

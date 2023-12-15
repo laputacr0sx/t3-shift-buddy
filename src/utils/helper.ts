@@ -141,7 +141,7 @@ export function addOneToMonthNumber(dateArray: number[]): number[] {
   return [year, addedMonth, ...rest] as number[];
 }
 
-export async function getICSObject(selectedShifts: DayDetail[]): Promise<File> {
+export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
   const events = selectedShifts.map<EventAttributes>((shift) => {
     const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks } = shift;
     const validDate = moment(date, "YYYYMMDD").format("YYYY-MM-DD");
@@ -172,15 +172,13 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<File> {
     } as EventAttributes;
   });
 
-  return new Promise<File>((resolve, reject) => {
+  return new Promise<Blob>((resolve, reject) => {
     createEvents(events, (error, value) => {
       if (error) {
         reject(error);
       }
-
-      console.log("cal from trpc", value);
       resolve(
-        new File([value], "ics.ics", {
+        new Blob([value], {
           type: "text/calendar",
         })
       );

@@ -23,12 +23,6 @@ export const dayOff = [
   "ALS",
 ] as const;
 
-export interface WeekComplex {
-  date: Date;
-  title: string;
-  dutyObject: Shift;
-}
-
 export const dayDetailSchema = z.object({
   date: z.string(),
   title: z.string(),

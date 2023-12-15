@@ -31,8 +31,6 @@ function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
   const numberOfSelectedShifts = selectedShifts.length;
 
-  console.log(selectedShifts);
-
   const {
     data: calendarData,
     isLoading: calendarLoading,
@@ -40,8 +38,6 @@ function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
   } = api.calendarController.transformToEvents.useQuery(selectedShifts, {
     refetchOnWindowFocus: false,
   });
-
-  console.log(calendarData);
 
   return (
     <>

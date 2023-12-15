@@ -12,10 +12,11 @@ export const calendarControllerRouter = createTRPCRouter({
   transformToEvents: publicProcedure
     .input(dayDetailSchema.array())
     .query(async ({ input }) => {
-      console.log(input);
       const calendar = await getICSObject(input);
 
       try {
+        console.log(calendar);
+
         return put("ics.ics", calendar, {
           access: "public",
           addRandomSuffix: false,
