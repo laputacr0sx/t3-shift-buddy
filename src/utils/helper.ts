@@ -11,7 +11,6 @@ import { EventAttributes, ReturnObject, createEvents } from "ics";
 // const ical = require('node-ical');
 import * as icalParser from "node-ical";
 import axios from "axios";
-import { G } from "@upstash/redis/zmscore-b6b93f14";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
@@ -176,7 +175,7 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
       busyStatus: "BUSY",
       productId: "calendar",
       classification: "PUBLIC",
-      sequence: 1,
+      sequence: 0,
     } as EventAttributes;
   });
 
@@ -191,12 +190,10 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
       const ev = webEvents[e];
       if (!ev) continue;
       if (ev.type == "VEVENT") {
-        console.log(ev.summary);
+        console.log(moment(ev.start).toArray());
       }
     }
   }
-
-  console.log(events);
 
   return new Promise<Blob>((resolve, reject) => {
     createEvents(events, (error, value) => {

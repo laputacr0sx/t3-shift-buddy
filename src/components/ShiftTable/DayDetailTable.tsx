@@ -21,9 +21,7 @@ import {
 import TableCopyButtons from "~/components/TableCopyButtons";
 
 import { type DayDetail } from "~/utils/customTypes";
-import { CalendarRange } from "lucide-react";
-import { Button } from "../ui/button";
-import { AddToCalendarButton } from "add-to-calendar-button-react";
+import { api } from "~/utils/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -54,6 +52,9 @@ export function DayDetailTable<TData, TValue>({
   const allShifts = table
     .getRowModel()
     .flatRows.flatMap((shift) => shift.original);
+
+  const { data: eventData } =
+    api.calendarController.getCurrentEvents.useQuery();
 
   return (
     <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">
@@ -143,6 +144,7 @@ export function DayDetailTable<TData, TValue>({
           </TableFooter>
         </Table>
       </div>
+
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
         selectedShifts={allShifts as DayDetail[]}
