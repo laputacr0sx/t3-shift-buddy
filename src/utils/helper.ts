@@ -8,6 +8,11 @@ import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
 import { EventAttributes, ReturnObject, createEvents } from "ics";
 
+// const ical = require('node-ical');
+import * as icalParser from "node-ical";
+import axios from "axios";
+import { G } from "@upstash/redis/zmscore-b6b93f14";
+
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
   weekdaysMin: ["日", "一", "二", "三", "四", "五", "六"],
@@ -174,6 +179,22 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
       sequence: 1,
     } as EventAttributes;
   });
+
+  const webEvents = await axios
+    .get(
+      `https://r4wbzko8exh5zxdl.public.blob.vercel-storage.com/${602949}.ics`
+    )
+    .then((res) => icalParser.parseICS(res.data as string));
+
+  for (const e in webEvents) {
+    if (webEvents.hasOwnProperty(e)) {
+      const ev = webEvents[e];
+      if (!ev) continue;
+      if (ev.type == "VEVENT") {
+        console.log(ev.summary);
+      }
+    }
+  }
 
   console.log(events);
 
