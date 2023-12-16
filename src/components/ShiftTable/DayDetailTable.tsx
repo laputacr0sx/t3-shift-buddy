@@ -21,6 +21,9 @@ import {
 import TableCopyButtons from "~/components/TableCopyButtons";
 
 import { type DayDetail } from "~/utils/customTypes";
+import { CalendarRange } from "lucide-react";
+import { Button } from "../ui/button";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -142,7 +145,7 @@ export function DayDetailTable<TData, TValue>({
       </div>
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
-        selectedShifts={selectedShifts as DayDetail[]}
+        selectedShifts={allShifts as DayDetail[]}
       />
     </div>
   );

@@ -146,7 +146,7 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
     const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks } = shift;
     const validDate = moment(date, "YYYYMMDD").format("YYYY-MM-DD");
 
-    const start = moment(`${validDate} ${bNT}`).toArray().splice(0, 5);
+    const start = moment.utc(`${validDate} ${bNT}`).toArray().splice(0, 5);
     const end = moment(`${validDate} ${bFT}`).isAfter(
       moment(`${validDate} ${bNT}`)
     )
@@ -158,19 +158,24 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
 
     return {
       start: addOneToMonthNumber(start),
+      startInputType: "local",
       end: addOneToMonthNumber(end),
+      endInputType: "local",
+
       title: dutyNumber,
       description: `收工地點：${getChineseLocation(
         bFL
       )}\n工時：${durationDecimal}\n備註：${remarks}`,
+
       location: getChineseLocation(bNL),
       busyStatus: "BUSY",
       productId: "calendar",
       classification: "PUBLIC",
       sequence: 1,
-      // duration: {}
     } as EventAttributes;
   });
+
+  console.log(events);
 
   return new Promise<Blob>((resolve, reject) => {
     createEvents(events, (error, value) => {

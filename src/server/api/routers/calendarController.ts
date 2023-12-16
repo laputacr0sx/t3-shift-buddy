@@ -15,9 +15,7 @@ export const calendarControllerRouter = createTRPCRouter({
       const calendar = await getICSObject(input);
 
       try {
-        console.log(calendar);
-
-        return put("ics.ics", calendar, {
+        return put("602949.ics", calendar, {
           access: "public",
           addRandomSuffix: false,
         });

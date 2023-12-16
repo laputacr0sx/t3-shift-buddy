@@ -75,7 +75,7 @@ function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
                   icsFile: calendarData.url,
                   name: "ICS file",
                   options: ["Apple", "Google", "Microsoft365", "iCal"],
-                  timeZone: "Asia/Hong_Kong",
+                  timeZone: "currentBrowser",
                 });
               }}
             >
