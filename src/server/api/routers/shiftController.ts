@@ -165,6 +165,48 @@ export const shiftControllerRouter = createTRPCRouter({
       return reduceResult;
     }),
 
+  getShiftDetailWithAlphabeticPrefix: publicProcedure
+    .input(
+      z
+        .object({
+          date: z.string().regex(/\d{8}/gim),
+          shiftCode: z.string().regex(proShiftNameRegex),
+        })
+        .array()
+    )
+    .query(async ({ ctx, input }) => {
+      const shiftCodeOnly = input.map((day) => day.shiftCode);
+
+      const resultDuties = await ctx.prisma.shift.findMany({
+        where: { dutyNumber: { in: shiftCodeOnly } },
+      });
+
+      const reduceResult = input.reduce<DayDetail[]>((accumulatedDays, day) => {
+        if (day.shiftCode.match(dayOffRegex)) {
+          accumulatedDays.push({
+            date: day.date,
+            title: day.shiftCode,
+            dutyNumber: day.shiftCode,
+          } as DayDetail);
+        }
+
+        const temp = resultDuties.filter((duty) =>
+          duty.dutyNumber.match(day.shiftCode)
+        )[0];
+
+        if (temp)
+          accumulatedDays.push({
+            ...temp,
+            date: day.date,
+            title: temp.dutyNumber,
+          } as DayDetail);
+
+        return accumulatedDays;
+      }, []);
+
+      return reduceResult;
+    }),
+
   getDayWeather: publicProcedure.query(async () => {
     const hkoUri =
       "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc";

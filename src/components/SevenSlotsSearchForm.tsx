@@ -56,9 +56,17 @@ const sevenSlotsSearchFormSchema = z.object({
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 const SevenSlotsSearchForm = () => {
+  const {
+    data: prefixData,
+    isLoading: prefixIsLoading,
+    error: prefixError,
+  } = api.prefixController.getLatestPrefix.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
+
   const [parent] = useAutoAnimate();
 
-  const { router, handleQuery } = useShiftQuery();
+  const { router, handleQuery } = useShiftQuery(prefixData);
   const [newSearchParams, setNewSearchParams] =
     useState<URLSearchParams | null>(null);
 
@@ -82,20 +90,10 @@ const SevenSlotsSearchForm = () => {
     data: queryData,
     isLoading: queryIsLoading,
     error: queryError,
-  } = api.shiftController.getShiftDetailWithoutAlphabeticPrefix.useQuery(
+  } = api.shiftController.getShiftDetailWithAlphabeticPrefix.useQuery(
     shiftsFromSearchParamMemo,
     { enabled: !!shiftsFromSearchParamMemo.length, refetchOnWindowFocus: false }
   );
-
-  const {
-    data: prefixData,
-    isLoading: prefixIsLoading,
-    error: prefixError,
-  } = api.prefixController.getLatestPrefix.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
-
-  console.log(prefixData?.slice(-autoDayDetail.length));
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
