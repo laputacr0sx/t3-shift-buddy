@@ -17,6 +17,7 @@ import * as icalParser from "node-ical";
 import { type EventAttributes } from "ics";
 import moment from "moment";
 import { TRPCError } from "@trpc/server";
+import { userPrivateMetadataSchema } from "~/utils/zodSchemas";
 
 export const calendarControllerRouter = createTRPCRouter({
   transformToEvents: publicProcedure
@@ -37,14 +38,24 @@ export const calendarControllerRouter = createTRPCRouter({
 
   getCurrentEvents: protectedProcedure.query(async ({ ctx }) => {
     if (!ctx.auth.userId) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
+    }
+    const user = ctx.user;
+    if (!user) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "User Not Found" });
+    }
+    const metadata = user.privateMetadata;
+    if (!metadata) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "No metadata found" });
     }
 
-    console.log(ctx.auth.user?.publicMetadata);
+    const validMetadata = userPrivateMetadataSchema.parse(metadata);
+
+    console.log(validMetadata.staffId);
 
     const webICSEventString = await axios
       .get(
-        `https://r4wbzko8exh5zxdl.public.blob.vercel-storage.com/${602949}.ics`
+        `https://r4wbzko8exh5zxdl.public.blob.vercel-storage.com/${validMetadata.staffId}.ics`
       )
       .then((res) => icalParser.parseICS(res.data as string));
 

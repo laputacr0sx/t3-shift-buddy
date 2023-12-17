@@ -6,7 +6,7 @@ import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
-import { EventAttributes, ReturnObject, createEvents } from "ics";
+import { DateArray, EventAttributes, ReturnObject, createEvents } from "ics";
 
 // const ical = require('node-ical');
 import * as icalParser from "node-ical";
@@ -138,11 +138,11 @@ export async function tableCopyHandler(selectedShifts: DayDetail[]) {
   toast.success("已複製資料");
 }
 
-export function addOneToMonthNumber(dateArray: number[]): number[] {
+export function addOneToMonthNumber(dateArray: number[]): DateArray {
   const [year, month, ...rest] = dateArray;
   const addedMonth = (month as number) + 1;
 
-  return [year, addedMonth, ...rest] as number[];
+  return [year, addedMonth, ...rest] as DateArray;
 }
 
 export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
