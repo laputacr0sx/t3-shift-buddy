@@ -20,7 +20,6 @@ import {
 import TableCopyButtons from "~/components/TableCopyButtons";
 
 import { type DayDetail } from "~/utils/customTypes";
-import { api } from "~/utils/api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,10 +50,6 @@ export function DayDetailTable<TData, TValue>({
   const allShifts = table
     .getRowModel()
     .flatRows.flatMap((shift) => shift.original);
-
-  // calling backend to test
-  const { data: eventData } =
-    api.calendarController.getCurrentEvents.useQuery();
 
   return (
     <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">

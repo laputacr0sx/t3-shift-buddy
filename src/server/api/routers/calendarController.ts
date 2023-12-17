@@ -9,15 +9,13 @@ import {
   getICSObject,
 } from "~/utils/helper";
 
-import { dayDetailSchema } from "../../../utils/customTypes";
-
 import axios from "axios";
 import { put } from "@vercel/blob";
 import * as icalParser from "node-ical";
 import { type EventAttributes } from "ics";
 import moment from "moment";
 import { TRPCError } from "@trpc/server";
-import { userPrivateMetadataSchema } from "~/utils/zodSchemas";
+import { dayDetailSchema, userPrivateMetadataSchema } from "~/utils/zodSchemas";
 
 export const calendarControllerRouter = createTRPCRouter({
   transformToEvents: publicProcedure
@@ -44,14 +42,15 @@ export const calendarControllerRouter = createTRPCRouter({
     if (!user) {
       throw new TRPCError({ code: "NOT_FOUND", message: "User Not Found" });
     }
+
+    console.log(user);
+
     const metadata = user.privateMetadata;
     if (!metadata) {
       throw new TRPCError({ code: "NOT_FOUND", message: "No metadata found" });
     }
 
     const validMetadata = userPrivateMetadataSchema.parse(metadata);
-
-    console.log(validMetadata.staffId);
 
     const webICSEventString = await axios
       .get(

@@ -1,6 +1,6 @@
-import { type z } from "zod";
+import { z } from "zod";
 import {
-  dayDetailSchema,
+  type dayDetailSchema,
   type rawShiftArraySchema,
   type userPrivateMetadataSchema,
 } from "./zodSchemas";
@@ -31,6 +31,5 @@ export type DayDetail = z.infer<typeof dayDetailSchema>;
 export type RawShiftArray = {
   legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;
 };
-export { dayDetailSchema };
 
 export type UserPrivateMetadata = z.infer<typeof userPrivateMetadataSchema>;

@@ -22,4 +22,20 @@ export const userControllerRouter = createTRPCRouter({
         },
       });
     }),
+
+  getUserMetadata: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth.userId) {
+      throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
+    }
+    const user = ctx.user;
+    if (!user) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "User Not Found" });
+    }
+
+    const metadata = await clerkClient.users
+      .getUser(user.id)
+      .then((user) => user.privateMetadata);
+
+    return userPrivateMetadataSchema.parse(metadata);
+  }),
 });

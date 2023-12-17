@@ -5,8 +5,18 @@ import { workLocation } from "./customTypes";
 export const userPrivateMetadataSchema = z.object({
   staffId: z
     .string({ invalid_type_error: "以字串輸入此欄" })
-    .length(6, "員工號碼只有6位數字"),
-  row: z.string(),
+    .length(6, "員工號碼只有6位數字")
+    .catch(""),
+  row: z.string().catch(""),
+});
+
+export const shiftSequenceSchema = z.string();
+
+export const rawShiftArraySchema = z.array(z.string().regex(shiftNameRegex));
+
+export const minorForcastSchema = z.object({
+  value: z.number(),
+  unit: z.enum(["C", "percent"]),
 });
 
 export const dayDetailSchema = z.object({
@@ -21,15 +31,6 @@ export const dayDetailSchema = z.object({
   duration: z.string(),
   remarks: z.string(),
   staffId: z.string().nullable(),
-});
-
-export const shiftSequenceSchema = z.string();
-
-export const rawShiftArraySchema = z.array(z.string().regex(shiftNameRegex));
-
-export const minorForcastSchema = z.object({
-  value: z.number(),
-  unit: z.enum(["C", "percent"]),
 });
 
 export const weatherSchema = z.object({
