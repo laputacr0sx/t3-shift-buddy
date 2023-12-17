@@ -7,24 +7,20 @@ import { type DayDetail } from "~/utils/customTypes";
 
 import { useUser } from "@clerk/nextjs";
 
-import { createClient } from "@supabase/supabase-js";
-import { env } from "~/env.mjs";
 import { atcb_action } from "add-to-calendar-button";
 
 import { api } from "~/utils/api";
 
 // Create Supabase client
-const supabase = createClient(
-  env.NEXT_PUBLIC_SUPABASE_URL,
-  env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
 
-type TableCopyButtonsProps = {
+type TableCopyButtonsProps<TData> = {
   isSomeRowSelected: boolean;
-  selectedShifts: DayDetail[];
+  selectedShifts: TData[];
 };
 
-function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
+function TableCopyButtons({
+  selectedShifts,
+}: TableCopyButtonsProps<DayDetail>) {
   const user = useUser();
 
   const completeShiftsString = getSelectedShiftsString(selectedShifts);

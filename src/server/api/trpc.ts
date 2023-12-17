@@ -18,7 +18,7 @@ import { prisma } from "~/server/db";
 // Clerk implementation //
 import {
   getAuth,
-  User,
+  type User,
   type SignedInAuthObject,
   type SignedOutAuthObject,
   clerkClient,

@@ -1,8 +1,6 @@
 import { Fragment, useMemo } from "react";
 import { ExchangeColumn } from "~/components/Exchange/ExchangeColumn";
 import { ExchangeTable } from "~/components/Exchange/ExchangeTable";
-import { VerticalExchangeTable } from "~/components/Exchange/VerticalExchangeTable";
-import { Separator } from "~/components/ui/separator";
 import { autoPrefix } from "~/utils/helper";
 
 export default function DemoExchangeForm() {

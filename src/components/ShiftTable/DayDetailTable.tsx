@@ -5,7 +5,6 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  type Row,
 } from "@tanstack/react-table";
 
 import {
@@ -53,6 +52,7 @@ export function DayDetailTable<TData, TValue>({
     .getRowModel()
     .flatRows.flatMap((shift) => shift.original);
 
+  // calling backend to test
   const { data: eventData } =
     api.calendarController.getCurrentEvents.useQuery();
 
@@ -147,7 +147,7 @@ export function DayDetailTable<TData, TValue>({
 
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
-        selectedShifts={allShifts as DayDetail[]}
+        selectedShifts={(selectedShifts || allShifts) as DayDetail[]}
       />
     </div>
   );

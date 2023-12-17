@@ -7,13 +7,9 @@ import { api } from "~/utils/api";
 import { getNextWeekDates } from "~/utils/helper";
 import { proShiftNameRegex } from "~/utils/regex";
 import Layout from "~/components/ui/layouts/AppLayout";
-import {
-  type DayDetail,
-  type RawShiftArray,
-  rawShiftArraySchema,
-  shiftSequenceSchema,
-} from "~/utils/customTypes";
+import { type DayDetail, type RawShiftArray } from "~/utils/customTypes";
 import TableLoading from "~/components/TableLoading";
+import { rawShiftArraySchema, shiftSequenceSchema } from "~/utils/zodSchemas";
 
 function WholeWeek({ legitRawShiftArray }: RawShiftArray) {
   console.log(legitRawShiftArray);

@@ -1,12 +1,11 @@
 import moment from "moment";
-import { type Row } from "@tanstack/react-table";
 import { toast } from "react-hot-toast";
 import { type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
-import { DateArray, EventAttributes, ReturnObject, createEvents } from "ics";
+import { type DateArray, createEvents, type EventAttributes } from "ics";
 
 // const ical = require('node-ical');
 import * as icalParser from "node-ical";
