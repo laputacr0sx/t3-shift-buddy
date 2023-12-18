@@ -81,3 +81,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.cl-footer  {
+  display: none
+}

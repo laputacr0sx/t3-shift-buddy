@@ -1,9 +1,19 @@
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { clerkClient } from "@clerk/nextjs";
-import { userPrivateMetadataSchema } from "~/utils/zodSchemas";
+import { userPrivateMetadataSchema, usersSchema } from "~/utils/zodSchemas";
 
 export const userControllerRouter = createTRPCRouter({
+  createUser: protectedProcedure
+    .input(usersSchema)
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.auth.userId) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
+      }
+
+      return clerkClient.users.createUser(input);
+    }),
+
   setUserMetadata: protectedProcedure
     .input(userPrivateMetadataSchema)
     .mutation(({ ctx, input }) => {

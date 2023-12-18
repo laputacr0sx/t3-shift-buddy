@@ -6,6 +6,21 @@ import {
 } from "./regex";
 import { workLocation } from "./customTypes";
 
+export const usersSchema = z
+  .object({
+    emailAddress: z.string().array(),
+    externalId: z.string(),
+    phoneNumber: z.string().array(),
+    username: z.string(),
+    password: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    publicMetadata: z.record(z.string(), z.unknown()),
+    privateMetadata: z.record(z.string(), z.unknown()),
+    unsafeMetadata: z.record(z.string(), z.unknown()),
+  })
+  .array();
+
 export const userPrivateMetadataSchema = z.object({
   staffId: z
     .string({ invalid_type_error: "以字串輸入此欄" })

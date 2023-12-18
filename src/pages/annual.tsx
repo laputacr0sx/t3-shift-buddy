@@ -92,8 +92,6 @@ const AnnualLeaves: NextPageWithLayout = () => {
         showWeekNumber
         ISOWeek
         numberOfMonths={1}
-        fromYear={2024}
-        toYear={2024}
         onWeekNumberClick={handleWeekNumberClick}
         formatters={{
           formatDay: (date) => {
