@@ -18,26 +18,38 @@ import { userPrivateMetadataSchema } from "~/utils/zodSchemas";
 import { Input } from "~/components/ui/input";
 import { NextPageWithLayout } from "./_app";
 import Layout from "~/components/ui/layouts/AppLayout";
+import toast from "react-hot-toast";
 
 function UserMetadataForm() {
-  const {
-    data: userData,
-    isLoading: userLoading,
-    error: userError,
-  } = api.userController.getUserMetadata.useQuery();
+  const { data: userData } = api.userController.getUserMetadata.useQuery(
+    undefined,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { mutate } = api.userController.setUserMetadata.useMutation({
+    onSuccess: () => toast.success("保存成功"),
+    onError: () => toast.error("保存失败"),
+  });
 
   const userPrivateMetadataForm = useForm<
     z.infer<typeof userPrivateMetadataSchema>
   >({
     resolver: zodResolver(userPrivateMetadataSchema),
-    values: {
-      staffId: userData?.staffId as string,
-      row: userData?.row as string,
+    defaultValues: {
+      row: "",
+      staffId: "",
     },
+    values: userData,
   });
-  // 2. Define a submit handler.
+
   function metadataHandler(values: z.infer<typeof userPrivateMetadataSchema>) {
-    return { ...values };
+    return mutate(values);
+
+    // toast.success(JSON.stringify(values, null, 4));
+
+    // return { ...values };
   }
 
   return (
@@ -51,27 +63,55 @@ function UserMetadataForm() {
           name="staffId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>StaffId</FormLabel>
+              <FormLabel>職員號碼</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} disabled={!!userData?.staffId} />
               </FormControl>
+              <FormDescription>職員號碼不可更改</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
-        <Button type="submit" variant={"secondary"}>
-          預覽
-        </Button>
+        <FormField
+          control={userPrivateMetadataForm.control}
+          name="row"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>行序編號</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>
+                編號為每一筆資料的編號，以便於查詢。
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex flex-col gap-2">
+          <Button type="submit" variant={"outline"}>
+            更改
+          </Button>
+          <Button type="reset" variant={"destructive"}>
+            取消
+          </Button>
+        </div>
       </form>
     </Form>
   );
 }
 
-const User: NextPageWithLayout = () => {
-  return <UserMetadataForm />;
-  return <div>happy</div>;
-};
+const User: NextPageWithLayout = () => (
+  <React.Fragment>
+    <h1
+      id="title"
+      className="justify-center py-5 text-center text-4xl font-semibold text-foreground"
+    >
+      用戶資料
+    </h1>
+    <UserMetadataForm />
+  </React.Fragment>
+);
 
 User.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;

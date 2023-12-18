@@ -1,13 +1,16 @@
 import { z } from "zod";
-import { dutyInputRegExValidator, shiftNameRegex } from "./regex";
+import {
+  dutyInputRegExValidator,
+  rowSequenceRegex,
+  shiftNameRegex,
+} from "./regex";
 import { workLocation } from "./customTypes";
 
 export const userPrivateMetadataSchema = z.object({
   staffId: z
     .string({ invalid_type_error: "以字串輸入此欄" })
-    .length(6, "員工號碼只有6位數字")
-    .catch(""),
-  row: z.string().catch(""),
+    .length(6, "員工號碼只有6位數字"),
+  row: z.string().regex(rowSequenceRegex, "行序格式為 A1 / B50"),
 });
 
 export const shiftSequenceSchema = z.string();

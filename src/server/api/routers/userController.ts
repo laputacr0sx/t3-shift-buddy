@@ -6,7 +6,7 @@ import { userPrivateMetadataSchema } from "~/utils/zodSchemas";
 export const userControllerRouter = createTRPCRouter({
   setUserMetadata: protectedProcedure
     .input(userPrivateMetadataSchema)
-    .query(({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       if (!ctx.auth.userId) {
         throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
       }
