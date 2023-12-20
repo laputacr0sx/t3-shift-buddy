@@ -1,8 +1,10 @@
 import { atcb_action } from "add-to-calendar-button";
-import React from "react";
+import React, { ReactElement } from "react";
 import { Button } from "~/components/ui/button";
+import { NextPageWithLayout } from "./_app";
+import Layout from "~/components/ui/layouts/AppLayout";
 
-function Page() {
+const Page: NextPageWithLayout = () => {
   function handleClick() {
     console.log(new Date().toISOString().split("T")[0]);
     //
@@ -31,6 +33,10 @@ function Page() {
       </Button>
     </div>
   );
-}
+};
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Page;
