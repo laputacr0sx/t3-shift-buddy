@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+  staffIdSchema,
   type dayDetailSchema,
   type rawShiftArraySchema,
   type userPrivateMetadataSchema,
@@ -33,3 +34,5 @@ export type RawShiftArray = {
 };
 
 export type UserPrivateMetadata = z.infer<typeof userPrivateMetadataSchema>;
+
+export type StaffId = z.infer<typeof staffIdSchema>;

@@ -35,14 +35,6 @@ function TableCopyButtons({
     refetchOnWindowFocus: false,
   });
 
-  // calling backend to test
-  const { data: eventData, refetch: fetchCurrentEvent } =
-    api.calendarController.getCurrentEvents.useQuery(undefined, {
-      enabled: false,
-    });
-
-  console.log(eventData);
-
   return (
     <>
       <div className="flex items-center justify-around gap-4">
@@ -70,12 +62,8 @@ function TableCopyButtons({
               className="my-2 self-center align-middle font-light"
               variant={"secondary"}
               disabled={calendarLoading && calendarData}
-              onClick={async (event) => {
+              onClick={(event) => {
                 event.preventDefault();
-
-                const result = await fetchCurrentEvent();
-
-                console.log(result.data);
 
                 atcb_action({
                   subscribe: true,
