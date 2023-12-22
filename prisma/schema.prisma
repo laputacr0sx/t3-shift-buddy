@@ -94,10 +94,9 @@ model Roster {
   id          String   @id @unique
   publishedAt DateTime @default(now())
   publisherId String
+  Timetables  String[]
 
   Sequence Sequence[]
-
-  Timetables Timetable[]
 
   annualId Int?
   Annual   Annual? @relation(fields: [annualId], references: [id])
@@ -114,8 +113,6 @@ model Timetable {
   prefix          String
 
   Duty Duty[]
-
-  Roster Roster[]
 }
 
 model User {
