@@ -274,7 +274,9 @@ const SevenSlotsSearchForm = () => {
             <Button
               type="submit"
               variant={"secondary"}
-              disabled={!sevenSlotsSearchForm.formState.isDirty}
+              disabled={
+                !sevenSlotsSearchForm.formState.isDirty || prefixIsLoading
+              }
             >
               查資料
             </Button>

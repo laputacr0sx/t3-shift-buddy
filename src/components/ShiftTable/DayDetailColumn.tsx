@@ -164,7 +164,8 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
               const durationDecimal = duration
                 ? convertDurationDecimal(duration)
                 : "0";
-              const durationInt: number = parseFloat(durationDecimal);
+              // const durationInt: number = parseFloat(durationDecimal);
+              const durationInt = +durationDecimal;
 
               return sum + durationInt;
             }, 0);

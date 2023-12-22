@@ -4,7 +4,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import {
-  addOneToMonthNumber,
+  convertMonthNumber,
   convertICSEventsToBlob,
   getChineseLocation,
   getICSObject,
@@ -70,8 +70,6 @@ export const calendarControllerRouter = createTRPCRouter({
           // });
         });
 
-      console.log(webICSEventString);
-
       function getWebICSEvents(
         webEvents: icalParser.CalendarResponse
       ): icalParser.VEvent[] {
@@ -99,12 +97,12 @@ export const calendarControllerRouter = createTRPCRouter({
           const description = icsEvent.description;
 
           return {
-            start: addOneToMonthNumber(start),
+            start: convertMonthNumber(start),
             startInputType: "local",
-            end: addOneToMonthNumber(end),
+            end: convertMonthNumber(end),
             endInputType: "local",
             title: dutyNumber,
-            description: description,
+            description,
             location: getChineseLocation(bNL),
             busyStatus: "BUSY",
             productId: "calendar",
@@ -116,14 +114,45 @@ export const calendarControllerRouter = createTRPCRouter({
 
       const webICSEvents = getWebICSEvents(webICSEventString);
 
-      const latestICSEvents = getICSObject(input);
+      const updatedICSEvents = getICSObject(input);
 
-      const ICSEvents = convertToICSEvents(webICSEvents);
+      const oldICSEvents = convertToICSEvents(webICSEvents);
 
-      const awaitingEventBlob = convertICSEventsToBlob([
-        ...latestICSEvents,
-        ...ICSEvents,
-      ]);
+      const combinedICSEvents = oldICSEvents.reduce<EventAttributes[]>(
+        (allEvents, currOldEvent) => {
+          const legitOldDate = convertMonthNumber(
+            currOldEvent.start,
+            "subtract"
+          );
+          const dateOfOldEvent = moment(legitOldDate);
+
+          const eventOnSameDate = updatedICSEvents.find((updateEvent) => {
+            const legitUpdateDate = convertMonthNumber(
+              updateEvent.start,
+              "subtract"
+            );
+            const dateOfUpdatedEvent = moment(legitUpdateDate);
+
+            return dateOfOldEvent.isSame(dateOfUpdatedEvent, "day");
+          });
+
+          if (!!eventOnSameDate) {
+            allEvents.push(eventOnSameDate);
+            return allEvents;
+          }
+
+          allEvents.push(currOldEvent);
+
+          return allEvents;
+        },
+        []
+      );
+
+      // const awaitingEventBlob = convertICSEventsToBlob([
+      //   ...oldICSEvents,
+      //   ...updatedICSEvents,
+      // ]);
+      const awaitingEventBlob = convertICSEventsToBlob(combinedICSEvents);
 
       const eventsBlob = await awaitingEventBlob;
 

@@ -1,10 +1,11 @@
-import { atcb_action } from "add-to-calendar-button";
 import React, { type ReactElement } from "react";
-import { Button } from "~/components/ui/button";
 import type { NextPageWithLayout } from "./_app";
+
+import { atcb_action } from "add-to-calendar-button";
+import { Button } from "~/components/ui/button";
 import Layout from "~/components/ui/layouts/AppLayout";
 import { api } from "~/utils/api";
-import TableLoading from "~/components/TableLoading";
+import toast from "react-hot-toast";
 
 const Page: NextPageWithLayout = () => {
   const {
@@ -12,16 +13,34 @@ const Page: NextPageWithLayout = () => {
     isLoading: blobLoading,
     error: blobError,
     refetch: fetchBlob,
-    isFetching: isFetchingBlob,
-  } = api.calendarController.getCurrentEvents.useQuery([], {
-    enabled: false,
-  });
+  } = api.calendarController.getCurrentEvents.useQuery(
+    [
+      {
+        bFL: "HUH",
+        bNL: "HUH",
+        bNT: "07:00",
+        bFT: "15:00",
+        date: "2023-12-23",
+        duration: "7:30",
+        dutyNumber: "T15101",
+        id: "6d22089d-391f-49c7-ad13-cf833621b259",
+        title: "T15101",
+        remarks: "EMU",
+        staffId: "",
+      },
+    ],
+    {
+      enabled: false,
+    }
+  );
 
-  if (blobError) throw new Error(blobError.message);
+  if (blobError) {
+    toast.error(blobError.message);
+  }
 
   function handleClick() {
     console.log(new Date().toISOString().split("T")[0]);
-    if (!blobLoading && blobData)
+    if (!blobLoading && blobData) {
       atcb_action({
         subscribe: true,
         icsFile: blobData.url,
@@ -33,6 +52,8 @@ const Page: NextPageWithLayout = () => {
         description: "testing",
         timeZone: "Asia/Hong_Kong",
       });
+      console.log("added to calendar");
+    }
   }
 
   return (
@@ -57,7 +78,6 @@ const Page: NextPageWithLayout = () => {
           Add!
         </Button>
       ) : null}
-      {isFetchingBlob ? <TableLoading /> : null}
     </div>
   );
 };

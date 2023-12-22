@@ -31,7 +31,7 @@ function TableCopyButtons({
     data: calendarData,
     isLoading: calendarLoading,
     error: calendarError,
-  } = api.calendarController.transformToEvents.useQuery(selectedShifts, {
+  } = api.calendarController.getCurrentEvents.useQuery(selectedShifts, {
     refetchOnWindowFocus: false,
   });
 
@@ -75,7 +75,7 @@ function TableCopyButtons({
                 });
               }}
             >
-              {calendarLoading ? "loading events..." : "subscribe!"}
+              {calendarLoading ? "loading events..." : "訂閱日厝"}
             </Button>
           </>
         ) : null}

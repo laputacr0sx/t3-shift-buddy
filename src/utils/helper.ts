@@ -138,11 +138,17 @@ export async function tableCopyHandler(selectedShifts: DayDetail[]) {
   toast.success("已複製資料");
 }
 
-export function addOneToMonthNumber(dateArray: number[]): DateArray {
+export function convertMonthNumber(
+  dateArray: number[],
+  mode: "add" | "subtract" = "add"
+): DateArray {
   const [year, month, ...rest] = dateArray;
-  const addedMonth = (month as number) + 1;
 
-  return [year, addedMonth, ...rest] as DateArray;
+  if (mode === "add") {
+    return [year as number, (month as number) + 1, ...rest] as DateArray;
+  } else {
+    return [year as number, (month as number) - 1, ...rest] as DateArray;
+  }
 }
 
 export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
@@ -161,9 +167,9 @@ export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
       : duration;
 
     return {
-      start: addOneToMonthNumber(start),
+      start: convertMonthNumber(start),
       startInputType: "local",
-      end: addOneToMonthNumber(end),
+      end: convertMonthNumber(end),
       endInputType: "local",
 
       title: dutyNumber,

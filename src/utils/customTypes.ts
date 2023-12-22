@@ -1,9 +1,9 @@
-import { z } from "zod";
-import {
+import type { z } from "zod";
+import type {
   staffIdSchema,
-  type dayDetailSchema,
-  type rawShiftArraySchema,
-  type userPrivateMetadataSchema,
+  dayDetailSchema,
+  rawShiftArraySchema,
+  userPrivateMetadataSchema,
 } from "./zodSchemas";
 
 export const workLocation = [
