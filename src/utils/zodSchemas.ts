@@ -23,7 +23,7 @@ export const usersSchema = z
 
 export const staffIdSchema = z
   .string({ invalid_type_error: "以字串輸入此欄" })
-  .length(6, "員工號碼只有6位數字");
+  .length(6, "員工號碼應有6位數字");
 
 export const userPrivateMetadataSchema = z.object({
   staffId: staffIdSchema,

@@ -28,9 +28,11 @@ function UserMetadataForm() {
     }
   );
 
-  const { mutate } = api.userController.setUserMetadata.useMutation({
+  const { mutate, status } = api.userController.setUserMetadata.useMutation({
     onSuccess: () => toast.success("保存成功"),
-    onError: () => toast.error("保存失败"),
+    onError: () => toast.error("保存失敗"),
+    onMutate: () => toast.loading("保存中..."),
+    onSettled: () => toast.dismiss(),
   });
 
   const userPrivateMetadataForm = useForm<
@@ -46,10 +48,6 @@ function UserMetadataForm() {
 
   function metadataHandler(values: z.infer<typeof userPrivateMetadataSchema>) {
     return mutate(values);
-
-    // toast.success(JSON.stringify(values, null, 4));
-
-    // return { ...values };
   }
 
   return (
@@ -67,7 +65,7 @@ function UserMetadataForm() {
               <FormControl>
                 <Input {...field} disabled={!!userData?.staffId} />
               </FormControl>
-              <FormDescription>職員號碼不可更改</FormDescription>
+              <FormDescription>職員號碼一經輸入，不可更改。</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -89,11 +87,11 @@ function UserMetadataForm() {
           )}
         />
         <div className="flex flex-col gap-2">
-          <Button type="submit" variant={"outline"}>
+          <Button type="submit" variant={"outline"} disabled={!!userData}>
             更改
           </Button>
           <Button type="reset" variant={"destructive"}>
-            取消
+            重設
           </Button>
         </div>
       </form>
