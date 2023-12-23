@@ -1,10 +1,26 @@
 import { z } from "zod";
 import {
   dutyInputRegExValidator,
+  inputShiftCodeRegex,
   rowSequenceRegex,
   shiftNameRegex,
 } from "./regex";
 import { workLocation } from "./customTypes";
+import moment from "moment";
+
+export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
+
+export const sevenSlotsSearchFormSchema = z.object({
+  [dayDetailName]: z
+    .object({
+      shiftCode: z
+        .string()
+        .regex(inputShiftCodeRegex, "錯誤更份號碼")
+        .max(7, "最長更號不多於7個字，例991127A / 881101a"),
+    })
+    .array()
+    .min(1, "At least one shift code must be provided"),
+});
 
 export const usersSchema = z
   .object({

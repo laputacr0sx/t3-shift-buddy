@@ -6,8 +6,6 @@ import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
 import { type DateArray, createEvents, type EventAttributes } from "ics";
-
-// const ical = require('node-ical');
 import * as icalParser from "node-ical";
 import axios from "axios";
 import { userPrivateMetadataSchema } from "./zodSchemas";
@@ -315,3 +313,45 @@ export function getChineseLocation(location: unknown) {
 
 export const staffBlobURI = (staffId: StaffId) =>
   `https://r4wbzko8exh5zxdl.public.blob.vercel-storage.com/${staffId}.ics`;
+
+export function getWebICSEvents(
+  webEvents: icalParser.CalendarResponse
+): icalParser.VEvent[] {
+  const events = [];
+  for (const e in webEvents) {
+    if (webEvents.hasOwnProperty(e)) {
+      const ev = webEvents[e];
+      if (!ev) continue;
+      if (ev.type == "VEVENT") {
+        events.push(ev);
+      }
+    }
+  }
+  return events;
+}
+
+export function convertToICSEvents(
+  webICSEvents: icalParser.VEvent[]
+): EventAttributes[] {
+  return webICSEvents.map<EventAttributes>((icsEvent) => {
+    const start = moment(icsEvent.start).toArray().splice(0, 5);
+    const end = moment(icsEvent.end).toArray().splice(0, 5);
+    const dutyNumber = icsEvent.summary;
+    const bNL = icsEvent.location;
+    const description = icsEvent.description;
+
+    return {
+      start: convertMonthNumber(start),
+      startInputType: "local",
+      end: convertMonthNumber(end),
+      endInputType: "local",
+      title: dutyNumber,
+      description,
+      location: getChineseLocation(bNL),
+      busyStatus: "BUSY",
+      productId: "calendar",
+      classification: "PUBLIC",
+      sequence: 0,
+    } as EventAttributes;
+  });
+}

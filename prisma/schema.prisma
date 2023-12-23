@@ -33,6 +33,7 @@ enum Location {
   SHS
   LOW
   HTD
+  TAD
   TWD
   TAW
   FTRH

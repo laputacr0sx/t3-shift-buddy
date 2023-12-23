@@ -10,7 +10,6 @@ export default authMiddleware({
     "/((?!.+\\.[\\w]+$|_next).*)",
     "/api/webhooks(.*)",
   ],
-  debug: true,
 });
 
 export const config = {

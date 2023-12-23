@@ -6,12 +6,13 @@ import {
 import {
   convertMonthNumber,
   convertICSEventsToBlob,
-  getChineseLocation,
   getICSObject,
   staffBlobURI,
+  getWebICSEvents,
+  convertToICSEvents,
 } from "~/utils/helper";
 
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { put } from "@vercel/blob";
 import * as icalParser from "node-ical";
 import { createEvents, type EventAttributes } from "ics";
@@ -70,48 +71,6 @@ export const calendarControllerRouter = createTRPCRouter({
           // });
         });
 
-      function getWebICSEvents(
-        webEvents: icalParser.CalendarResponse
-      ): icalParser.VEvent[] {
-        const events = [];
-        for (const e in webEvents) {
-          if (webEvents.hasOwnProperty(e)) {
-            const ev = webEvents[e];
-            if (!ev) continue;
-            if (ev.type == "VEVENT") {
-              events.push(ev);
-            }
-          }
-        }
-        return events;
-      }
-
-      function convertToICSEvents(
-        webICSEvents: icalParser.VEvent[]
-      ): EventAttributes[] {
-        return webICSEvents.map<EventAttributes>((icsEvent) => {
-          const start = moment(icsEvent.start).toArray().splice(0, 5);
-          const end = moment(icsEvent.end).toArray().splice(0, 5);
-          const dutyNumber = icsEvent.summary;
-          const bNL = icsEvent.location;
-          const description = icsEvent.description;
-
-          return {
-            start: convertMonthNumber(start),
-            startInputType: "local",
-            end: convertMonthNumber(end),
-            endInputType: "local",
-            title: dutyNumber,
-            description,
-            location: getChineseLocation(bNL),
-            busyStatus: "BUSY",
-            productId: "calendar",
-            classification: "PUBLIC",
-            sequence: 0,
-          } as EventAttributes;
-        });
-      }
-
       const webICSEvents = getWebICSEvents(webICSEventString);
 
       const updatedICSEvents = getICSObject(input);
@@ -136,7 +95,7 @@ export const calendarControllerRouter = createTRPCRouter({
             return dateOfOldEvent.isSame(dateOfUpdatedEvent, "day");
           });
 
-          if (!!eventOnSameDate) {
+          if (typeof eventOnSameDate !== "undefined") {
             allEvents.push(eventOnSameDate);
             return allEvents;
           }

@@ -31,13 +31,22 @@ function TableCopyButtons({
     data: calendarData,
     isLoading: calendarLoading,
     error: calendarError,
+    refetch: fetchCalendar,
   } = api.calendarController.getCurrentEvents.useQuery(selectedShifts, {
+    enabled: false,
     refetchOnWindowFocus: false,
   });
 
   return (
     <>
       <div className="flex items-center justify-around gap-4">
+        <Button
+          onClick={async () => {
+            await fetchCalendar();
+          }}
+        >
+          Update Events in Calendar
+        </Button>
         <Button
           className="my-2 self-center align-middle font-light"
           variant={"secondary"}
