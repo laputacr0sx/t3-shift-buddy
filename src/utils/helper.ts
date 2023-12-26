@@ -1,12 +1,14 @@
 import moment from "moment";
-import { type Row } from "@tanstack/react-table";
 import { toast } from "react-hot-toast";
-import { type DayDetail } from "./customTypes";
+import { StaffId, type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
 import { type z } from "zod";
-import { EventAttributes, ReturnObject, createEvents } from "ics";
+import { type DateArray, createEvents, type EventAttributes } from "ics";
+import * as icalParser from "node-ical";
+import axios from "axios";
+import { userPrivateMetadataSchema } from "./zodSchemas";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
@@ -134,19 +136,25 @@ export async function tableCopyHandler(selectedShifts: DayDetail[]) {
   toast.success("已複製資料");
 }
 
-export function addOneToMonthNumber(dateArray: number[]): number[] {
+export function convertMonthNumber(
+  dateArray: number[],
+  mode: "add" | "subtract" = "add"
+): DateArray {
   const [year, month, ...rest] = dateArray;
-  const addedMonth = (month as number) + 1;
 
-  return [year, addedMonth, ...rest] as number[];
+  if (mode === "add") {
+    return [year as number, (month as number) + 1, ...rest] as DateArray;
+  } else {
+    return [year as number, (month as number) - 1, ...rest] as DateArray;
+  }
 }
 
-export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
+export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
   const events = selectedShifts.map<EventAttributes>((shift) => {
     const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks } = shift;
     const validDate = moment(date, "YYYYMMDD").format("YYYY-MM-DD");
 
-    const start = moment(`${validDate} ${bNT}`).toArray().splice(0, 5);
+    const start = moment.utc(`${validDate} ${bNT}`).toArray().splice(0, 5);
     const end = moment(`${validDate} ${bFT}`).isAfter(
       moment(`${validDate} ${bNT}`)
     )
@@ -157,23 +165,30 @@ export async function getICSObject(selectedShifts: DayDetail[]): Promise<Blob> {
       : duration;
 
     return {
-      start: addOneToMonthNumber(start),
-      end: addOneToMonthNumber(end),
+      start: convertMonthNumber(start),
+      startInputType: "local",
+      end: convertMonthNumber(end),
+      endInputType: "local",
+
       title: dutyNumber,
       description: `收工地點：${getChineseLocation(
         bFL
       )}\n工時：${durationDecimal}\n備註：${remarks}`,
+
       location: getChineseLocation(bNL),
       busyStatus: "BUSY",
       productId: "calendar",
       classification: "PUBLIC",
-      sequence: 1,
-      // duration: {}
+      sequence: 0,
     } as EventAttributes;
   });
 
+  return events;
+}
+
+export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
   return new Promise<Blob>((resolve, reject) => {
-    createEvents(events, (error, value) => {
+    createEvents(calEvents, (error, value) => {
       if (error) {
         reject(error);
       }
@@ -294,4 +309,49 @@ export function getChineseLocation(location: unknown) {
   };
 
   return chineseLocation[location as ChineseKey];
+}
+
+export const staffBlobURI = (staffId: StaffId) =>
+  `https://r4wbzko8exh5zxdl.public.blob.vercel-storage.com/${staffId}.ics`;
+
+export function getWebICSEvents(
+  webEvents: icalParser.CalendarResponse
+): icalParser.VEvent[] {
+  const events = [];
+  for (const e in webEvents) {
+    if (webEvents.hasOwnProperty(e)) {
+      const ev = webEvents[e];
+      if (!ev) continue;
+      if (ev.type == "VEVENT") {
+        events.push(ev);
+      }
+    }
+  }
+  return events;
+}
+
+export function convertToICSEvents(
+  webICSEvents: icalParser.VEvent[]
+): EventAttributes[] {
+  return webICSEvents.map<EventAttributes>((icsEvent) => {
+    const start = moment(icsEvent.start).toArray().splice(0, 5);
+    const end = moment(icsEvent.end).toArray().splice(0, 5);
+    const dutyNumber = icsEvent.summary;
+    const bNL = icsEvent.location;
+    const description = icsEvent.description;
+
+    return {
+      start: convertMonthNumber(start),
+      startInputType: "local",
+      end: convertMonthNumber(end),
+      endInputType: "local",
+      title: dutyNumber,
+      description,
+      location: getChineseLocation(bNL),
+      busyStatus: "BUSY",
+      productId: "calendar",
+      classification: "PUBLIC",
+      sequence: 0,
+    } as EventAttributes;
+  });
 }

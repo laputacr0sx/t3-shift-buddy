@@ -7,25 +7,20 @@ import { type DayDetail } from "~/utils/customTypes";
 
 import { useUser } from "@clerk/nextjs";
 
-import { createClient } from "@supabase/supabase-js";
-import { env } from "~/env.mjs";
 import { atcb_action } from "add-to-calendar-button";
 
 import { api } from "~/utils/api";
 
-// Create Supabase client
-const supabase = createClient(
-  env.NEXT_PUBLIC_SUPABASE_URL,
-  env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-
-type TableCopyButtonsProps = {
+type TableCopyButtonsProps<TData> = {
   isSomeRowSelected: boolean;
-  selectedShifts: DayDetail[];
+  selectedShifts: TData[];
 };
 
-function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
+function TableCopyButtons({
+  selectedShifts,
+}: TableCopyButtonsProps<DayDetail>) {
   const user = useUser();
+  console.log(user.user?.id);
 
   const completeShiftsString = getSelectedShiftsString(selectedShifts);
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
@@ -35,13 +30,25 @@ function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
     data: calendarData,
     isLoading: calendarLoading,
     error: calendarError,
-  } = api.calendarController.transformToEvents.useQuery(selectedShifts, {
+    refetch: fetchCalendar,
+  } = api.calendarController.getCurrentEvents.useQuery(selectedShifts, {
+    enabled: false,
     refetchOnWindowFocus: false,
   });
 
   return (
     <>
       <div className="flex items-center justify-around gap-4">
+        {(user.user?.id === "user_2Z48mfJ1WNbgJygUNvP7QcDI24K" ||
+          user.user?.id === "user_2WeQPNGu9T7ZDKJj0HqqplTnKz8") && (
+          <Button
+            onClick={async () => {
+              await fetchCalendar();
+            }}
+          >
+            Update Events in Calendar
+          </Button>
+        )}
         <Button
           className="my-2 self-center align-middle font-light"
           variant={"secondary"}
@@ -75,11 +82,11 @@ function TableCopyButtons({ selectedShifts }: TableCopyButtonsProps) {
                   icsFile: calendarData.url,
                   name: "ICS file",
                   options: ["Apple", "Google", "Microsoft365", "iCal"],
-                  timeZone: "Asia/Hong_Kong",
+                  timeZone: "currentBrowser",
                 });
               }}
             >
-              {calendarLoading ? "loading events..." : "subscribe!"}
+              {calendarLoading ? "loading events..." : "訂閱日厝"}
             </Button>
           </>
         ) : null}

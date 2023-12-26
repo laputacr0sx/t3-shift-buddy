@@ -34,3 +34,5 @@ export const dutyInputRegExValidator =
 
 export const completeShiftNameRegex =
   /((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))(?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?)|(?:9|8)(?:\d{5})(?:\w?))/;
+
+export const rowSequenceRegex = /[ABCS]\d{1,3}/gim;

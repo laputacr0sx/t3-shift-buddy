@@ -6,7 +6,7 @@ import {
   getWeekNumberByDate,
 } from "~/utils/helper";
 import { type NextPageWithLayout } from "./_app";
-import { useEffect, type ReactElement, useState, useMemo } from "react";
+import { useEffect, type ReactElement, useState } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 import moment from "moment";
@@ -15,12 +15,6 @@ const PrefixUpdate: NextPageWithLayout = () => {
   const [currentWeekNumber, setCurrentWeekNumber] = useState(
     getWeekNumberByDate()
   );
-  const [prefixDetail, setPrefixDetail] = useState<
-    {
-      alphabeticPrefix: string;
-      numericPrefix: string;
-    }[]
-  >([]);
 
   const {
     data: currentWeekPreix,

@@ -5,7 +5,6 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  type Row,
 } from "@tanstack/react-table";
 
 import {
@@ -140,9 +139,10 @@ export function DayDetailTable<TData, TValue>({
           </TableFooter>
         </Table>
       </div>
+
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
-        selectedShifts={selectedShifts as DayDetail[]}
+        selectedShifts={(selectedShifts || allShifts) as DayDetail[]}
       />
     </div>
   );

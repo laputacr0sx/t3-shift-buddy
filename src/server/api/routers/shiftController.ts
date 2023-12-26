@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { type DayDetail, weatherSchema } from "~/utils/customTypes";
+import { type DayDetail } from "~/utils/customTypes";
 import { fetchTyped, getJointDutyNumbers } from "~/utils/helper";
 
 import {
@@ -16,6 +16,7 @@ import {
 
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
 import { Redis } from "@upstash/redis"; // see below for cloudflare and fastly adapters
+import { weatherSchema } from "~/utils/zodSchemas";
 
 // Create a new ratelimiter, that allows 3 requests per 1 minute.
 const ratelimit = new Ratelimit({

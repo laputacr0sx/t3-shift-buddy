@@ -1,14 +1,11 @@
 // app/api/calendar/route.ts
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { type Row } from "@tanstack/react-table";
-import icalendar, { ICalEvent, ICalEventData } from "ical-generator";
+import icalendar, { type ICalEventData } from "ical-generator";
 import moment from "moment";
 
 import { type DayDetail } from "~/utils/customTypes";
 import { convertDurationDecimal } from "~/utils/helper";
-import { z } from "zod";
-import { api } from "~/utils/api";
 
 function getICSObject(selectedShifts: DayDetail[]): ICalEventData[] {
   return selectedShifts.map<ICalEventData>((shift) => {
@@ -36,7 +33,7 @@ function getICSObject(selectedShifts: DayDetail[]): ICalEventData[] {
   });
 }
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(req: NextApiRequest) {
   // if (req.method !== "GET") {
   //   return new Response("Method Not Allowed", {
   //     headers: { Allow: "GET" },

@@ -3,13 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { ModeToggle } from "../../ModeToggle";
 
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "../button";
 
 function Navbar() {
