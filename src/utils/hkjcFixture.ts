@@ -225,8 +225,15 @@ const fixtures: Fixtures = [
     keyMatches: "",
   },
   {
-    date: "2023-12-27",
-    weekDay: 3,
+    date: "2023-12-26",
+    weekDay: 2,
+    venue: "S",
+    nightRacing: 0,
+    keyMatches: "",
+  },
+  {
+    date: "2023-12-29",
+    weekDay: 5,
     venue: "H",
     nightRacing: 1,
     keyMatches: "",
