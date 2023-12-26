@@ -15,7 +15,7 @@ import {
 import axios, { type AxiosError } from "axios";
 import { put } from "@vercel/blob";
 import * as icalParser from "node-ical";
-import { createEvents, type EventAttributes } from "ics";
+import { type EventAttributes } from "ics";
 import moment from "moment";
 import { TRPCError } from "@trpc/server";
 import { dayDetailSchema, userPrivateMetadataSchema } from "~/utils/zodSchemas";

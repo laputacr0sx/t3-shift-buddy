@@ -11,8 +11,6 @@ import { atcb_action } from "add-to-calendar-button";
 
 import { api } from "~/utils/api";
 
-// Create Supabase client
-
 type TableCopyButtonsProps<TData> = {
   isSomeRowSelected: boolean;
   selectedShifts: TData[];
@@ -22,6 +20,7 @@ function TableCopyButtons({
   selectedShifts,
 }: TableCopyButtonsProps<DayDetail>) {
   const user = useUser();
+  console.log(user.user?.id);
 
   const completeShiftsString = getSelectedShiftsString(selectedShifts);
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
@@ -40,13 +39,16 @@ function TableCopyButtons({
   return (
     <>
       <div className="flex items-center justify-around gap-4">
-        <Button
-          onClick={async () => {
-            await fetchCalendar();
-          }}
-        >
-          Update Events in Calendar
-        </Button>
+        {(user.user?.id === "user_2Z48mfJ1WNbgJygUNvP7QcDI24K" ||
+          user.user?.id === "user_2WeQPNGu9T7ZDKJj0HqqplTnKz8") && (
+          <Button
+            onClick={async () => {
+              await fetchCalendar();
+            }}
+          >
+            Update Events in Calendar
+          </Button>
+        )}
         <Button
           className="my-2 self-center align-middle font-light"
           variant={"secondary"}
