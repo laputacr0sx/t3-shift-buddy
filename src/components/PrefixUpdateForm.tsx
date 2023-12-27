@@ -19,6 +19,7 @@ import { api } from "~/utils/api";
 import { autoPrefix } from "~/utils/helper";
 import { Label } from "./ui/label";
 import { Minus, Plus } from "lucide-react";
+import toast from "react-hot-toast";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -62,13 +63,12 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
 
   const { mutate: createPrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({
-      // onSuccess: async () => {
-      //   await api
-      //     .useContext()
-      //     .prefixController.getPrefixGivenWeekNumber.invalidate({
-      //       weekNumber: currentWeekNumber,
-      //     });
-      // },
+      onSuccess: () => {
+        toast.success("更新成功");
+      },
+      onError: () => {
+        toast.error("更新失敗");
+      },
     });
 
   function prefixFormHandler(values: PrefixFormSchema) {
