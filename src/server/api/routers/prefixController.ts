@@ -21,7 +21,7 @@ export const prefixControllerRouter = createTRPCRouter({
   getLatestPrefix: publicProcedure.query(async ({ ctx }) => {
     const prefixChronological = await ctx.prisma.weekPrefix
       .findMany({
-        orderBy: { weekNumber: "desc" },
+        orderBy: { updatedAt: "desc" },
         take: 2,
       })
       .then((weekPrefix) =>

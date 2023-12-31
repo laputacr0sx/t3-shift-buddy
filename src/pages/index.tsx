@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const SevenSlots: NextPageWithLayout = () => {
   useEffect(() => {
-    toast.error("Y2024W1 時間表錯配，請各用家留意。");
+    toast.success("Y2024W1已更新");
 
     return () => {
       toast.remove();
@@ -21,7 +21,6 @@ const SevenSlots: NextPageWithLayout = () => {
       >
         出更易
       </h1>
-      <p className=" text-destructive">Y2024W1 時間表錯配，請各用家留意。</p>
       <SevenSlotsSearchForm />
     </React.Fragment>
   );

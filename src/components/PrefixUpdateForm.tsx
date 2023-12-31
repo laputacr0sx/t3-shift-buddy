@@ -89,60 +89,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
         onSubmit={prefixForm.handleSubmit(prefixFormHandler)}
         className=" flex w-fit flex-col space-y-2"
       >
-        <FormField
-          key={props.dates.join()}
-          control={prefixForm.control}
-          name="weekNumber"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center justify-between gap-4 font-mono">
-                <FormLabel className="items-center justify-center">
-                  更表期數
-                </FormLabel>
-                <FormControl>
-                  <>
-                    <Button
-                      variant={"ghost"}
-                      type="button"
-                      onClick={() => {
-                        return prefixForm.setValue(
-                          "weekNumber",
-                          field.value + 1,
-                          {
-                            shouldDirty: true,
-                            shouldTouch: true,
-                            shouldValidate: true,
-                          }
-                        );
-                      }}
-                    >
-                      <Plus />
-                    </Button>
-                    <Label>{field.value}</Label>
-                    <Button
-                      variant={"ghost"}
-                      type="button"
-                      onClick={() => {
-                        return prefixForm.setValue(
-                          "weekNumber",
-                          field.value - 1,
-                          {
-                            shouldDirty: true,
-                            shouldTouch: true,
-                            shouldValidate: true,
-                          }
-                        );
-                      }}
-                    >
-                      <Minus />
-                    </Button>
-                  </>
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {props.dates.map((date, i) => {
           const autoPrefixOnDate = autoPrefix()[i];
           return (

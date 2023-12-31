@@ -10,13 +10,18 @@ import { useEffect, type ReactElement, useState, useMemo } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import DynamicUpdatePrefixForm from "~/components/PrefixUpdateForm";
 import moment from "moment";
+import { Button } from "~/components/ui/button";
+import { Minus, Plus } from "lucide-react";
 
 const PrefixUpdate: NextPageWithLayout = () => {
-  const [currentWeekNumber, setCurrentWeekNumber] = useState(
-    getWeekNumberByDate()
-  );
+  const [currentWeekNumber, setCurrentWeekNumber] = useState(1);
 
-  const autoDayDetail = useMemo(() => autoPrefix(), []);
+  const memoWeekNumber = useMemo(() => getWeekNumberByDate().toString(), []);
+
+  const autoDayDetail = useMemo(
+    () => autoPrefix(false, memoWeekNumber),
+    [memoWeekNumber]
+  );
 
   const {
     data: currentWeekPreix,
@@ -51,8 +56,6 @@ const PrefixUpdate: NextPageWithLayout = () => {
         .filter((prefix) => numericPrefix === prefix.slice(1))[0]
         ?.slice(0, 1) || "";
 
-    console.log(alphabeticPrefix, numericPrefix);
-
     // setPrefixDetail((prev) => [
     //   ...prev,
     //   { alphabeticPrefix, numericPrefix },
@@ -71,7 +74,29 @@ const PrefixUpdate: NextPageWithLayout = () => {
       <p className="font-mono text-xs">
         {moment().format(`今日係 YYYY年 第W週 MM月DD日（ddd）`)}
       </p>
-      <div className="flex items-center justify-center gap-4">
+
+      <div className="flex flex-col items-center justify-center gap-4">
+        <section>
+          <Button
+            onClick={() => {
+              setCurrentWeekNumber((prev) => {
+                return prev + 1;
+              });
+            }}
+          >
+            <Plus />
+          </Button>
+          <Button
+            onClick={() => {
+              setCurrentWeekNumber((prev) => {
+                return prev - 1;
+              });
+            }}
+          >
+            <Minus />
+          </Button>
+        </section>
+
         <DynamicUpdatePrefixForm
           currentWeekNumber={currentWeekNumber}
           dates={getNextWeekDates()}
