@@ -20,7 +20,7 @@ function TableCopyButtons({
   selectedShifts,
 }: TableCopyButtonsProps<DayDetail>) {
   const user = useUser();
-  console.log(user.user?.id);
+  // console.log(user.user?.id);
 
   const completeShiftsString = getSelectedShiftsString(selectedShifts);
   const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);

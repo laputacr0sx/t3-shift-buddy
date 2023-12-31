@@ -58,6 +58,7 @@ export const calendarControllerRouter = createTRPCRouter({
       }
 
       const { staffId } = userPrivateMetadataSchema.parse(metadata);
+      console.log(staffId);
 
       const webICSEventString = await axios
         .get(staffBlobURI(staffId))
@@ -74,44 +75,55 @@ export const calendarControllerRouter = createTRPCRouter({
       const webICSEvents = getWebICSEvents(webICSEventString);
 
       const updatedICSEvents = getICSObject(input);
+      console.log(updatedICSEvents);
 
       const oldICSEvents = convertToICSEvents(webICSEvents);
+      console.log(oldICSEvents);
 
-      const combinedICSEvents = oldICSEvents.reduce<EventAttributes[]>(
-        (allEvents, currOldEvent) => {
-          const legitOldDate = convertMonthNumber(
-            currOldEvent.start,
-            "subtract"
-          );
-          const dateOfOldEvent = moment(legitOldDate);
+      // const combinedICSEvents = oldICSEvents.reduce<EventAttributes[]>(
+      //   (allEvents, currOldEvent) => {
+      //     const legitOldDate = convertMonthNumber(
+      //       currOldEvent.start,
+      //       "subtract"
+      //     );
+      //     const dateOfOldEvent = moment(legitOldDate);
+      //     console.log(dateOfOldEvent.date());
 
-          const eventOnSameDate = updatedICSEvents.find((updateEvent) => {
-            const legitUpdateDate = convertMonthNumber(
-              updateEvent.start,
-              "subtract"
-            );
-            const dateOfUpdatedEvent = moment(legitUpdateDate);
+      //     const eventsOnSameDate = updatedICSEvents.filter((updateEvent) => {
+      //       const legitUpdateDate = convertMonthNumber(
+      //         updateEvent.start,
+      //         "subtract"
+      //       );
+      //       const dateOfUpdatedEvent = moment(legitUpdateDate);
 
-            return dateOfOldEvent.isSame(dateOfUpdatedEvent, "day");
-          });
+      //       return dateOfOldEvent.isSame(dateOfUpdatedEvent);
+      //     });
+      //     console.log(eventsOnSameDate);
 
-          if (typeof eventOnSameDate !== "undefined") {
-            allEvents.push(eventOnSameDate);
-            return allEvents;
-          }
+      //     if (eventsOnSameDate.length > 0) {
+      //       for (const event of eventsOnSameDate) {
+      //         allEvents.push(event);
+      //       }
+      //       console.log(allEvents);
+      //       return allEvents;
+      //     }
 
-          allEvents.push(currOldEvent);
+      //     allEvents.push(currOldEvent);
 
-          return allEvents;
-        },
-        []
-      );
+      //     console.log(allEvents);
+      //     return allEvents;
+      //   },
+      //   []
+      // );
 
-      // const awaitingEventBlob = convertICSEventsToBlob([
-      //   ...oldICSEvents,
-      //   ...updatedICSEvents,
-      // ]);
-      const awaitingEventBlob = convertICSEventsToBlob(combinedICSEvents);
+      // console.log(combinedICSEvents);
+
+      const awaitingEventBlob = convertICSEventsToBlob([
+        ...oldICSEvents,
+        ...updatedICSEvents,
+      ]);
+      // const awaitingEventBlob = convertICSEventsToBlob(combinedICSEvents);
+      console.log(awaitingEventBlob);
 
       const eventsBlob = await awaitingEventBlob;
 
