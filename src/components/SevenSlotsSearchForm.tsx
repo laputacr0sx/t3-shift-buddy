@@ -175,9 +175,7 @@ const SevenSlotsSearchForm = () => {
               const correspondingDate = moment(day.date, "YYYYMMDD ddd");
               const formatedDate = correspondingDate.format("DD/MM(dd)");
               const isRedDay =
-                correspondingDate.isoWeekday() === 6 ||
-                correspondingDate.isoWeekday() === 7 ||
-                !!day.holidayDetails;
+                correspondingDate.isoWeekday() === 7 || !!day.holidayDetails;
               const isMonday = correspondingDate.isoWeekday() === 1;
 
               const legitPrefix = !prefixIsLoading

@@ -1,14 +1,12 @@
 import moment from "moment";
+import { type z } from "zod";
 import { toast } from "react-hot-toast";
-import { StaffId, type DayDetail } from "./customTypes";
+import { type StaffId, type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
-import { type z } from "zod";
+import type * as icalParser from "node-ical";
 import { type DateArray, createEvents, type EventAttributes } from "ics";
-import * as icalParser from "node-ical";
-import axios from "axios";
-import { userPrivateMetadataSchema } from "./zodSchemas";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
@@ -330,10 +328,8 @@ export function getWebICSEvents(
   return events;
 }
 
-export function convertToICSEvents(
-  webICSEvents: icalParser.VEvent[]
-): EventAttributes[] {
-  return webICSEvents.map<EventAttributes>((icsEvent) => {
+export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
+  return webICSEvents.map<EventAttributes & { end: DateArray }>((icsEvent) => {
     const start = moment(icsEvent.start).toArray().splice(0, 5);
     const end = moment(icsEvent.end).toArray().splice(0, 5);
     const dutyNumber = icsEvent.summary;
@@ -352,6 +348,6 @@ export function convertToICSEvents(
       productId: "calendar",
       classification: "PUBLIC",
       sequence: 0,
-    } as EventAttributes;
+    } satisfies EventAttributes & { end: DateArray };
   });
 }

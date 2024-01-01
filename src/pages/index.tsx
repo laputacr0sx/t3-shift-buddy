@@ -1,18 +1,9 @@
-import React, { useEffect, type ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import Layout from "~/components/ui/layouts/AppLayout";
 import { type NextPageWithLayout } from "./_app";
 import SevenSlotsSearchForm from "~/components/SevenSlotsSearchForm";
-import toast from "react-hot-toast";
 
 const SevenSlots: NextPageWithLayout = () => {
-  useEffect(() => {
-    toast.success("Y2024W1已更新");
-
-    return () => {
-      toast.remove();
-    };
-  }, []);
-
   return (
     <React.Fragment>
       <h1
