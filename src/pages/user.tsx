@@ -30,9 +30,12 @@ function UserMetadataForm() {
         refetchOnWindowFocus: false
     });
 
-    const { mutate, status } = api.userController.setUserMetadata.useMutation({
+    const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () => toast.success('保存成功'),
-        onError: () => toast.error('保存失敗'),
+        onError: () => {
+            throw new Error('failed');
+            return toast.error('保存失敗');
+        },
         onMutate: () => toast.loading('保存中...'),
         onSettled: () => toast.dismiss()
     });
@@ -106,7 +109,7 @@ function UserMetadataForm() {
                         <Button
                             type="submit"
                             variant={'outline'}
-                            disabled={!!userData}
+                            // disabled={!!userData}
                         >
                             更改
                         </Button>

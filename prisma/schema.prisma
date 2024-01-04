@@ -57,7 +57,7 @@ model Sequence {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // YYYYWWAAAA
+  // YYYYWWAAA
   // id = A1 / B1 / C13 / S1
   id          String   @id @unique
   dutyNumbers String[]
@@ -70,6 +70,7 @@ model Sequence {
 }
 
 model Roster {
+  // YYYYWW
   // id = Y2023W50
   id          String   @id @unique
   publishedAt DateTime @default(now())
@@ -129,6 +130,7 @@ model Staff {
 }
 
 model Annual {
+  // YYYY
   id      Int      @unique
   year    String
   rosters Roster[]

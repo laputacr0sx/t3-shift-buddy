@@ -2,6 +2,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 import { clerkClient } from '@clerk/nextjs/server';
+import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
 
 export default async function handler(
     request: NextRequest
@@ -18,12 +19,14 @@ export default async function handler(
 
     const allUsers = await clerkClient.users.getUserList();
     allUsers.map(async (user) => {
-        const userMetadata = await clerkClient.users
-            .getUser(user.id)
-            .then((user) => user.privateMetadata);
+        const userMetadata = userPrivateMetadataSchema.parse(
+            await clerkClient.users
+                .getUser(user.id)
+                .then((user) => user.privateMetadata)
+        );
 
         return clerkClient.users.updateUserMetadata(user.id, {
-            privateMetadata: { ...userMetadata, row: +userMetadata.row + 1 }
+            privateMetadata: { ...userMetadata, row: userMetadata.row + 1 }
         });
     });
     NextResponse.json({ success: true });

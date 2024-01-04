@@ -22,13 +22,7 @@ const LandingPage: NextPageWithLayout = () => {
         }
     });
 
-    const { data, error } = api.sequenceController.getSequence.useQuery({
-        sequenceId: 'Y2024W1A86'
-    });
-
     const KLNRoster = useMemo(() => slicedKLN(), []);
-
-    console.log(data);
 
     return (
         <div>

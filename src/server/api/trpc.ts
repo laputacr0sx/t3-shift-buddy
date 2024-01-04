@@ -7,74 +7,76 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC, TRPCError } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { initTRPC, TRPCError } from '@trpc/server';
+import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 // import { type Session } from "next-auth";
-import superjson from "superjson";
-import { ZodError } from "zod";
+import superjson from 'superjson';
+import { ZodError } from 'zod';
 // import { getServerAuthSession } from "~/server/auth";
-import { prisma } from "~/server/db";
+import { prisma } from '~/server/db';
 
 // Clerk implementation //
 import {
-  getAuth,
-  type User,
-  type SignedInAuthObject,
-  type SignedOutAuthObject,
-  clerkClient,
-} from "@clerk/nextjs/server";
+    getAuth,
+    type User,
+    type SignedInAuthObject,
+    type SignedOutAuthObject,
+    clerkClient
+} from '@clerk/nextjs/server';
 
 type CreateContextOptions = {
-  auth: SignedInAuthObject | SignedOutAuthObject;
-  user: User | null;
+    auth: SignedInAuthObject | SignedOutAuthObject;
+    user: User | null;
 };
 
 export const createContextInner = (opts: CreateContextOptions) => {
-  return {
-    auth: opts.auth,
-    user: opts.user,
-    prisma,
-  };
+    return {
+        auth: opts.auth,
+        user: opts.user,
+        prisma
+    };
 };
 
 export const createContext = (opts: CreateNextContextOptions) => {
-  const { req } = opts;
-  const authSession = getAuth(req);
-  return createContextInner({ auth: authSession, user: null });
+    const { req } = opts;
+    const authSession = getAuth(req);
+    return createContextInner({ auth: authSession, user: null });
 };
 
 export type Context = ReturnType<typeof createContext>;
 
 const t = initTRPC.context<Context>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
+    transformer: superjson,
+    errorFormatter({ shape, error }) {
+        return {
+            ...shape,
+            data: {
+                ...shape.data,
+                zodError:
+                    error.cause instanceof ZodError
+                        ? error.cause.flatten()
+                        : null
+            }
+        };
+    }
 });
 
 // check if the user is signed in, otherwise throw a UNAUTHORIZED CODE
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.auth.userId) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
+    if (!ctx.auth.userId) {
+        throw new TRPCError({ code: 'UNAUTHORIZED' });
+    }
 
-  const user = ctx.auth.userId
-    ? await clerkClient.users.getUser(ctx.auth.userId)
-    : null;
+    const user = ctx.auth.userId
+        ? await clerkClient.users.getUser(ctx.auth.userId)
+        : null;
 
-  return next({
-    ctx: {
-      auth: ctx.auth,
-      user: user,
-    },
-  });
+    return next({
+        ctx: {
+            auth: ctx.auth,
+            user: user
+        }
+    });
 });
 
 //t3 next-auth implementation//
