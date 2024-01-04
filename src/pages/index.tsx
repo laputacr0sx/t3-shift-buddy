@@ -1,18 +1,34 @@
-import React, { type ReactElement } from 'react';
+import React, { useMemo, type ReactElement } from 'react';
 import { type NextPageWithLayout } from './_app';
 import Layout from '~/components/ui/layouts/AppLayout';
 
 import { api } from '~/utils/api';
 import { slicedKLN } from '~/utils/standardRosters';
+import { Button } from '~/components/ui/button';
+import toast from 'react-hot-toast';
 
 const LandingPage: NextPageWithLayout = () => {
     const {
         data: timetableData,
         isLoading: timetableLoading,
         error: timetableError
-    } = api.timetableController.getAllTimetables.useQuery();
+    } = api.timetableController.getAllTimetables.useQuery(undefined, {
+        refetchOnWindowFocus: false
+    });
 
-    console.log(slicedKLN);
+    const { mutate } = api.rosterController.createRoster.useMutation({
+        onError(error, variables, context) {
+            toast.error(error.message);
+        }
+    });
+
+    const { data, error } = api.sequenceController.getSequence.useQuery({
+        sequenceId: 'Y2024W1A86'
+    });
+
+    const KLNRoster = useMemo(() => slicedKLN(), []);
+
+    console.log(data);
 
     return (
         <div>
@@ -28,6 +44,7 @@ const LandingPage: NextPageWithLayout = () => {
                     </p>
                 ))
             )}
+            <Button onClick={() => mutate()}>Click to add roster</Button>
         </div>
     );
 };
