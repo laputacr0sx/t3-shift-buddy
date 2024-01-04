@@ -41,18 +41,9 @@ const FixtureLegend = () => {
 };
 
 const AnnualLeaves: NextPageWithLayout = () => {
-  const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
+  const [parent] = useAutoAnimate(/* optional config */);
   const [selectedWeeks, setSelectedWeeks] = useState<string[]>([]);
-  const [annualLimit, setAnnualLimit] = useState(3);
-  const [holidays, setHolidays] = useState<
-    {
-      dtstart: (string | { value: string })[];
-      dtend: (string | { value: string })[];
-      transp: string;
-      uid: string;
-      summary: string;
-    }[]
-  >([]);
+  const [annualLimit] = useState(3);
 
   const memoizedPublicHolidayDetails = useMemo(
     () => (formattedDate: string) =>
@@ -101,8 +92,6 @@ const AnnualLeaves: NextPageWithLayout = () => {
         showWeekNumber
         ISOWeek
         numberOfMonths={1}
-        fromYear={2024}
-        toYear={2024}
         onWeekNumberClick={handleWeekNumberClick}
         formatters={{
           formatDay: (date) => {

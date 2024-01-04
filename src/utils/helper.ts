@@ -1,11 +1,12 @@
 import moment from "moment";
-import { type Row } from "@tanstack/react-table";
+import { type z } from "zod";
 import { toast } from "react-hot-toast";
-import { type DayDetail } from "./customTypes";
+import { type StaffId, type DayDetail } from "./customTypes";
 import { completeShiftNameRegex, specialDutyRegex } from "./regex";
 import holidayJson from "~/utils/holidayHK";
 import fixtures from "~/utils/hkjcFixture";
-import { type z } from "zod";
+import type * as icalParser from "node-ical";
+import { type DateArray, createEvents, type EventAttributes } from "ics";
 
 moment.updateLocale("zh-hk", {
   weekdaysShort: ["週日", "週一", "週二", "週三", "週四", "週五", "週六"],
@@ -84,23 +85,20 @@ export function convertDurationDecimal(rawDuration: string): string {
  * @param selectedShifts The selected shifts to convert to a string representation.
  * @returns The string representation of the selected shifts, wrapped in code blocks.
  */
-export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
+export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
   let completeString = "```\n";
   for (const dayDetail of selectedShifts) {
     let dayString = "";
 
-    if (!dayDetail.original.title.match(completeShiftNameRegex)) {
-      const { dutyNumber } = dayDetail.original;
+    if (!dayDetail.title.match(completeShiftNameRegex)) {
+      const { dutyNumber } = dayDetail;
 
-      const date = moment(dayDetail.original.date)
-        .locale("zh-hk")
-        .format("DD/MM(dd)");
+      const date = moment(dayDetail.date).locale("zh-hk").format("DD/MM(dd)");
 
       dayString = `${date} ${dutyNumber}\n`;
     } else {
-      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
-        dayDetail.original;
-      const date = moment(dayDetail.original.date)
+      const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } = dayDetail;
+      const date = moment(dayDetail.date)
         // .locale("zh-hk")
         // .calendar({
         //   nextDay(m, now) {
@@ -109,7 +107,7 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
         //   },
         // });
 
-        // const date = moment(dayDetail.original.date)
+        // const date = moment(dayDetail.date)
         .locale("zh-hk")
         .format("DD/MM(dd)");
       const durationDecimal = convertDurationDecimal(duration);
@@ -126,14 +124,79 @@ export function getSelectedShiftsString(selectedShifts: Row<DayDetail>[]) {
  * Copies the given selected shifts to the clipboard as a code block.
  * @param selectedShifts The selected shifts to copy to the clipboard.
  */
-export async function tableCopyHandler(selectedShifts: Row<DayDetail>[]) {
+export async function tableCopyHandler(selectedShifts: DayDetail[]) {
   if (!navigator || !navigator.clipboard)
     throw Error("No navigator object nor clipboard found");
 
   const completeString = getSelectedShiftsString(selectedShifts);
 
   await navigator.clipboard.writeText(completeString);
-  toast("已複製資料");
+  toast.success("已複製資料");
+}
+
+export function convertMonthNumber(
+  dateArray: number[],
+  mode: "add" | "subtract" = "add"
+): DateArray {
+  const [year, month, ...rest] = dateArray;
+
+  if (mode === "add") {
+    return [year as number, (month as number) + 1, ...rest] as DateArray;
+  } else {
+    return [year as number, (month as number) - 1, ...rest] as DateArray;
+  }
+}
+
+export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
+  const events = selectedShifts.map<EventAttributes>((shift) => {
+    const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks } = shift;
+    const validDate = moment(date, "YYYYMMDD").format("YYYY-MM-DD");
+
+    const start = moment.utc(`${validDate} ${bNT}`).toArray().splice(0, 5);
+    const end = moment(`${validDate} ${bFT}`).isAfter(
+      moment(`${validDate} ${bNT}`)
+    )
+      ? moment(`${validDate} ${bFT}`).toArray().splice(0, 5)
+      : moment(`${validDate} ${bFT}`).add(1, "d").toArray().splice(0, 5);
+    const durationDecimal = duration
+      ? convertDurationDecimal(duration)
+      : duration;
+
+    return {
+      start: convertMonthNumber(start),
+      startInputType: "local",
+      end: convertMonthNumber(end),
+      endInputType: "local",
+
+      title: dutyNumber,
+      description: `收工地點：${getChineseLocation(
+        bFL
+      )}\n工時：${durationDecimal}\n備註：${remarks}`,
+
+      location: getChineseLocation(bNL),
+      busyStatus: "BUSY",
+      productId: "calendar",
+      classification: "PUBLIC",
+      sequence: 0,
+    } as EventAttributes;
+  });
+
+  return events;
+}
+
+export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
+  return new Promise<Blob>((resolve, reject) => {
+    createEvents(calEvents, (error, value) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(
+        new Blob([value], {
+          type: "text/calendar",
+        })
+      );
+    });
+  });
 }
 
 /**
@@ -229,10 +292,10 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
   return mapResult;
 }
 
-export function getChineseLocation(
-  location: "HUH" | "SHT" | "SHS" | "HTD" | "LOW" | "TAW" | "TWD" | "FTRH"
-) {
-  const chineseDuration = {
+export function getChineseLocation(location: unknown) {
+  type ChineseKey = keyof typeof chineseLocation;
+
+  const chineseLocation = {
     HUH: "紅磡",
     SHT: "沙田",
     SHS: "上水",
@@ -243,5 +306,48 @@ export function getChineseLocation(
     FTRH: "火炭大樓",
   };
 
-  return chineseDuration[location];
+  return chineseLocation[location as ChineseKey];
+}
+
+export const staffBlobURI = (staffId: StaffId) =>
+  `https://r4wbzko8exh5zxdl.public.blob.vercel-storage.com/${staffId}.ics`;
+
+export function getWebICSEvents(
+  webEvents: icalParser.CalendarResponse
+): icalParser.VEvent[] {
+  const events = [];
+  for (const e in webEvents) {
+    if (webEvents.hasOwnProperty(e)) {
+      const ev = webEvents[e];
+      if (!ev) continue;
+      if (ev.type == "VEVENT") {
+        events.push(ev);
+      }
+    }
+  }
+  return events;
+}
+
+export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
+  return webICSEvents.map<EventAttributes & { end: DateArray }>((icsEvent) => {
+    const start = moment(icsEvent.start).toArray().splice(0, 5);
+    const end = moment(icsEvent.end).toArray().splice(0, 5);
+    const dutyNumber = icsEvent.summary;
+    const bNL = icsEvent.location;
+    const description = icsEvent.description;
+
+    return {
+      start: convertMonthNumber(start),
+      startInputType: "local",
+      end: convertMonthNumber(end),
+      endInputType: "local",
+      title: dutyNumber,
+      description,
+      location: getChineseLocation(bNL),
+      busyStatus: "BUSY",
+      productId: "calendar",
+      classification: "PUBLIC",
+      sequence: 0,
+    } satisfies EventAttributes & { end: DateArray };
+  });
 }

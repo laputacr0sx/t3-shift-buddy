@@ -14,6 +14,8 @@ enum Location {
   LOW
   HTD
   TAD
+  TWD
+  TAW
   FTRH
 }
 

@@ -1,8 +1,6 @@
 import Navbar from "~/components/ui/layouts/Navbar";
 import { Fragment, type ReactNode } from "react";
 
-import Head from "next/head";
-
 interface PropType {
   children: ReactNode;
 }

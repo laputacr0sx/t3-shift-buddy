@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import ChineseCalendar from "./ChineseCalendar";
+import ChineseCalendars from "./ChineseCalendar";
 import ShiftAccordion from "./ShiftAccordion";
 
 import type { Shift } from "@prisma/client";
@@ -17,7 +17,6 @@ export default function ShiftArrayCard(props: WeekComplex) {
 
   return (
     <div className="flex w-screen justify-start gap-1">
-      <ChineseCalendar date={props.date} />
       <ShiftAccordion shift={props.dutyObject} key={props.dutyObject.id} />
       {/* <Card className="mx-5 my-6 w-screen bg-card font-mono md:max-w-xl">
         <CardHeader

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { z } from "zod";
+import type { z } from "zod";
 import moment from "moment";
 
 import {
@@ -24,7 +24,7 @@ import {
 
 import { api } from "~/utils/api";
 import { autoPrefix } from "~/utils/helper";
-import { abbreviatedDutyNumber, inputShiftCodeRegex } from "~/utils/regex";
+import { abbreviatedDutyNumber } from "~/utils/regex";
 import useShiftQuery from "~/hooks/useShiftQuery";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,27 +38,22 @@ import { encode } from "querystring";
 
 import { cn } from "~/lib/utils";
 import { Label } from "./ui/label";
-
-export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
-
-const sevenSlotsSearchFormSchema = z.object({
-  [dayDetailName]: z
-    .object({
-      shiftCode: z
-        .string()
-        .regex(inputShiftCodeRegex, "錯誤更份號碼")
-        .max(7, "最長更號不多於7個字，例991127A / 881101a"),
-    })
-    .array()
-    .min(1, "At least one shift code must be provided"),
-});
+import { dayDetailName, sevenSlotsSearchFormSchema } from "~/utils/zodSchemas";
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 const SevenSlotsSearchForm = () => {
   const [parent] = useAutoAnimate();
 
-  const { router, handleQuery } = useShiftQuery();
+  const {
+    data: prefixData,
+    isLoading: prefixIsLoading,
+    error: prefixError,
+  } = api.prefixController.getLatestPrefix.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
+
+  const { router, handleQuery } = useShiftQuery(prefixData);
   const [newSearchParams, setNewSearchParams] =
     useState<URLSearchParams | null>(null);
 
@@ -82,18 +77,10 @@ const SevenSlotsSearchForm = () => {
     data: queryData,
     isLoading: queryIsLoading,
     error: queryError,
-  } = api.shiftController.getShiftDetailWithoutAlphabeticPrefix.useQuery(
+  } = api.shiftController.getShiftDetailWithAlphabeticPrefix.useQuery(
     shiftsFromSearchParamMemo,
     { enabled: !!shiftsFromSearchParamMemo.length, refetchOnWindowFocus: false }
   );
-
-  const {
-    data: prefixData,
-    isLoading: prefixIsLoading,
-    // error: prefixError,
-  } = api.prefixController.getLatestPrefix.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
 
   const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
     resolver: async (data, context, options) => {
@@ -169,103 +156,116 @@ const SevenSlotsSearchForm = () => {
           className="flex min-h-screen w-full flex-col items-center space-y-1"
         >
           <FormDescription className="pb-2 text-xs">
-            <p>於輸入框內輸入更號，例：</p>
-            <p>
-              J15101則輸入101；
-              991104則輸入991104；881113則輸入881113；如此類推。
-            </p>
+            {prefixError ? (
+              <p className="text-destructive">更號前綴錯誤</p>
+            ) : (
+              <>
+                <p>於輸入框內輸入更號，例：</p>
+                <p>
+                  J15101則輸入101；
+                  991104則輸入991104；881113則輸入881113；如此類推。
+                </p>
+              </>
+            )}
           </FormDescription>
-          {autoDayDetail.map((day, i) => {
-            const correspondingDate = moment(day.date, "YYYYMMDD ddd");
-            const formatedDate = correspondingDate.format("DD/MM(dd)");
-            const isRedDay =
-              correspondingDate.isoWeekday() === 6 ||
-              correspondingDate.isoWeekday() === 7 ||
-              !!day.holidayDetails;
-            const isMonday = correspondingDate.isoWeekday() === 1;
 
-            const legitPrefix = !prefixIsLoading
-              ? (prefixData?.filter((x) => x.includes(day.prefix))[0] as string)
-              : `∆${day.prefix}`;
+          {
+            /* Map through dates obtained and generate appropriate input fields for the form */
+            autoDayDetail.map((day, i) => {
+              const correspondingDate = moment(day.date, "YYYYMMDD ddd");
+              const formatedDate = correspondingDate.format("DD/MM(dd)");
+              const isRedDay =
+                correspondingDate.isoWeekday() === 7 || !!day.holidayDetails;
+              const isMonday = correspondingDate.isoWeekday() === 1;
 
-            return (
-              <fieldset
-                key={day.date}
-                className="flex w-full flex-col items-center justify-center gap-2"
-              >
-                {(i === 0 || isMonday) && (
-                  <Badge
-                    variant={"outline"}
-                    className="w-fit border-green-700 dark:border-green-400 "
-                  >
-                    <Label>{`Y${correspondingDate.year()}W${correspondingDate.isoWeek()}`}</Label>
-                  </Badge>
-                )}
-                <FormField
-                  control={sevenSlotsSearchForm.control}
-                  name={`${dayDetailName}[${i}].shiftCode`}
-                  render={({ field }) => {
-                    return (
-                      <FormItem className="w-content flex flex-col xs:w-full">
-                        <div className="w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-around xs:gap-0">
-                          <FormLabel
-                            className={cn(
-                              "w-fit items-center rounded px-1 font-mono text-sm xs:text-base",
-                              isRedDay && "bg-rose-500/40 dark:bg-rose-300/40",
-                              day.racingDetails?.nightRacing === 0
-                                ? "border-b-2 border-b-lime-500 dark:border-b-lime-300 "
-                                : day.racingDetails?.nightRacing === 1
-                                ? "border-b-2 border-b-violet-500 dark:border-b-violet-300"
-                                : day.racingDetails?.nightRacing === 2
-                                ? "border-b-2 border-b-amber-500 dark:border-b-amber-300"
-                                : ""
-                            )}
-                          >
-                            {formatedDate}{" "}
-                            {sevenSlotsSearchForm.getValues(field.name) ? (
-                              sevenSlotsSearchForm.control.getFieldState(
-                                field.name
-                              ).invalid ? (
-                                `${legitPrefix}___`
+              const legitPrefix = !prefixIsLoading
+                ? prefixData?.slice(-autoDayDetail.length)[i]
+                : `∆${day.prefix}`;
+
+              return (
+                <fieldset
+                  key={day.date}
+                  className="flex w-full flex-col items-center justify-center gap-2"
+                >
+                  {(i === 0 || isMonday) && (
+                    <Badge
+                      variant={"outline"}
+                      className="w-fit border-green-700 dark:border-green-400 "
+                    >
+                      <Label>{`Y${correspondingDate.year()}W${correspondingDate.isoWeek()}`}</Label>
+                    </Badge>
+                  )}
+                  <FormField
+                    control={sevenSlotsSearchForm.control}
+                    name={`${dayDetailName}[${i}].shiftCode`}
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-content flex flex-col xs:w-full">
+                          <div className="w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-around xs:gap-0">
+                            <FormLabel
+                              className={cn(
+                                "w-fit items-center rounded px-1 font-mono text-sm xs:text-base",
+                                isRedDay &&
+                                  "bg-rose-500/40 dark:bg-rose-300/40",
+                                day.racingDetails?.nightRacing === 0
+                                  ? "border-b-2 border-b-lime-500 dark:border-b-lime-300 "
+                                  : day.racingDetails?.nightRacing === 1
+                                  ? "border-b-2 border-b-violet-500 dark:border-b-violet-300"
+                                  : day.racingDetails?.nightRacing === 2
+                                  ? "border-b-2 border-b-amber-500 dark:border-b-amber-300"
+                                  : ""
+                              )}
+                            >
+                              {formatedDate}{" "}
+                              {sevenSlotsSearchForm.getValues(field.name) ? (
+                                sevenSlotsSearchForm.control.getFieldState(
+                                  field.name
+                                ).invalid ? (
+                                  `${legitPrefix as string}___`
+                                ) : (
+                                  <>
+                                    {(field.value as string).match(
+                                      abbreviatedDutyNumber
+                                    )
+                                      ? `${legitPrefix as string}${
+                                          field.value as string
+                                        }`
+                                      : `${field.value as string}`}
+                                  </>
+                                )
                               ) : (
-                                <>
-                                  {(field.value as string).match(
-                                    abbreviatedDutyNumber
-                                  )
-                                    ? `${legitPrefix}${field.value as string}`
-                                    : `${field.value as string}`}
-                                </>
-                              )
-                            ) : (
-                              `${legitPrefix}___`
-                            )}
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
-                              maxLength={7}
-                              placeholder={`xxx / xxxxxx`}
-                              autoCapitalize="characters"
-                              autoComplete="off"
-                              autoCorrect="off"
-                              spellCheck="false"
-                            />
-                          </FormControl>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                />
-              </fieldset>
-            );
-          })}
+                                `${legitPrefix as string}___`
+                              )}
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
+                                maxLength={7}
+                                placeholder={`xxx / xxxxxx`}
+                                autoCapitalize="characters"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                spellCheck="false"
+                              />
+                            </FormControl>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </fieldset>
+              );
+            })
+          }
           <div className="flex items-center justify-center gap-8">
             <Button
               type="submit"
               variant={"secondary"}
-              disabled={!sevenSlotsSearchForm.formState.isDirty}
+              disabled={
+                !sevenSlotsSearchForm.formState.isDirty || prefixIsLoading
+              }
             >
               查資料
             </Button>

@@ -5,7 +5,6 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  type Row,
 } from "@tanstack/react-table";
 
 import {
@@ -44,8 +43,13 @@ export function DayDetailTable<TData, TValue>({
   });
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
-  const selectedShifts = table.getSelectedRowModel()
-    .flatRows as Row<DayDetail>[];
+  const selectedShifts = table
+    .getSelectedRowModel()
+    .flatRows.map((shift) => shift.original);
+
+  const allShifts = table
+    .getRowModel()
+    .flatRows.flatMap((shift) => shift.original);
 
   return (
     <div className="flex w-auto flex-col justify-center gap-4 md:max-w-fit">
@@ -135,9 +139,10 @@ export function DayDetailTable<TData, TValue>({
           </TableFooter>
         </Table>
       </div>
+
       <TableCopyButtons
         isSomeRowSelected={isSomeRowSelected}
-        selectedShifts={selectedShifts}
+        selectedShifts={(selectedShifts || allShifts) as DayDetail[]}
       />
     </div>
   );

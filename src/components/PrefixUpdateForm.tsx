@@ -19,6 +19,7 @@ import { api } from "~/utils/api";
 import { autoPrefix } from "~/utils/helper";
 import { Label } from "./ui/label";
 import { Minus, Plus } from "lucide-react";
+import toast from "react-hot-toast";
 
 const prefixFormSchema = z.object({
   weekNumber: z.number().min(1).max(52),
@@ -62,13 +63,12 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
 
   const { mutate: createPrefixes, isLoading: updatingPrefixes } =
     api.prefixController.createNextWeekPrefix.useMutation({
-      // onSuccess: async () => {
-      //   await api
-      //     .useContext()
-      //     .prefixController.getPrefixGivenWeekNumber.invalidate({
-      //       weekNumber: currentWeekNumber,
-      //     });
-      // },
+      onSuccess: () => {
+        toast.success("更新成功");
+      },
+      onError: () => {
+        toast.error("更新失敗");
+      },
     });
 
   function prefixFormHandler(values: PrefixFormSchema) {
@@ -76,11 +76,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
       ({ alphabeticPrefix, numericPrefix }) =>
         `${alphabeticPrefix}${numericPrefix}`
     );
-
-    console.log({
-      weekNumber: currentWeekNumber,
-      prefixes: completePrefix,
-    });
 
     createPrefixes({
       weekNumber: values.weekNumber,
@@ -94,60 +89,6 @@ function DynamicUpdatePrefixForm(props: DynamicUpdatePrefixFormProps) {
         onSubmit={prefixForm.handleSubmit(prefixFormHandler)}
         className=" flex w-fit flex-col space-y-2"
       >
-        <FormField
-          key={props.dates.join()}
-          control={prefixForm.control}
-          name="weekNumber"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center justify-between gap-4 font-mono">
-                <FormLabel className="items-center justify-center">
-                  更表期數
-                </FormLabel>
-                <FormControl>
-                  <>
-                    <Button
-                      variant={"ghost"}
-                      type="button"
-                      onClick={() => {
-                        return prefixForm.setValue(
-                          "weekNumber",
-                          field.value + 1,
-                          {
-                            shouldDirty: true,
-                            shouldTouch: true,
-                            shouldValidate: true,
-                          }
-                        );
-                      }}
-                    >
-                      <Plus />
-                    </Button>
-                    <Label>{field.value}</Label>
-                    <Button
-                      variant={"ghost"}
-                      type="button"
-                      onClick={() => {
-                        return prefixForm.setValue(
-                          "weekNumber",
-                          field.value - 1,
-                          {
-                            shouldDirty: true,
-                            shouldTouch: true,
-                            shouldValidate: true,
-                          }
-                        );
-                      }}
-                    >
-                      <Minus />
-                    </Button>
-                  </>
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {props.dates.map((date, i) => {
           const autoPrefixOnDate = autoPrefix()[i];
           return (
