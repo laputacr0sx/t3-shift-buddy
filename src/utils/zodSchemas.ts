@@ -44,6 +44,7 @@ export const staffIdSchema = z
 export const userPrivateMetadataSchema = z.object({
   staffId: staffIdSchema,
   row: z.string().regex(rowSequenceRegex, "行序格式為 A1 / B50"),
+  // row: z.coerce.number().min(1).max(102),
 });
 
 export const shiftSequenceSchema = z.string();

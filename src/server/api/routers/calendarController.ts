@@ -9,6 +9,7 @@ import {
   staffBlobURI,
   getWebICSEvents,
   convertToICSEvents,
+  convertMonthNumber,
 } from "~/utils/helper";
 
 import axios, { type AxiosError } from "axios";
@@ -17,6 +18,8 @@ import * as icalParser from "node-ical";
 
 import { TRPCError } from "@trpc/server";
 import { dayDetailSchema, userPrivateMetadataSchema } from "~/utils/zodSchemas";
+import { DateArray, EventAttributes } from "ics";
+import moment from "moment";
 
 export const calendarControllerRouter = createTRPCRouter({
   transformToEvents: publicProcedure
@@ -78,50 +81,49 @@ export const calendarControllerRouter = createTRPCRouter({
       const oldICSEvents = convertToICSEvents(webICSEvents);
       console.log(oldICSEvents);
 
-      // const combinedICSEvents = oldICSEvents.reduce<EventAttributes[]>(
-      //   (allEvents, currOldEvent) => {
-      //     const legitOldDate = convertMonthNumber(
-      //       currOldEvent.start,
-      //       "subtract"
-      //     );
-      //     const dateOfOldEvent = moment(legitOldDate);
-      //     console.log(dateOfOldEvent.date());
+      const combinedICSEvents = oldICSEvents.reduce<EventAttributes[]>(
+        (allEvents, currOldEvent) => {
+          const legitOldDate = moment(
+            convertMonthNumber(currOldEvent.start, "subtract")
+          );
 
-      //     const eventsOnSameDate = updatedICSEvents.filter((updateEvent) => {
-      //       const legitUpdateDate = convertMonthNumber(
-      //         updateEvent.start,
-      //         "subtract"
-      //       );
-      //       const dateOfUpdatedEvent = moment(legitUpdateDate);
+          const eventsOnSameDate = updatedICSEvents.filter((updateEvent) => {
+            const legitUpdateDate = moment(
+              convertMonthNumber(updateEvent.start, "subtract")
+            );
 
-      //       return dateOfOldEvent.isSame(dateOfUpdatedEvent);
-      //     });
-      //     console.log(eventsOnSameDate);
+            return legitOldDate.isSame(legitUpdateDate);
+          });
+          console.log(eventsOnSameDate);
 
-      //     if (eventsOnSameDate.length > 0) {
-      //       for (const event of eventsOnSameDate) {
-      //         allEvents.push(event);
-      //       }
-      //       console.log(allEvents);
-      //       return allEvents;
-      //     }
+          console.log(currOldEvent);
+          if (eventsOnSameDate.length > 0) {
+            for (const event of eventsOnSameDate) {
+              currOldEvent = event as EventAttributes & {
+                end: DateArray;
+              };
+            }
 
-      //     allEvents.push(currOldEvent);
+            console.log(currOldEvent);
+          }
 
-      //     console.log(allEvents);
-      //     return allEvents;
-      //   },
-      //   []
-      // );
+          console.log(currOldEvent.start);
 
-      // console.log(combinedICSEvents);
+          allEvents.push(currOldEvent);
 
-      const awaitingEventBlob = convertICSEventsToBlob([
-        ...oldICSEvents,
-        ...updatedICSEvents,
-      ]);
-      // const awaitingEventBlob = convertICSEventsToBlob(combinedICSEvents);
-      console.log(awaitingEventBlob);
+          console.log(allEvents);
+          return allEvents;
+        },
+        []
+      );
+
+      console.log(combinedICSEvents);
+
+      // const awaitingEventBlob = convertICSEventsToBlob([
+      //   ...oldICSEvents,
+      //   ...updatedICSEvents,
+      // ]);
+      const awaitingEventBlob = convertICSEventsToBlob(combinedICSEvents);
 
       const eventsBlob = await awaitingEventBlob;
 

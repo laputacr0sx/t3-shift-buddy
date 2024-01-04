@@ -84,7 +84,7 @@ function UserMetadataForm() {
               <FormItem>
                 <FormLabel>行序編號</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="number" max={102} min={1} {...field} />
                 </FormControl>
                 <FormDescription>
                   編號為每一筆資料的編號，以便於查詢。

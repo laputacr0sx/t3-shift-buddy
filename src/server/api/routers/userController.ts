@@ -4,22 +4,15 @@ import { clerkClient } from "@clerk/nextjs";
 import { userPrivateMetadataSchema, usersSchema } from "~/utils/zodSchemas";
 
 export const userControllerRouter = createTRPCRouter({
-  createUser: protectedProcedure
+  createUsers: protectedProcedure
     .input(usersSchema)
     .mutation(async ({ input, ctx }) => {
-      if (!ctx.auth.userId) {
-        throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
-      }
-
       return clerkClient.users.createUser(input);
     }),
 
   setUserMetadata: protectedProcedure
     .input(userPrivateMetadataSchema)
     .mutation(({ ctx, input }) => {
-      if (!ctx.auth.userId) {
-        throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
-      }
       const user = ctx.user;
       if (!user) {
         throw new TRPCError({ code: "NOT_FOUND", message: "User Not Found" });
@@ -34,9 +27,6 @@ export const userControllerRouter = createTRPCRouter({
     }),
 
   getUserMetadata: protectedProcedure.query(async ({ ctx }) => {
-    if (!ctx.auth.userId) {
-      throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized" });
-    }
     const user = ctx.user;
     if (!user) {
       throw new TRPCError({ code: "NOT_FOUND", message: "User Not Found" });

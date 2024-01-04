@@ -338,9 +338,9 @@ export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
 
     return {
       start: convertMonthNumber(start),
-      startInputType: "local",
+      // startInputType: "local",
       end: convertMonthNumber(end),
-      endInputType: "local",
+      // endInputType: "local",
       title: dutyNumber,
       description,
       location: getChineseLocation(bNL),
@@ -348,6 +348,6 @@ export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
       productId: "calendar",
       classification: "PUBLIC",
       sequence: 0,
-    } satisfies EventAttributes & { end: DateArray };
+    } as EventAttributes & { end: DateArray };
   });
 }

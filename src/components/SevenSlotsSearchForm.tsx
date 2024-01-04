@@ -242,7 +242,7 @@ const SevenSlotsSearchForm = () => {
                                 {...field}
                                 className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
                                 maxLength={7}
-                                placeholder={`xxx / xxxxxx`}
+                                placeholder="更號"
                                 autoCapitalize="characters"
                                 autoComplete="off"
                                 autoCorrect="off"
@@ -288,7 +288,7 @@ const SevenSlotsSearchForm = () => {
         <section
           ref={parent}
           id="query-result"
-          className="h-screen min-h-screen w-full items-center justify-center"
+          className="h-screen min-h-screen w-full items-center justify-center md:w-screen"
         >
           <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
             未來更序
