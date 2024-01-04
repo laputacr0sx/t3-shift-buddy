@@ -1,0 +1,8 @@
+{
+    "crons": [
+        {
+            "path": "/src/pages/api/cron/updateUserRowNumber.ts",
+            "schedule": "0 0 * * 1"
+        }
+    ]
+}

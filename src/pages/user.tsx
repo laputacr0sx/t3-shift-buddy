@@ -42,7 +42,7 @@ function UserMetadataForm() {
     >({
         resolver: zodResolver(userPrivateMetadataSchema),
         defaultValues: {
-            row: '',
+            row: 0,
             staffId: ''
         },
         values: userData
@@ -110,9 +110,9 @@ function UserMetadataForm() {
                         >
                             更改
                         </Button>
-                        {/* <Button type="reset" variant={"destructive"}>
-              重設
-            </Button> */}
+                        {/* <Button type="reset" variant={'destructive'}>
+                            重設
+                        </Button> */}
                     </div>
                 </form>
             </Form>
