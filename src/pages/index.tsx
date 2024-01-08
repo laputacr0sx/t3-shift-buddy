@@ -25,7 +25,7 @@ const LandingPage: NextPageWithLayout = () => {
     const KLNRoster = useMemo(() => slicedKLN(), []);
 
     return (
-        <div>
+        <div className="flex flex-col gap-4">
             {timetableLoading ? (
                 <>Loading...</>
             ) : timetableError ? (
@@ -38,7 +38,9 @@ const LandingPage: NextPageWithLayout = () => {
                     </p>
                 ))
             )}
-            <Button onClick={() => mutate()}>Click to add roster</Button>
+            <Button variant={'outline'} size={'lg'} onClick={() => mutate()}>
+                Click to Add
+            </Button>
         </div>
     );
 };

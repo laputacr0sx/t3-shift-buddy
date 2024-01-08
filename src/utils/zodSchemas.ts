@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {
     dutyInputRegExValidator,
     inputShiftCodeRegex,
+    rostaRegex,
     rowSequenceRegex,
     shiftNameRegex
 } from './regex';
@@ -108,3 +109,5 @@ export const weatherSchema = z.object({
         })
         .array()
 });
+
+export const rostaSchema = z.string().regex(rostaRegex).array().length(7);

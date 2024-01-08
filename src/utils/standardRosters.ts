@@ -1,3 +1,5 @@
+import { Rosta } from './customTypes';
+
 const KLN = [
     'RD',
     'AL',
@@ -459,7 +461,7 @@ const KLN = [
     '129',
     '130',
     '131',
-    '1323',
+    '132',
     'RD',
     '133',
     '134',
@@ -473,7 +475,7 @@ const KLN = [
     '140',
     '141',
     '142',
-    '1433',
+    '143',
     'RD',
     'RD',
     'AL',
@@ -715,7 +717,9 @@ const KLN = [
     'RD'
 ];
 
-export function slicedKLN(): string[][] {
+type Rota = Rosta[];
+
+export function slicedKLN(): Rota {
     const result = [];
     let row = [];
     for (let i = 0; i < KLN.length; i++) {
