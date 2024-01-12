@@ -25,8 +25,14 @@ export default async function handler(
                 .then((user) => user.privateMetadata)
         );
 
+        const rowCategory = userMetadata.row.match(/[ABCS]/)?.[0] as string;
+        let rowSequence = +(userMetadata.row.match(/\d{1,3}/)?.[0] as string);
+
         return clerkClient.users.updateUserMetadata(user.id, {
-            privateMetadata: { ...userMetadata, row: userMetadata.row + 1 }
+            privateMetadata: {
+                ...userMetadata,
+                row: `${rowCategory}${rowSequence++}`
+            }
         });
     });
     NextResponse.json({ success: true });

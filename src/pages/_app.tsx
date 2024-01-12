@@ -15,7 +15,7 @@ export type NextPageWithLayout = NextPage & {
     getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 
-type AppPropsWithLayout = AppProps & {
+export type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
@@ -58,9 +58,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 disableTransitionOnChange
             >
                 <Toaster />
-                {/* <ErrorBoundary> */}
+
                 {getLayout(<Component {...pageProps} />)}
-                {/* </ErrorBoundary> */}
             </ThemeProvider>
             <Analytics />
             <SpeedInsights />

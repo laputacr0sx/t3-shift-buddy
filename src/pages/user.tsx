@@ -45,7 +45,7 @@ function UserMetadataForm() {
     >({
         resolver: zodResolver(userPrivateMetadataSchema),
         defaultValues: {
-            row: 0,
+            row: 'A0',
             staffId: ''
         },
         values: userData

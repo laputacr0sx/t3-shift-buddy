@@ -717,7 +717,7 @@ const KLN = [
     'RD'
 ];
 
-type Rota = Rosta[];
+export type Rota = Rosta[];
 
 export function slicedKLN(): Rota {
     const result = [];
