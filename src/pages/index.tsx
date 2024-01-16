@@ -1,122 +1,75 @@
-import React, {
-    useMemo,
-    type ReactElement,
-    useState,
-    useCallback
-} from 'react';
+import React, { useMemo, type ReactElement, useState } from 'react';
 import { type NextPageWithLayout } from './_app';
 import Layout from '~/components/ui/layouts/AppLayout';
 
 import { api } from '~/utils/api';
-import { Rota, slicedKLN } from '~/utils/standardRosters';
+import { slicedKLN } from '~/utils/standardRosters';
 import { Button } from '~/components/ui/button';
-import toast from 'react-hot-toast';
-import { autoPrefix } from '~/utils/helper';
+import {
+    getPrefixDetailFromId,
+    getRosterRow,
+    stringifyCategory
+} from '~/utils/helper';
 import moment from 'moment';
-import { Rosta } from '~/utils/customTypes';
 
 const LandingPage: NextPageWithLayout = () => {
-    const [clientYearAndWeek, setClientYearAndWeek] = useState<number[]>(() => [
-        moment().isoWeeks(),
-        moment().year()
-    ]);
-    const KLNRoster = useMemo(() => slicedKLN(), []);
+    const [weekDifference, setWeekDifference] = useState(0);
+    const correspondingMoment = useMemo(
+        () => moment().isoWeekday('monday').add(weekDifference, 'w'),
+        [weekDifference]
+    );
+    const KLNRota = useMemo(() => slicedKLN(), []);
 
-    const dates = useMemo(
-        () =>
-            autoPrefix(false, `${clientYearAndWeek[0] as number}` ?? undefined),
-        [clientYearAndWeek]
+    console.log(
+        correspondingMoment.isoWeekday('monday').format('YYYY-MM-DD ddd w W')
     );
 
-    // const {
-    //     data: timetableData,
-    //     isLoading: timetableLoading,
-    //     error: timetableError
-    // } = api.timetableController.getAllTimetables.useQuery(undefined, {
-    //     refetchOnWindowFocus: false
-    // });
+    const correspondingDates = useMemo(
+        () => getPrefixDetailFromId(correspondingMoment.format(`[Y]Y[W]w`)),
+        [correspondingMoment]
+    );
 
     const {
         data: userMetadata,
         isLoading: loadingMetadata,
         error: errorMetadata
-    } = api.userController.getUserMetadata.useQuery();
+    } = api.userController.getUserMetadata.useQuery(undefined, {
+        refetchOnWindowFocus: false
+    });
 
-    function getRosterRow(
-        rotaArray: Rota,
-        rowNumberWithCategory: string | undefined,
-        weekNumber: number
-    ): Rosta {
-        const rotaLength = rotaArray.length;
-        if (!rowNumberWithCategory) {
-            return new Array<string>(7).fill('');
-        }
-        const rowNumber = rowNumberWithCategory.match(/\d+/)?.[0];
-        if (!rowNumber) {
-            return ['行', '序', '錯', '誤', '!', '!', '!'];
-        }
-        if (+rowNumber > rotaLength || +rowNumber < 1) {
-            return ['行', '序', '出', '錯', '!', '!', '!'];
-        }
-        const sequence = rotaArray[+rowNumber - 1];
-        if (!sequence) {
-            return ['找', '不', '到', '行', '序', '!', '!'];
-        }
-
-        return sequence;
-    }
-
-    const rosta = useMemo(
-        () =>
-            getRosterRow(
-                KLNRoster,
-                userMetadata?.row,
-                clientYearAndWeek[0] as number
-            ),
-        [KLNRoster, userMetadata?.row, clientYearAndWeek]
+    const categoryName = useMemo(
+        () => stringifyCategory(userMetadata?.row),
+        [userMetadata]
+    );
+    const { sequence, rowInQuery } = useMemo(
+        () => getRosterRow(KLNRota, userMetadata?.row, weekDifference),
+        [KLNRota, userMetadata?.row, weekDifference]
     );
 
-    console.log(rosta);
-
     return (
-        <div className="relative">
+        <div className="flex h-full w-screen flex-col gap-4 px-20">
             <h1 className="justify-center py-5 text-center align-middle font-mono text-3xl font-bold tracking-wide text-foreground">
-                {clientYearAndWeek[1]}年第{clientYearAndWeek[0]}期更
+                {correspondingMoment.format(`Y年WW期`)}
             </h1>
-            {/* {timetableLoading ? (
-                <>Loading...</>
-            ) : timetableError ? (
-                <p>{timetableError.message}</p>
-            ) : (
-                timetableData.map((timetable) => (
-                    <p key={timetable.toc}>
-                        {timetable.prefix}{' '}
-                        {timetable.dateOfEffective.toDateString()}
-                    </p>
-                ))
-            )} */}
-            <div className="flex items-center justify-center align-middle">
+            <h2 className="text-lg font-semibold">{`${categoryName}更行序${
+                rowInQuery + 1
+            }`}</h2>
+            <div className="flex items-center justify-between align-middle">
                 <Button
                     variant={'outline'}
                     size={'sm'}
                     onClick={() => {
-                        setClientYearAndWeek((prev) => {
-                            const [week, year] = prev;
-                            return [(week as number) - 1, year as number];
-                        });
+                        setWeekDifference((prev) => prev - 1);
                     }}
                 >
-                    上一週
+                    上週
                 </Button>
                 <Button
                     className=""
                     variant={'secondary'}
                     size={'sm'}
                     onClick={() => {
-                        setClientYearAndWeek([
-                            moment().isoWeeks(),
-                            moment().year()
-                        ]);
+                        setWeekDifference(0);
                     }}
                 >
                     本週
@@ -125,20 +78,17 @@ const LandingPage: NextPageWithLayout = () => {
                     variant={'outline'}
                     size={'sm'}
                     onClick={() => {
-                        setClientYearAndWeek((prev) => {
-                            const [week, year] = prev;
-                            return [(week as number) + 1, year as number];
-                        });
+                        setWeekDifference((prev) => prev + 1);
                     }}
                 >
-                    下一週
+                    下週
                 </Button>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
-                {dates.map(({ date, prefix }) => {
+            <div className="flex flex-col items-start justify-center gap-2">
+                {correspondingDates.map(({ date, prefix }, i) => {
                     return (
-                        <p key={date} className="font-mono">
-                            {date} {prefix}
+                        <p key={date} className="text-left font-mono">
+                            {date} {prefix} {sequence[i]}
                         </p>
                     );
                 })}

@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import { type DayDetail } from '~/utils/customTypes';
-import { fetchTyped, getJointDutyNumbers } from '~/utils/helper';
+import { getResponseWithType, getJointDutyNumbers } from '~/utils/helper';
 
 import { dutyInputRegExValidator, shiftNameRegex } from '~/utils/regex';
 
@@ -166,7 +166,7 @@ export const shiftControllerRouter = createTRPCRouter({
         const hkoUri =
             'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
 
-        const weatherResult = await fetchTyped(hkoUri, weatherSchema);
+        const weatherResult = await getResponseWithType(hkoUri, weatherSchema);
         return weatherResult;
     })
 });

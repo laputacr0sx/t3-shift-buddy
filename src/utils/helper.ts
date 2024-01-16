@@ -1,16 +1,20 @@
 import moment from 'moment';
 import { type z } from 'zod';
 import { toast } from 'react-hot-toast';
-import { type StaffId, type DayDetail } from './customTypes';
+import { type StaffId, type DayDetail, Rosta } from './customTypes';
 import { completeShiftNameRegex, specialDutyRegex } from './regex';
 import holidayJson from '~/utils/holidayHK';
 import fixtures from '~/utils/hkjcFixture';
 import type * as icalParser from 'node-ical';
 import { type DateArray, createEvents, type EventAttributes } from 'ics';
+import { Rota } from './standardRosters';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
     weekdaysMin: ['日', '一', '二', '三', '四', '五', '六']
+    // week: {
+    //     dow: 1 // Monday is the first day of the week.
+    // }
 });
 
 // check if today is after wednesday
@@ -46,7 +50,6 @@ export const getDatesTillSunday = () => {
  */
 export function getWeekNumberByDate(queryDate?: Date) {
     return moment(queryDate ?? undefined).isoWeek();
-    return moment(queryDate ? queryDate : undefined).isoWeek();
 }
 
 /**
@@ -54,17 +57,21 @@ export function getWeekNumberByDate(queryDate?: Date) {
  * @param weekNumber The week number to start from. Defaults to the current week number.
  * @returns An array of dates for the next week, starting from the given week number.
  */
-export const getNextWeekDates = (weekNumber?: string) => {
-    const validWeekNumber = weekNumber
-        ? parseInt(weekNumber)
-        : getWeekNumberByDate() + 1;
-    const startOfWeek = moment().week(validWeekNumber).startOf('isoWeek');
+export const getNextWeekDates = (year?: string, weekNumber?: string) => {
+    const validWeekNumber = weekNumber ? +weekNumber : moment().week();
+    const validYear = year ? +year : moment().year();
+
+    const startOfWeek = moment()
+        .year(validYear)
+        .week(validWeekNumber)
+        .startOf('isoWeek');
+
     const endOfWeek = startOfWeek.clone().endOf('isoWeek');
 
     const dates = [];
     while (startOfWeek.isSameOrBefore(endOfWeek)) {
         dates.push(startOfWeek.clone());
-        startOfWeek.add(1, 'day');
+        startOfWeek.add(1, 'd');
     }
     return dates;
 };
@@ -213,6 +220,7 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
     const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
+    console.log(nextWeekNumber);
 
     const correspondingDates = moreDays
         ? getDatesTillSunday()
@@ -264,8 +272,62 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
 
     return prefixes;
 }
+export function getPrefixDetailFromId(weekId: string) {
+    const [year, week] = weekId.match(/\d+/gim) ?? [
+        moment().year().toString(),
+        moment().week().toString()
+    ];
 
-export const fetchTyped = async <S extends z.Schema>(
+    const correspondingDates = getNextWeekDates(year, week);
+
+    const formattedDated = correspondingDates.map((date) => {
+        return moment(date).locale('zh-hk').format('YYYYMMDD');
+    });
+
+    const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
+        vevent.flatMap(({ dtstart }) =>
+            dtstart.filter((date) => typeof date === 'string')
+        )
+    );
+    const prefixes = [];
+
+    for (const date of formattedDated) {
+        const isHoliday = !!publicHolidays.filter(
+            (holiday) => holiday === date
+        )[0];
+        const weekDayNum = moment(date).isoWeekday();
+
+        const racingDetails = fixtures.filter(
+            ({ date: fixtureDay }) =>
+                moment(fixtureDay).locale('zh-hk').format('YYYYMMDD') === date
+        )[0];
+
+        const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
+            ({ dtstart }) => dtstart.includes(date)
+        )[0];
+
+        const prefix = racingDetails
+            ? racingDetails.nightRacing === 0
+                ? '71'
+                : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
+                ? '14'
+                : '13'
+            : weekDayNum === 6 || weekDayNum === 7 || isHoliday
+            ? '75'
+            : '15';
+
+        prefixes.push({
+            date: moment(date).format('YYYYMMDD ddd'),
+            prefix,
+            racingDetails,
+            holidayDetails
+        });
+    }
+
+    return prefixes;
+}
+
+export const getResponseWithType = async <S extends z.Schema>(
     url: string,
     schema: S,
     params?: RequestInit
@@ -361,4 +423,56 @@ export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
             } satisfies EventAttributes & { end: DateArray };
         }
     );
+}
+
+export function getRosterRow(
+    rotaArray: Rota,
+    rowNumberWithCategory: string | undefined,
+    rowDifference: number
+): { sequence: Rosta; rowInQuery: number } {
+    const rotaLength = rotaArray.length;
+
+    if (!rowNumberWithCategory) {
+        return { sequence: new Array<string>(7).fill(''), rowInQuery: 0 };
+    }
+    const rowNumber = rowNumberWithCategory.match(/\d+/)?.[0];
+    if (!rowNumber) {
+        return {
+            sequence: ['行', '序', '錯', '誤', '!', '!', '!'],
+            rowInQuery: 0
+        };
+    }
+    if (+rowNumber > rotaLength || +rowNumber < 1) {
+        return {
+            sequence: ['行', '序', '出', '錯', '!', '!', '!'],
+            rowInQuery: 0
+        };
+    }
+
+    const rowInQuery = Math.abs(+rowNumber - 1 + rowDifference) % rotaLength;
+
+    const sequence = rotaArray[rowInQuery];
+    if (!sequence) {
+        return {
+            sequence: ['找', '不', '到', '行', '序', '!', '!'],
+            rowInQuery: 0
+        };
+    }
+
+    return { sequence, rowInQuery };
+}
+
+export function stringifyCategory(category: string | undefined): string {
+    if (!category) {
+        return '';
+    }
+    const categoryName = {
+        A: '九龍',
+        B: '新界',
+        C: '柴油',
+        S: '特別'
+    };
+
+    const prefix = category.slice(0, 1) as keyof typeof categoryName;
+    return categoryName[prefix];
 }

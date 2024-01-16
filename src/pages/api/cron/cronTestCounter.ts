@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse, NextRequest } from 'next/server';
+import { env } from '~/env.mjs';
 
 export default function handler(request: NextRequest, response: NextResponse) {
     const authHeader = request.headers.get('authorization');
