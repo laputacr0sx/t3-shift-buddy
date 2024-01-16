@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import { type StaffId, type DayDetail, Rosta } from './customTypes';
 import { completeShiftNameRegex, specialDutyRegex } from './regex';
 import holidayJson from '~/utils/holidayHK';
-import fixtures from '~/utils/hkjcFixture';
+import fixtures, { Fixture } from '~/utils/hkjcFixture';
 import type * as icalParser from 'node-ical';
 import { type DateArray, createEvents, type EventAttributes } from 'ics';
 import { Rota } from './standardRosters';
@@ -272,7 +272,16 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
 
     return prefixes;
 }
-export function getPrefixDetailFromId(weekId: string) {
+
+export type PrefixDetail = {
+    date: string;
+    prefix: string;
+    racingDetails: Fixture | undefined;
+    holidayDetails:
+        | (typeof holidayJson)['vcalendar'][0]['vevent'][0]
+        | undefined;
+};
+export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
     const [year, week] = weekId.match(/\d+/gim) ?? [
         moment().year().toString(),
         moment().week().toString()

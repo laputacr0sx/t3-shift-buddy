@@ -6,36 +6,86 @@ import { api } from '~/utils/api';
 import { slicedKLN } from '~/utils/standardRosters';
 import { Button } from '~/components/ui/button';
 import {
+    type PrefixDetail,
     getPrefixDetailFromId,
     getRosterRow,
     stringifyCategory
 } from '~/utils/helper';
 import moment from 'moment';
+import type { inferProcedureOutput } from '@trpc/server';
+import type { AppRouter } from '~/server/api/root';
 
 const LandingPage: NextPageWithLayout = () => {
+    function getFitTimetable(
+        timetables:
+            | inferProcedureOutput<
+                  AppRouter['timetableController']['getAllTimetables']
+              >
+            | undefined,
+        prefixes: PrefixDetail[]
+    ) {
+        return prefixes.map((prefix) => {
+            if (!timetables) return { ...prefix, timetable: null };
+
+            const samePrefixTimetable = timetables?.filter(
+                (timetable) =>
+                    (timetable.prefix.includes(prefix.prefix) &&
+                        moment(prefix.date, 'YYYYMMDD ddd').isSameOrAfter(
+                            moment(timetable.dateOfEffective)
+                        )) ??
+                    timetable
+            );
+
+            const fittedTimetable = samePrefixTimetable?.reduce(
+                (prevTimeTable, currTimetable) => {
+                    const dateConcerned = moment(prefix.date, 'YYYYMMDD ddd');
+                    const prevDOEDiff = moment(
+                        prevTimeTable.dateOfEffective
+                    ).diff(dateConcerned);
+                    const currDOEDiff = moment(
+                        currTimetable.dateOfEffective
+                    ).diff(dateConcerned);
+
+                    return prevDOEDiff - currDOEDiff < 0
+                        ? currTimetable
+                        : prevTimeTable;
+                }
+            );
+            return { ...prefix, timetable: fittedTimetable };
+        });
+    }
+
     const [weekDifference, setWeekDifference] = useState(0);
     const correspondingMoment = useMemo(
-        () => moment().isoWeekday('monday').add(weekDifference, 'w'),
+        () => moment().add(weekDifference, 'w'),
         [weekDifference]
     );
     const KLNRota = useMemo(() => slicedKLN(), []);
 
-    console.log(
-        correspondingMoment.isoWeekday('monday').format('YYYY-MM-DD ddd w W')
-    );
-
-    const correspondingDates = useMemo(
+    const datesOfWeek = useMemo(
         () => getPrefixDetailFromId(correspondingMoment.format(`[Y]Y[W]w`)),
         [correspondingMoment]
     );
 
     const {
-        data: userMetadata,
-        isLoading: loadingMetadata,
-        error: errorMetadata
-    } = api.userController.getUserMetadata.useQuery(undefined, {
+        data: timetables,
+        isLoading: timetableLoading,
+        error: timetableError
+    } = api.timetableController.getAllTimetables.useQuery(undefined, {
         refetchOnWindowFocus: false
     });
+
+    const datesWithTimetable = useMemo(
+        () => getFitTimetable(timetables, datesOfWeek),
+        [timetables, datesOfWeek]
+    );
+
+    const { data: userMetadata } = api.userController.getUserMetadata.useQuery(
+        undefined,
+        {
+            refetchOnWindowFocus: false
+        }
+    );
 
     const categoryName = useMemo(
         () => stringifyCategory(userMetadata?.row),
@@ -85,10 +135,10 @@ const LandingPage: NextPageWithLayout = () => {
                 </Button>
             </div>
             <div className="flex flex-col items-start justify-center gap-2">
-                {correspondingDates.map(({ date, prefix }, i) => {
+                {datesWithTimetable?.map(({ date, prefix, timetable }, i) => {
                     return (
                         <p key={date} className="text-left font-mono">
-                            {date} {prefix} {sequence[i]}
+                            {date} {timetable?.prefix} {sequence[i]}
                         </p>
                     );
                 })}

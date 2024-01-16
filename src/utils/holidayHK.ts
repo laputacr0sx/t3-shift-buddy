@@ -883,4 +883,6 @@ const holidayJson = {
     ]
 };
 
+export type Holiday = typeof holidayJson;
+
 export default holidayJson;

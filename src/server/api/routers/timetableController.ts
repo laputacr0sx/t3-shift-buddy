@@ -6,22 +6,16 @@ export const timetableControllerRouter = createTRPCRouter({
     getAllTimetables: publicProcedure.query(async ({ ctx }) => {
         const timetables = await ctx.prisma.timetable
             .findMany({
-                where: {
-                    isSpecial: false,
-                    dateOfEffective: {
-                        lte: new Date()
-                    },
-                    createdAt: {}
-                },
-                orderBy: { dateOfEffective: 'asc' }
+                orderBy: { dateOfEffective: 'desc' }
             })
-            // .then((timetables) => {
-            //   return timetables.filter(({ prefix }) => prefix.endsWith("75"));
-            // })
             .catch(() => {
                 throw new TRPCError({ code: 'BAD_REQUEST' });
             });
 
+        return timetables;
+    }),
+    getAvailableTimetables: publicProcedure.query(async ({ ctx }) => {
+        const timetables = await ctx.prisma.timetable.findMany({ where: {} });
         return timetables;
     })
 });
