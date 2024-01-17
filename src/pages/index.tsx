@@ -44,8 +44,6 @@ const LandingPage: NextPageWithLayout = () => {
                 return checkSpecial || checkNormal;
             });
 
-            console.log(prefixDate.date(), samePrefixTimetable);
-
             const fittedTimetable = samePrefixTimetable?.reduce(
                 (prevTimeTable, currTimetable) => {
                     const prevDOEDiff = moment(

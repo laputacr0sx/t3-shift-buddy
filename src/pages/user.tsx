@@ -1,4 +1,4 @@
-import React, { type ReactElement } from 'react';
+import React, { useEffect, type ReactElement } from 'react';
 import { type z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -33,11 +33,10 @@ function UserMetadataForm() {
     const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () => toast.success('保存成功'),
         onError: () => {
-            throw new Error('failed');
             return toast.error('保存失敗');
-        },
-        onMutate: () => toast.loading('保存中...'),
-        onSettled: () => toast.dismiss()
+        }
+
+        // onSettled: () => toast.dismiss()
     });
 
     const userPrivateMetadataForm = useForm<
@@ -45,7 +44,7 @@ function UserMetadataForm() {
     >({
         resolver: zodResolver(userPrivateMetadataSchema),
         defaultValues: {
-            row: 'A0',
+            row: '',
             staffId: ''
         },
         values: userData
@@ -57,9 +56,15 @@ function UserMetadataForm() {
         return mutate(values);
     }
 
-    if (loadingUser) return <TableLoading />;
+    useEffect(() => {
+        userError && toast.error(userError.message, { duration: 2000 });
 
-    if (userError) return;
+        return () => {
+            toast.dismiss();
+        };
+    }, [userError]);
+
+    if (loadingUser) return <TableLoading />;
 
     return (
         <>
@@ -113,13 +118,12 @@ function UserMetadataForm() {
                         >
                             更改
                         </Button>
-                        {/* <Button type="reset" variant={'destructive'}>
-                            重設
-                        </Button> */}
                     </div>
                 </form>
             </Form>
-            <ChineseCalendars staffId={userData.staffId} />
+            {userData?.staffId ? (
+                <ChineseCalendars staffId={userData.staffId} />
+            ) : null}
         </>
     );
 }

@@ -42,6 +42,16 @@ export const userControllerRouter = createTRPCRouter({
             .getUser(user.id)
             .then((user) => user.privateMetadata);
 
-        return userPrivateMetadataSchema.parse(metadata);
+        const validMetadata = userPrivateMetadataSchema.safeParse(metadata);
+
+        if (!validMetadata.success) {
+            throw new TRPCError({
+                code: 'PARSE_ERROR',
+                message:
+                    'Invalid Metadata in database, please update your information. 🙏🏿'
+            });
+        }
+
+        return validMetadata.data;
     })
 });
