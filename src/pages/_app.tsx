@@ -10,6 +10,7 @@ import { type NextPage } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Head from 'next/head';
 import ErrorBoundary from '~/components/ErrorBoundary';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -26,7 +27,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     return (
         <ClerkProvider {...pageProps}>
             <Head>
-                <title>Duty App</title>
+                <title>出更易</title>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -58,7 +59,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 disableTransitionOnChange
             >
                 <Toaster />
-
+                <ReactQueryDevtools />
                 {getLayout(<Component {...pageProps} />)}
             </ThemeProvider>
             <Analytics />

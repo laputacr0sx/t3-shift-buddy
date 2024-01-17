@@ -25,26 +25,35 @@ const LandingPage: NextPageWithLayout = () => {
         prefixes: PrefixDetail[]
     ) {
         return prefixes.map((prefix) => {
+            const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
             if (!timetables) return { ...prefix, timetable: null };
 
-            const samePrefixTimetable = timetables?.filter(
-                (timetable) =>
-                    (timetable.prefix.includes(prefix.prefix) &&
-                        moment(prefix.date, 'YYYYMMDD ddd').isSameOrAfter(
-                            moment(timetable.dateOfEffective)
-                        )) ??
-                    timetable
-            );
+            const samePrefixTimetable = timetables?.filter((timetable) => {
+                const checkSpecial =
+                    moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
+                    timetable.isSpecial;
+
+                const checkNormal =
+                    !timetable.isSpecial &&
+                    timetable.prefix.includes(prefix.prefix) &&
+                    prefixDate.isSameOrAfter(
+                        moment(timetable.dateOfEffective),
+                        'isoWeek'
+                    );
+
+                return checkSpecial || checkNormal;
+            });
+
+            console.log(prefixDate.date(), samePrefixTimetable);
 
             const fittedTimetable = samePrefixTimetable?.reduce(
                 (prevTimeTable, currTimetable) => {
-                    const dateConcerned = moment(prefix.date, 'YYYYMMDD ddd');
                     const prevDOEDiff = moment(
                         prevTimeTable.dateOfEffective
-                    ).diff(dateConcerned);
+                    ).diff(prefixDate);
                     const currDOEDiff = moment(
                         currTimetable.dateOfEffective
-                    ).diff(dateConcerned);
+                    ).diff(prefixDate);
 
                     return prevDOEDiff - currDOEDiff < 0
                         ? currTimetable
