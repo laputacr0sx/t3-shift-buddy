@@ -11,6 +11,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Head from 'next/head';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { NavigationMenuDemo } from '~/components/AdvanceNavBar';
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -23,7 +24,9 @@ export type AppPropsWithLayout = AppProps & {
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
     const getLayout =
         Component.getLayout ??
-        ((page) => <ErrorBoundary>{page}</ErrorBoundary>);
+        ((page) => {
+            page;
+        });
     return (
         <ClerkProvider {...pageProps}>
             <Head>
@@ -60,7 +63,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             >
                 <Toaster />
                 <ReactQueryDevtools />
-                {getLayout(<Component {...pageProps} />)}
+                <NavigationMenuDemo />
+                <Component {...pageProps} />
             </ThemeProvider>
             <Analytics />
             <SpeedInsights />

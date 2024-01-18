@@ -1,4 +1,23 @@
-const holidayJson = {
+export type Holiday = {
+    dtstart: (string | { value: string })[];
+    dtend: (string | { value: string })[];
+    transp: string;
+    uid: string;
+    summary: string;
+};
+
+type HolidayJson = {
+    vcalendar: Vcalendar[];
+};
+
+type Vcalendar = Record<string, unknown> & {
+    prodid: string;
+    version: string;
+    calscale: string;
+    vevent: Holiday[];
+};
+
+const holidayJson: HolidayJson = {
     vcalendar: [
         {
             prodid: '-//1823 Call Centre, Efficiency Office, HKSAR Government//Hong Kong Public Holidays//EN',
@@ -882,7 +901,5 @@ const holidayJson = {
         }
     ]
 };
-
-export type Holiday = typeof holidayJson;
 
 export default holidayJson;

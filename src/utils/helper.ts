@@ -1,15 +1,15 @@
 import moment from 'moment';
 import { type z } from 'zod';
 import { toast } from 'react-hot-toast';
-import { type StaffId, type DayDetail, Rosta } from './customTypes';
+import type { StaffId, DayDetail, Rosta } from './customTypes';
 import { completeShiftNameRegex, specialDutyRegex } from './regex';
-import holidayJson from '~/utils/holidayHK';
-import fixtures, { Fixture } from '~/utils/hkjcFixture';
+import holidayJson, { type Holiday } from '~/utils/holidayHK';
+import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import type * as icalParser from 'node-ical';
 import { type DateArray, createEvents, type EventAttributes } from 'ics';
-import { Rota } from './standardRosters';
-import { inferProcedureOutput } from '@trpc/server';
-import { AppRouter } from '~/server/api/root';
+import { type Rota } from './standardRosters';
+import { type inferProcedureOutput } from '@trpc/server';
+import { type AppRouter } from '~/server/api/root';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -278,10 +278,8 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
 export type PrefixDetail = {
     date: string;
     prefix: string;
-    racingDetails: Fixture | undefined;
-    holidayDetails:
-        | (typeof holidayJson)['vcalendar'][0]['vevent'][0]
-        | undefined;
+    racingDetail: Fixture | undefined;
+    holidayDetail: Holiday | undefined;
 };
 export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
     const [year, week] = weekId.match(/\d+/gim) ?? [
@@ -308,19 +306,19 @@ export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
         )[0];
         const weekDayNum = moment(date).isoWeekday();
 
-        const racingDetails = fixtures.filter(
+        const racingDetail = fixtures.filter(
             ({ date: fixtureDay }) =>
                 moment(fixtureDay).locale('zh-hk').format('YYYYMMDD') === date
         )[0];
 
-        const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
+        const holidayDetail = holidayJson.vcalendar[0]?.vevent.filter(
             ({ dtstart }) => dtstart.includes(date)
         )[0];
 
-        const prefix = racingDetails
-            ? racingDetails.nightRacing === 0
+        const prefix = racingDetail
+            ? racingDetail.nightRacing === 0
                 ? '71'
-                : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
+                : racingDetail.nightRacing === 1 && racingDetail.venue === 'H'
                 ? '14'
                 : '13'
             : weekDayNum === 6 || weekDayNum === 7 || isHoliday
@@ -330,8 +328,8 @@ export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),
             prefix,
-            racingDetails,
-            holidayDetails
+            racingDetail,
+            holidayDetail
         });
     }
 

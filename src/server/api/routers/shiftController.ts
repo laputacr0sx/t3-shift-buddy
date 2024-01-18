@@ -26,13 +26,18 @@ const ratelimit = new Ratelimit({
 });
 
 export const shiftControllerRouter = createTRPCRouter({
+    getShiftsById: publicProcedure
+        .input(z.object({}))
+        .query(({ ctx, input }) => {
+            return;
+        }),
+
     getAllShifts: publicProcedure.query(async ({ ctx }) => {
         const { success } = await ratelimit.limit(ctx.auth.userId ?? '');
 
         if (!success) throw new TRPCError({ code: 'TOO_MANY_REQUESTS' });
 
         return ctx.prisma.duty.findMany({
-            where: { dutyNumber: { contains: 'F75' } },
             orderBy: {
                 dutyNumber: 'asc'
             }

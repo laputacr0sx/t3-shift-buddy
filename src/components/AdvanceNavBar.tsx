@@ -26,9 +26,14 @@ import { Button } from './ui/button';
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: 'HOME',
-        description: 'Home Page',
+        title: '出更易',
+        description: '查詢各週份Standard Roster。',
         href: '/'
+    },
+    {
+        title: '搵更易',
+        description: '列出現行更表明細。',
+        href: '/allShifts'
     }
 ];
 
@@ -44,7 +49,6 @@ export function NavigationMenuDemo() {
                             <User className="m-2" size={18} />
                         </SignInButton>
                     </SignedOut>
-
                     <SignedIn>
                         <UserButton afterSignOutUrl="/" />
                     </SignedIn>
