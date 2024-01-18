@@ -1,67 +1,20 @@
-import React, { useMemo, type ReactElement, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { type NextPageWithLayout } from './_app';
-import Layout from '~/components/ui/layouts/AppLayout';
 
 import { api } from '~/utils/api';
 import { slicedKLN } from '~/utils/standardRosters';
 import { Button } from '~/components/ui/button';
 import {
-    type PrefixDetail,
     getPrefixDetailFromId,
     getRosterRow,
-    stringifyCategory
+    stringifyCategory,
+    getFitTimetable
 } from '~/utils/helper';
 import moment from 'moment';
-import type { inferProcedureOutput } from '@trpc/server';
-import type { AppRouter } from '~/server/api/root';
+
+import { NavigationMenuDemo } from '~/components/AdvanceNavBar';
 
 const LandingPage: NextPageWithLayout = () => {
-    function getFitTimetable(
-        timetables:
-            | inferProcedureOutput<
-                  AppRouter['timetableController']['getAllTimetables']
-              >
-            | undefined,
-        prefixes: PrefixDetail[]
-    ) {
-        return prefixes.map((prefix) => {
-            const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
-            if (!timetables) return { ...prefix, timetable: null };
-
-            const samePrefixTimetable = timetables?.filter((timetable) => {
-                const checkSpecial =
-                    moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
-                    timetable.isSpecial;
-
-                const checkNormal =
-                    !timetable.isSpecial &&
-                    timetable.prefix.includes(prefix.prefix) &&
-                    prefixDate.isSameOrAfter(
-                        moment(timetable.dateOfEffective),
-                        'isoWeek'
-                    );
-
-                return checkSpecial || checkNormal;
-            });
-
-            const fittedTimetable = samePrefixTimetable?.reduce(
-                (prevTimeTable, currTimetable) => {
-                    const prevDOEDiff = moment(
-                        prevTimeTable.dateOfEffective
-                    ).diff(prefixDate);
-                    const currDOEDiff = moment(
-                        currTimetable.dateOfEffective
-                    ).diff(prefixDate);
-
-                    return prevDOEDiff - currDOEDiff < 0
-                        ? currTimetable
-                        : prevTimeTable;
-                }
-            );
-            return { ...prefix, timetable: fittedTimetable };
-        });
-    }
-
     const [weekDifference, setWeekDifference] = useState(0);
     const correspondingMoment = useMemo(
         () => moment().add(weekDifference, 'w'),
@@ -104,7 +57,8 @@ const LandingPage: NextPageWithLayout = () => {
     );
 
     return (
-        <div className="flex h-full w-screen flex-col gap-4 px-20">
+        <div className="flex h-full w-screen flex-col gap-4 px-4">
+            <NavigationMenuDemo />
             <h1 className="justify-center py-5 text-center align-middle font-mono text-3xl font-bold tracking-wide text-foreground">
                 {correspondingMoment.format(`Y年WW期`)}
             </h1>
@@ -152,10 +106,6 @@ const LandingPage: NextPageWithLayout = () => {
             </div>
         </div>
     );
-};
-
-LandingPage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>;
 };
 
 export default LandingPage;

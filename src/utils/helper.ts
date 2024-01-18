@@ -8,6 +8,8 @@ import fixtures, { Fixture } from '~/utils/hkjcFixture';
 import type * as icalParser from 'node-ical';
 import { type DateArray, createEvents, type EventAttributes } from 'ics';
 import { Rota } from './standardRosters';
+import { inferProcedureOutput } from '@trpc/server';
+import { AppRouter } from '~/server/api/root';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -484,4 +486,50 @@ export function stringifyCategory(category: string | undefined): string {
 
     const prefix = category.slice(0, 1) as keyof typeof categoryName;
     return categoryName[prefix];
+}
+
+export function getFitTimetable(
+    timetables:
+        | inferProcedureOutput<
+              AppRouter['timetableController']['getAllTimetables']
+          >
+        | undefined,
+    prefixes: PrefixDetail[]
+) {
+    return prefixes.map((prefix) => {
+        const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
+        if (!timetables) return { ...prefix, timetable: null };
+
+        const samePrefixTimetable = timetables?.filter((timetable) => {
+            const checkSpecial =
+                moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
+                timetable.isSpecial;
+
+            const checkNormal =
+                !timetable.isSpecial &&
+                timetable.prefix.includes(prefix.prefix) &&
+                prefixDate.isSameOrAfter(
+                    moment(timetable.dateOfEffective),
+                    'isoWeek'
+                );
+
+            return checkSpecial || checkNormal;
+        });
+
+        const fittedTimetable = samePrefixTimetable?.reduce(
+            (prevTimeTable, currTimetable) => {
+                const prevDOEDiff = moment(prevTimeTable.dateOfEffective).diff(
+                    prefixDate
+                );
+                const currDOEDiff = moment(currTimetable.dateOfEffective).diff(
+                    prefixDate
+                );
+
+                return prevDOEDiff - currDOEDiff < 0
+                    ? currTimetable
+                    : prevTimeTable;
+            }
+        );
+        return { ...prefix, timetable: fittedTimetable };
+    });
 }
