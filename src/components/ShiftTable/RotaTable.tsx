@@ -1,98 +1,93 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+    type ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    useReactTable
+} from '@tanstack/react-table';
 
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from '~/components/ui/table';
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
 }
 
-export function AllShiftsTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = useState({});
-
-  const table = useReactTable({
-    data,
+export function RotaTable<TData, TValue>({
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    onRowSelectionChange: setRowSelection,
-    state: {
-      rowSelection,
-    },
-  });
+    data
+}: DataTableProps<TData, TValue>) {
+    const [rowSelection, setRowSelection] = useState({});
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="mx-2 overflow-hidden rounded-2xl border-y border-solid border-sky-800 font-mono dark:border-sky-300">
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection
+        }
+    });
+
+    return (
         <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      className="whitespace-nowrap align-middle text-sky-700 dark:text-sky-200"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="whitespace-nowrap">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+            <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => {
+                            return (
+                                <TableHead
+                                    key={header.id}
+                                    colSpan={header.colSpan}
+                                >
+                                    {header.isPlaceholder
+                                        ? null
+                                        : flexRender(
+                                              header.column.columnDef.header,
+                                              header.getContext()
+                                          )}
+                                </TableHead>
+                            );
+                        })}
+                    </TableRow>
+                ))}
+            </TableHeader>
+            <TableBody className="font-mono">
+                {table.getRowModel().rows?.length ? (
+                    table.getRowModel().rows.map((row) => (
+                        <TableRow
+                            key={row.id}
+                            data-state={row.getIsSelected() && 'selected'}
+                        >
+                            {row.getVisibleCells().map((cell) => (
+                                <TableCell key={cell.id}>
+                                    {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                    )}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell
+                            colSpan={columns.length}
+                            className="h-24 text-center"
+                        >
+                            No results.
+                        </TableCell>
+                    </TableRow>
+                )}
+            </TableBody>
         </Table>
-      </div>
-    </div>
-  );
+    );
 }

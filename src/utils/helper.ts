@@ -278,8 +278,8 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
 export type PrefixDetail = {
     date: string;
     prefix: string;
-    racingDetail: Fixture | undefined;
-    holidayDetail: Holiday | undefined;
+    racingDetail: Fixture | null;
+    holidayDetail: Holiday | null;
 };
 export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
     const [year, week] = weekId.match(/\d+/gim) ?? [
@@ -328,8 +328,8 @@ export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),
             prefix,
-            racingDetail,
-            holidayDetail
+            racingDetail: racingDetail ?? null,
+            holidayDetail: holidayDetail ?? null
         });
     }
 
@@ -486,12 +486,12 @@ export function stringifyCategory(category: string | undefined): string {
     return categoryName[prefix];
 }
 
+type Timetables = inferProcedureOutput<
+    AppRouter['timetableController']['getAllTimetables']
+>;
+
 export function getFitTimetable(
-    timetables:
-        | inferProcedureOutput<
-              AppRouter['timetableController']['getAllTimetables']
-          >
-        | undefined,
+    timetables: Timetables | undefined,
     prefixes: PrefixDetail[]
 ) {
     return prefixes.map((prefix) => {

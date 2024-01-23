@@ -12,15 +12,19 @@ import {
 } from '~/utils/helper';
 import moment from 'moment';
 import { Label } from '~/components/ui/label';
+import { RotaTable } from '~/components/ShiftTable/RotaTable';
+import { RotaColumns } from '~/components/ShiftTable/RotaColumn';
 
-export function combineDateWithSequence(
-    dates: ReturnType<typeof getFitTimetable>,
-    sequence: string[]
-) {
-    return dates.map((date, i) => ({
+type dates = ReturnType<typeof getFitTimetable>;
+
+export function combineDateWithSequence(dates: dates, sequence: string[]) {
+    const sequenceDetail = dates.map((date, i) => ({
         ...date,
-        standardDuty: sequence[i] as string
+        standardDuty: sequence[i] as string,
+        defaultDuty: date.timetable?.prefix.concat(sequence[i] as string) ?? ''
     }));
+
+    return sequenceDetail;
 }
 
 const LandingPage = () => {
@@ -76,10 +80,11 @@ const LandingPage = () => {
         <div className="flex h-full w-screen flex-col gap-4 px-4">
             <h1 className="justify-center py-2 text-center align-middle font-mono text-3xl font-bold tracking-wide text-foreground">
                 {correspondingMoment.format(`Y年WW期`)}
+                {`${categoryName}更行序${rowInQuery + 1}`}
             </h1>
-            <h2 className="text-lg font-semibold">{`${categoryName}更行序${
+            {/* <h2 className="text-lg font-semibold">{`${categoryName}更行序${
                 rowInQuery + 1
-            }`}</h2>
+            }`}</h2> */}
             <div className="flex items-center justify-between align-middle">
                 <Button
                     variant={'outline'}
@@ -110,17 +115,8 @@ const LandingPage = () => {
                     下週
                 </Button>
             </div>
-            <div className="flex flex-col items-start justify-center gap-2">
-                {datesWithTimetable?.map(({ date, timetable }, i) => {
-                    return (
-                        // <p key={date} className="text-left font-mono">
-                        <Label key={date} className="text-left font-mono">
-                            {date} {timetable?.prefix} {sequence[i]}
-                        </Label>
-                        // </p>
-                    );
-                })}
-            </div>
+
+            <RotaTable columns={RotaColumns} data={combinedDetails} />
         </div>
     );
 };
