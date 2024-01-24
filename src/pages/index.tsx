@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react';
-import { type NextPageWithLayout } from './_app';
 
 import { api } from '~/utils/api';
 import { slicedKLN } from '~/utils/standardRosters';
-import { Button } from '~/components/ui/button';
+
 import {
     getPrefixDetailFromId,
     getRosterRow,
@@ -11,18 +10,18 @@ import {
     getFitTimetable
 } from '~/utils/helper';
 import moment from 'moment';
-import { Label } from '~/components/ui/label';
-import { RotaTable } from '~/components/ShiftTable/RotaTable';
+
+import RotaTable from '~/components/ShiftTable/RotaTable';
 import { RotaColumns } from '~/components/ShiftTable/RotaColumn';
 import { WeekControlButton } from '~/components/WeekControlButton';
 
-type dates = ReturnType<typeof getFitTimetable>;
+type Dates = ReturnType<typeof getFitTimetable>;
 
-export function combineDateWithSequence(dates: dates, sequence: string[]) {
+export function combineDateWithSequence(dates: Dates, sequence: string[]) {
     const sequenceDetail = dates.map((date, i) => ({
         ...date,
         standardDuty: sequence[i] as string,
-        defaultDuty: date.timetable?.prefix.concat(sequence[i] as string) ?? ''
+        actualDuty: ''
     }));
 
     return sequenceDetail;
@@ -76,14 +75,19 @@ const LandingPage = () => {
     );
 
     const { data } = api.dutyController.getDutyByDutynumber.useQuery(
-        combinedDetails.map((detail) => detail.defaultDuty)
+        combinedDetails.map(
+            ({ timetable, standardDuty, actualDuty }) =>
+                timetable?.prefix.concat(
+                    actualDuty.length <= 0 ? standardDuty : actualDuty
+                ) ?? ''
+        )
     );
 
     console.log(data);
 
     return (
         <div className="flex h-full w-screen flex-col gap-4 px-4">
-            <h1 className="justify-center py-2 text-center align-middle font-mono text-3xl font-bold tracking-wide text-foreground">
+            <h1 className="justify-center py-2 text-center align-middle font-mono text-2xl font-bold tracking-wide text-foreground">
                 {correspondingMoment.format(`Y年WW期`)}
                 {`${categoryName}更行序${rowInQuery + 1}`}
             </h1>

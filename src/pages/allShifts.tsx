@@ -1,19 +1,15 @@
-// import { AllShiftsColumns } from "~/components/ShiftTable/AllShiftsColumns";
-import { AllShiftsTable } from '~/components/ShiftTable/AllShiftsTable';
-import { api } from '~/utils/api';
 import { type NextPageWithLayout } from './_app';
 import { type ReactElement } from 'react';
 import Layout from '~/components/ui/layouts/AppLayout';
-import TableLoading from '~/components/TableLoading';
 
 const AllShifts: NextPageWithLayout = () => {
-    const {
-        data: allShifts,
-        isLoading: shiftsLoading,
-        error: shiftsError
-    } = api.shiftController.getAllShifts.useQuery(undefined, {
-        refetchOnWindowFocus: false
-    });
+    // const {
+    //     data: allShifts,
+    //     isLoading: shiftsLoading,
+    //     error: shiftsError
+    // } = api.shiftController.getAllShifts.useQuery(undefined, {
+    //     refetchOnWindowFocus: false
+    // });
     // const {
     //   data: allShifts,
     //   isLoading: shiftsLoading,
@@ -25,10 +21,6 @@ const AllShifts: NextPageWithLayout = () => {
     //     getNextPageParam: (lastPage) => lastPage.nextCursor,
     //   }
     // );
-
-    if (shiftsLoading) return <TableLoading />;
-
-    if (shiftsError) return <>{shiftsError.message}</>;
 
     return (
         <div className="flex h-full w-screen flex-col gap-4">
