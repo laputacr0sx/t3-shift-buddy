@@ -8,6 +8,7 @@ import { timetableControllerRouter } from './routers/timetableController';
 import { rosterControllerRouter } from './routers/rosterController';
 import { sequenceControllerRouter } from './routers/sequenceController';
 import { userControllerRouter } from './routers/userController';
+import { dutyControllerRouter } from './routers/dutyController';
 
 /**
  * This is the primary router for your server.
@@ -16,7 +17,8 @@ import { userControllerRouter } from './routers/userController';
  */
 export const appRouter = createTRPCRouter({
     databaseController: databaseControllerRouter,
-    shiftController: shiftControllerRouter,
+    dutyController: dutyControllerRouter,
+    // shiftController: shiftControllerRouter,
     // prefixController: prefixControllerRouter,
     timetableController: timetableControllerRouter,
     calendarController: calendarControllerRouter,

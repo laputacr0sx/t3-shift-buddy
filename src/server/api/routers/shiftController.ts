@@ -5,7 +5,11 @@ import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import { type DayDetail } from '~/utils/customTypes';
 import { getResponseWithType, getJointDutyNumbers } from '~/utils/helper';
 
-import { dutyInputRegExValidator, shiftNameRegex } from '~/utils/regex';
+import {
+    completeShiftNameRegex,
+    dutyInputRegExValidator,
+    shiftNameRegex
+} from '~/utils/regex';
 
 import { Ratelimit } from '@upstash/ratelimit'; // for deno: see above
 import { Redis } from '@upstash/redis'; // see below for cloudflare and fastly adapters
@@ -26,10 +30,13 @@ const ratelimit = new Ratelimit({
 });
 
 export const shiftControllerRouter = createTRPCRouter({
-    getShiftsById: publicProcedure
-        .input(z.object({}))
-        .query(({ ctx, input }) => {
-            return;
+    getShiftsByDutynumber: publicProcedure
+        .input(z.string().regex(completeShiftNameRegex).array())
+        .query(async ({ ctx, input }) => {
+            const foundDuty = await ctx.prisma.duty.findMany({
+                where: { dutyNumber: { in: input } }
+            });
+            return foundDuty;
         }),
 
     getAllShifts: publicProcedure.query(async ({ ctx }) => {
@@ -43,129 +50,6 @@ export const shiftControllerRouter = createTRPCRouter({
             }
         });
     }),
-
-    // getAllShiftsWithInfinite: publicProcedure
-    //   .input(
-    //     z.object({
-    //       limit: z.number().min(1).max(100).nullish(),
-    //       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-    //     })
-    //   )
-    //   .query(async ({ input, ctx }) => {
-    //     const limit = input.limit ?? 20;
-    //     const { cursor } = input;
-
-    //     const items = await ctx.prisma.duty.findMany({
-    //       take: limit + 1, // get an extra item at the end which we'll use as next cursor
-    //       cursor: cursor ? { id: cursor } : undefined,
-    //       orderBy: {
-    //         dutyNumber: "asc",
-    //       },
-    //     });
-    //     let nextCursor: typeof cursor | undefined = undefined;
-    //     if (items.length > limit) {
-    //       const nextItem = items.pop();
-    //       nextCursor = nextItem!.id;
-    //     }
-    //     return {
-    //       items,
-    //       nextCursor,
-    //     };
-    //   }),
-
-    getShiftGivenDutyNumber: publicProcedure
-        .input(
-            z.object({
-                duty: z
-                    .string()
-                    .regex(dutyInputRegExValidator, 'invalid duty input')
-            })
-        )
-
-        .query(({ input, ctx }) => {
-            const resultShift = ctx.prisma.duty.findMany({
-                where: { dutyNumber: { endsWith: input.duty } }
-            });
-
-            return resultShift;
-        }),
-
-    getWeekShift: publicProcedure
-        .input(
-            z.object({
-                shiftArray: z.string().regex(shiftNameRegex).array().length(7)
-            })
-        )
-        .query(({ input, ctx }) => {
-            const resultShiftArray = ctx.prisma.duty.findMany({
-                where: { dutyNumber: { in: input.shiftArray } }
-            });
-
-            return resultShiftArray;
-        }),
-
-    // getShiftDetailWithoutAlphabeticPrefix: publicProcedure
-    //   .input(
-    //     z
-    //       .object({
-    //         date: z.string().regex(/\d{8}/gim),
-    //         shiftCode: z.string().regex(proShiftNameRegex),
-    //       })
-    //       .array()
-    //   )
-    //   .query(async ({ ctx, input }) => {
-    //     const prefixChronological = await ctx.prisma.weekPrefix
-    //       .findMany({
-    //         orderBy: { weekNumber: "desc" },
-    //         take: 1,
-    //       })
-    //       .then((weekPrefix) =>
-    //         weekPrefix.flatMap(({ prefixes }) =>
-    //           prefixes.flatMap((prefix) => prefix)
-    //         )
-    //       )
-    //       .catch(() => {
-    //         throw new TRPCError({ code: "BAD_REQUEST" });
-    //       });
-
-    //     const distinctPrefix = Array.from(new Set(prefixChronological));
-
-    //     const shiftCodeOnly = input.map((day) => day.shiftCode);
-
-    //     const jointDutyNumbers = getJointDutyNumbers(
-    //       distinctPrefix,
-    //       shiftCodeOnly
-    //     );
-
-    //     const resultDuties = await ctx.prisma.duty.findMany({
-    //       where: { dutyNumber: { in: jointDutyNumbers } },
-    //     });
-
-    //     const reduceResult = input.reduce<DayDetail[]>((accumulatedDays, day) => {
-    //       if (day.shiftCode.match(dayOffRegex)) {
-    //         accumulatedDays.push({
-    //           date: day.date,
-    //           title: day.shiftCode,
-    //           dutyNumber: day.shiftCode,
-    //         } as DayDetail);
-    //       }
-
-    //       const temp = resultDuties.filter((duty) =>
-    //         duty.dutyNumber.match(day.shiftCode)
-    //       )[0];
-
-    //       if (temp)
-    //         accumulatedDays.push({
-    //           ...temp,
-    //           date: day.date,
-    //           title: temp.dutyNumber,
-    //         } as DayDetail);
-
-    //       return accumulatedDays;
-    //     }, []);
-
-    //     return reduceResult;
-    //   }),
 
     getDayWeather: publicProcedure.query(async () => {
         const hkoUri =

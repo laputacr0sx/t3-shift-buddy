@@ -14,6 +14,7 @@ import moment from 'moment';
 import { Label } from '~/components/ui/label';
 import { RotaTable } from '~/components/ShiftTable/RotaTable';
 import { RotaColumns } from '~/components/ShiftTable/RotaColumn';
+import { WeekControlButton } from '~/components/WeekControlButton';
 
 type dates = ReturnType<typeof getFitTimetable>;
 
@@ -74,7 +75,11 @@ const LandingPage = () => {
         sequence
     );
 
-    console.log(combinedDetails);
+    const { data } = api.dutyController.getDutyByDutynumber.useQuery(
+        combinedDetails.map((detail) => detail.defaultDuty)
+    );
+
+    console.log(data);
 
     return (
         <div className="flex h-full w-screen flex-col gap-4 px-4">
@@ -82,40 +87,7 @@ const LandingPage = () => {
                 {correspondingMoment.format(`Y年WW期`)}
                 {`${categoryName}更行序${rowInQuery + 1}`}
             </h1>
-            {/* <h2 className="text-lg font-semibold">{`${categoryName}更行序${
-                rowInQuery + 1
-            }`}</h2> */}
-            <div className="flex items-center justify-between align-middle">
-                <Button
-                    variant={'outline'}
-                    size={'lg'}
-                    onClick={() => {
-                        setWeekDifference((prev) => prev - 1);
-                    }}
-                >
-                    上週
-                </Button>
-                <Button
-                    className=""
-                    variant={'secondary'}
-                    size={'lg'}
-                    onClick={() => {
-                        setWeekDifference(0);
-                    }}
-                >
-                    本週
-                </Button>
-                <Button
-                    variant={'outline'}
-                    size={'lg'}
-                    onClick={() => {
-                        setWeekDifference((prev) => prev + 1);
-                    }}
-                >
-                    下週
-                </Button>
-            </div>
-
+            <WeekControlButton setWeekDifference={setWeekDifference} />
             <RotaTable columns={RotaColumns} data={combinedDetails} />
         </div>
     );
