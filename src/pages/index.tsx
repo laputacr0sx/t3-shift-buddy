@@ -14,6 +14,7 @@ import moment from 'moment';
 import RotaTable from '~/components/ShiftTable/RotaTable';
 import { RotaColumns } from '~/components/ShiftTable/RotaColumn';
 import { WeekControlButton } from '~/components/WeekControlButton';
+import { TestTable } from '~/components/ShiftTable/TestTable';
 
 type Dates = ReturnType<typeof getFitTimetable>;
 
@@ -53,12 +54,8 @@ const LandingPage = () => {
         [timetables, datesOfWeek]
     );
 
-    const { data: userMetadata } = api.userController.getUserMetadata.useQuery(
-        undefined,
-        {
-            refetchOnWindowFocus: false
-        }
-    );
+    const { data: userMetadata } =
+        api.userController.getUserMetadata.useQuery(undefined);
 
     const categoryName = useMemo(
         () => stringifyCategory(userMetadata?.row),
@@ -74,16 +71,16 @@ const LandingPage = () => {
         sequence
     );
 
-    const { data } = api.dutyController.getDutyByDutynumber.useQuery(
+    const { data } = api.dutyController.getDutiesBySequence.useQuery(
         combinedDetails.map(
             ({ timetable, standardDuty, actualDuty }) =>
                 timetable?.prefix.concat(
                     actualDuty.length <= 0 ? standardDuty : actualDuty
-                ) ?? ''
+                ) || 'R15101'
         )
     );
 
-    console.log(data);
+    console.log(combinedDetails);
 
     return (
         <div className="flex h-full w-screen flex-col gap-4 px-4">
@@ -92,7 +89,10 @@ const LandingPage = () => {
                 {`${categoryName}更行序${rowInQuery + 1}`}
             </h1>
             <WeekControlButton setWeekDifference={setWeekDifference} />
-            <RotaTable columns={RotaColumns} data={combinedDetails} />
+            {/* {combinedDetails ? (
+                <RotaTable columns={RotaColumns} data={combinedDetails} />
+            ) : null} */}
+            <TestTable defaultData={combinedDetails} />
         </div>
     );
 };

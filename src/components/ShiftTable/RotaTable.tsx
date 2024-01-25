@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
     type ColumnDef,
@@ -6,7 +6,8 @@ import {
     getCoreRowModel,
     useReactTable,
     CellContext,
-    RowData
+    RowData,
+    createColumnHelper
 } from '@tanstack/react-table';
 
 import {
@@ -17,13 +18,22 @@ import {
     TableHeader,
     TableRow
 } from '~/components/ui/table';
-import { Rota } from './RotaColumn';
+
+import { api } from '~/utils/api';
+import { combineDateWithSequence } from '~/pages';
+import moment from 'moment';
+import { Input } from '../ui/input';
 
 declare module '@tanstack/table-core' {
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: string) => void;
     }
 }
+
+type Rota = ReturnType<typeof combineDateWithSequence>[0];
+
+const columnHelper = createColumnHelper<Rota>();
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -46,6 +56,7 @@ function RotaTable<TData, TValue>({
         },
         meta: {
             updateData: (rowIndex: number, columnId: string, value: string) => {
+                console.log({ rowIndex, columnId, value });
                 setEditData((old) =>
                     old.map((row, index) => {
                         if (index === rowIndex) {
@@ -61,6 +72,31 @@ function RotaTable<TData, TValue>({
         }
     });
 
+    const sequence = useMemo(
+        () =>
+            table.getRowModel().rows.map((row) => {
+                const prefix = row.getValue('prefix') satisfies string;
+                const standardDuty = row.getValue(
+                    'standardDuty'
+                ) satisfies string;
+                const actualDuty = row.getValue('actualDuty') satisfies string;
+
+                if (!prefix) return '';
+
+                return (
+                    prefix.concat(
+                        actualDuty.length <= 0 ? standardDuty : actualDuty
+                    ) || 'R15101'
+                );
+            }),
+        [table]
+    );
+
+    const { data: duty } =
+        api.dutyController.getDutiesBySequence.useQuery(sequence);
+
+    console.log(duty);
+
     return (
         <>
             <Table>
@@ -72,7 +108,7 @@ function RotaTable<TData, TValue>({
                                     <TableHead
                                         key={header.id}
                                         colSpan={header.colSpan}
-                                        // className="whitespace-nowrap"
+                                        className="whitespace-nowrap"
                                     >
                                         {header.isPlaceholder
                                             ? null
@@ -130,7 +166,12 @@ export default RotaTable;
 
 type CellProps = CellContext<Rota, unknown>;
 
-export function EditableCell({ getValue, row, column, table }: CellProps) {
+export function EditableCell({
+    getValue,
+    row: { index },
+    column: { id },
+    table
+}: CellProps) {
     const initialValue = getValue() as string;
     const [value, setValue] = useState(initialValue);
 
@@ -139,15 +180,16 @@ export function EditableCell({ getValue, row, column, table }: CellProps) {
     }, [initialValue]);
 
     const onBlur = () => {
-        table.options.meta?.updateData(row.index, column.id, value);
+        table.options.meta?.updateData(index, id, value);
     };
+
     return (
-        <input
+        <Input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={onBlur}
             size={7}
-            className="bg-none no-underline"
+            className="h-8 bg-none no-underline"
         />
     );
 }
