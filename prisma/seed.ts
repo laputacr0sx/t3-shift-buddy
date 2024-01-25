@@ -1,17 +1,7 @@
 import { prisma } from '../src/server/db';
-
-import { timetables } from './seeds/timetables';
-import { duties } from './seeds/duties';
-import { users } from './seeds/users';
-import { staff } from './seeds/staff';
-import { V71 } from './seeds/timetables/V71';
-
-import { J15 } from './seeds/timetables/J15';
 import { D14 } from './seeds/timetables/D14';
-import { C75 } from './seeds/timetables/C75';
-import { others } from './seeds/timetables/others';
-import { rosters } from './seeds/roster';
-import { R15 } from './seeds/timetables/R15';
+
+import { F75 } from './seeds/timetables/F75';
 
 async function main() {
     // await prisma.user.createMany({ data: users });
@@ -31,7 +21,7 @@ async function main() {
     // await prisma.roster.createMany({
     //     data: rosters
     // });
-    await prisma.duty.createMany({ data: R15 });
+    await prisma.duty.createMany({ data: F75 });
 }
 
 main()

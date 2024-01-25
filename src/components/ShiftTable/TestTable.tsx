@@ -70,8 +70,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         setData(defaultData);
     }, [defaultData]);
 
-    console.log(defaultData);
-
     const incomingSequnce = data.map(
         ({ timetable, standardDuty, actualDuty }) =>
             timetable?.prefix.concat(
@@ -95,7 +93,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             id: 'prefix',
             header: '時間表'
         }),
-        columnHelper.display({ id: 'timetableStatus' }),
         columnHelper.accessor('standardDuty', {
             id: 'standardDuty',
             header: '標準'
@@ -108,10 +105,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         }),
         columnHelper.display({
             id: 'minimumRest',
-            header: '追更',
-            cell: (prop) => {
-                const cells = prop.row._getAllCellsByColumnId();
-            }
+            header: '追更'
         })
     ];
 
@@ -189,14 +183,16 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        {duties?.reduce((acc, cur) => {
-                            const duration = +convertDurationDecimal(
-                                cur.duration
-                            );
+                        <TableCell colSpan={5}>
+                            本週總工時：
+                            {duties?.reduce((acc, cur) => {
+                                const duration = +convertDurationDecimal(
+                                    cur.duration
+                                );
 
-                            return acc + duration;
-                        }, 0)}
-                        Hello
+                                return acc + duration;
+                            }, 0)}
+                        </TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>

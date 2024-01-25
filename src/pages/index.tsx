@@ -86,9 +86,6 @@ const LandingPage = () => {
                 {`${tc}更行序${rowInQuery + 1}`}
             </h1>
             <WeekControlButton setWeekDifference={setWeekDifference} />
-            {/* {combinedDetails ? (
-                <RotaTable columns={RotaColumns} data={combinedDetails} />
-            ) : null} */}
             <TestTable defaultData={combinedDetails} />
         </div>
     );
