@@ -138,7 +138,7 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
  * @param selectedShifts The selected shifts to copy to the clipboard.
  */
 export async function tableCopyHandler(selectedShifts: DayDetail[]) {
-    if (!navigator || !navigator.clipboard)
+    if (navigator?.clipboard)
         throw Error('No navigator object nor clipboard found');
 
     const completeString = getSelectedShiftsString(selectedShifts);
@@ -213,6 +213,22 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
     });
 }
 
+function draftPrefix(
+    fixture: Fixture | undefined,
+    weekdayNumber: number,
+    isHoliday: boolean
+) {
+    if (!fixture) {
+        return weekdayNumber === 6 || weekdayNumber === 7 || isHoliday
+            ? '75'
+            : '15';
+    }
+    if (fixture.nightRacing === 0) {
+        return '71';
+    } else
+        return fixture.nightRacing === 1 && fixture.venue === 'H' ? '14' : '13';
+}
+
 /**
  * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
  * @param moreDays {boolean} Set to true if you want to get days from tomorrow onwards until next Sunday. Defaults to false.
@@ -254,15 +270,17 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
             ({ dtstart }) => dtstart.includes(date)
         )[0];
 
-        const prefix = racingDetails
-            ? racingDetails.nightRacing === 0
-                ? '71'
-                : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
-                ? '14'
-                : '13'
-            : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-            ? '75'
-            : '15';
+        const prefix = draftPrefix(racingDetails, weekDayNum, isHoliday);
+
+        // const prefix = racingDetails
+        //     ? racingDetails.nightRacing === 0
+        //         ? '71'
+        //         : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
+        //         ? '14'
+        //         : '13'
+        //     : weekDayNum === 6 || weekDayNum === 7 || isHoliday
+        //     ? '75'
+        //     : '15';
 
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),
@@ -315,15 +333,17 @@ export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
             ({ dtstart }) => dtstart.includes(date)
         )[0];
 
-        const prefix = racingDetail
-            ? racingDetail.nightRacing === 0
-                ? '71'
-                : racingDetail.nightRacing === 1 && racingDetail.venue === 'H'
-                ? '14'
-                : '13'
-            : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-            ? '75'
-            : '15';
+        const prefix = draftPrefix(racingDetail, weekDayNum, isHoliday);
+
+        // const prefix = racingDetail
+        //     ? racingDetail.nightRacing === 0
+        //         ? '71'
+        //         : racingDetail.nightRacing === 1 && racingDetail.venue === 'H'
+        //         ? '14'
+        //         : '13'
+        //     : weekDayNum === 6 || weekDayNum === 7 || isHoliday
+        //     ? '75'
+        //     : '15';
 
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),

@@ -1,4 +1,4 @@
-import { Rosta } from './customTypes';
+import { type Rosta } from './customTypes';
 
 export const ET = [
     '301',
