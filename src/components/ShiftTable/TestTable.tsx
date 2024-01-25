@@ -4,6 +4,7 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableFooter,
     TableHead,
     TableHeader,
     TableRow
@@ -20,6 +21,9 @@ import {
 import { type combineDateWithSequence } from '~/pages';
 import moment from 'moment';
 import { Input } from '../ui/input';
+import useDuty from '~/hooks/useDuties';
+import { setDate } from 'date-fns';
+import { convertDurationDecimal } from '~/utils/helper';
 
 declare module '@tanstack/table-core' {
     interface TableMeta<TData extends RowData> {
@@ -53,40 +57,70 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 
 const columnHelper = createColumnHelper<Rota>();
 
-interface DataTableProps<TData> {
+type TestTableProps<TData> = {
     defaultData: TData[];
-}
+};
 
-export const TestTable = ({ defaultData }: DataTableProps<Rota>) => {
-    const columns = useMemo(
-        () => [
-            columnHelper.accessor(
-                (row) => moment(row.date, 'YYYYMMDD ddd').format('DD ddd'),
-                {
-                    id: 'data',
-                    header: '日期'
-                }
-            ),
-            columnHelper.accessor((row) => row.timetable?.prefix, {
-                id: 'prefix',
-                header: '時間表'
-            }),
-            columnHelper.accessor((row) => row.standardDuty, {
-                id: 'standardDuty',
-                header: '標準輪值'
-            }),
-            columnHelper.accessor((row) => row.actualDuty, {
-                id: 'actualDuty',
-                header: '真實輪值',
-                cell: EditCell
-            })
-        ],
-        []
-    );
+export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
+    const [data, setData] = useState<Rota[]>([]);
+
+    useEffect(() => {
+        setData(defaultData);
+    }, [defaultData]);
 
     console.log(defaultData);
 
-    const [data, setData] = useState(() => defaultData);
+    const incomingSequnce = data.map(
+        ({ timetable, standardDuty, actualDuty }) =>
+            timetable?.prefix.concat(
+                actualDuty.length <= 0 ? standardDuty : actualDuty
+            ) || 'R15101'
+    );
+
+    const { data: duties, isLoading: dutyLoading } = useDuty({
+        sequence: incomingSequnce
+    });
+
+    const columns = [
+        columnHelper.accessor(
+            (row) => moment(row.date, 'YYYYMMDD ddd').format('DD ddd'),
+            {
+                id: 'date',
+                header: '日期'
+            }
+        ),
+        columnHelper.accessor((row) => row.timetable?.prefix, {
+            id: 'prefix',
+            header: '時間表'
+        }),
+        columnHelper.display({ id: 'timetableStatus' }),
+        columnHelper.accessor(
+            (row) => {
+                const dutyNumber = row.timetable?.prefix.concat(
+                    row.standardDuty
+                );
+                return dutyNumber;
+            },
+            {
+                id: 'standardDuty',
+                header: '標準'
+            }
+        ),
+        columnHelper.accessor((row) => row.actualDuty, {
+            id: 'actualDuty',
+            header: '真實',
+            cell: EditCell,
+            footer: 'hello'
+        }),
+        columnHelper.display({
+            id: 'minimumRest',
+            header: '追更',
+            cell: (prop) => {
+                const cells = prop.row._getAllCellsByColumnId();
+            }
+        })
+    ];
+
     const table = useReactTable({
         data,
         columns,
@@ -159,6 +193,18 @@ export const TestTable = ({ defaultData }: DataTableProps<Rota>) => {
                         </TableRow>
                     )}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        {duties?.reduce((acc, cur) => {
+                            const duration = +convertDurationDecimal(
+                                cur.duration
+                            );
+
+                            return acc + duration;
+                        }, 0)}
+                        Hello
+                    </TableRow>
+                </TableFooter>
             </Table>
             {/* <pre>{JSON.stringify(data, null, '\t')}</pre> */}
         </>

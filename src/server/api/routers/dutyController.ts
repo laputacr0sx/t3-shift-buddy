@@ -9,8 +9,8 @@ export const dutyControllerRouter = createTRPCRouter({
         .input(z.string().regex(completeShiftNameRegex, '更號不正確').array())
         .query(async ({ ctx, input }) => {
             const foundDuties = await ctx.prisma.duty.findMany({
-                where: { dutyNumber: { in: input } },
-                select: { dutyNumber: true, bNT: true, bFT: true }
+                where: { dutyNumber: { in: input } }
+                // select: { dutyNumber: true, bNT: true, bFT: true }
             });
             return foundDuties;
         }),

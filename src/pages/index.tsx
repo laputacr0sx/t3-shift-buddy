@@ -11,8 +11,6 @@ import {
 } from '~/utils/helper';
 import moment from 'moment';
 
-import RotaTable from '~/components/ShiftTable/RotaTable';
-import { RotaColumns } from '~/components/ShiftTable/RotaColumn';
 import { WeekControlButton } from '~/components/WeekControlButton';
 import { TestTable } from '~/components/ShiftTable/TestTable';
 
@@ -41,13 +39,10 @@ const LandingPage = () => {
         [correspondingMoment]
     );
 
-    const {
-        data: timetables,
-        isLoading: timetableLoading,
-        error: timetableError
-    } = api.timetableController.getAllTimetables.useQuery(undefined, {
-        refetchOnWindowFocus: false
-    });
+    const { data: timetables } =
+        api.timetableController.getAllTimetables.useQuery(undefined, {
+            refetchOnWindowFocus: false
+        });
 
     const datesWithTimetable = useMemo(
         () => getFitTimetable(timetables, datesOfWeek),
@@ -70,17 +65,6 @@ const LandingPage = () => {
         datesWithTimetable,
         sequence
     );
-
-    const { data } = api.dutyController.getDutiesBySequence.useQuery(
-        combinedDetails.map(
-            ({ timetable, standardDuty, actualDuty }) =>
-                timetable?.prefix.concat(
-                    actualDuty.length <= 0 ? standardDuty : actualDuty
-                ) || 'R15101'
-        )
-    );
-
-    console.log(combinedDetails);
 
     return (
         <div className="flex h-full w-screen flex-col gap-4 px-4">
