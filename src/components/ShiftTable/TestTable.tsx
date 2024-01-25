@@ -21,9 +21,11 @@ import {
 import { type combineDateWithSequence } from '~/pages';
 import moment from 'moment';
 import { Input } from '../ui/input';
-import useDuty from '~/hooks/useDuties';
-import { setDate } from 'date-fns';
+import useDuties from '~/hooks/useDuties';
+
 import { convertDurationDecimal } from '~/utils/helper';
+
+import { api } from '~/utils/api';
 
 declare module '@tanstack/table-core' {
     interface TableMeta<TData extends RowData> {
@@ -77,7 +79,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             ) || 'R15101'
     );
 
-    const { data: duties, isLoading: dutyLoading } = useDuty({
+    const { data: duties, isLoading: dutyLoading } = useDuties({
         sequence: incomingSequnce
     });
 
@@ -94,18 +96,10 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             header: '時間表'
         }),
         columnHelper.display({ id: 'timetableStatus' }),
-        columnHelper.accessor(
-            (row) => {
-                const dutyNumber = row.timetable?.prefix.concat(
-                    row.standardDuty
-                );
-                return dutyNumber;
-            },
-            {
-                id: 'standardDuty',
-                header: '標準'
-            }
-        ),
+        columnHelper.accessor('standardDuty', {
+            id: 'standardDuty',
+            header: '標準'
+        }),
         columnHelper.accessor((row) => row.actualDuty, {
             id: 'actualDuty',
             header: '真實',

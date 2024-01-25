@@ -471,15 +471,20 @@ export function getRosterRow(
     return { sequence, rowInQuery };
 }
 
-export function stringifyCategory(category: string | undefined): string {
+interface CategoryName {
+    tc: string;
+    en: string;
+}
+
+export function stringifyCategory(category: string | undefined): CategoryName {
     if (!category) {
-        return '';
+        return { tc: '', en: '' };
     }
     const categoryName = {
-        A: '九龍',
-        B: '新界',
-        C: '柴油',
-        S: '特別'
+        A: { tc: '九龍', en: 'KLN' },
+        B: { tc: '新界', en: 'SHS' },
+        C: { tc: '柴油', en: 'ET' },
+        S: { tc: '特別', en: 'SP' }
     };
 
     const prefix = category.slice(0, 1) as keyof typeof categoryName;

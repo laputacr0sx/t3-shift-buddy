@@ -4,6 +4,6 @@ interface UseDuty {
     sequence: string[];
 }
 
-export default function useDuty({ sequence }: UseDuty) {
+export default function useDuties({ sequence }: UseDuty) {
     return api.dutyController.getDutiesBySequence.useQuery(sequence);
 }

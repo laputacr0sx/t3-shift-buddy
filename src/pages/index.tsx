@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
 import { api } from '~/utils/api';
-import { slicedKLN } from '~/utils/standardRosters';
+import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 import {
     getPrefixDetailFromId,
@@ -32,7 +32,6 @@ const LandingPage = () => {
         () => moment().add(weekDifference, 'w'),
         [weekDifference]
     );
-    const KLNRota = useMemo(() => slicedKLN(), []);
 
     const datesOfWeek = useMemo(
         () => getPrefixDetailFromId(correspondingMoment.format(`[Y]Y[W]w`)),
@@ -52,13 +51,27 @@ const LandingPage = () => {
     const { data: userMetadata } =
         api.userController.getUserMetadata.useQuery(undefined);
 
-    const categoryName = useMemo(
+    const { tc, en } = useMemo(
         () => stringifyCategory(userMetadata?.row),
         [userMetadata]
     );
+
+    const getRota = (categoryName: string) => {
+        switch (categoryName) {
+            case 'KLN':
+                return rotaKLN;
+            case 'SHS':
+                return rotaSHS;
+            case 'ET':
+                return rotaET;
+            default:
+                return rotaKLN;
+        }
+    };
+
     const { sequence, rowInQuery } = useMemo(
-        () => getRosterRow(KLNRota, userMetadata?.row, weekDifference),
-        [KLNRota, userMetadata?.row, weekDifference]
+        () => getRosterRow(getRota(en), userMetadata?.row, weekDifference),
+        [en, userMetadata?.row, weekDifference]
     );
 
     const combinedDetails = combineDateWithSequence(
@@ -70,7 +83,7 @@ const LandingPage = () => {
         <div className="flex h-full w-screen flex-col gap-4 px-4">
             <h1 className="justify-center py-2 text-center align-middle font-mono text-2xl font-bold tracking-wide text-foreground">
                 {correspondingMoment.format(`Y年WW期`)}
-                {`${categoryName}更行序${rowInQuery + 1}`}
+                {`${tc}更行序${rowInQuery + 1}`}
             </h1>
             <WeekControlButton setWeekDifference={setWeekDifference} />
             {/* {combinedDetails ? (
