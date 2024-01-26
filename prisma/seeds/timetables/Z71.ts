@@ -1,1444 +1,1494 @@
 import { type Duty } from '@prisma/client';
 
-export const F75: Duty[] = [
+export const Z71: Duty[] = [
     {
-        dutyNumber: 'F75101',
+        dutyNumber: 'Z71101',
         bNL: 'HUH',
         bNT: '05:29',
         bFT: '13:29',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'HUHP1 TAKEOVER 0013',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75102',
+        dutyNumber: 'Z71102',
         bNL: 'HTD',
         bNT: '05:00',
-        bFT: '11:30',
+        bFT: '13:00',
         bFL: 'HUH',
-        duration: '6:00',
+        duration: '7:30',
         remarks: 'HTD RUN24 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75103',
+        dutyNumber: 'Z71103',
         bNL: 'HUH',
         bNT: '08:03',
-        bFT: '16:18',
+        bFT: '15:48',
         bFL: 'HUH',
-        duration: '7:45',
+        duration: '7:15',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75104',
+        dutyNumber: 'Z71104',
         bNL: 'HUH',
-        bNT: '12:19',
-        bFT: '20:49',
+        bNT: '12:22',
+        bFT: '20:52',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75105',
+        dutyNumber: 'Z71105',
         bNL: 'HUH',
         bNT: '11:00',
         bFT: '19:45',
         bFL: 'HUH',
         duration: '8:15',
         remarks: 'KB/M',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75106',
+        dutyNumber: 'Z71106',
         bNL: 'HUH',
-        bNT: '12:23',
-        bFT: '20:38',
+        bNT: '12:24',
+        bFT: '20:39',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75107',
+        dutyNumber: 'Z71107',
         bNL: 'HUH',
         bNT: '05:11',
         bFT: '13:26',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'HUHP1 PICK UP 8004',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75108',
+        dutyNumber: 'Z71108',
         bNL: 'HUH',
         bNT: '08:18',
         bFT: '16:33',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75109',
+        dutyNumber: 'Z71109',
         bNL: 'HUH',
-        bNT: '17:46',
-        bFT: '01:31',
+        bNT: '17:39',
+        bFT: '01:24',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'FOTP1 RUN22 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75110',
+        dutyNumber: 'Z71110',
         bNL: 'HUH',
-        bNT: '18:23',
+        bNT: '18:38',
         bFT: '01:38',
         bFL: 'HUH',
-        duration: '6:45',
-        remarks: 'SHTP3 RUN20 PD',
-        timetableToc: 'EAL7210'
+        duration: '6:30',
+        remarks: 'HTD RUN20 PD+SHTP3 RUN1 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75111',
+        dutyNumber: 'Z71111',
         bNL: 'HUH',
-        bNT: '16:23',
-        bFT: '00:53',
+        bNT: '16:24',
+        bFT: '00:54',
         bFL: 'HUH',
         duration: '8:00',
-        remarks: 'SHTP4 RUN29 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'SHTP4 RUN4 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75112',
+        dutyNumber: 'Z71112',
         bNL: 'HUH',
         bNT: '06:36',
         bFT: '15:06',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75113',
+        dutyNumber: 'Z71113',
         bNL: 'HUH',
         bNT: '04:28',
         bFT: '10:58',
         bFL: 'HUH',
         duration: '6:00',
         remarks: 'MKK3S RUN4 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75114',
+        dutyNumber: 'Z71114',
         bNL: 'HUH',
-        bNT: '12:59',
-        bFT: '21:14',
+        bNT: '13:02',
+        bFT: '21:32',
         bFL: 'HUH',
-        duration: '7:45',
+        duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75115',
+        dutyNumber: 'Z71115',
         bNL: 'HUH',
         bNT: '13:55',
         bFT: '22:25',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75116',
-        bNL: 'HTD',
-        bNT: '16:04',
-        bFT: '00:34',
+        dutyNumber: 'Z71116',
+        bNL: 'HUH',
+        bNT: '16:35',
+        bFT: '00:35',
         bFL: 'HTD',
-        duration: '8:00',
-        remarks: 'HTD RUN11 PU+HTD RUN1 PD',
-        timetableToc: 'EAL7210'
+        duration: '7:30',
+        remarks: 'HTD PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75118',
+        dutyNumber: 'Z71118',
         bNL: 'HUH',
         bNT: '05:27',
         bFT: '13:27',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'HUHP4 BOARD 8008',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75119',
+        dutyNumber: 'Z71119',
         bNL: 'HUH',
         bNT: '04:28',
         bFT: '11:13',
         bFL: 'HUH',
         duration: '6:15',
         remarks: 'MKK3N RUN5 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75120',
+        dutyNumber: 'Z71120',
         bNL: 'HUH',
         bNT: '18:20',
         bFT: '01:50',
         bFL: 'HUH',
         duration: '7:00',
-        remarks: 'MKK3S RUN6 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'MKK3S RUN11 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75121',
+        dutyNumber: 'Z71121',
         bNL: 'HUH',
-        bNT: '15:39',
-        bFT: '23:39',
+        bNT: '15:47',
+        bFT: '23:32',
         bFL: 'HTD',
-        duration: '7:30',
-        remarks: 'HTD RUN19 PD',
-        timetableToc: 'EAL7210'
+        duration: '7:15',
+        remarks: 'HTD PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75122',
+        dutyNumber: 'Z71122',
         bNL: 'HUH',
-        bNT: '16:03',
-        bFT: '00:33',
+        bNT: '16:04',
+        bFT: '00:34',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75123',
+        dutyNumber: 'Z71123',
         bNL: 'HUH',
         bNT: '06:26',
         bFT: '14:41',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75124',
+        dutyNumber: 'Z71124',
         bNL: 'HUH',
         bNT: '07:03',
         bFT: '14:48',
-        bFL: 'HTD',
+        bFL: 'HUH',
         duration: '7:15',
-        remarks: 'HTD PD',
-        timetableToc: 'EAL7210'
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75125',
+        dutyNumber: 'Z71125',
         bNL: 'HUH',
         bNT: '08:24',
         bFT: '16:39',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75126',
+        dutyNumber: 'Z71126',
         bNL: 'HUH',
         bNT: '16:47',
         bFT: '01:02',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'ADM STEP END',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75127',
+        dutyNumber: 'Z71127',
         bNL: 'HUH',
-        bNT: '15:47',
-        bFT: '00:02',
+        bNT: '15:51',
+        bFT: '00:06',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75128',
+        dutyNumber: 'Z71128',
         bNL: 'HUH',
         bNT: '06:41',
         bFT: '14:56',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75129',
+        dutyNumber: 'Z71129',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '11:35',
         bFL: 'HUH',
         duration: '7:00',
         remarks: 'SHTP3 RUN7 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75130',
+        dutyNumber: 'Z71130',
         bNL: 'HUH',
         bNT: '18:55',
         bFT: '01:55',
         bFL: 'HUH',
         duration: '6:30',
-        remarks: 'MKK3N RUN9 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'MKK3N RUN27 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75131',
+        dutyNumber: 'Z71131',
         bNL: 'HUH',
         bNT: '17:15',
         bFT: '01:30',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'KB/L',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75132',
+        dutyNumber: 'Z71132',
         bNL: 'HUH',
-        bNT: '15:55',
-        bFT: '23:55',
+        bNT: '15:35',
+        bFT: '00:05',
         bFL: 'HUH',
-        duration: '7:30',
+        duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75134',
+        dutyNumber: 'Z71134',
         bNL: 'HTD',
         bNT: '05:00',
         bFT: '13:30',
         bFL: 'HTD',
         duration: '8:00',
         remarks: 'HB/E',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75135',
+        dutyNumber: 'Z71135',
         bNL: 'HUH',
         bNT: '04:28',
         bFT: '10:58',
         bFL: 'HUH',
         duration: '6:00',
         remarks: 'HUHP1 RUN2 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75136',
+        dutyNumber: 'Z71136',
         bNL: 'HUH',
         bNT: '11:07',
-        bFT: '19:22',
+        bFT: '19:07',
         bFL: 'HUH',
-        duration: '7:45',
+        duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75137',
+        dutyNumber: 'Z71137',
         bNL: 'HUH',
-        bNT: '16:39',
-        bFT: '01:24',
+        bNT: '16:42',
+        bFT: '01:12',
         bFL: 'HUH',
-        duration: '8:15',
+        duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75138',
+        dutyNumber: 'Z71138',
         bNL: 'HUH',
         bNT: '16:31',
         bFT: '01:01',
         bFL: 'HUH',
         duration: '8:00',
-        remarks: 'MKKP1 RUN13 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'MKKP1 RUN19 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75139',
+        dutyNumber: 'Z71139',
         bNL: 'HUH',
         bNT: '07:23',
         bFT: '15:23',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75140',
+        dutyNumber: 'Z71140',
         bNL: 'HUH',
         bNT: '04:28',
         bFT: '12:28',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'KB/E',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75141',
+        dutyNumber: 'Z71141',
         bNL: 'HUH',
         bNT: '10:39',
-        bFT: '19:09',
+        bFT: '18:24',
         bFL: 'HUH',
-        duration: '8:00',
+        duration: '7:15',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75142',
+        dutyNumber: 'Z71142',
         bNL: 'HUH',
-        bNT: '11:43',
-        bFT: '19:58',
+        bNT: '11:44',
+        bFT: '19:59',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75143',
+        dutyNumber: 'Z71143',
         bNL: 'HUH',
-        bNT: '17:20',
-        bFT: '01:20',
+        bNT: '17:07',
+        bFT: '01:22',
+        bFL: 'HUH',
+        duration: '7:45',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71144',
+        bNL: 'HUH',
+        bNT: '06:47',
+        bFT: '14:47',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75144',
+        dutyNumber: 'Z71145',
         bNL: 'HUH',
-        bNT: '06:47',
-        bFT: '14:02',
-        bFL: 'HTD',
-        duration: '6:45',
-        remarks: 'HTD PD',
-        timetableToc: 'EAL7210'
-    },
-    {
-        dutyNumber: 'F75145',
-        bNL: 'HUH',
-        bNT: '11:03',
-        bFT: '19:33',
+        bNT: '11:04',
+        bFT: '19:34',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75146',
+        dutyNumber: 'Z71146',
         bNL: 'HTD',
         bNT: '12:00',
         bFT: '19:30',
         bFL: 'HTD',
         duration: '7:00',
         remarks: 'HB/M',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75147',
+        dutyNumber: 'Z71147',
         bNL: 'HUH',
-        bNT: '12:47',
-        bFT: '21:32',
+        bNT: '12:51',
+        bFT: '21:21',
         bFL: 'HUH',
-        duration: '8:15',
+        duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75148',
+        dutyNumber: 'Z71148',
         bNL: 'HUH',
-        bNT: '14:23',
-        bFT: '22:23',
+        bNT: '14:24',
+        bFT: '22:24',
         bFL: 'HTD',
         duration: '7:30',
         remarks: 'HTD PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75149',
+        dutyNumber: 'Z71149',
         bNL: 'HUH',
         bNT: '05:06',
         bFT: '13:06',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'HUHP1 PICK UP 8002',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75150',
+        dutyNumber: 'Z71150',
         bNL: 'HUH',
         bNT: '04:28',
         bFT: '11:58',
         bFL: 'HUH',
         duration: '7:00',
         remarks: 'MKKP1 RUN3 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75151',
+        dutyNumber: 'Z71151',
         bNL: 'HUH',
         bNT: '07:19',
         bFT: '15:19',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75152',
+        dutyNumber: 'Z71152',
         bNL: 'HUH',
-        bNT: '18:55',
-        bFT: '01:55',
+        bNT: '18:59',
+        bFT: '01:59',
         bFL: 'HUH',
         duration: '6:30',
-        remarks: 'HUHP1 RUN4 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'HUHP1 RUN13 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75153',
+        dutyNumber: 'Z71153',
         bNL: 'HUH',
-        bNT: '18:39',
-        bFT: '01:54',
+        bNT: '18:41',
+        bFT: '01:56',
         bFL: 'HUH',
         duration: '6:45',
         remarks: 'SHTP1 RUN14 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75154',
+        dutyNumber: 'Z71154',
         bNL: 'HUH',
-        bNT: '15:51',
-        bFT: '00:06',
+        bNT: '15:59',
+        bFT: '00:14',
         bFL: 'HUH',
         duration: '7:45',
-        remarks: 'SHT4S RUN12 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'SHT4S RUN28 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75155',
+        dutyNumber: 'Z71155',
         bNL: 'HUH',
         bNT: '08:07',
         bFT: '16:07',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75156',
+        dutyNumber: 'Z71156',
         bNL: 'HUH',
         bNT: '09:29',
         bFT: '17:44',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75157',
+        dutyNumber: 'Z71157',
         bNL: 'HUH',
         bNT: '12:39',
         bFT: '21:09',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75158',
+        dutyNumber: 'Z71158',
         bNL: 'HUH',
-        bNT: '13:15',
-        bFT: '22:00',
+        bNT: '13:19',
+        bFT: '22:04',
         bFL: 'HUH',
         duration: '8:15',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75159',
+        dutyNumber: 'Z71159',
         bNL: 'HUH',
-        bNT: '12:51',
-        bFT: '20:51',
+        bNT: '13:07',
+        bFT: '20:52',
         bFL: 'HUH',
-        duration: '7:30',
+        duration: '7:15',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75301',
+        dutyNumber: 'Z71301',
         bNL: 'HUH',
         bNT: '08:00',
         bFT: '14:30',
         bFL: 'HUH',
         duration: '6:00',
         remarks: 'MTT',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75302',
+        dutyNumber: 'Z71302',
         bNL: 'LOW',
         bNT: '07:15',
         bFT: '15:15',
         bFL: 'LOW',
         duration: '7:30',
         remarks: 'RS-AM',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75303',
+        dutyNumber: 'Z71303',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET12',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75304',
+        dutyNumber: 'Z71304',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET6',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75305',
+        dutyNumber: 'Z71305',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET5',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75306',
+        dutyNumber: 'Z71306',
         bNL: 'HUH',
         bNT: '10:15',
         bFT: '17:15',
         bFL: 'HUH',
         duration: '6:30',
         remarks: 'MTT',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75308',
+        dutyNumber: 'Z71308',
         bNL: 'HUH',
         bNT: '13:30',
         bFT: '22:15',
         bFL: 'HUH',
         duration: '8:15',
         remarks: 'MTT',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75309',
+        dutyNumber: 'Z71309',
         bNL: 'LOW',
         bNT: '14:30',
         bFT: '22:30',
         bFL: 'LOW',
         duration: '7:30',
         remarks: 'RS-PM',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75310',
+        dutyNumber: 'Z71310',
         bNL: 'HUH',
         bNT: '13:30',
         bFT: '21:45',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'MTT',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75311',
+        dutyNumber: 'Z71311',
         bNL: 'HUH',
         bNT: '08:00',
         bFT: '15:00',
         bFL: 'HUH',
         duration: '6:30',
         remarks: 'MTT',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75312',
+        dutyNumber: 'Z71312',
         bNL: 'HUH',
         bNT: '08:15',
         bFT: '16:15',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75313',
+        dutyNumber: 'Z71313',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET8',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75314',
+        dutyNumber: 'Z71314',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET3',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75315',
+        dutyNumber: 'Z71315',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET1',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75316',
+        dutyNumber: 'Z71316',
         bNL: 'LOW',
         bNT: '07:15',
         bFT: '15:15',
         bFL: 'LOW',
         duration: '7:30',
         remarks: 'RS-AM',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75317',
+        dutyNumber: 'Z71317',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET11',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75318',
+        dutyNumber: 'Z71318',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET10',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75319',
+        dutyNumber: 'Z71319',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET2',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75320',
+        dutyNumber: 'Z71320',
         bNL: 'LOW',
         bNT: '14:30',
         bFT: '22:30',
         bFL: 'LOW',
         duration: '7:30',
         remarks: 'RS-PM',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75321',
+        dutyNumber: 'Z71321',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET9',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75322',
+        dutyNumber: 'Z71322',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET7',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75323',
+        dutyNumber: 'Z71323',
         bNL: 'HUH',
         bNT: '22:10',
         bFT: '06:10',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ET4',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75501',
+        dutyNumber: 'Z71501',
         bNL: 'HUH',
         bNT: '07:39',
-        bFT: '15:54',
+        bFT: '16:09',
         bFL: 'HUH',
-        duration: '7:45',
+        duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75502',
+        dutyNumber: 'Z71502',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:25',
         bFL: 'HUH',
         duration: '7:00',
         remarks: 'LOWP1 RUN20 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75503',
+        dutyNumber: 'Z71503',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '11:50',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'SHT4S RUN8 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75504',
+        dutyNumber: 'Z71504',
         bNL: 'HUH',
-        bNT: '12:15',
-        bFT: '20:15',
+        bNT: '12:11',
+        bFT: '20:26',
         bFL: 'HUH',
-        duration: '7:30',
+        duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75505',
+        dutyNumber: 'Z71505',
         bNL: 'HUH',
-        bNT: '16:07',
-        bFT: '00:37',
+        bNT: '16:11',
+        bFT: '00:41',
         bFL: 'HUH',
         duration: '8:00',
-        remarks: 'LMCP2 RUN17 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'LMCP2 RUN30 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75506',
+        dutyNumber: 'Z71506',
         bNL: 'HUH',
-        bNT: '17:11',
-        bFT: '01:41',
+        bNT: '17:15',
+        bFT: '01:30',
         bFL: 'HUH',
-        duration: '8:00',
-        remarks: 'LG2N RUN11 PD',
-        timetableToc: 'EAL7210'
+        duration: '7:45',
+        remarks: 'LG2N RUN9 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75507',
+        dutyNumber: 'Z71507',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '13:10',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'SG3N RUN15 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75508',
+        dutyNumber: 'Z71508',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '11:50',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'FOTP1 RUN10 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75509',
+        dutyNumber: 'Z71509',
         bNL: 'HUH',
         bNT: '11:11',
         bFT: '19:41',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75510',
+        dutyNumber: 'Z71510',
         bNL: 'HUH',
-        bNT: '17:36',
-        bFT: '01:36',
+        bNT: '17:27',
+        bFT: '01:42',
         bFL: 'HUH',
-        duration: '7:30',
+        duration: '7:45',
         remarks: 'SHSP2 RUN25 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75511',
+        dutyNumber: 'Z71511',
         bNL: 'HUH',
         bNT: '16:51',
         bFT: '01:21',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'SG3N RUN24 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75512',
+        dutyNumber: 'Z71512',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:55',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'SG2S RUN14 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75513',
+        dutyNumber: 'Z71513',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:25',
         bFL: 'HUH',
         duration: '7:00',
         remarks: 'LG1S RUN16 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75514',
+        dutyNumber: 'Z71514',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '11:35',
         bFL: 'HUH',
         duration: '7:00',
-        remarks: 'LOW STEP1',
-        timetableToc: 'EAL7210'
+        remarks: 'LOW STEP1+HTD RUN30 PU',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75515',
+        dutyNumber: 'Z71515',
         bNL: 'HUH',
-        bNT: '13:03',
-        bFT: '21:33',
+        bNT: '13:04',
+        bFT: '21:34',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75516',
+        dutyNumber: 'Z71516',
         bNL: 'HUH',
-        bNT: '17:07',
-        bFT: '01:37',
+        bNT: '17:11',
+        bFT: '01:41',
         bFL: 'HUH',
         duration: '8:00',
-        remarks: 'LG2S RUN3 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'LG2S RUN29 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75518',
+        dutyNumber: 'Z71518',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '12:05',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'SB/E',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75519',
+        dutyNumber: 'Z71519',
         bNL: 'HUH',
         bNT: '07:59',
         bFT: '15:59',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75520',
+        dutyNumber: 'Z71520',
         bNL: 'HUH',
         bNT: '12:08',
         bFT: '20:23',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75521',
+        dutyNumber: 'Z71521',
         bNL: 'HUH',
-        bNT: '18:43',
-        bFT: '01:43',
+        bNT: '18:44',
+        bFT: '01:44',
         bFL: 'HTD',
         duration: '6:30',
         remarks: 'HTD RUN8 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75522',
+        dutyNumber: 'Z71522',
         bNL: 'HUH',
-        bNT: '17:52',
-        bFT: '01:37',
+        bNT: '17:47',
+        bFT: '01:32',
         bFL: 'HTD',
         duration: '7:15',
         remarks: 'HTD RUN2 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75523',
+        dutyNumber: 'Z71523',
         bNL: 'SHS',
         bNT: '06:00',
-        bFT: '13:15',
+        bFT: '13:45',
         bFL: 'HUH',
-        duration: '6:45',
+        duration: '7:15',
         remarks: 'LG1N RUN18 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75524',
+        dutyNumber: 'Z71524',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:25',
         bFL: 'HUH',
         duration: '7:00',
         remarks: 'LOWP3 RUN21 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75525',
+        dutyNumber: 'Z71525',
         bNL: 'SHS',
         bNT: '06:00',
         bFT: '14:00',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'LMC STEP1',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75526',
+        dutyNumber: 'Z71526',
         bNL: 'HUH',
-        bNT: '17:59',
-        bFT: '01:44',
+        bNT: '18:01',
+        bFT: '01:46',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'LOWP3 RUN10 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75527',
+        dutyNumber: 'Z71527',
         bNL: 'HUH',
         bNT: '16:00',
         bFT: '00:30',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'SB/L',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75528',
+        dutyNumber: 'Z71528',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:55',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'LMCP2 RUN23 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75529',
+        dutyNumber: 'Z71529',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '11:50',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'FOTP4 RUN11 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75530',
+        dutyNumber: 'Z71530',
         bNL: 'HUH',
         bNT: '18:17',
         bFT: '01:47',
         bFL: 'HTD',
         duration: '7:00',
-        remarks: 'HTD RUN28 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'HTD RUN17 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75531',
+        dutyNumber: 'Z71531',
         bNL: 'HUH',
-        bNT: '18:13',
-        bFT: '01:43',
+        bNT: '19:15',
+        bFT: '01:45',
         bFL: 'HTD',
-        duration: '7:00',
-        remarks: 'HTD RUN21 PD',
-        timetableToc: 'EAL7210'
+        duration: '6:00',
+        remarks: 'HTD RUN3 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75532',
-        bNL: 'HTD',
-        bNT: '16:32',
+        dutyNumber: 'Z71532',
+        bNL: 'HUH',
+        bNT: '17:02',
         bFT: '01:02',
         bFL: 'HUH',
-        duration: '8:00',
-        remarks: 'HTD RUN3 PU+LOW STEP END',
-        timetableToc: 'EAL7210'
+        duration: '7:30',
+        remarks: 'LOW STEP END',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75534',
+        dutyNumber: 'Z71534',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '11:50',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'SHTP4 RUN9 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75535',
+        dutyNumber: 'Z71535',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '10:50',
         bFL: 'HUH',
         duration: '6:15',
         remarks: 'SHTP1 RUN6 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75536',
+        dutyNumber: 'Z71536',
         bNL: 'HUH',
         bNT: '16:59',
         bFT: '01:14',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'SG2S RUN15 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75537',
+        dutyNumber: 'Z71537',
         bNL: 'HUH',
-        bNT: '18:47',
-        bFT: '01:47',
+        bNT: '18:27',
+        bFT: '01:42',
         bFL: 'HTD',
-        duration: '6:30',
+        duration: '6:45',
         remarks: 'HTD RUN18 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75538',
+        dutyNumber: 'Z71538',
         bNL: 'HUH',
-        bNT: '16:10',
+        bNT: '16:55',
         bFT: '00:40',
         bFL: 'HUH',
-        duration: '8:00',
+        duration: '7:15',
         remarks: 'LMCP1 RUN7 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75539',
+        dutyNumber: 'Z71539',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '13:10',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'LG2N RUN19 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75540',
+        dutyNumber: 'Z71540',
         bNL: 'HTD',
         bNT: '05:14',
         bFT: '12:14',
         bFL: 'HUH',
         duration: '6:30',
         remarks: 'HTD RUN25 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75541',
+        dutyNumber: 'Z71541',
         bNL: 'HUH',
         bNT: '13:00',
         bFT: '21:00',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'SB/M',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75542',
+        dutyNumber: 'Z71542',
         bNL: 'HUH',
         bNT: '18:07',
         bFT: '01:22',
         bFL: 'HUH',
         duration: '6:45',
         remarks: 'FOTP4 RUN23 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75543',
+        dutyNumber: 'Z71543',
         bNL: 'HUH',
-        bNT: '16:15',
-        bFT: '00:45',
+        bNT: '16:19',
+        bFT: '00:49',
         bFL: 'HUH',
         duration: '8:00',
-        remarks: 'TAPP1 RUN19 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'TAPP1 RUN12 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75544',
+        dutyNumber: 'Z71544',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:40',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'SHSP2 RUN13 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75545',
+        dutyNumber: 'Z71545',
         bNL: 'SHT',
         bNT: '04:05',
         bFT: '10:35',
         bFL: 'HUH',
         duration: '6:00',
         remarks: 'TAPP1 RUN12 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75546',
+        dutyNumber: 'Z71546',
         bNL: 'HUH',
-        bNT: '13:23',
-        bFT: '22:08',
+        bNT: '13:24',
+        bFT: '22:09',
         bFL: 'HUH',
         duration: '8:15',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75547',
+        dutyNumber: 'Z71547',
         bNL: 'HUH',
-        bNT: '15:15',
-        bFT: '23:30',
+        bNT: '15:02',
+        bFT: '23:17',
         bFL: 'HUH',
         duration: '7:45',
-        remarks: 'LG1N RUN27 PD',
-        timetableToc: 'EAL7210'
+        remarks: 'LG1N RUN21 PD',
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75548',
+        dutyNumber: 'Z71548',
         bNL: 'HUH',
-        bNT: '15:35',
-        bFT: '23:20',
+        bNT: '15:39',
+        bFT: '23:24',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'LMC STEP END',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75549',
+        dutyNumber: 'Z71549',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:55',
         bFL: 'HUH',
         duration: '7:30',
         remarks: 'LMCP1 RUN22 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75550',
+        dutyNumber: 'Z71550',
         bNL: 'SHS',
         bNT: '04:55',
         bFT: '12:40',
         bFL: 'HUH',
         duration: '7:15',
         remarks: 'LG2S RUN17 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75551',
+        dutyNumber: 'Z71551',
         bNL: 'HUH',
-        bNT: '17:39',
-        bFT: '01:54',
+        bNT: '17:42',
+        bFT: '01:42',
         bFL: 'HUH',
-        duration: '7:45',
+        duration: '7:30',
         remarks: 'LOWP1 RUN16 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75552',
+        dutyNumber: 'Z71552',
         bNL: 'HTD',
         bNT: '16:30',
         bFT: '00:45',
         bFL: 'HTD',
         duration: '7:45',
         remarks: 'HB/L',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75553',
+        dutyNumber: 'Z71553',
         bNL: 'HUH',
-        bNT: '17:15',
-        bFT: '01:30',
+        bNT: '17:19',
+        bFT: '01:34',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'LG1S RUN26 PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75601',
+        dutyNumber: 'Z71601',
         bNL: 'HUH',
         bNT: '21:48',
         bFT: '06:18',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'ADMP7 PD+PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75602',
+        dutyNumber: 'Z71602',
         bNL: 'HTD',
         bNT: '05:55',
         bFT: '14:10',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'HTD RUN26 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75603',
+        dutyNumber: 'Z71603',
         bNL: 'HTD',
         bNT: '07:00',
         bFT: '15:45',
         bFL: 'HUH',
         duration: '8:15',
         remarks: 'HTD RUN27 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75604',
+        dutyNumber: 'Z71604',
         bNL: 'HTD',
         bNT: '07:51',
-        bFT: '16:36',
+        bFT: '15:51',
         bFL: 'HUH',
-        duration: '8:15',
+        duration: '7:30',
         remarks: 'HTD RUN28 PU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75605',
+        dutyNumber: 'Z71605',
         bNL: 'HUH',
         bNT: '08:35',
-        bFT: '16:50',
-        bFL: 'HUH',
-        duration: '7:45',
-        remarks: 'EMU',
-        timetableToc: 'EAL7210'
-    },
-    {
-        dutyNumber: 'F75606',
-        bNL: 'HUH',
-        bNT: '08:59',
-        bFT: '17:14',
-        bFL: 'HUH',
-        duration: '7:45',
-        remarks: 'EMU',
-        timetableToc: 'EAL7210'
-    },
-    {
-        dutyNumber: 'F75607',
-        bNL: 'HUH',
-        bNT: '10:55',
-        bFT: '19:10',
-        bFL: 'HUH',
-        duration: '7:45',
-        remarks: 'EMU',
-        timetableToc: 'EAL7210'
-    },
-    {
-        dutyNumber: 'F75608',
-        bNL: 'HUH',
-        bNT: '10:59',
-        bFT: '19:29',
+        bFT: '17:05',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75609',
+        dutyNumber: 'Z71606',
+        bNL: 'HUH',
+        bNT: '08:59',
+        bFT: '16:44',
+        bFL: 'HUH',
+        duration: '7:15',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71607',
+        bNL: 'HUH',
+        bNT: '09:19',
+        bFT: '17:34',
+        bFL: 'HUH',
+        duration: '7:45',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71608',
+        bNL: 'HTD',
+        bNT: '09:56',
+        bFT: '18:41',
+        bFL: 'HUH',
+        duration: '8:15',
+        remarks: 'HTD RUN29 PU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71609',
+        bNL: 'HUH',
+        bNT: '10:11',
+        bFT: '18:11',
+        bFL: 'HUH',
+        duration: '7:30',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71610',
+        bNL: 'HUH',
+        bNT: '11:02',
+        bFT: '19:02',
+        bFL: 'HUH',
+        duration: '7:30',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71611',
         bNL: 'HUH',
         bNT: '11:19',
         bFT: '19:34',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75610',
+        dutyNumber: 'Z71612',
         bNL: 'HUH',
-        bNT: '11:47',
-        bFT: '20:17',
-        bFL: 'HUH',
-        duration: '8:00',
-        remarks: 'EMU',
-        timetableToc: 'EAL7210'
-    },
-    {
-        dutyNumber: 'F75611',
-        bNL: 'HUH',
-        bNT: '11:59',
-        bFT: '20:14',
+        bNT: '11:55',
+        bFT: '20:10',
         bFL: 'HUH',
         duration: '7:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75612',
+        dutyNumber: 'Z71613',
         bNL: 'HUH',
-        bNT: '15:23',
-        bFT: '23:53',
+        bNT: '11:59',
+        bFT: '20:44',
+        bFL: 'HUH',
+        duration: '8:15',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71614',
+        bNL: 'HUH',
+        bNT: '12:44',
+        bFT: '21:14',
         bFL: 'HUH',
         duration: '8:00',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75613',
+        dutyNumber: 'Z71615',
         bNL: 'HUH',
-        bNT: '15:43',
-        bFT: '00:13',
+        bNT: '12:47',
+        bFT: '20:02',
         bFL: 'HUH',
-        duration: '8:00',
+        duration: '6:45',
         remarks: 'EMU',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
     },
     {
-        dutyNumber: 'F75614',
+        dutyNumber: 'Z71616',
         bNL: 'HUH',
-        bNT: '16:15',
-        bFT: '00:45',
+        bNT: '13:51',
+        bFT: '22:36',
+        bFL: 'HTD',
+        duration: '8:15',
+        remarks: 'HTD PD',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71617',
+        bNL: 'HUH',
+        bNT: '13:39',
+        bFT: '22:09',
         bFL: 'HTD',
         duration: '8:00',
         remarks: 'HTD PD',
-        timetableToc: 'EAL7210'
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71618',
+        bNL: 'HUH',
+        bNT: '15:24',
+        bFT: '23:54',
+        bFL: 'HUH',
+        duration: '8:00',
+        remarks: 'EMU',
+        timetableToc: 'EAL721D'
+    },
+    {
+        dutyNumber: 'Z71619',
+        bNL: 'HUH',
+        bNT: '16:07',
+        bFT: '00:52',
+        bFL: 'HTD',
+        duration: '8:15',
+        remarks: 'HTD RUN6 PD',
+        timetableToc: 'EAL721D'
     }
 ];

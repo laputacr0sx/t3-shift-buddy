@@ -2,6 +2,9 @@ import { prisma } from '../src/server/db';
 import { D14 } from './seeds/timetables/D14';
 
 import { F75 } from './seeds/timetables/F75';
+import { R15 } from './seeds/timetables/R15';
+import { V13 } from './seeds/timetables/V13';
+import { Z71 } from './seeds/timetables/Z71';
 
 async function main() {
     // await prisma.user.createMany({ data: users });
@@ -21,7 +24,9 @@ async function main() {
     // await prisma.roster.createMany({
     //     data: rosters
     // });
-    await prisma.duty.createMany({ data: F75 });
+    await prisma.duty.createMany({
+        data: [...V13, ...R15, ...Z71, ...D14, ...F75]
+    });
 }
 
 main()

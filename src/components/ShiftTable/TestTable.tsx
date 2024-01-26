@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
     Table,
@@ -25,10 +25,9 @@ import useDuties from '~/hooks/useDuties';
 
 import { convertDurationDecimal } from '~/utils/helper';
 
-import { api } from '~/utils/api';
-
 declare module '@tanstack/table-core' {
     interface TableMeta<TData extends RowData> {
+        // interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: string) => void;
     }
 }
