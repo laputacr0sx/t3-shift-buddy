@@ -10,7 +10,6 @@ export const dutyControllerRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
             const foundDuties = await ctx.prisma.duty.findMany({
                 where: { dutyNumber: { in: input } }
-                // select: { dutyNumber: true, bNT: true, bFT: true }
             });
             return foundDuties;
         }),

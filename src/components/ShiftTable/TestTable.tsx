@@ -32,7 +32,7 @@ declare module '@tanstack/table-core' {
     }
 }
 
-type Rota = ReturnType<typeof combineDateWithSequence>[0];
+type Rota = NonNullable<ReturnType<typeof combineDateWithSequence>>[0];
 
 type CellProps = CellContext<Rota, unknown>;
 
@@ -45,13 +45,13 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
     const onBlur = () => {
         table.options.meta?.updateData(row.index, column.id, value);
     };
+
     return (
         <Input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={onBlur}
             size={7}
-            className="h-8"
         />
     );
 };
@@ -70,15 +70,24 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     }, [defaultData]);
 
     const incomingSequnce = data.map(
-        ({ timetable, standardDuty, actualDuty }) =>
-            timetable?.prefix.concat(
+        ({ timetable, standardDuty, actualDuty }) => {
+            if (!timetable) return '';
+
+            return timetable.prefix.concat(
                 actualDuty.length <= 0 ? standardDuty : actualDuty
-            ) || 'R15101'
+            );
+        }
     );
 
     const { data: duties, isLoading: dutyLoading } = useDuties({
         sequence: incomingSequnce
     });
+
+    const standardHours = duties?.reduce((acc, cur) => {
+        const duration = +convertDurationDecimal(cur.duration);
+
+        return acc + duration;
+    }, 0);
 
     const columns = [
         columnHelper.accessor(
@@ -94,17 +103,13 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         }),
         columnHelper.accessor('standardDuty', {
             id: 'standardDuty',
-            header: '標準'
+            header: '標準更'
         }),
         columnHelper.accessor((row) => row.actualDuty, {
             id: 'actualDuty',
-            header: '真實',
+            header: '真實更',
             cell: EditCell,
             footer: 'hello'
-        }),
-        columnHelper.display({
-            id: 'minimumRest',
-            header: '追更'
         })
     ];
 
@@ -182,16 +187,9 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={5}>
-                            本週總工時：
-                            {duties?.reduce((acc, cur) => {
-                                const duration = +convertDurationDecimal(
-                                    cur.duration
-                                );
-
-                                return acc + duration;
-                            }, 0)}
-                        </TableCell>
+                        <TableCell colSpan={2}>本週總工時：</TableCell>
+                        <TableCell>{standardHours}</TableCell>
+                        <TableCell>{standardHours}</TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>

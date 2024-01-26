@@ -14,6 +14,7 @@ export const timetableControllerRouter = createTRPCRouter({
 
         return timetables;
     }),
+
     getAvailableTimetables: publicProcedure.query(async ({ ctx }) => {
         const timetables = await ctx.prisma.timetable.findMany({ where: {} });
         return timetables;

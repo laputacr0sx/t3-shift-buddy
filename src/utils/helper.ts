@@ -516,14 +516,17 @@ type Timetables = inferProcedureOutput<
 >;
 
 export function getFitTimetable(
-    timetables: Timetables | undefined,
+    timetables: Timetables,
     prefixes: PrefixDetail[]
 ) {
+    if (!timetables || !prefixes) {
+        return null;
+    }
+
     return prefixes.map((prefix) => {
         const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
-        if (!timetables) return { ...prefix, timetable: null };
 
-        const samePrefixTimetable = timetables?.filter((timetable) => {
+        const samePrefixTimetable = timetables.filter((timetable) => {
             const checkSpecial =
                 moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
                 timetable.isSpecial;

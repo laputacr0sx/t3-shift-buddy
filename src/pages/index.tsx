@@ -17,7 +17,7 @@ import { TestTable } from '~/components/ShiftTable/TestTable';
 type Dates = ReturnType<typeof getFitTimetable>;
 
 export function combineDateWithSequence(dates: Dates, sequence: string[]) {
-    const sequenceDetail = dates.map((date, i) => ({
+    const sequenceDetail = dates?.map((date, i) => ({
         ...date,
         standardDuty: sequence[i] as string,
         actualDuty: ''
@@ -38,15 +38,18 @@ const LandingPage = () => {
         [correspondingMoment]
     );
 
-    const { data: timetables } =
-        api.timetableController.getAllTimetables.useQuery(undefined, {
-            refetchOnWindowFocus: false
-        });
+    const {
+        data: timetables,
+        isLoading: timetableLoading,
+        error: timetableError
+    } = api.timetableController.getAllTimetables.useQuery(undefined, {
+        refetchOnWindowFocus: false
+    });
 
-    const datesWithTimetable = useMemo(
-        () => getFitTimetable(timetables, datesOfWeek),
-        [timetables, datesOfWeek]
-    );
+    const datesWithTimetable = useMemo(() => {
+        if (!timetables) return null;
+        return getFitTimetable(timetables, datesOfWeek);
+    }, [timetables, datesOfWeek]);
 
     const { data: userMetadata } =
         api.userController.getUserMetadata.useQuery(undefined);
@@ -86,7 +89,9 @@ const LandingPage = () => {
                 {`${tc}更行序${rowInQuery + 1}`}
             </h1>
             <WeekControlButton setWeekDifference={setWeekDifference} />
-            <TestTable defaultData={combinedDetails} />
+            {combinedDetails ? (
+                <TestTable defaultData={combinedDetails} />
+            ) : null}
         </div>
     );
 };
