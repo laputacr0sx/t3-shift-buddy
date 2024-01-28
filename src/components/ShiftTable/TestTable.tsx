@@ -18,12 +18,15 @@ import {
     getCoreRowModel,
     useReactTable
 } from '@tanstack/react-table';
-import { type combineDateWithSequence } from '~/pages';
+
 import moment from 'moment';
 import { Input } from '../ui/input';
 import useDuties from '~/hooks/useDuties';
 
-import { convertDurationDecimal } from '~/utils/helper';
+import {
+    type combineDateWithSequence,
+    convertDurationDecimal
+} from '~/utils/helper';
 import { type RouterOutputs } from '~/utils/api';
 import { Skeleton } from '../ui/skeleton';
 
@@ -101,6 +104,8 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     const actualRotaSequence = data.map(({ timetable, actualDuty }) => {
         return timetable.prefix.concat(actualDuty);
     });
+
+    console.log(actualRotaSequence);
 
     const {
         data: standardDuties,

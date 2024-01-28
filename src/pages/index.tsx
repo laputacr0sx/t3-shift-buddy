@@ -1,89 +1,17 @@
-import React, { useMemo, useState } from 'react';
-
-import { api } from '~/utils/api';
-import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
-
-import {
-    getPrefixDetailFromId,
-    getRosterRow,
-    stringifyCategory,
-    getFitTimetable
-} from '~/utils/helper';
-import moment from 'moment';
+import React from 'react';
 
 import { WeekControlButton } from '~/components/WeekControlButton';
 import { TestTable } from '~/components/ShiftTable/TestTable';
-
-type Dates = ReturnType<typeof getFitTimetable>;
-
-export function combineDateWithSequence(dates: Dates, sequence: string[]) {
-    const sequenceDetail = dates?.map((date, i) => ({
-        ...date,
-        standardDuty: sequence[i] as string,
-        actualDuty: ''
-    }));
-
-    return sequenceDetail;
-}
+import useCombineDetails from '~/hooks/useCombineDetails';
 
 const LandingPage = () => {
-    const [weekDifference, setWeekDifference] = useState(0);
-    const correspondingMoment = useMemo(
-        () => moment().add(weekDifference, 'w'),
-        [weekDifference]
-    );
-
-    const datesOfWeek = useMemo(
-        () => getPrefixDetailFromId(correspondingMoment.format(`[Y]Y[W]w`)),
-        [correspondingMoment]
-    );
-
     const {
-        data: timetables,
-        isLoading: timetableLoading,
-        error: timetableError
-    } = api.timetableController.getAllTimetables.useQuery(undefined, {
-        refetchOnWindowFocus: false
-    });
-
-    const datesWithTimetable = useMemo(() => {
-        if (!timetables) return null;
-        return getFitTimetable(timetables, datesOfWeek);
-    }, [timetables, datesOfWeek]);
-
-    const { data: userMetadata } =
-        api.userController.getUserMetadata.useQuery(undefined);
-
-    const { tc, rotaCat } = useMemo(() => {
-        const { tc, en } = stringifyCategory(userMetadata?.row);
-
-        const getRota = (categoryName: string) => {
-            switch (categoryName) {
-                case 'KLN':
-                    return rotaKLN;
-                case 'SHS':
-                    return rotaSHS;
-                case 'ET':
-                    return rotaET;
-                default:
-                    return rotaKLN;
-            }
-        };
-
-        const rotaCat = getRota(en);
-
-        return { tc, en, rotaCat };
-    }, [userMetadata]);
-
-    const { sequence, rowInQuery } = useMemo(
-        () => getRosterRow(rotaCat, userMetadata?.row, weekDifference),
-        [rotaCat, userMetadata?.row, weekDifference]
-    );
-
-    const combinedDetails = combineDateWithSequence(
-        datesWithTimetable,
-        sequence
-    );
+        combinedDetails,
+        correspondingMoment,
+        rowInQuery,
+        setWeekDifference,
+        tc
+    } = useCombineDetails();
 
     return (
         <div className="flex h-full w-screen flex-col gap-4 px-4">

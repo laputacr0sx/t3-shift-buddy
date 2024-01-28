@@ -10,6 +10,7 @@ import { type DateArray, createEvents, type EventAttributes } from 'ics';
 import { type Rota } from './standardRosters';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
+import { ValueOf } from 'next/dist/shared/lib/constants';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -19,7 +20,6 @@ moment.updateLocale('zh-hk', {
     // }
 });
 
-// check if today is after wednesday
 export const isTodayAfterWednesday = (day?: moment.Moment) => {
     day = day ?? moment();
     const wednesday = moment().day(3);
@@ -147,6 +147,12 @@ export async function tableCopyHandler(selectedShifts: DayDetail[]) {
     toast.success('已複製資料');
 }
 
+/**
+ * Converts a month number to a date array.
+ * @param {number[]} dateArray - An array containing the year, month, and optional day.
+ * @param {'add'|'subtract'} mode - Indicates whether to add or subtract one month from the given date. Defaults to 'add'.
+ * @returns {DateArray} - An array containing the year, month, and optional day, adjusted by the given mode.
+ */
 export function convertMonthNumber(
     dateArray: number[],
     mode: 'add' | 'subtract' = 'add'
@@ -198,6 +204,12 @@ export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
     return events;
 }
 
+/**
+ * Converts an array of iCal events to a Blob containing the iCal data.
+ *
+ * @param {EventAttributes[]} calEvents - An array of iCal event objects.
+ * @returns {Promise<Blob>} A Promise that resolves to a Blob containing the iCal data.
+ */
 export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
     return new Promise<Blob>((resolve, reject) => {
         createEvents(calEvents, (error, value) => {
@@ -213,11 +225,19 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
     });
 }
 
+type Prefix = '75' | '71' | '15' | '13' | '14';
+/**
+ * Returns the draft prefix for the given fixture, weekday number, and holiday status.
+ * @param fixture The fixture object.
+ * @param weekdayNumber The weekday number (0-6).
+ * @param isHoliday A boolean value indicating whether the given date is a holiday.
+ * @returns {Prefix} The draft prefix for the given fixture, weekday number, and holiday status.
+ */
 function draftPrefix(
     fixture: Fixture | undefined,
     weekdayNumber: number,
     isHoliday: boolean
-) {
+): Prefix {
     if (!fixture) {
         return weekdayNumber === 6 || weekdayNumber === 7 || isHoliday
             ? '75'
@@ -388,11 +408,18 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
 
         return shiftCode;
     });
-
     return mapResult;
 }
 
-export function getChineseLocation(location: unknown) {
+/**
+ * Returns the Chinese location name for the given location code.
+ *
+ * @param {unknown} location - The location code to get the name for.
+ * @returns {ChineseKey} The Chinese location name for the given location code.
+ */
+export function getChineseLocation(
+    location: unknown
+): ValueOf<typeof chineseLocation> {
     type ChineseKey = keyof typeof chineseLocation;
 
     const chineseLocation = {
@@ -558,4 +585,19 @@ export function getFitTimetable(
         );
         return { ...prefix, timetable: fittedTimetable };
     });
+}
+
+type DateDetails = ReturnType<typeof getFitTimetable>;
+
+export function combineDateWithSequence(
+    dates: DateDetails,
+    sequence: string[]
+) {
+    const sequenceDetail = dates?.map((date, i) => ({
+        ...date,
+        standardDuty: sequence[i] as string,
+        actualDuty: ''
+    }));
+
+    return sequenceDetail;
 }
