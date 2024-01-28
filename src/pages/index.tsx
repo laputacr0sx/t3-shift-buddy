@@ -54,27 +54,30 @@ const LandingPage = () => {
     const { data: userMetadata } =
         api.userController.getUserMetadata.useQuery(undefined);
 
-    const { tc, en } = useMemo(
-        () => stringifyCategory(userMetadata?.row),
-        [userMetadata]
-    );
+    const { tc, rotaCat } = useMemo(() => {
+        const { tc, en } = stringifyCategory(userMetadata?.row);
 
-    const getRota = (categoryName: string) => {
-        switch (categoryName) {
-            case 'KLN':
-                return rotaKLN;
-            case 'SHS':
-                return rotaSHS;
-            case 'ET':
-                return rotaET;
-            default:
-                return rotaKLN;
-        }
-    };
+        const getRota = (categoryName: string) => {
+            switch (categoryName) {
+                case 'KLN':
+                    return rotaKLN;
+                case 'SHS':
+                    return rotaSHS;
+                case 'ET':
+                    return rotaET;
+                default:
+                    return rotaKLN;
+            }
+        };
+
+        const rotaCat = getRota(en);
+
+        return { tc, en, rotaCat };
+    }, [userMetadata]);
 
     const { sequence, rowInQuery } = useMemo(
-        () => getRosterRow(getRota(en), userMetadata?.row, weekDifference),
-        [en, userMetadata?.row, weekDifference]
+        () => getRosterRow(rotaCat, userMetadata?.row, weekDifference),
+        [rotaCat, userMetadata?.row, weekDifference]
     );
 
     const combinedDetails = combineDateWithSequence(

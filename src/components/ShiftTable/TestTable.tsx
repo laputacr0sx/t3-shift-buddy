@@ -24,10 +24,12 @@ import { Input } from '../ui/input';
 import useDuties from '~/hooks/useDuties';
 
 import { convertDurationDecimal } from '~/utils/helper';
+import { type RouterOutputs } from '~/utils/api';
+import { Skeleton } from '../ui/skeleton';
 
 declare module '@tanstack/table-core' {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface TableMeta<TData extends RowData> {
-        // interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: string) => void;
     }
 }
@@ -62,6 +64,29 @@ type TestTableProps<TData> = {
     defaultData: TData[];
 };
 
+const OddHours = ({
+    duties
+}: {
+    duties: RouterOutputs['dutyController']['getDutiesBySequence'];
+}) => {
+    const STANDARD_HOURS = 42;
+    const actualHours = duties?.reduce((acc, cur) => {
+        const duration = +convertDurationDecimal(cur.duration);
+
+        return acc + duration;
+    }, 0);
+
+    const oddHours = actualHours === 0 ? 0 : actualHours - STANDARD_HOURS;
+
+    if (oddHours < 0) {
+        return <p className=""> {oddHours}</p>;
+    }
+    if (oddHours > 0) {
+        return <p>+{oddHours}</p>;
+    }
+    return <p>±0</p>;
+};
+
 export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     const [data, setData] = useState<Rota[]>([]);
 
@@ -69,21 +94,31 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         setData(defaultData);
     }, [defaultData]);
 
-    const incomingSequnce = data.map(
-        ({ timetable, standardDuty, actualDuty }) => {
-            if (!timetable) return '';
-
-            return timetable.prefix.concat(
-                actualDuty.length <= 0 ? standardDuty : actualDuty
-            );
-        }
-    );
-
-    const { data: duties, isLoading: dutyLoading } = useDuties({
-        sequence: incomingSequnce
+    const standardRotaSequence = data.map(({ timetable, standardDuty }) => {
+        return timetable.prefix.concat(standardDuty);
     });
 
-    const standardHours = duties?.reduce((acc, cur) => {
+    const actualRotaSequence = data.map(({ timetable, actualDuty }) => {
+        return timetable.prefix.concat(actualDuty);
+    });
+
+    const {
+        data: standardDuties,
+        isLoading: standardDutyLoading,
+        error: standardDutyError
+    } = useDuties({
+        sequence: standardRotaSequence
+    });
+
+    const {
+        data: actualDuties,
+        isLoading: actualDutyLoading,
+        error: actualDutyError
+    } = useDuties({
+        sequence: actualRotaSequence
+    });
+
+    const standardHours = standardDuties?.reduce((acc, cur) => {
         const duration = +convertDurationDecimal(cur.duration);
 
         return acc + duration;
@@ -91,10 +126,33 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
 
     const columns = [
         columnHelper.accessor(
-            (row) => moment(row.date, 'YYYYMMDD ddd').format('DD ddd'),
+            // (row) => {
+            //     const rowDate = moment(row.date, 'YYYYMMDD ddd');
+            //     return (
+            //         <>
+            //             <p>{rowDate.format('MM')}</p>
+            //             <p>{rowDate.format('DD')}</p>
+            //         </>
+            //     );
+            // },
+            'date',
             {
                 id: 'date',
-                header: '日期'
+                header: '日期',
+                cell: (row) => {
+                    const rowDate = moment(row.getValue(), 'YYYYMMDD ddd');
+                    return (
+                        <div className="flex items-center justify-center gap-1">
+                            <section>
+                                <p className="text-sm">{rowDate.format('M')}</p>
+                                <p className="text-lg font-bold">
+                                    {rowDate.format('DD')}
+                                </p>
+                            </section>
+                            <p>{rowDate.format('dd')}</p>
+                        </div>
+                    );
+                }
             }
         ),
         columnHelper.accessor((row) => row.timetable?.prefix, {
@@ -144,7 +202,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                                 <TableHead
                                     key={header.id}
                                     colSpan={header.colSpan}
-                                    className="whitespace-nowrap"
+                                    className="whitespace-nowrap text-center"
                                 >
                                     {header.isPlaceholder
                                         ? null
@@ -164,7 +222,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
                                         key={cell.id}
-                                        className="whitespace-nowrap"
+                                        className="items-center justify-center whitespace-nowrap text-center"
                                     >
                                         {flexRender(
                                             cell.column.columnDef.cell,
@@ -185,11 +243,42 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                         </TableRow>
                     )}
                 </TableBody>
-                <TableFooter>
+                <TableFooter className="font-thin">
                     <TableRow>
-                        <TableCell colSpan={2}>本週總工時：</TableCell>
-                        <TableCell>{standardHours}</TableCell>
-                        <TableCell>{standardHours}</TableCell>
+                        <TableHead colSpan={4} className="h-8">
+                            小結
+                        </TableHead>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="text-right">工時</TableCell>
+                        {!standardDutyLoading && !actualDutyLoading ? (
+                            standardDutyError || actualDutyError ? (
+                                <TableCell colSpan={3}>
+                                    Something went wrong
+                                </TableCell>
+                            ) : (
+                                <>
+                                    <TableCell className="text-center">
+                                        {standardHours}
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                        <OddHours duties={standardDuties} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <OddHours duties={actualDuties} />
+                                    </TableCell>
+                                </>
+                            )
+                        ) : (
+                            <>
+                                <TableCell>
+                                    <Skeleton className="h-3 w-5"></Skeleton>
+                                </TableCell>
+                                <TableCell>
+                                    <Skeleton className="h-3 w-5"></Skeleton>
+                                </TableCell>
+                            </>
+                        )}
                     </TableRow>
                 </TableFooter>
             </Table>
