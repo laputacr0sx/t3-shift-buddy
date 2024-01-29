@@ -34,10 +34,15 @@ const components: { title: string; href: string; description: string }[] = [
         title: '搵更易',
         description: '列出現行更表明細。',
         href: '/allShifts'
+    },
+    {
+        title: '用戶資料',
+        description: '查詢或更改用戶資料。',
+        href: '/user'
     }
 ];
 
-export function NavigationMenuDemo() {
+export function NavigationBar() {
     const { isSignedIn, user } = useUser();
 
     return (

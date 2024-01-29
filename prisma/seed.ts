@@ -27,6 +27,8 @@ async function main() {
     await prisma.duty.createMany({
         data: [...V13, ...R15, ...Z71, ...D14, ...F75]
     });
+
+    // await prisma.sequence.upsert({ create: {}, update: {}, where: {} });
 }
 
 main()

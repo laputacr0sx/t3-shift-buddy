@@ -3,6 +3,7 @@ import React from 'react';
 import { WeekControlButton } from '~/components/WeekControlButton';
 import { TestTable } from '~/components/ShiftTable/TestTable';
 import useCombineDetails from '~/hooks/useCombineDetails';
+import TableLoading from '~/components/TableLoading';
 
 const LandingPage = () => {
     const {
@@ -22,7 +23,8 @@ const LandingPage = () => {
             <WeekControlButton setWeekDifference={setWeekDifference} />
             {combinedDetails ? (
                 <TestTable defaultData={combinedDetails} />
-            ) : null}
+            ) : // <TableLoading />
+            null}
         </div>
     );
 };

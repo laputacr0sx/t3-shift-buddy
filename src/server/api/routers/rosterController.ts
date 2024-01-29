@@ -1,11 +1,5 @@
-import { TRPCError } from '@trpc/server';
-import { rosters } from 'prisma/seeds/roster';
 import { z } from 'zod';
-import {
-    createTRPCRouter,
-    protectedProcedure,
-    publicProcedure
-} from '~/server/api/trpc';
+import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
 
 export const rosterControllerRouter = createTRPCRouter({
     createRoster: protectedProcedure
@@ -16,7 +10,7 @@ export const rosterControllerRouter = createTRPCRouter({
                     Sequence: {
                         create: [
                             {
-                                id: 'Y2024W1A86',
+                                id: 'Y2024W01A86',
                                 createdAt: new Date(),
                                 updatedAt: new Date(),
                                 dutyNumbers: [

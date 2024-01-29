@@ -531,7 +531,7 @@ export function stringifyCategory(category: string | undefined): CategoryName {
         A: { tc: '九龍', en: 'KLN' },
         B: { tc: '新界', en: 'SHS' },
         C: { tc: '柴油', en: 'ET' },
-        S: { tc: '特別', en: 'SP' }
+        S: { tc: '特別', en: 'SPC' }
     };
 
     const prefix = category.slice(0, 1) as keyof typeof categoryName;

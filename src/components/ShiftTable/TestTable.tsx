@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import {
     Table,
@@ -27,8 +27,10 @@ import {
     type combineDateWithSequence,
     convertDurationDecimal
 } from '~/utils/helper';
-import { type RouterOutputs } from '~/utils/api';
+import { api, type RouterOutputs } from '~/utils/api';
 import { Skeleton } from '../ui/skeleton';
+import { abbreviatedDutyNumber } from '~/utils/regex';
+import { Button } from '../ui/button';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -57,6 +59,7 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
             onChange={(e) => setValue(e.target.value)}
             onBlur={onBlur}
             size={7}
+            placeholder="101"
         />
     );
 };
@@ -93,19 +96,35 @@ const OddHours = ({
 export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     const [data, setData] = useState<Rota[]>([]);
 
+    const rosterId = useMemo(
+        () =>
+            moment(defaultData.at(0)?.date, 'YYYYMMDD ddd').format(
+                `[Y]YYYY[W]WW`
+            ),
+        [defaultData]
+    );
+
     useEffect(() => {
         setData(defaultData);
     }, [defaultData]);
 
     const standardRotaSequence = data.map(({ timetable, standardDuty }) => {
-        return timetable.prefix.concat(standardDuty);
+        return standardDuty.match(abbreviatedDutyNumber)
+            ? `${timetable.prefix}${standardDuty}`
+            : `${standardDuty}`;
     });
 
-    const actualRotaSequence = data.map(({ timetable, actualDuty }) => {
-        return timetable.prefix.concat(actualDuty);
-    });
+    const actualRotaSequence: string[] = useMemo(
+        () =>
+            data.map(({ timetable, actualDuty }) => {
+                if (actualDuty === '') return 'RD';
 
-    console.log(actualRotaSequence);
+                return actualDuty.match(abbreviatedDutyNumber)
+                    ? `${timetable.prefix}${actualDuty}`
+                    : `${actualDuty}`;
+            }),
+        [data]
+    );
 
     const {
         data: standardDuties,
@@ -123,6 +142,12 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         sequence: actualRotaSequence
     });
 
+    const { data: demoSequence } =
+        api.sequenceController.demoGetSequence.useQuery();
+
+    const { mutate: mutateSequence } =
+        api.sequenceController.demoMutateSequence.useMutation({});
+
     const standardHours = standardDuties?.reduce((acc, cur) => {
         const duration = +convertDurationDecimal(cur.duration);
 
@@ -130,36 +155,24 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     }, 0);
 
     const columns = [
-        columnHelper.accessor(
-            // (row) => {
-            //     const rowDate = moment(row.date, 'YYYYMMDD ddd');
-            //     return (
-            //         <>
-            //             <p>{rowDate.format('MM')}</p>
-            //             <p>{rowDate.format('DD')}</p>
-            //         </>
-            //     );
-            // },
-            'date',
-            {
-                id: 'date',
-                header: '日期',
-                cell: (row) => {
-                    const rowDate = moment(row.getValue(), 'YYYYMMDD ddd');
-                    return (
-                        <div className="flex items-center justify-center gap-1">
-                            <section>
-                                <p className="text-sm">{rowDate.format('M')}</p>
-                                <p className="text-lg font-bold">
-                                    {rowDate.format('DD')}
-                                </p>
-                            </section>
-                            <p>{rowDate.format('dd')}</p>
-                        </div>
-                    );
-                }
+        columnHelper.accessor('date', {
+            id: 'date',
+            header: '日期',
+            cell: (row) => {
+                const rowDate = moment(row.getValue(), 'YYYYMMDD ddd');
+                return (
+                    <div className="flex items-center justify-center gap-1">
+                        <section>
+                            <p className="text-sm">{rowDate.format('M')}</p>
+                            <p className="text-lg font-bold">
+                                {rowDate.format('DD')}
+                            </p>
+                        </section>
+                        <p>{rowDate.format('dd')}</p>
+                    </div>
+                );
             }
-        ),
+        }),
         columnHelper.accessor((row) => row.timetable?.prefix, {
             id: 'prefix',
             header: '時間表'
@@ -288,6 +301,18 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 </TableFooter>
             </Table>
             {/* <pre>{JSON.stringify(data, null, '\t')}</pre> */}
+            <Button
+                variant={'ghost'}
+                size={'sm'}
+                onClick={() => {
+                    mutateSequence({
+                        rosterId: rosterId,
+                        sequence: actualRotaSequence
+                    });
+                }}
+            >
+                try get sequence
+            </Button>
         </>
     );
 };

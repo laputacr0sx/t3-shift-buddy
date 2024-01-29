@@ -11,7 +11,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Head from 'next/head';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { NavigationMenuDemo } from '~/components/AdvanceNavBar';
+import { NavigationBar } from '~/components/AdvanceNavBar';
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -63,7 +63,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             >
                 <Toaster />
                 <ReactQueryDevtools />
-                <NavigationMenuDemo />
+                <NavigationBar />
                 <Component {...pageProps} />
             </ThemeProvider>
             <Analytics />

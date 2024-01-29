@@ -5,5 +5,5 @@ interface UseDuty {
 }
 
 export default function useDuties({ sequence }: UseDuty) {
-    return api.dutyController.getDutiesBySequence.useQuery(sequence);
+    return api.dutyController.getDutiesBySequence.useQuery(sequence, {});
 }

@@ -8,10 +8,10 @@ export const WeekControlButton = ({
     setWeekDifference
 }: WeekControlButtonProps) => {
     return (
-        <div className="flex items-center justify-between align-middle">
+        <div className="flex items-center justify-center gap-4 align-middle">
             <Button
                 variant={'outline'}
-                size={'lg'}
+                size={'sm'}
                 onClick={() => {
                     setWeekDifference((prev) => prev - 1);
                 }}
@@ -21,7 +21,7 @@ export const WeekControlButton = ({
             <Button
                 className=""
                 variant={'secondary'}
-                size={'lg'}
+                size={'sm'}
                 onClick={() => {
                     setWeekDifference(0);
                 }}
@@ -30,7 +30,7 @@ export const WeekControlButton = ({
             </Button>
             <Button
                 variant={'outline'}
-                size={'lg'}
+                size={'sm'}
                 onClick={() => {
                     setWeekDifference((prev) => prev + 1);
                 }}
