@@ -11,7 +11,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Head from 'next/head';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { NavigationBar } from '~/components/AdvanceNavBar';
+import { NavigationBar } from '~/components/NavigationBar';
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: React.ReactElement) => React.ReactNode;

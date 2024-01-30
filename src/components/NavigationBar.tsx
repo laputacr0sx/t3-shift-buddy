@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import Link from 'next/link';
 
 import { cn } from '~/lib/utils';
-// import { Icons } from "~/components/icons";
+
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -22,9 +22,9 @@ import {
 } from '@clerk/nextjs';
 
 import { User } from 'lucide-react';
-import { Button } from './ui/button';
 
-const components: { title: string; href: string; description: string }[] = [
+type DutyAppPages = { title: string; href: string; description: string };
+const dutyAppPages: DutyAppPages[] = [
     {
         title: '出更易',
         description: '查詢各週份Standard Roster。',
@@ -42,11 +42,19 @@ const components: { title: string; href: string; description: string }[] = [
     }
 ];
 
+const externalPages: DutyAppPages[] = [
+    {
+        title: 'OKMALL',
+        description: 'Direct to MTR OKMALL website.',
+        href: 'https://okmall.mtr.com.hk/'
+    }
+];
+
 export function NavigationBar() {
     const { isSignedIn, user } = useUser();
 
     return (
-        <NavigationMenu>
+        <NavigationMenu className="mx-2 my-1">
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <SignedOut>
@@ -61,7 +69,7 @@ export function NavigationBar() {
                 <NavigationMenuItem>
                     {isSignedIn ? (
                         <p className="font-sans font-semibold">
-                            {user.fullName}
+                            {user.username}
                         </p>
                     ) : null}
                 </NavigationMenuItem>
@@ -69,13 +77,30 @@ export function NavigationBar() {
                     <NavigationMenuTrigger>功能</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {components.map((component) => (
+                            {dutyAppPages.map((page) => (
                                 <ListItem
-                                    key={component.title}
-                                    title={component.title}
-                                    href={component.href}
+                                    key={page.title}
+                                    title={page.title}
+                                    href={page.href}
                                 >
-                                    {component.description}
+                                    {page.description}
+                                </ListItem>
+                            ))}
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger>外部連結</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                            {externalPages.map((page) => (
+                                <ListItem
+                                    key={page.title}
+                                    title={page.title}
+                                    href={page.href}
+                                    target="_blank"
+                                >
+                                    {page.description}
                                 </ListItem>
                             ))}
                         </ul>
@@ -92,11 +117,12 @@ export function NavigationBar() {
 const ListItem = forwardRef<
     React.ElementRef<'a'>,
     React.ComponentPropsWithoutRef<'a'>
->(({ className, title, children, ...props }, ref) => {
+>(({ className, title, children, href, ...props }, ref) => {
     return (
         <li>
             <NavigationMenuLink asChild>
-                <a
+                <Link
+                    href={href as string}
                     ref={ref}
                     className={cn(
                         'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
@@ -110,7 +136,7 @@ const ListItem = forwardRef<
                     <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         {children}
                     </p>
-                </a>
+                </Link>
             </NavigationMenuLink>
         </li>
     );
