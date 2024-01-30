@@ -1,4 +1,5 @@
 import {
+    clerkMetaProcedure,
     createTRPCRouter,
     protectedProcedure,
     publicProcedure
@@ -36,33 +37,10 @@ export const calendarControllerRouter = createTRPCRouter({
             }
         }),
 
-    getCurrentEvents: protectedProcedure
+    getCurrentEvents: clerkMetaProcedure
         .input(dayDetailSchema.array())
         .query(async ({ input, ctx }) => {
-            if (!ctx.auth.userId) {
-                throw new TRPCError({
-                    code: 'UNAUTHORIZED',
-                    message: 'Unauthorized'
-                });
-            }
-            const user = ctx.user;
-            if (!user) {
-                throw new TRPCError({
-                    code: 'NOT_FOUND',
-                    message: 'User Not Found'
-                });
-            }
-
-            const metadata = user.privateMetadata;
-            if (!metadata) {
-                throw new TRPCError({
-                    code: 'NOT_FOUND',
-                    message: 'No metadata found'
-                });
-            }
-
-            const { staffId } = userPrivateMetadataSchema.parse(metadata);
-            console.log(staffId);
+            const staffId = ctx.clerkMeta.staffId;
 
             const webICSEventString = await axios
                 .get(staffBlobURI(staffId))

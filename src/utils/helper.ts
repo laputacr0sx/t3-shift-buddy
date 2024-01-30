@@ -11,6 +11,7 @@ import { type Rota } from './standardRosters';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
 import { ValueOf } from 'next/dist/shared/lib/constants';
+import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -591,13 +592,27 @@ type DateDetails = ReturnType<typeof getFitTimetable>;
 
 export function combineDateWithSequence(
     dates: DateDetails,
-    sequence: string[]
+    standardSequence: string[],
+    actualSequence: string[] | null
 ) {
     const sequenceDetail = dates?.map((date, i) => ({
         ...date,
-        standardDuty: sequence[i] as string,
-        actualDuty: ''
+        standardDuty: standardSequence[i] as string,
+        actualDuty: actualSequence ? (actualSequence[i] as string) : 'RD'
     }));
 
     return sequenceDetail;
 }
+
+export const getRota = (categoryName: string) => {
+    switch (categoryName) {
+        case 'KLN':
+            return rotaKLN;
+        case 'SHS':
+            return rotaSHS;
+        case 'ET':
+            return rotaET;
+        default:
+            return rotaKLN;
+    }
+};

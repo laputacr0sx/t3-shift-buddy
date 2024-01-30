@@ -6,9 +6,9 @@ import {
     getFitTimetable,
     getPrefixDetailFromId,
     getRosterRow,
+    getRota,
     stringifyCategory
 } from '~/utils/helper';
-import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 export default function useCombineDetails() {
     const [weekDifference, setWeekDifference] = useState(0);
@@ -41,23 +41,24 @@ export default function useCombineDetails() {
     const { tc, rotaCat } = useMemo(() => {
         const { tc, en } = stringifyCategory(userMetadata?.row);
 
-        const getRota = (categoryName: string) => {
-            switch (categoryName) {
-                case 'KLN':
-                    return rotaKLN;
-                case 'SHS':
-                    return rotaSHS;
-                case 'ET':
-                    return rotaET;
-                default:
-                    return rotaKLN;
-            }
-        };
-
         const rotaCat = getRota(en);
 
         return { tc, en, rotaCat };
     }, [userMetadata]);
+
+    const { data: actualSequenceObject } =
+        api.sequenceController.getSequence.useQuery(
+            {
+                sequenceId: `${correspondingMoment.format('[Y]YYYY[W]WW')}A89`
+            },
+            { enabled: !!userMetadata }
+        );
+
+    const actualSequence = useMemo(() => {
+        if (!actualSequenceObject) return null;
+        return actualSequenceObject.dutyNumbers;
+    }, [actualSequenceObject]);
+    console.log(actualSequenceObject);
 
     const { sequence, rowInQuery } = useMemo(
         () => getRosterRow(rotaCat, userMetadata?.row, weekDifference),
@@ -66,7 +67,8 @@ export default function useCombineDetails() {
 
     const combinedDetails = combineDateWithSequence(
         datesWithTimetable,
-        sequence
+        sequence,
+        actualSequence
     );
 
     return {

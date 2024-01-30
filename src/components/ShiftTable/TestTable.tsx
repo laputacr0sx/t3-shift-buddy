@@ -148,10 +148,10 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     const { mutate: mutateSequence } =
         api.sequenceController.demoMutateSequence.useMutation({});
 
-    const standardHours = standardDuties?.reduce((acc, cur) => {
-        const duration = +convertDurationDecimal(cur.duration);
+    const standardHours = standardDuties?.reduce((hours, duty) => {
+        const duration = +convertDurationDecimal(duty.duration);
 
-        return acc + duration;
+        return hours + duration;
     }, 0);
 
     const columns = [

@@ -47,11 +47,11 @@ export const sequenceControllerRouter = createTRPCRouter({
             return upsertSequence;
         }),
 
-    getSequence: protectedProcedure
+    getSequence: clerkMetaProcedure
         .input(z.object({ sequenceId: z.string() }))
         .query(async ({ ctx, input }) => {
             return ctx.prisma.sequence.findUniqueOrThrow({
-                where: { id: input.sequenceId }
+                where: { id: input.sequenceId, staffId: ctx.clerkMeta.staffId }
             });
         }),
 
