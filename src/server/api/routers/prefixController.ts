@@ -31,6 +31,9 @@ export const prefixControllerRouter = createTRPCRouter({
       )
       .catch(() => {
         throw new TRPCError({ code: "BAD_REQUEST" });
+      })
+      .finally(() => {
+        console.log("Prefix Procedure Loaded.");
       });
 
     // const distinctPrefix = Array.from(new Set(prefixChronological));
