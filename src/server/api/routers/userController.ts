@@ -1,5 +1,9 @@
 import { TRPCError } from '@trpc/server';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import {
+    clerkMetaProcedure,
+    createTRPCRouter,
+    protectedProcedure
+} from '~/server/api/trpc';
 import { clerkClient } from '@clerk/nextjs';
 import { userPrivateMetadataSchema, usersSchema } from '~/utils/zodSchemas';
 
@@ -29,7 +33,7 @@ export const userControllerRouter = createTRPCRouter({
             });
         }),
 
-    getUserMetadata: protectedProcedure.query(async ({ ctx }) => {
+    getUserMetadata: clerkMetaProcedure.query(async ({ ctx }) => {
         const user = ctx.user;
         if (!user) {
             throw new TRPCError({
@@ -51,6 +55,8 @@ export const userControllerRouter = createTRPCRouter({
                     'Invalid Metadata in database, please update your information. 🙏🏿'
             });
         }
+
+        ctx.clerkMeta;
 
         return validMetadata.data;
     })

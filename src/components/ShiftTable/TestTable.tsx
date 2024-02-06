@@ -31,6 +31,10 @@ import { api, type RouterOutputs } from '~/utils/api';
 import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from '../ui/button';
+import { rostaSchema, rotaSchema } from '~/utils/zodSchemas';
+import toast from 'react-hot-toast';
+import useToastError from '~/hooks/useToastError';
+import { TRPCError } from '@trpc/server';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,7 +43,7 @@ declare module '@tanstack/table-core' {
     }
 }
 
-type Rota = NonNullable<ReturnType<typeof combineDateWithSequence>>[0];
+export type Rota = NonNullable<ReturnType<typeof combineDateWithSequence>>[0];
 
 type CellProps = CellContext<Rota, unknown>;
 
@@ -109,9 +113,17 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     }, [defaultData]);
 
     const standardRotaSequence = data.map(({ timetable, standardDuty }) => {
-        return standardDuty.match(abbreviatedDutyNumber)
+        const rawStandardDuty = standardDuty.match(abbreviatedDutyNumber)
             ? `${timetable.prefix}${standardDuty}`
             : `${standardDuty}`;
+
+        const standardRotaParser = rotaSchema.safeParse(rawStandardDuty);
+
+        if (!standardRotaParser.success) {
+            throw new TRPCError({ code: 'PARSE_ERROR' });
+        }
+
+        return standardRotaParser.data;
     });
 
     const actualRotaSequence: string[] = useMemo(
@@ -119,9 +131,17 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             data.map(({ timetable, actualDuty }) => {
                 if (actualDuty === '') return 'RD';
 
-                return actualDuty.match(abbreviatedDutyNumber)
+                const rawActualDuty = actualDuty.match(abbreviatedDutyNumber)
                     ? `${timetable.prefix}${actualDuty}`
                     : `${actualDuty}`;
+
+                const actualRotaParser = rotaSchema.safeParse(rawActualDuty);
+
+                if (!actualRotaParser.success) {
+                    throw new TRPCError({ code: 'PARSE_ERROR' });
+                }
+
+                return actualRotaParser.data;
             }),
         [data]
     );
@@ -130,20 +150,13 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         data: standardDuties,
         isLoading: standardDutyLoading,
         error: standardDutyError
-    } = useDuties({
-        sequence: standardRotaSequence
-    });
+    } = api.dutyController.getDutiesBySequence.useQuery(standardRotaSequence);
 
     const {
         data: actualDuties,
         isLoading: actualDutyLoading,
         error: actualDutyError
-    } = useDuties({
-        sequence: actualRotaSequence
-    });
-
-    const { data: demoSequence } =
-        api.sequenceController.demoGetSequence.useQuery();
+    } = api.dutyController.getDutiesBySequence.useQuery(actualRotaSequence);
 
     const { mutate: mutateSequence } =
         api.sequenceController.demoMutateSequence.useMutation({});

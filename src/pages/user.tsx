@@ -20,15 +20,10 @@ import { type NextPageWithLayout } from './_app';
 import Layout from '~/components/ui/layouts/AppLayout';
 import toast from 'react-hot-toast';
 import ChineseCalendars from '~/components/ChineseCalendar';
+import useGetUsermeta from '~/hooks/useGetUsermeta';
 
 function UserMetadataForm() {
-    const {
-        data: userData,
-        isLoading: loadingUser,
-        error: userError
-    } = api.userController.getUserMetadata.useQuery(undefined, {
-        refetchOnWindowFocus: false
-    });
+    const { userData } = useGetUsermeta();
 
     const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () => toast.success('保存成功'),
@@ -55,16 +50,6 @@ function UserMetadataForm() {
     ) {
         return mutate(values);
     }
-
-    useEffect(() => {
-        userError && toast.error(userError.message, { duration: 2000 });
-
-        return () => {
-            toast.dismiss();
-        };
-    }, [userError]);
-
-    if (loadingUser) return <TableLoading />;
 
     return (
         <>

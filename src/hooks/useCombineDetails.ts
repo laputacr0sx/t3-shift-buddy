@@ -9,6 +9,7 @@ import {
     getRota,
     stringifyCategory
 } from '~/utils/helper';
+import useGetUsermeta from './useGetUsermeta';
 
 export default function useCombineDetails() {
     const [weekDifference, setWeekDifference] = useState(0);
@@ -35,8 +36,7 @@ export default function useCombineDetails() {
         return getFitTimetable(timetables, datesOfWeek);
     }, [timetables, datesOfWeek]);
 
-    const { data: userMetadata } =
-        api.userController.getUserMetadata.useQuery(undefined);
+    const { userData: userMetadata } = useGetUsermeta();
 
     const { tc, rotaCat } = useMemo(() => {
         const { tc, en } = stringifyCategory(userMetadata?.row);

@@ -111,3 +111,5 @@ export const weatherSchema = z.object({
 });
 
 export const rostaSchema = z.string().regex(rostaRegex).array().length(7);
+
+export const rotaSchema = z.string().regex(rostaRegex);
