@@ -56,8 +56,6 @@ export const userControllerRouter = createTRPCRouter({
             });
         }
 
-        ctx.clerkMeta;
-
         return validMetadata.data;
     })
 });

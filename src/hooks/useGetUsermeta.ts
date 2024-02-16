@@ -9,8 +9,7 @@ export default function useGetUsermeta() {
         isLoading: userLoading,
         error: userError
     } = api.userController.getUserMetadata.useQuery(undefined, {
-        refetchOnWindowFocus: false,
-        retry: false
+        refetchOnWindowFocus: false
     });
 
     useEffect(() => {
@@ -43,5 +42,5 @@ export default function useGetUsermeta() {
 
     if (userError) throw new TRPCError({ code: 'UNAUTHORIZED' });
 
-    return { userData };
+    return userLoading ? { staffId: '000000', row: 'A1' } : userData;
 }

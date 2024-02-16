@@ -36,23 +36,20 @@ export default function useCombineDetails() {
         return getFitTimetable(timetables, datesOfWeek);
     }, [timetables, datesOfWeek]);
 
-    const { userData: userMetadata } = useGetUsermeta();
+    const userMetadata = useGetUsermeta();
 
     const { tc, rotaCat } = useMemo(() => {
-        const { tc, en } = stringifyCategory(userMetadata?.row);
-
+        const { tc, en } = stringifyCategory(userMetadata.row);
         const rotaCat = getRota(en);
-
         return { tc, en, rotaCat };
     }, [userMetadata]);
 
     const { data: actualSequenceObject } =
-        api.sequenceController.getSequence.useQuery(
-            {
-                sequenceId: `${correspondingMoment.format('[Y]YYYY[W]WW')}A89`
-            },
-            { enabled: !!userMetadata }
-        );
+        api.sequenceController.getSequence.useQuery({
+            sequenceId: `${correspondingMoment.format('[Y]YYYY[W]WW')}${
+                userMetadata?.row
+            }`
+        });
 
     const actualSequence = useMemo(() => {
         if (!actualSequenceObject) return null;
