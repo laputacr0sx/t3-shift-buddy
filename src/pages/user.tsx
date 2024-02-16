@@ -21,6 +21,7 @@ import Layout from '~/components/ui/layouts/AppLayout';
 import toast from 'react-hot-toast';
 import ChineseCalendars from '~/components/ChineseCalendar';
 import useGetUsermeta from '~/hooks/useGetUsermeta';
+import PageTitle from '~/components/PageTitle';
 
 function UserMetadataForm() {
     const { userData } = useGetUsermeta();
@@ -115,12 +116,7 @@ function UserMetadataForm() {
 
 const User: NextPageWithLayout = () => (
     <React.Fragment>
-        <h1
-            id="title"
-            className="justify-center py-5 text-center text-4xl font-semibold text-foreground"
-        >
-            用戶資料
-        </h1>
+        <PageTitle>用戶資料</PageTitle>
         <UserMetadataForm />
     </React.Fragment>
 );

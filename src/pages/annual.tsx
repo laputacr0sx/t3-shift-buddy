@@ -20,6 +20,7 @@ import {
     HoverCardTrigger,
     HoverCardContent
 } from '@radix-ui/react-hover-card';
+import PageTitle from '~/components/PageTitle';
 
 const FixtureLegend = () => {
     return (
@@ -86,9 +87,7 @@ const AnnualLeaves: NextPageWithLayout = () => {
 
     return (
         <div className="relative">
-            <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
-                日曆
-            </h1>
+            <PageTitle>日曆</PageTitle>
             <FixtureLegend />
             <Calendar
                 // fixedWeeks

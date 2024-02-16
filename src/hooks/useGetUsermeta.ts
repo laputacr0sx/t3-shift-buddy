@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { api } from '~/utils/api';
@@ -39,6 +40,8 @@ export default function useGetUsermeta() {
             toast.dismiss();
         };
     }, [userError]);
+
+    if (userError) throw new TRPCError({ code: 'UNAUTHORIZED' });
 
     return { userData };
 }

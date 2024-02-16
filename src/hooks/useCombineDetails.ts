@@ -58,6 +58,7 @@ export default function useCombineDetails() {
         if (!actualSequenceObject) return null;
         return actualSequenceObject.dutyNumbers;
     }, [actualSequenceObject]);
+
     console.log(actualSequenceObject);
 
     const { sequence, rowInQuery } = useMemo(

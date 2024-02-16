@@ -23,12 +23,16 @@ import {
 
 import { User } from 'lucide-react';
 
-type DutyAppPages = { title: string; href: string; description: string };
+interface DutyAppPages {
+    title: string;
+    href: string;
+    description: string;
+}
 const dutyAppPages: DutyAppPages[] = [
     {
         title: '出更易',
         description: '查詢各週份Standard Roster。',
-        href: '/'
+        href: '/ezduty'
     },
     {
         title: '搵更易',
@@ -45,7 +49,7 @@ const dutyAppPages: DutyAppPages[] = [
 const externalPages: DutyAppPages[] = [
     {
         title: 'OKMALL',
-        description: 'Direct to MTR OKMALL website.',
+        description: '開啟MTR OKMALL分頁。',
         href: 'https://okmall.mtr.com.hk/'
     }
 ];
@@ -58,7 +62,7 @@ export function NavigationBar() {
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <SignedOut>
-                        <SignInButton afterSignInUrl="/">
+                        <SignInButton afterSignInUrl="/ezduty">
                             <User className="m-2" size={18} />
                         </SignInButton>
                     </SignedOut>

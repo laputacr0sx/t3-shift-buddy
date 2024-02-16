@@ -33,7 +33,7 @@ function Navbar() {
                 <ul className="flex flex-row items-center justify-between gap-2">
                     <li>
                         <Link
-                            href={'/'}
+                            href={'/ezduty'}
                             className={
                                 'flex flex-col items-center justify-center gap-0'
                             }
