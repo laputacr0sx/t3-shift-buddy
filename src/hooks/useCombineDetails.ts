@@ -4,22 +4,21 @@ import { api } from '~/utils/api';
 import {
     combineDateWithSequence,
     getFitTimetable,
-    getPrefixDetailFromId,
+    getDateDetailFromId,
     getRosterRow,
     getRota,
     stringifyCategory
 } from '~/utils/helper';
 import useGetUsermeta from './useGetUsermeta';
 
-export default function useCombineDetails() {
-    const [weekDifference, setWeekDifference] = useState(0);
+export default function useCombineDetails(weekDifference: number) {
     const correspondingMoment = useMemo(
         () => moment().add(weekDifference, 'w'),
         [weekDifference]
     );
 
     const datesOfWeek = useMemo(
-        () => getPrefixDetailFromId(correspondingMoment.format(`[Y]Y[W]w`)),
+        () => getDateDetailFromId(correspondingMoment.format(`[Y]Y[W]w`)),
         [correspondingMoment]
     );
 
@@ -56,8 +55,6 @@ export default function useCombineDetails() {
         return actualSequenceObject.dutyNumbers;
     }, [actualSequenceObject]);
 
-    console.log(actualSequenceObject);
-
     const { sequence, rowInQuery } = useMemo(
         () => getRosterRow(rotaCat, userMetadata?.row, weekDifference),
         [rotaCat, userMetadata?.row, weekDifference]
@@ -70,7 +67,6 @@ export default function useCombineDetails() {
     );
 
     return {
-        setWeekDifference,
         correspondingMoment,
         tc,
         rowInQuery,

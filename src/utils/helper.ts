@@ -12,6 +12,7 @@ import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
 import { ValueOf } from 'next/dist/shared/lib/constants';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
+import { Timetable } from '@prisma/client';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -229,25 +230,27 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
 type Prefix = '75' | '71' | '15' | '13' | '14';
 /**
  * Returns the draft prefix for the given fixture, weekday number, and holiday status.
- * @param fixture The fixture object.
+ * @param raceFixture The fixture object.
  * @param weekdayNumber The weekday number (0-6).
  * @param isHoliday A boolean value indicating whether the given date is a holiday.
  * @returns {Prefix} The draft prefix for the given fixture, weekday number, and holiday status.
  */
 function draftPrefix(
-    fixture: Fixture | undefined,
+    raceFixture: Fixture | undefined,
     weekdayNumber: number,
     isHoliday: boolean
 ): Prefix {
-    if (!fixture) {
+    if (!raceFixture) {
         return weekdayNumber === 6 || weekdayNumber === 7 || isHoliday
             ? '75'
             : '15';
     }
-    if (fixture.nightRacing === 0) {
+    if (raceFixture.nightRacing === 0) {
         return '71';
     } else
-        return fixture.nightRacing === 1 && fixture.venue === 'H' ? '14' : '13';
+        return raceFixture.nightRacing === 1 && raceFixture.venue === 'H'
+            ? '14'
+            : '13';
 }
 
 /**
@@ -314,13 +317,13 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
     return prefixes;
 }
 
-export type PrefixDetail = {
+export type DateDetail = {
     date: string;
     prefix: string;
     racingDetail: Fixture | null;
     holidayDetail: Holiday | null;
 };
-export function getPrefixDetailFromId(weekId: string): PrefixDetail[] {
+export function getDateDetailFromId(weekId: string): DateDetail[] {
     const [year, week] = weekId.match(/\d+/gim) ?? [
         moment().year().toString(),
         moment().week().toString()
@@ -539,18 +542,10 @@ export function stringifyCategory(category: string | undefined): CategoryName {
     return categoryName[prefix];
 }
 
-type Timetables = inferProcedureOutput<
-    AppRouter['timetableController']['getAllTimetables']
->;
-
 export function getFitTimetable(
-    timetables: Timetables,
-    prefixes: PrefixDetail[]
-) {
-    if (!timetables || !prefixes) {
-        return null;
-    }
-
+    timetables: Timetable[],
+    prefixes: DateDetail[]
+): (DateDetail & { timetable: Timetable })[] {
     return prefixes.map((prefix) => {
         const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
 

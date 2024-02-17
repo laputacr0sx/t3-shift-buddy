@@ -119,8 +119,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
 
         const standardRotaParser = rotaSchema.safeParse(rawStandardDuty);
 
-        console.log(standardRotaParser);
-
         if (!standardRotaParser.success) {
             throw new TRPCError({ code: 'PARSE_ERROR' });
         }

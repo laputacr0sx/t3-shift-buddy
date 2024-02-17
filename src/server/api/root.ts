@@ -9,6 +9,7 @@ import { rosterControllerRouter } from './routers/rosterController';
 import { sequenceControllerRouter } from './routers/sequenceController';
 import { userControllerRouter } from './routers/userController';
 import { dutyControllerRouter } from './routers/dutyController';
+import { weekDetailsRouter } from './routers/weekDetailsController';
 
 /**
  * This is the primary router for your server.
@@ -24,7 +25,8 @@ export const appRouter = createTRPCRouter({
     calendarController: calendarControllerRouter,
     rosterController: rosterControllerRouter,
     sequenceController: sequenceControllerRouter,
-    userController: userControllerRouter
+    userController: userControllerRouter,
+    weekDetailsController: weekDetailsRouter
 });
 
 // export type definition of API

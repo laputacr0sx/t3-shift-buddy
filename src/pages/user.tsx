@@ -24,7 +24,7 @@ import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
 
 function UserMetadataForm() {
-    const { userData } = useGetUsermeta();
+    const userData = useGetUsermeta();
 
     const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () => toast.success('保存成功'),
