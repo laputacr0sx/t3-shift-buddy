@@ -22,30 +22,36 @@ export const sequenceControllerRouter = createTRPCRouter({
                 rosterId: z.string()
             })
         )
-        .mutation(async ({ ctx, input }) => {
-            const staffId = ctx.clerkMeta.staffId;
-
-            if (!staffId) throw new TRPCError({ code: 'NOT_FOUND' });
-
-            const upsertSequence = await ctx.prisma.sequence.upsert({
-                where: {
-                    id: `${input.rosterId}${ctx.clerkMeta.row}`,
-                    staffId: staffId
+        .mutation(
+            async ({
+                ctx: {
+                    prisma,
+                    clerkMeta: { row, staffId }
                 },
-                update: { dutyNumbers: input.sequence },
-                create: {
-                    id: `${input.rosterId}${ctx.clerkMeta.row}`,
-                    dutyNumbers: input.sequence,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                input: { sequence, rosterId }
+            }) => {
+                if (!staffId) throw new TRPCError({ code: 'NOT_FOUND' });
 
-                    Roster: { connect: { id: input.rosterId } },
-                    Staff: { connect: { id: staffId } }
-                }
-            });
+                const upsertSequence = await prisma.sequence.upsert({
+                    where: {
+                        id: `${rosterId}${row}`,
+                        staffId: staffId
+                    },
+                    update: { dutyNumbers: sequence },
+                    create: {
+                        id: `${rosterId}${row}`,
+                        dutyNumbers: sequence,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
 
-            return upsertSequence;
-        }),
+                        Roster: { connect: { id: rosterId } },
+                        Staff: { connect: { id: staffId } }
+                    }
+                });
+
+                return upsertSequence;
+            }
+        ),
 
     getSequence: clerkMetaProcedure
         .input(z.object({ sequenceId: z.string() }))

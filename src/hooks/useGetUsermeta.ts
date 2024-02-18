@@ -25,14 +25,18 @@ export default function useGetUsermeta() {
     useEffect(() => {
         const errorCode = userError?.data?.code;
 
-        if (errorCode === 'UNAUTHORIZED') {
-            toast.error('閣下尚未登入未登入。', { duration: 2000 });
-        }
-        if (errorCode === 'NOT_FOUND') {
-            toast.error('找不到用戶。', { duration: 2000 });
-        }
-        if (errorCode === 'PARSE_ERROR') {
-            toast.error('資料與數據庫不符。', { duration: 2000 });
+        if (errorCode) {
+            if (errorCode === 'UNAUTHORIZED') {
+                toast.error('閣下尚未登入未登入。', { duration: 2000 });
+            }
+            if (errorCode === 'NOT_FOUND') {
+                toast.error('找不到用戶。', { duration: 2000 });
+            }
+            if (errorCode === 'PARSE_ERROR') {
+                toast.error('資料與數據庫不符。', { duration: 2000 });
+            } else {
+                toast.error('Something went wrong.', { duration: 2000 });
+            }
         }
 
         return () => {

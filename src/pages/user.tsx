@@ -1,8 +1,8 @@
-import React, { useEffect, type ReactElement } from 'react';
+import React, { type ReactElement } from 'react';
 import { type z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import TableLoading from '~/components/TableLoading';
+
 import { Button } from '~/components/ui/button';
 import {
     Form,
@@ -19,7 +19,6 @@ import { Input } from '~/components/ui/input';
 import { type NextPageWithLayout } from './_app';
 import Layout from '~/components/ui/layouts/AppLayout';
 import toast from 'react-hot-toast';
-import ChineseCalendars from '~/components/ChineseCalendar';
 import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
 
@@ -107,9 +106,9 @@ function UserMetadataForm() {
                     </div>
                 </form>
             </Form>
-            {userData?.staffId ? (
+            {/* {userData?.staffId ? (
                 <ChineseCalendars staffId={userData.staffId} />
-            ) : null}
+            ) : null} */}
         </>
     );
 }

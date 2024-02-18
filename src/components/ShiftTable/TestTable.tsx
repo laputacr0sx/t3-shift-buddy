@@ -21,7 +21,6 @@ import {
 
 import moment from 'moment';
 import { Input } from '../ui/input';
-import useDuties from '~/hooks/useDuties';
 
 import {
     type combineDateWithSequence,
@@ -31,9 +30,7 @@ import { api, type RouterOutputs } from '~/utils/api';
 import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from '../ui/button';
-import { rostaSchema, rotaSchema } from '~/utils/zodSchemas';
-import toast from 'react-hot-toast';
-import useToastError from '~/hooks/useToastError';
+import { rotaSchema } from '~/utils/zodSchemas';
 import { TRPCError } from '@trpc/server';
 
 declare module '@tanstack/table-core' {
@@ -82,7 +79,6 @@ const OddHours = ({
     const STANDARD_HOURS = 42;
     const actualHours = duties?.reduce((acc, cur) => {
         const duration = +convertDurationDecimal(cur.duration);
-
         return acc + duration;
     }, 0);
 
