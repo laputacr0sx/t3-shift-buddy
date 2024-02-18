@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import DutyDetailsPDF from '~/components/DutyDetailsPDF';
 import PageTitle from '~/components/PageTitle';
 import { TestTable } from '~/components/ShiftTable/TestTable';
 import TableLoading from '~/components/TableLoading';
@@ -24,7 +25,6 @@ function EasyDuty() {
         <div className="flex h-full w-screen flex-col gap-4 px-4">
             <PageTitle>{articulatedTitle}</PageTitle>
             <WeekControlButton setWeekDifference={setWeekDifference} />
-
             <TestTable defaultData={combinedDetails} />
         </div>
     );

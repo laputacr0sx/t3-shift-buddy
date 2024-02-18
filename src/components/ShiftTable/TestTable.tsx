@@ -32,6 +32,8 @@ import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from '../ui/button';
 import { rotaSchema } from '~/utils/zodSchemas';
 import { TRPCError } from '@trpc/server';
+import toast from 'react-hot-toast';
+import DutyDetailsPDF from '../DutyDetailsPDF';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -134,7 +136,9 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 const actualRotaParser = rotaSchema.safeParse(rawActualDuty);
 
                 if (!actualRotaParser.success) {
-                    throw new TRPCError({ code: 'PARSE_ERROR' });
+                    toast.error('Error input', { duration: 1300 });
+                    return 'RD';
+                    // throw new TRPCError({ code: 'PARSE_ERROR' });
                 }
 
                 return actualRotaParser.data;
@@ -316,12 +320,15 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 onClick={() => {
                     mutateSequence({
                         rosterId: rosterId,
-                        sequence: actualRotaSequence
+                        sequence: data.map(({ actualDuty }) => actualDuty)
                     });
                 }}
             >
                 try get sequence
             </Button>
+            {actualDuties ? (
+                <DutyDetailsPDF dutyDetails={actualDuties} />
+            ) : null}
         </>
     );
 };

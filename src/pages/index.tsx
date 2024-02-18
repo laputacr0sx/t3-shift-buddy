@@ -1,4 +1,5 @@
 import React from 'react';
+import DutyDetailsPDF from '~/components/DutyDetailsPDF';
 
 const LandingPage = () => {
     return (
