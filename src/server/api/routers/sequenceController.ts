@@ -44,7 +44,13 @@ export const sequenceControllerRouter = createTRPCRouter({
                         createdAt: new Date(),
                         updatedAt: new Date(),
 
-                        Roster: { connect: { id: rosterId } },
+                        Roster: {
+                            connectOrCreate: {
+                                create: { id: rosterId },
+                                where: { id: rosterId }
+                            }
+                        },
+                        // Roster: { connect: { id: rosterId } },
                         Staff: { connect: { id: staffId } }
                     }
                 });

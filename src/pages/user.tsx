@@ -21,17 +21,17 @@ import Layout from '~/components/ui/layouts/AppLayout';
 import toast from 'react-hot-toast';
 import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
+import moment from 'moment';
 
 function UserMetadataForm() {
     const userData = useGetUsermeta();
+    const correspondingMoment = moment();
 
     const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () => toast.success('保存成功'),
         onError: () => {
             return toast.error('保存失敗');
         }
-
-        // onSettled: () => toast.dismiss()
     });
 
     const userPrivateMetadataForm = useForm<
@@ -85,12 +85,15 @@ function UserMetadataForm() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>行序編號</FormLabel>
+                                <FormDescription>
+                                    {correspondingMoment.format(
+                                        `YYYY-MM-DD第W週`
+                                    )}
+                                    的行序編號。
+                                </FormDescription>
                                 <FormControl>
                                     <Input {...field} />
                                 </FormControl>
-                                <FormDescription>
-                                    編號為每一筆資料的編號，以便於查詢。
-                                </FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}

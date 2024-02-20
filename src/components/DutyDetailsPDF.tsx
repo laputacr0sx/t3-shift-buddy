@@ -17,45 +17,43 @@ function DutyDetailsPDF({
     >;
 }) {
     return (
-        <div className="flex h-screen w-screen items-center justify-center">
-            <PDFViewer width={'80%'} height={'50%'} showToolbar={true}>
-                <Document style={{ width: '50' }}>
-                    <Page size="LETTER" style={styles.body}>
-                        {dutyDetails.map((duty, i) => (
-                            <View
-                                style={styles.page}
-                                key={`${duty.dutyNumber}${i}`}
-                            >
-                                <Text style={styles.title}>
-                                    {duty.dutyNumber}
-                                </Text>
-                                <Text style={styles.text}>
-                                    {duty.bNL}
-                                    {duty.bNT}-{duty.bFT}
-                                    {duty.bFL}
-                                </Text>
-                                <Text style={styles.text}>
-                                    {duty.duration}
-                                    {duty.remarks}
-                                </Text>
-                                {/* <Text style={styles.text}>{duty.bNT}</Text>
-                                <Text style={styles.text}>{duty.bFT}</Text>
-                                <Text style={styles.text}>{duty.bFL}</Text>
-                                <Text style={styles.text}>{duty.duration}</Text>
-                                <Text style={styles.text}>{duty.remarks}</Text> */}
-                            </View>
-                        ))}
-                        <Text
-                            style={styles.pageNumber}
-                            render={({ pageNumber, totalPages }) =>
-                                `${pageNumber} / ${totalPages}`
-                            }
-                            fixed
-                        />
-                    </Page>
-                </Document>
-            </PDFViewer>
-        </div>
+        // <div className="flex h-screen w-screen items-center justify-center">
+        <PDFViewer
+            width={'80%'}
+            height={'100%'}
+            showToolbar={true}
+            className="flex h-screen w-screen items-center justify-center"
+        >
+            <Document style={{ width: '50' }}>
+                <Page size="LETTER" style={styles.body}>
+                    {dutyDetails.map((duty, i) => (
+                        <View
+                            style={styles.page}
+                            key={`${duty.dutyNumber}${i}`}
+                        >
+                            <Text style={styles.title}>{duty.dutyNumber}</Text>
+                            <Text style={styles.text}>
+                                {duty.bNL}
+                                {duty.bNT}-{duty.bFT}
+                                {duty.bFL}
+                            </Text>
+                            <Text style={styles.text}>
+                                {duty.duration}
+                                {duty.remarks}
+                            </Text>
+                        </View>
+                    ))}
+                    <Text
+                        style={styles.pageNumber}
+                        render={({ pageNumber, totalPages }) =>
+                            `${pageNumber} / ${totalPages}`
+                        }
+                        fixed
+                    />
+                </Page>
+            </Document>
+        </PDFViewer>
+        // </div>
     );
 }
 

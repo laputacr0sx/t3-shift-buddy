@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DutyDetailsPDF from '~/components/DutyDetailsPDF';
+
 import PageTitle from '~/components/PageTitle';
 import { TestTable } from '~/components/ShiftTable/TestTable';
 import TableLoading from '~/components/TableLoading';

@@ -31,9 +31,10 @@ import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from '../ui/button';
 import { rotaSchema } from '~/utils/zodSchemas';
-import { TRPCError } from '@trpc/server';
+import { TRPCError, inferProcedureOutput } from '@trpc/server';
 import toast from 'react-hot-toast';
 import DutyDetailsPDF from '../DutyDetailsPDF';
+import { AppRouter } from '~/server/api/root';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -62,7 +63,6 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
             onChange={(e) => setValue(e.target.value)}
             onBlur={onBlur}
             size={7}
-            placeholder="101"
         />
     );
 };
@@ -76,7 +76,9 @@ type TestTableProps<TData> = {
 const OddHours = ({
     duties
 }: {
-    duties: RouterOutputs['dutyController']['getDutiesBySequence'];
+    duties: inferProcedureOutput<
+        AppRouter['dutyController']['getDutiesBySequence']
+    >;
 }) => {
     const STANDARD_HOURS = 42;
     const actualHours = duties?.reduce((acc, cur) => {
