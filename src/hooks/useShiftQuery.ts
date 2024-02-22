@@ -3,7 +3,10 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 import { useCallback } from 'react';
-import { type SevenSlotsSearchForm } from '~/components/SevenSlotsSearchForm';
+import {
+    DefaultData,
+    type SevenSlotsSearchForm
+} from '~/components/SevenSlotsSearchForm';
 import { type autoPrefix } from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { dayDetailName } from '~/utils/zodSchemas';
@@ -14,29 +17,20 @@ function useShiftQuery(prefixData: string[] | undefined) {
     // const searchParams = useSearchParams();
 
     const handleQuery = useCallback(
-        async (
-            autoDayDetail: ReturnType<typeof autoPrefix>,
-            data: SevenSlotsSearchForm
-        ) => {
+        async (defaultData: DefaultData, data: SevenSlotsSearchForm) => {
             const newParams = new URLSearchParams();
 
-            const numberOfDaysConcerned = autoDayDetail.length;
             if (typeof prefixData === 'undefined') return newParams;
-
-            const correspondingPrefix = prefixData.slice(
-                -numberOfDaysConcerned
-            );
 
             data[dayDetailName]?.forEach(({ shiftCode }, i) => {
                 const date = moment(
-                    autoDayDetail[i]?.date,
+                    defaultData[i]?.date,
                     'YYYYMMDD ddd'
                 ).format('YYYYMMDD');
-                // const prefix = autoDayDetail[i]?.prefix as string;
-                const prefix = correspondingPrefix[i] as string;
+                const prefix = defaultData[i]?.timetable.prefix as string;
 
-                const shiftCodeWithPrefix = abbreviatedDutyNumber.exec(
-                    shiftCode
+                const shiftCodeWithPrefix = shiftCode.match(
+                    abbreviatedDutyNumber
                 )
                     ? `${prefix}${shiftCode}`
                     : `${shiftCode}`;

@@ -41,12 +41,14 @@ import { type AppRouter } from '~/server/api/root';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
+export type DefaultData = inferProcedureOutput<
+    AppRouter['timetableController']['getSuitableTimetables']
+>;
+
 const SevenSlotsSearchForm = ({
     defaultData
 }: {
-    defaultData: inferProcedureOutput<
-        AppRouter['timetableController']['getSuitableTimetables']
-    >;
+    defaultData: DefaultData;
 }) => {
     const prefixData = defaultData.map((day) => day.prefix);
     const [parent] = useAutoAnimate();
@@ -60,8 +62,7 @@ const SevenSlotsSearchForm = ({
         !!queryParams.size && setNewSearchParams(queryParams);
     }, [router.query]);
 
-    const autoDayDetail = useMemo(() => autoPrefix(true), []);
-
+    // use to set search param and fetch api for data
     const shiftsFromSearchParamMemo = useMemo(() => {
         const dateAndShifts: { date: string; shiftCode: string }[] = [];
         if (newSearchParams === null) return dateAndShifts;
@@ -75,11 +76,14 @@ const SevenSlotsSearchForm = ({
 
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
-            // you can debug your validation schema here
-            // console.log("formData", data);
+            // console.log('formData', data);
             // console.log(
-            //   "validation result",
-            //   await zodResolver(sevenSlotsSearchFormSchema)(data, context, options)
+            //     'validation result',
+            //     await zodResolver(sevenSlotsSearchFormSchema)(
+            //         data,
+            //         context,
+            //         options
+            //     )
             // );
             const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
                 data,
@@ -111,7 +115,7 @@ const SevenSlotsSearchForm = ({
         SevenSlotsSearchForm
     > = async (data, event) => {
         event?.preventDefault();
-        const newSearch = await handleQuery(autoDayDetail, data);
+        const newSearch = await handleQuery(defaultData, data);
         setNewSearchParams(newSearch);
         await router.push('#query-result');
     };
@@ -216,8 +220,10 @@ const SevenSlotsSearchForm = ({
                                                                     `${legitPrefix}___`
                                                                 ) : (
                                                                     <>
-                                                                        {abbreviatedDutyNumber.exec(
+                                                                        {(
                                                                             field.value as string
+                                                                        ).match(
+                                                                            abbreviatedDutyNumber
                                                                         )
                                                                             ? `${legitPrefix}${
                                                                                   field.value as string
