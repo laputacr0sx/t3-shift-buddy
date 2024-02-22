@@ -1,8 +1,13 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { DayDetail } from '~/utils/customTypes';
 
-import { completeShiftNameRegex } from '~/utils/regex';
+import {
+    completeShiftNameRegex,
+    dayOffRegex,
+    proShiftNameRegex
+} from '~/utils/regex';
 
 export const dutyControllerRouter = createTRPCRouter({
     getDutiesBySequence: publicProcedure
@@ -23,7 +28,50 @@ export const dutyControllerRouter = createTRPCRouter({
             if (!foundDuty) throw new TRPCError({ code: 'NOT_FOUND' });
             return foundDuty;
         }),
-    getDutyByDateDuty: publicProcedure.input(z.object({})).query(() => {
-        return;
-    })
+    getDutyByDateDuty: publicProcedure
+        .input(
+            z
+                .object({
+                    date: z.string().regex(/\d{8}/gim),
+                    shiftCode: z.string().regex(proShiftNameRegex)
+                })
+                .array()
+        )
+        .query(async ({ ctx, input }) => {
+            const dutyInQuery = input.map((obj) => obj.shiftCode);
+
+            const foundDuty = await ctx.prisma.duty.findMany({
+                where: { dutyNumber: { in: dutyInQuery } }
+            });
+
+            const reduceResult = input.reduce<DayDetail[]>(
+                (accumulatedDays, day) => {
+                    if (day.shiftCode.match(dayOffRegex)) {
+                        accumulatedDays.push({
+                            date: day.date,
+                            title: day.shiftCode,
+                            dutyNumber: day.shiftCode
+                        } as DayDetail);
+                    }
+
+                    const temp = foundDuty.filter((duty) =>
+                        duty.dutyNumber.match(day.shiftCode)
+                    )[0];
+
+                    if (temp)
+                        accumulatedDays.push({
+                            ...temp,
+                            date: day.date,
+                            title: temp.dutyNumber,
+                            id: '',
+                            staffId: ''
+                        } as DayDetail);
+
+                    return accumulatedDays;
+                },
+                []
+            );
+
+            return reduceResult;
+        })
 });

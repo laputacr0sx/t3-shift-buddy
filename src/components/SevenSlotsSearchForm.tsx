@@ -38,6 +38,10 @@ import { Label } from './ui/label';
 import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
+import { api } from '~/utils/api';
+import TableLoading from './TableLoading';
+import { DayDetailTable } from './ShiftTable/DayDetailTable';
+import { DayDetailColumn } from './ShiftTable/DayDetailColumn';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -72,7 +76,13 @@ const SevenSlotsSearchForm = ({
         return dateAndShifts;
     }, [newSearchParams]);
 
-    console.log(shiftsFromSearchParamMemo);
+    const {
+        data: tableData,
+        isLoading: tableDataIsLoading,
+        error: tableDataError
+    } = api.dutyController.getDutyByDateDuty.useQuery(
+        shiftsFromSearchParamMemo
+    );
 
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
@@ -300,18 +310,18 @@ const SevenSlotsSearchForm = ({
                         <ArrowUpToLine />
                     </Button>
                     <br />
-                    {/* {queryIsLoading ? (
+                    {tableDataIsLoading ? (
                         <div className="flex flex-col items-center justify-center gap-5 pt-5">
-                            <Skeleton className="h-80 w-72" />
+                            <TableLoading />
                         </div>
-                    ) : queryError ? (
-                        <p>{queryError.message}</p>
+                    ) : tableDataError ? (
+                        <p>{tableDataError.message}</p>
                     ) : (
                         <DayDetailTable
                             columns={DayDetailColumn}
-                            data={queryData}
+                            data={tableData}
                         />
-                    )} */}
+                    )}
                 </section>
             ) : null}
         </>
