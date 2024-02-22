@@ -15,6 +15,7 @@ import {
     clerkClient
 } from '@clerk/nextjs/server';
 import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
+import { type UserPrivateMetadata } from '~/utils/customTypes';
 
 type CreateContextOptions = {
     auth: SignedInAuthObject | SignedOutAuthObject;
@@ -90,6 +91,8 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
         .getUser(user.id)
         .then((user) => user.privateMetadata);
 
+    console.log(metadata);
+
     const validMetadata = userPrivateMetadataSchema.safeParse(metadata);
 
     if (!validMetadata.success) {
@@ -100,7 +103,11 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
         });
     }
 
-    const staffMeta = validMetadata.data;
+    const staffMeta = validMetadata.success
+        ? validMetadata.data
+        : ({ row: '', staffId: '', weekNumber: 0 } as UserPrivateMetadata);
+
+    // const staffMeta = metadata;
 
     return next({
         ctx: {

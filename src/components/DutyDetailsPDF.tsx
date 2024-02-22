@@ -12,7 +12,7 @@ import { type AppRouter } from '~/server/api/root';
 function DutyDetailsPDF({
     dutyDetails
 }: {
-    dutyDetails: inferProcedureOutput<
+    readonly dutyDetails: inferProcedureOutput<
         AppRouter['dutyController']['getDutiesBySequence']
     >;
 }) {

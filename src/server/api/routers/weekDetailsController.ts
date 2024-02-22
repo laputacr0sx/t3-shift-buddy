@@ -45,6 +45,8 @@ export const weekDetailsRouter = createTRPCRouter({
                     '[Y]YYYY[W]WW'
                 )}${row}`;
 
+                console.log(sequenceIdInQuery);
+
                 let dutyNumbers: { dutyNumbers: string[] };
                 try {
                     dutyNumbers = await prisma.sequence.findUniqueOrThrow({

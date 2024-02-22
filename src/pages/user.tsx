@@ -22,6 +22,7 @@ import toast from 'react-hot-toast';
 import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
 import moment from 'moment';
+import { type UserPrivateMetadata } from '~/utils/customTypes';
 
 function UserMetadataForm() {
     const userData = useGetUsermeta();
@@ -34,20 +35,17 @@ function UserMetadataForm() {
         }
     });
 
-    const userPrivateMetadataForm = useForm<
-        z.infer<typeof userPrivateMetadataSchema>
-    >({
+    const userPrivateMetadataForm = useForm<UserPrivateMetadata>({
         resolver: zodResolver(userPrivateMetadataSchema),
         defaultValues: {
             row: '',
-            staffId: ''
+            staffId: '',
+            weekNumber: 0
         },
-        values: userData
+        values: userData || { row: '', staffId: '', weekNumber: 0 }
     });
 
-    function metadataHandler(
-        values: z.infer<typeof userPrivateMetadataSchema>
-    ) {
+    function metadataHandler(values: UserPrivateMetadata) {
         return mutate(values);
     }
 
@@ -67,10 +65,7 @@ function UserMetadataForm() {
                             <FormItem>
                                 <FormLabel>職員號碼</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        disabled={!!userData?.staffId}
-                                    />
+                                    <Input {...field} />
                                 </FormControl>
                                 <FormDescription>
                                     職員號碼一經輸入，不可更改。
@@ -91,6 +86,20 @@ function UserMetadataForm() {
                                     )}
                                     的行序編號。
                                 </FormDescription>
+                                <FormControl>
+                                    <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={userPrivateMetadataForm.control}
+                        name="weekNumber"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>週份</FormLabel>
+                                <FormDescription></FormDescription>
                                 <FormControl>
                                     <Input {...field} />
                                 </FormControl>

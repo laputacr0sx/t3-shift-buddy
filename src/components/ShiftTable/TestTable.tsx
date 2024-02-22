@@ -26,15 +26,15 @@ import {
     type combineDateWithSequence,
     convertDurationDecimal
 } from '~/utils/helper';
-import { api, type RouterOutputs } from '~/utils/api';
+import { api } from '~/utils/api';
 import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from '../ui/button';
 import { rotaSchema } from '~/utils/zodSchemas';
-import { TRPCError, inferProcedureOutput } from '@trpc/server';
+import { TRPCError, type inferProcedureOutput } from '@trpc/server';
 import toast from 'react-hot-toast';
 import DutyDetailsPDF from '../DutyDetailsPDF';
-import { AppRouter } from '~/server/api/root';
+import { type AppRouter } from '~/server/api/root';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -317,7 +317,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             </Table>
             {/* <pre>{JSON.stringify(data, null, '\t')}</pre> */}
             <Button
-                variant={'ghost'}
+                variant={'outline'}
                 size={'sm'}
                 onClick={() => {
                     mutateSequence({
@@ -326,7 +326,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                     });
                 }}
             >
-                try get sequence
+                更新更份
             </Button>
             {actualDuties ? (
                 <DutyDetailsPDF dutyDetails={actualDuties} />
