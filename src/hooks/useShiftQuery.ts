@@ -1,52 +1,57 @@
-// import moment from "moment";
-// import { usePathname } from "next/navigation";
-// import { useRouter } from "next/router";
+import moment from 'moment';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
-// import { useCallback } from "react";
-// import { type SevenSlotsSearchForm } from "~/components/SevenSlotsSearchForm";
-// import { type autoPrefix } from "~/utils/helper";
-// import { abbreviatedDutyNumber } from "~/utils/regex";
-// import { dayDetailName } from "~/utils/zodSchemas";
+import { useCallback } from 'react';
+import { type SevenSlotsSearchForm } from '~/components/SevenSlotsSearchForm';
+import { type autoPrefix } from '~/utils/helper';
+import { abbreviatedDutyNumber } from '~/utils/regex';
+import { dayDetailName } from '~/utils/zodSchemas';
 
-// function useShiftQuery(prefixData: string[] | undefined) {
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   // const searchParams = useSearchParams();
+function useShiftQuery(prefixData: string[] | undefined) {
+    const router = useRouter();
+    const pathname = usePathname();
+    // const searchParams = useSearchParams();
 
-//   const handleQuery = useCallback(
-//     async (
-//       autoDayDetail: ReturnType<typeof autoPrefix>,
-//       data: SevenSlotsSearchForm
-//     ) => {
-//       const newParams = new URLSearchParams();
+    const handleQuery = useCallback(
+        async (
+            autoDayDetail: ReturnType<typeof autoPrefix>,
+            data: SevenSlotsSearchForm
+        ) => {
+            const newParams = new URLSearchParams();
 
-//       const numberOfDaysConcerned = autoDayDetail.length;
-//       if (typeof prefixData === "undefined") return newParams;
+            const numberOfDaysConcerned = autoDayDetail.length;
+            if (typeof prefixData === 'undefined') return newParams;
 
-//       const correspondingPrefix = prefixData.slice(-numberOfDaysConcerned);
+            const correspondingPrefix = prefixData.slice(
+                -numberOfDaysConcerned
+            );
 
-//       data[dayDetailName]?.forEach(({ shiftCode }, i) => {
-//         const date = moment(autoDayDetail[i]?.date, "YYYYMMDD ddd").format(
-//           "YYYYMMDD"
-//         );
-//         // const prefix = autoDayDetail[i]?.prefix as string;
-//         const prefix = correspondingPrefix[i] as string;
+            data[dayDetailName]?.forEach(({ shiftCode }, i) => {
+                const date = moment(
+                    autoDayDetail[i]?.date,
+                    'YYYYMMDD ddd'
+                ).format('YYYYMMDD');
+                // const prefix = autoDayDetail[i]?.prefix as string;
+                const prefix = correspondingPrefix[i] as string;
 
-//         const shiftCodeWithPrefix = shiftCode.match(abbreviatedDutyNumber)
-//           ? `${prefix}${shiftCode}`
-//           : `${shiftCode}`;
-//         if (shiftCode) {
-//           newParams.set(date, shiftCodeWithPrefix);
-//         }
-//       });
-//       await router.push(`${pathname}?${newParams.toString()}`);
+                const shiftCodeWithPrefix = shiftCode.match(
+                    abbreviatedDutyNumber
+                )
+                    ? `${prefix}${shiftCode}`
+                    : `${shiftCode}`;
+                if (shiftCode) {
+                    newParams.set(date, shiftCodeWithPrefix);
+                }
+            });
+            await router.push(`${pathname}?${newParams.toString()}`);
 
-//       return newParams;
-//     },
-//     [pathname, router, prefixData]
-//   );
+            return newParams;
+        },
+        [pathname, router, prefixData]
+    );
 
-//   return { router, handleQuery };
-// }
+    return { router, handleQuery };
+}
 
-// export default useShiftQuery;
+export default useShiftQuery;

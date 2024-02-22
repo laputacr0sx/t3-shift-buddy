@@ -1,5 +1,5 @@
-import { authMiddleware, redirectToSignIn } from '@clerk/nextjs';
-import { NextMiddlewareResult } from 'next/dist/server/web/types';
+import { authMiddleware } from '@clerk/nextjs';
+
 import { NextResponse } from 'next/server';
 
 // This example protects all routes including api/trpc routes
@@ -20,7 +20,7 @@ export default authMiddleware({
         return NextResponse.next();
     },
     publicRoutes: [
-        // '/(api|trpc)(.*)',
+        '/(api|trpc)(.*)',
         '/'
         // '/((?!.+\\.[\\w]+$|_next).*)',
         // '/api/webhooks(.*)'
@@ -28,5 +28,5 @@ export default authMiddleware({
 });
 
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)', '/user']
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/(api|trpc)(.*)']
 };

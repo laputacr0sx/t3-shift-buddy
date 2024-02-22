@@ -1,10 +1,24 @@
+import PageTitle from '~/components/PageTitle';
+
 import React from 'react';
-import DutyDetailsPDF from '~/components/DutyDetailsPDF';
+import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
+import { api } from '~/utils/api';
+import TableLoading from '~/components/TableLoading';
 
 const LandingPage = () => {
+    const {
+        data: weekDetails,
+        isLoading: weekDetailsLoading,
+        error: weekDetailsError
+    } = api.timetableController.getSuitableTimetables.useQuery();
+
+    if (weekDetailsLoading) return <TableLoading />;
+    if (weekDetailsError) return <>Something Went Wrong</>;
+
     return (
         <>
-            <div>登入後可使用</div>
+            <PageTitle>Happy</PageTitle>
+            <SevenSlotsSearchForm defaultData={weekDetails} />
         </>
     );
 };

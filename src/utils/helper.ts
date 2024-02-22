@@ -9,7 +9,7 @@ import type * as icalParser from 'node-ical';
 import { type DateArray, createEvents, type EventAttributes } from 'ics';
 import { type Rota } from './standardRosters';
 import { type inferProcedureOutput } from '@trpc/server';
-import { type AppRouter } from '~/server/api/root';
+
 import { ValueOf } from 'next/dist/shared/lib/constants';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 import { Timetable } from '@prisma/client';
