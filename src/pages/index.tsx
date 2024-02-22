@@ -1,24 +1,26 @@
-import React, { type ReactElement } from "react";
-import Layout from "~/components/ui/layouts/AppLayout";
-import { type NextPageWithLayout } from "./_app";
-import SevenSlotsSearchForm from "~/components/SevenSlotsSearchForm";
+import PageTitle from '~/components/PageTitle';
 
-const SevenSlots: NextPageWithLayout = () => {
-  return (
-    <React.Fragment>
-      <h1
-        id="title"
-        className="justify-center py-5 text-center text-4xl font-semibold text-foreground"
-      >
-        出更易
-      </h1>
-      <SevenSlotsSearchForm />
-    </React.Fragment>
-  );
+import React from 'react';
+import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
+import { api } from '~/utils/api';
+import TableLoading from '~/components/TableLoading';
+
+const LandingPage = () => {
+    const {
+        data: weekDetails,
+        isLoading: weekDetailsLoading,
+        error: weekDetailsError
+    } = api.timetableController.getSuitableTimetables.useQuery();
+
+    if (weekDetailsLoading) return <TableLoading />;
+    if (weekDetailsError) return <>Something Went Wrong</>;
+
+    return (
+        <>
+            <PageTitle>Happy</PageTitle>
+            <SevenSlotsSearchForm defaultData={weekDetails} />
+        </>
+    );
 };
 
-SevenSlots.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
-export default SevenSlots;
+export default LandingPage;
