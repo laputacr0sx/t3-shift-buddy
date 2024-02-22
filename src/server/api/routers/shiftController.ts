@@ -2,14 +2,9 @@ import { TRPCError } from '@trpc/server';
 
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { type DayDetail } from '~/utils/customTypes';
-import { getResponseWithType, getJointDutyNumbers } from '~/utils/helper';
+import { getResponseWithType } from '~/utils/helper';
 
-import {
-    completeShiftNameRegex,
-    dutyInputRegExValidator,
-    shiftNameRegex
-} from '~/utils/regex';
+import { completeShiftNameRegex } from '~/utils/regex';
 
 import { Ratelimit } from '@upstash/ratelimit'; // for deno: see above
 import { Redis } from '@upstash/redis'; // see below for cloudflare and fastly adapters

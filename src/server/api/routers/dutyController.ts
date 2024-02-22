@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { DayDetail } from '~/utils/customTypes';
+import type { DayDetail } from '~/utils/customTypes';
 
 import {
     completeShiftNameRegex,

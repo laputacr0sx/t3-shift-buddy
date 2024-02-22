@@ -3,11 +3,11 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 import { useCallback } from 'react';
-import {
+import type {
     DefaultData,
-    type SevenSlotsSearchForm
+    SevenSlotsSearchForm
 } from '~/components/SevenSlotsSearchForm';
-import { type autoPrefix } from '~/utils/helper';
+
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { dayDetailName } from '~/utils/zodSchemas';
 

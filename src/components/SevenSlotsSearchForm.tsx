@@ -22,7 +22,7 @@ import {
     useForm
 } from 'react-hook-form';
 
-import { autoPrefix, getRacingStyle } from '~/utils/helper';
+import { getRacingStyle } from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import useShiftQuery from '~/hooks/useShiftQuery';
 

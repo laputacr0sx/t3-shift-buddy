@@ -10,7 +10,7 @@ import { userPrivateMetadataSchema, usersSchema } from '~/utils/zodSchemas';
 export const userControllerRouter = createTRPCRouter({
     createUsers: protectedProcedure
         .input(usersSchema)
-        .mutation(async ({ input, ctx }) => {
+        .mutation(async ({ input }) => {
             return clerkClient.users.createUser(input);
         }),
 

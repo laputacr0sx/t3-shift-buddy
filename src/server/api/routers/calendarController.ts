@@ -1,7 +1,6 @@
 import {
     clerkMetaProcedure,
     createTRPCRouter,
-    protectedProcedure,
     publicProcedure
 } from '~/server/api/trpc';
 import {
@@ -17,7 +16,7 @@ import { put } from '@vercel/blob';
 import * as icalParser from 'node-ical';
 
 import { TRPCError } from '@trpc/server';
-import { dayDetailSchema, userPrivateMetadataSchema } from '~/utils/zodSchemas';
+import { dayDetailSchema } from '~/utils/zodSchemas';
 
 export const calendarControllerRouter = createTRPCRouter({
     transformToEvents: publicProcedure
