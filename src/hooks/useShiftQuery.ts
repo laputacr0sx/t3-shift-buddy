@@ -35,8 +35,8 @@ function useShiftQuery(prefixData: string[] | undefined) {
                 // const prefix = autoDayDetail[i]?.prefix as string;
                 const prefix = correspondingPrefix[i] as string;
 
-                const shiftCodeWithPrefix = shiftCode.match(
-                    abbreviatedDutyNumber
+                const shiftCodeWithPrefix = abbreviatedDutyNumber.exec(
+                    shiftCode
                 )
                     ? `${prefix}${shiftCode}`
                     : `${shiftCode}`;

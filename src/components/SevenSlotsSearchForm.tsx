@@ -22,7 +22,7 @@ import {
     useForm
 } from 'react-hook-form';
 
-import { autoPrefix } from '~/utils/helper';
+import { autoPrefix, getRacingStyle } from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import useShiftQuery from '~/hooks/useShiftQuery';
 
@@ -48,11 +48,8 @@ const SevenSlotsSearchForm = ({
         AppRouter['timetableController']['getSuitableTimetables']
     >;
 }) => {
-    const [parent] = useAutoAnimate();
-
     const prefixData = defaultData.map((day) => day.prefix);
-
-    console.log(prefixData);
+    const [parent] = useAutoAnimate();
 
     const { router, handleQuery } = useShiftQuery(prefixData);
     const [newSearchParams, setNewSearchParams] =
@@ -73,6 +70,8 @@ const SevenSlotsSearchForm = ({
         }
         return dateAndShifts;
     }, [newSearchParams]);
+
+    console.log(shiftsFromSearchParamMemo);
 
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
@@ -153,28 +152,33 @@ const SevenSlotsSearchForm = ({
                         </p>
                     </FormDescription>
 
-                    {
-                        /* Map through dates obtained and generate appropriate input fields for the form */
-                        autoDayDetail.map((day, i) => {
+                    {defaultData.map(
+                        (
+                            {
+                                date,
+                                holidayDetail,
+                                racingDetail,
+                                timetable: { prefix }
+                            },
+                            i
+                        ) => {
                             const correspondingDate = moment(
-                                day.date,
+                                date,
                                 'YYYYMMDD ddd'
                             );
                             const formatedDate =
                                 correspondingDate.format('DD/MM(dd)');
                             const isRedDay =
                                 correspondingDate.isoWeekday() === 7 ||
-                                !!day.holidayDetails;
+                                !!holidayDetail;
                             const isMonday =
                                 correspondingDate.isoWeekday() === 1;
 
-                            const legitPrefix = prefixData?.slice(
-                                -autoDayDetail.length
-                            )[i];
+                            const legitPrefix = prefix;
 
                             return (
                                 <fieldset
-                                    key={day.date}
+                                    key={date}
                                     className="flex w-full flex-col items-center justify-center gap-2"
                                 >
                                     {(i === 0 || isMonday) && (
@@ -197,22 +201,9 @@ const SevenSlotsSearchForm = ({
                                                                 'w-fit items-center rounded px-1 font-mono text-sm xs:text-base',
                                                                 isRedDay &&
                                                                     'bg-rose-500/40 dark:bg-rose-300/40',
-                                                                day
-                                                                    .racingDetails
-                                                                    ?.nightRacing ===
-                                                                    0
-                                                                    ? 'border-b-2 border-b-lime-500 dark:border-b-lime-300 '
-                                                                    : day
-                                                                          .racingDetails
-                                                                          ?.nightRacing ===
-                                                                      1
-                                                                    ? 'border-b-2 border-b-violet-500 dark:border-b-violet-300'
-                                                                    : day
-                                                                          .racingDetails
-                                                                          ?.nightRacing ===
-                                                                      2
-                                                                    ? 'border-b-2 border-b-amber-500 dark:border-b-amber-300'
-                                                                    : ''
+                                                                getRacingStyle(
+                                                                    racingDetail
+                                                                )
                                                             )}
                                                         >
                                                             {formatedDate}{' '}
@@ -222,19 +213,13 @@ const SevenSlotsSearchForm = ({
                                                                 sevenSlotsSearchForm.control.getFieldState(
                                                                     field.name
                                                                 ).invalid ? (
-                                                                    `${
-                                                                        legitPrefix as string
-                                                                    }___`
+                                                                    `${legitPrefix}___`
                                                                 ) : (
                                                                     <>
-                                                                        {(
+                                                                        {abbreviatedDutyNumber.exec(
                                                                             field.value as string
-                                                                        ).match(
-                                                                            abbreviatedDutyNumber
                                                                         )
-                                                                            ? `${
-                                                                                  legitPrefix as string
-                                                                              }${
+                                                                            ? `${legitPrefix}${
                                                                                   field.value as string
                                                                               }`
                                                                             : `${
@@ -243,9 +228,7 @@ const SevenSlotsSearchForm = ({
                                                                     </>
                                                                 )
                                                             ) : (
-                                                                `${
-                                                                    legitPrefix as string
-                                                                }___`
+                                                                `${legitPrefix}___`
                                                             )}
                                                         </FormLabel>
                                                         <FormControl>
@@ -268,8 +251,8 @@ const SevenSlotsSearchForm = ({
                                     />
                                 </fieldset>
                             );
-                        })
-                    }
+                        }
+                    )}
                     <div className="flex items-center justify-center gap-8">
                         <Button
                             type="submit"

@@ -25,7 +25,8 @@ export const timetableControllerRouter = createTRPCRouter({
         async ({ ctx: { prisma } }) => {
             const correspondingMoment = moment();
             const dateDetails = getDateDetailFromId(
-                correspondingMoment.format(`[Y]Y[W]w`)
+                correspondingMoment.format(`[Y]Y[W]w`),
+                true
             );
 
             const timetables = await prisma.timetable

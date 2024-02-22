@@ -69,8 +69,17 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 
 const columnHelper = createColumnHelper<Rota>();
 
-type TestTableProps<TData> = {
-    defaultData: TData[];
+const DateCell = ({ getValue }: CellProps) => {
+    const rowDate = moment(getValue() as string, 'YYYYMMDD ddd');
+    return (
+        <div className="flex items-center justify-center gap-1">
+            <section>
+                <p className="text-sm">{rowDate.format('M')}</p>
+                <p className="text-lg font-bold">{rowDate.format('DD')}</p>
+            </section>
+            <p>{rowDate.format('dd')}</p>
+        </div>
+    );
 };
 
 const OddHours = ({
@@ -96,6 +105,10 @@ const OddHours = ({
     }
     return <p>±0</p>;
 };
+
+interface TestTableProps<TData> {
+    defaultData: TData[];
+}
 
 export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     const [data, setData] = useState<Rota[]>([]);
@@ -173,20 +186,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         columnHelper.accessor('date', {
             id: 'date',
             header: '日期',
-            cell: (row) => {
-                const rowDate = moment(row.getValue(), 'YYYYMMDD ddd');
-                return (
-                    <div className="flex items-center justify-center gap-1">
-                        <section>
-                            <p className="text-sm">{rowDate.format('M')}</p>
-                            <p className="text-lg font-bold">
-                                {rowDate.format('DD')}
-                            </p>
-                        </section>
-                        <p>{rowDate.format('dd')}</p>
-                    </div>
-                );
-            }
+            cell: DateCell
         }),
         columnHelper.accessor((row) => row.timetable?.prefix, {
             id: 'prefix',

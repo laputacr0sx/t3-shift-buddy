@@ -8,11 +8,10 @@ import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import type * as icalParser from 'node-ical';
 import { type DateArray, createEvents, type EventAttributes } from 'ics';
 import { type Rota } from './standardRosters';
-import { type inferProcedureOutput } from '@trpc/server';
 
-import { ValueOf } from 'next/dist/shared/lib/constants';
+import { type ValueOf } from 'next/dist/shared/lib/constants';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
-import { Timetable } from '@prisma/client';
+import type { Timetable } from '@prisma/client';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -323,13 +322,18 @@ export type DateDetail = {
     racingDetail: Fixture | null;
     holidayDetail: Holiday | null;
 };
-export function getDateDetailFromId(weekId: string): DateDetail[] {
+export function getDateDetailFromId(
+    weekId: string,
+    moreDays = false
+): DateDetail[] {
     const [year, week] = weekId.match(/\d+/gim) ?? [
         moment().year().toString(),
         moment().week().toString()
     ];
 
-    const correspondingDates = getNextWeekDates(year, week);
+    const correspondingDates = moreDays
+        ? getDatesTillSunday()
+        : getNextWeekDates(year, week);
 
     const formattedDated = correspondingDates.map((date) => {
         return moment(date).locale('zh-hk').format('YYYYMMDD');
@@ -358,16 +362,6 @@ export function getDateDetailFromId(weekId: string): DateDetail[] {
         )[0];
 
         const prefix = draftPrefix(racingDetail, weekDayNum, isHoliday);
-
-        // const prefix = racingDetail
-        //     ? racingDetail.nightRacing === 0
-        //         ? '71'
-        //         : racingDetail.nightRacing === 1 && racingDetail.venue === 'H'
-        //         ? '14'
-        //         : '13'
-        //     : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-        //     ? '75'
-        //     : '15';
 
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),
@@ -611,3 +605,19 @@ export const getRota = (categoryName: string) => {
             return rotaKLN;
     }
 };
+
+export function getRacingStyle(racingDetail: Fixture | null) {
+    switch (racingDetail?.nightRacing) {
+        case 0:
+            return 'border-b-2 border-b-lime-500 dark:border-b-lime-300';
+
+        case 1:
+            return 'border-b-2 border-b-violet-500 dark:border-b-violet-300';
+
+        case 2:
+            return 'border-b-2 border-b-amber-500 dark:border-b-amber-300';
+
+        default:
+            return '';
+    }
+}

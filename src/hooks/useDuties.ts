@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { type SafeParseReturnType } from 'zod';
-import { api } from '~/utils/api';
 
 interface UseDuty {
     rotaParser: SafeParseReturnType<string[], string[]>;

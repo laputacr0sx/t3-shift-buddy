@@ -1,5 +1,5 @@
-import { TRPCError } from '@trpc/server';
-import { getErrorShape } from '@trpc/server/shared';
+import type { TRPCError } from '@trpc/server';
+
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
