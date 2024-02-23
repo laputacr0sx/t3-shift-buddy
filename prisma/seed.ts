@@ -1,4 +1,5 @@
 import { prisma } from '../src/server/db';
+import { timetables } from './seeds/timetables';
 import { D14 } from './seeds/timetables/D14';
 
 import { F75 } from './seeds/timetables/F75';
@@ -24,6 +25,9 @@ async function main() {
     // await prisma.roster.createMany({
     //     data: rosters
     // });
+
+    await prisma.timetable.createMany({ data: timetables });
+
     await prisma.duty.createMany({
         data: [...V13, ...R15, ...Z71, ...D14, ...F75]
     });
