@@ -174,7 +174,12 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     } = api.dutyController.getDutiesBySequence.useQuery(actualRotaSequence);
 
     const { mutate: mutateSequence } =
-        api.sequenceController.demoMutateSequence.useMutation({});
+        api.sequenceController.demoMutateSequence.useMutation({
+            onSuccess: () =>
+                toast.success('更新成功', { position: 'bottom-center' }),
+            onError: () =>
+                toast.error('更新失敗', { position: 'bottom-center' })
+        });
 
     const standardHours = standardDuties?.reduce((hours, duty) => {
         const duration = +convertDurationDecimal(duty.duration);

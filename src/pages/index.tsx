@@ -12,12 +12,14 @@ const LandingPage = () => {
         error: weekDetailsError
     } = api.timetableController.getSuitableTimetables.useQuery();
 
+    console.log(weekDetails);
+
     if (weekDetailsLoading) return <TableLoading />;
     if (weekDetailsError) return <>Something Went Wrong</>;
 
     return (
         <>
-            <PageTitle>Happy</PageTitle>
+            <PageTitle>出更易</PageTitle>
             <SevenSlotsSearchForm defaultData={weekDetails} />
         </>
     );

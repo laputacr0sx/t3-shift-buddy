@@ -29,10 +29,9 @@ function UserMetadataForm() {
     const correspondingMoment = moment();
 
     const { mutate } = api.userController.setUserMetadata.useMutation({
-        onSuccess: () => toast.success('保存成功'),
-        onError: () => {
-            return toast.error('保存失敗');
-        }
+        onSuccess: () =>
+            toast.success('保存成功', { position: 'bottom-center' }),
+        onError: () => toast.error('保存失敗', { position: 'bottom-center' })
     });
 
     const userPrivateMetadataForm = useForm<UserPrivateMetadata>({
@@ -42,7 +41,7 @@ function UserMetadataForm() {
             staffId: '',
             weekNumber: 0
         },
-        values: userData || { row: '', staffId: '', weekNumber: 0 }
+        values: userData ?? { row: '', staffId: '', weekNumber: 0 }
     });
 
     function metadataHandler(values: UserPrivateMetadata) {

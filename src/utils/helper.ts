@@ -609,13 +609,10 @@ export function getRacingStyle(racingDetail: Fixture | null) {
     switch (racingDetail?.nightRacing) {
         case 0:
             return 'border-b-2 border-b-lime-500 dark:border-b-lime-300';
-
         case 1:
             return 'border-b-2 border-b-violet-500 dark:border-b-violet-300';
-
         case 2:
             return 'border-b-2 border-b-amber-500 dark:border-b-amber-300';
-
         default:
             return '';
     }

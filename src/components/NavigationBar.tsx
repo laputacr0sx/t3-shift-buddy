@@ -30,20 +30,20 @@ interface DutyAppPages {
 }
 const dutyAppPages: DutyAppPages[] = [
     {
-        title: '首頁',
+        title: '出更易',
         description: '按日子查詢更份。',
         href: '/'
     },
     {
-        title: '出更易',
-        description: '查詢各週份Standard Roster。',
+        title: '記更易',
+        description: '紀錄各週份Standard Roster。',
         href: '/ezduty'
     },
-    {
-        title: '搵更易',
-        description: '列出現行更表明細。',
-        href: '/allShifts'
-    },
+    // {
+    //     title: '搵更易',
+    //     description: '列出現行更表明細。',
+    //     href: '/allShifts'
+    // },
     {
         title: '用戶資料',
         description: '查詢或更改用戶資料。',

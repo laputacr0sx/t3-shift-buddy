@@ -7,14 +7,6 @@ import {
 } from '~/server/api/trpc';
 
 export const sequenceControllerRouter = createTRPCRouter({
-    demoGetSequence: protectedProcedure.query(async ({ ctx }) => {
-        const sequence = await ctx.prisma.sequence.findUnique({
-            where: { id: 'Y2024W1A86' }
-        });
-
-        return sequence;
-    }),
-
     demoMutateSequence: clerkMetaProcedure
         .input(
             z.object({
@@ -44,7 +36,6 @@ export const sequenceControllerRouter = createTRPCRouter({
                         dutyNumbers: sequence,
                         createdAt: new Date(),
                         updatedAt: new Date(),
-
                         Roster: {
                             connectOrCreate: {
                                 create: { id: rosterId },
@@ -62,8 +53,6 @@ export const sequenceControllerRouter = createTRPCRouter({
                                 where: { id: staffId }
                             }
                         }
-                        // Roster: { connect: { id: rosterId } },
-                        // Staff: { connect: { id: staffId } }
                     }
                 });
 

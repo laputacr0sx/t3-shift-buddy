@@ -45,7 +45,11 @@ export const weekDetailsRouter = createTRPCRouter({
                     '[Y]YYYY[W]WW'
                 )}${row}`;
 
-                console.log(sequenceIdInQuery);
+                const { sequence, rowInQuery } = getRosterRow(
+                    rotaCat,
+                    row,
+                    weekDifference
+                );
 
                 let dutyNumbers: { dutyNumbers: string[] };
                 try {
@@ -58,15 +62,9 @@ export const weekDetailsRouter = createTRPCRouter({
                     });
                 } catch (error) {
                     dutyNumbers = {
-                        dutyNumbers: ['RD', 'RD', 'RD', 'RD', 'RD', 'RD', 'RD']
+                        dutyNumbers: sequence
                     };
                 }
-
-                const { sequence, rowInQuery } = getRosterRow(
-                    rotaCat,
-                    row,
-                    weekDifference
-                );
 
                 const combinedDetails = combineDateWithSequence(
                     datePrefix,

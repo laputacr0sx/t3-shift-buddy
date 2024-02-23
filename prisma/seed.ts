@@ -1,6 +1,7 @@
 import { prisma } from '../src/server/db';
 import { timetables } from './seeds/timetables';
 import { D14 } from './seeds/timetables/D14';
+import { F14 } from './seeds/timetables/F14';
 
 import { F75 } from './seeds/timetables/F75';
 import { R15 } from './seeds/timetables/R15';
@@ -29,7 +30,7 @@ async function main() {
     await prisma.timetable.createMany({ data: timetables });
 
     await prisma.duty.createMany({
-        data: [...V13, ...R15, ...Z71, ...D14, ...F75]
+        data: [...V13, ...R15, ...Z71, ...F75, ...F14]
     });
 
     // await prisma.sequence.upsert({ create: {}, update: {}, where: {} });
