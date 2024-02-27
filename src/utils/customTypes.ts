@@ -4,8 +4,10 @@ import type {
     dayDetailSchema,
     rawShiftArraySchema,
     userPrivateMetadataSchema,
-    rostaSchema
+    rostaSchema,
+    weatherSchema
 } from './zodSchemas';
+import { getFitTimetable } from './helper';
 
 export const workLocation = [
     'HUH',
@@ -28,7 +30,15 @@ export const dayOff = [
     'ALS'
 ] as const;
 
+export type DateDetails = ReturnType<typeof getFitTimetable>;
+export type DateDetailsWithSequences = DateDetails[0] & {
+    standardDuty: string;
+    actualDuty: string;
+};
+
 export type DayDetail = z.infer<typeof dayDetailSchema>;
+
+export type WeatherForecast = z.infer<typeof weatherSchema>;
 
 export type RawShiftArray = {
     legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;

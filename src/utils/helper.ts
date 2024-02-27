@@ -1,7 +1,13 @@
 import moment from 'moment';
 import { type z } from 'zod';
 import { toast } from 'react-hot-toast';
-import type { StaffId, DayDetail, Rosta } from './customTypes';
+import type {
+    StaffId,
+    DayDetail,
+    Rosta,
+    DateDetails,
+    DateDetailsWithSequences
+} from './customTypes';
 import { completeShiftNameRegex, specialDutyRegex } from './regex';
 import holidayJson, { type Holiday } from '~/utils/holidayHK';
 import fixtures, { type Fixture } from '~/utils/hkjcFixture';
@@ -576,13 +582,11 @@ export function getFitTimetable(
     });
 }
 
-type DateDetails = ReturnType<typeof getFitTimetable>;
-
 export function combineDateWithSequence(
     dates: DateDetails,
     standardSequence: string[],
     actualSequence: string[] | null
-) {
+): DateDetailsWithSequences[] {
     const sequenceDetail = dates?.map((date, i) => ({
         ...date,
         standardDuty: standardSequence[i] as string,

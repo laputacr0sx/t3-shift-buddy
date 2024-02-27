@@ -43,7 +43,13 @@ declare module '@tanstack/table-core' {
     }
 }
 
-export type Rota = NonNullable<ReturnType<typeof combineDateWithSequence>>[0];
+// export type Rota = NonNullable<ReturnType<typeof combineDateWithSequence>>[0];
+export type Rota = inferProcedureOutput<
+    AppRouter['weekDetailsController']['getDetails']
+>['detailsWithWeather'][0];
+type WeatherRota = inferProcedureOutput<
+    AppRouter['weekDetailsController']['getDetails']
+>['detailsWithWeather'];
 
 type CellProps = CellContext<Rota, unknown>;
 
@@ -192,6 +198,14 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             id: 'date',
             header: '日期',
             cell: DateCell
+        }),
+        columnHelper.accessor((row) => row.weather, {
+            id: 'Weather',
+            header: 'Weather',
+            cell: ({ getValue, row, column, table }: CellProps) => {
+                const obj = getValue() as WeatherRota[0]['weather'];
+                return obj?.forecastMintemp.value;
+            }
         }),
         columnHelper.accessor((row) => row.timetable?.prefix, {
             id: 'prefix',

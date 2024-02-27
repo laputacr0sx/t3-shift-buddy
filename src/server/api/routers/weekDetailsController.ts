@@ -1,16 +1,21 @@
+import { Timetable } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import moment from 'moment';
 import { z } from 'zod';
 
 import { clerkMetaProcedure, createTRPCRouter } from '~/server/api/trpc';
+import { DateDetailsWithSequences, WeatherForecast } from '~/utils/customTypes';
 import {
+    DateDetail,
     combineDateWithSequence,
     getDateDetailFromId,
     getFitTimetable,
+    getResponseWithType,
     getRosterRow,
     getRota,
     stringifyCategory
 } from '~/utils/helper';
+import { weatherSchema } from '~/utils/zodSchemas';
 
 export const weekDetailsRouter = createTRPCRouter({
     getDetails: clerkMetaProcedure
@@ -76,7 +81,37 @@ export const weekDetailsRouter = createTRPCRouter({
                     `Y年WW期`
                 )}${tc}更行序${rowInQuery + 1}`;
 
-                return { combinedDetails, articulatedTitle };
+                const hkoUri =
+                    'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
+
+                const { weatherForecast } = await getResponseWithType(
+                    hkoUri,
+                    weatherSchema
+                );
+
+                type Weather = WeatherForecast['weatherForecast'][0];
+
+                const detailsWithWeather = combinedDetails.reduce<
+                    (DateDetailsWithSequences & {
+                        timetable: Timetable;
+                        weather: Weather | null;
+                    })[]
+                >((weatherDate, date) => {
+                    const weather: Weather | undefined = weatherForecast.filter(
+                        (dayWeather) =>
+                            moment(date.date, 'YYYYMMDD ddd').format(
+                                'YYYYMMDD'
+                            ) === dayWeather.forecastDate
+                    )[0];
+
+                    if (!weather)
+                        return [...weatherDate, { ...date, weather: null }];
+                    return [...weatherDate, { ...date, weather }];
+                }, []);
+
+                // console.log(testWeather);
+
+                return { detailsWithWeather, articulatedTitle };
             }
         )
 });
