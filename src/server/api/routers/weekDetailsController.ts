@@ -3,10 +3,10 @@ import { TRPCError } from '@trpc/server';
 import moment from 'moment';
 import { z } from 'zod';
 
-import { clerkMetaProcedure, createTRPCRouter } from '~/server/api/trpc';
+import { clerkMetaProcedure, createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import { DateDetailsWithSequences, WeatherForecast } from '~/utils/customTypes';
 import {
-    DateDetail,
+    type DateDetail,
     combineDateWithSequence,
     getDateDetailFromId,
     getFitTimetable,
@@ -38,7 +38,10 @@ export const weekDetailsRouter = createTRPCRouter({
                         orderBy: { dateOfEffective: 'desc' }
                     })
                     .catch(() => {
-                        throw new TRPCError({ code: 'BAD_REQUEST' });
+                        throw new TRPCError({
+                            code: 'BAD_REQUEST',
+                            message: 'Cannot find timetables!'
+                        });
                     });
 
                 const datePrefix = getFitTimetable(timetables, dateDetails);
@@ -113,5 +116,5 @@ export const weekDetailsRouter = createTRPCRouter({
 
                 return { detailsWithWeather, articulatedTitle };
             }
-        )
+        ),
 });

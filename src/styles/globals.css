@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 210 40% 97%;
-    --foreground: 222 84% 5%;
+    --foreground: 228 84% 5%;
 
     --navbar: 0 75% 71%;
     --navbar-foreground: 0 0% 0%
@@ -28,8 +28,8 @@
     --secondary: 222 84% 5%;
     --secondary-foreground: 210 40% 98%;
 
-    --accent: 210 40% 92%;
-    --accent-foreground: 222 84% 5%;
+    --accent: 22 80% 24%
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 222 84% 5%;
@@ -39,9 +39,11 @@
     --radius: 0.5rem;
   }
 
+  
   .dark {
     --background: 222 84% 5%;
     --foreground: 210 40% 98%;
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
@@ -65,7 +67,11 @@
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+/* 
+    --accent: 210 40% 17.5%;
+--accent-foreground: 222.2 47.4% 98%; */
 
+    
     --destructive: 0 62.8% 57%;
     --destructive-foreground: 0 85.7% 97.3%;
 

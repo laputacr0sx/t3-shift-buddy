@@ -63,7 +63,7 @@ export function NavigationBar() {
     const { isSignedIn, user } = useUser();
 
     return (
-        <NavigationMenu className="mx-2 my-1">
+        <NavigationMenu className="mx-2 my-1" id="top-bar">
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <SignedOut>

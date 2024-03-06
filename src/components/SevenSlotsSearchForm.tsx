@@ -214,7 +214,7 @@ const SevenSlotsSearchForm = ({
                                                             className={cn(
                                                                 'w-fit items-center rounded px-1 font-mono text-sm xs:text-base',
                                                                 isRedDay &&
-                                                                    'bg-rose-500/40 dark:bg-rose-300/40',
+                                                                'bg-rose-500/40 dark:bg-rose-300/40',
                                                                 getRacingStyle(
                                                                     racingDetail
                                                                 )
@@ -235,12 +235,10 @@ const SevenSlotsSearchForm = ({
                                                                         ).match(
                                                                             abbreviatedDutyNumber
                                                                         )
-                                                                            ? `${legitPrefix}${
-                                                                                  field.value as string
-                                                                              }`
-                                                                            : `${
-                                                                                  field.value as string
-                                                                              }`}
+                                                                            ? `${legitPrefix}${field.value as string
+                                                                            }`
+                                                                            : `${field.value as string
+                                                                            }`}
                                                                     </>
                                                                 )
                                                             ) : (
@@ -303,7 +301,7 @@ const SevenSlotsSearchForm = ({
                     </h1>
                     <Button
                         onClick={async () => {
-                            await router.push('#title');
+                            await router.push('top-bar');
                         }}
                         className="absolute right-0 top-1"
                     >

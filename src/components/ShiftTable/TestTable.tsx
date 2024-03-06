@@ -35,6 +35,7 @@ import { TRPCError, type inferProcedureOutput } from '@trpc/server';
 import toast from 'react-hot-toast';
 import DutyDetailsPDF from '../DutyDetailsPDF';
 import { type AppRouter } from '~/server/api/root';
+import { cn } from '~/lib/utils';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,9 +48,9 @@ declare module '@tanstack/table-core' {
 export type Rota = inferProcedureOutput<
     AppRouter['weekDetailsController']['getDetails']
 >['detailsWithWeather'][0];
-type WeatherRota = inferProcedureOutput<
-    AppRouter['weekDetailsController']['getDetails']
->['detailsWithWeather'];
+// type WeatherRota = inferProcedureOutput<
+//     AppRouter['weekDetailsController']['getDetails']
+// >['detailsWithWeather'];
 
 type CellProps = CellContext<Rota, unknown>;
 
@@ -203,7 +204,8 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             id: 'Weather',
             header: 'Weather',
             cell: ({ getValue, row, column, table }: CellProps) => {
-                const obj = getValue() as WeatherRota[0]['weather'];
+                // const obj = getValue() as WeatherRota[0]['weather'];
+                const obj = getValue() as Rota['weather'];
                 return obj?.forecastMintemp.value;
             }
         }),
@@ -269,21 +271,37 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 </TableHeader>
                 <TableBody className="font-mono">
                     {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell
-                                        key={cell.id}
-                                        className="items-center justify-center whitespace-nowrap text-center"
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ))
+                        table.getRowModel().rows.map((row) => {
+                            const rowDate = moment(
+                                row.getValue('date'),
+                                'YYYYMMDD ddd'
+                            );
+                            const today = moment();
+                            const isToday = rowDate.isSame(today, 'd');
+
+                            return (
+                                <TableRow
+                                    key={row.id}
+                                    className={cn(isToday && 'bg-accent')}
+                                >
+                                    {row.getVisibleCells().map((cell) => {
+                                        return (
+                                            <TableCell
+                                                key={cell.id}
+                                                className={cn(
+                                                    'items-center justify-center whitespace-nowrap text-center'
+                                                )}
+                                            >
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                            );
+                        })
                     ) : (
                         <TableRow>
                             <TableCell
