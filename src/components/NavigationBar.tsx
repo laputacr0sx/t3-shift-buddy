@@ -56,6 +56,11 @@ const externalPages: DutyAppPages[] = [
         title: 'OKMALL',
         description: '開啟MTR OKMALL分頁。',
         href: 'https://okmall.mtr.com.hk/'
+    },
+    {
+        title: 'ESS',
+        description: '開啟ESS分頁',
+        href: 'https://okmall.mtr.com.hk/'
     }
 ];
 
