@@ -76,7 +76,7 @@ export const timetableControllerRouter = createTRPCRouter({
 
             console.log(testWeather);
 
-            return datePrefix;
+            return testWeather;
         }
     )
 });

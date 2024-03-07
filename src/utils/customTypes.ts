@@ -49,3 +49,5 @@ export type UserPrivateMetadata = z.infer<typeof userPrivateMetadataSchema>;
 export type StaffId = z.infer<typeof staffIdSchema>;
 
 export type Rosta = z.infer<typeof rostaSchema>;
+
+export type CurrentWeather = string;

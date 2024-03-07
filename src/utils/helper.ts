@@ -621,3 +621,41 @@ export function getRacingStyle(racingDetail: Fixture | null) {
             return '';
     }
 }
+
+export function convertWeatherIcons(iconId: string | undefined): string {
+    if (!iconId) { return ''; }
+
+    const iconTable: Record<string, string> = {
+        '50': 'sunny-day',
+        '51': `fair-day`,
+        '52': `cloudy-day-3`,
+        '53': `fair-day-rain`,
+        '54': `rainy-3`,
+        '60': `cloudy`,
+        '61': `overcast`,
+        '62': `rainy-4`,
+        '63': `rainy-6`,
+        '64': `rainy-8`,
+        '65': `thunderstorms`,
+        '70': `moon-new`,
+        '71': `moon-waxing-crescent`,
+        '72': `moon-first-quarter`,
+        '73': `moon-full`,
+        '74': `moon-last-quarter`,
+        '75': `moon-waning-crescent`,
+        '76': `cloudy-day-3`,
+        '77': `fair-day`,
+        '80': `wind`,
+        '81': `dry`,
+        '82': `humid`,
+        '83': `fog`,
+        '84': `mist`,
+        '85': `haze`,
+        '90': `hot`,
+        '91': `warm`,
+        '92': `cool`,
+        '93': `cold`,
+        'unavailable': `exceptional`
+    }
+    return iconTable[iconId] as string;
+}

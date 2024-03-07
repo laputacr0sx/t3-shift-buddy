@@ -22,7 +22,7 @@ import {
     useForm
 } from 'react-hook-form';
 
-import { getRacingStyle } from '~/utils/helper';
+import { convertWeatherIcons, getRacingStyle } from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import useShiftQuery from '~/hooks/useShiftQuery';
 
@@ -42,6 +42,7 @@ import { api } from '~/utils/api';
 import TableLoading from './TableLoading';
 import { DayDetailTable } from './ShiftTable/DayDetailTable';
 import { DayDetailColumn } from './ShiftTable/DayDetailColumn';
+import Image from 'next/image';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -172,7 +173,8 @@ const SevenSlotsSearchForm = ({
                                 date,
                                 holidayDetail,
                                 racingDetail,
-                                timetable: { prefix }
+                                timetable: { prefix },
+                                weather
                             },
                             i
                         ) => {
@@ -189,6 +191,9 @@ const SevenSlotsSearchForm = ({
                                 correspondingDate.isoWeekday() === 1;
 
                             const legitPrefix = prefix;
+
+                            const icon = weather?.ForecastIcon.toString();
+                            const iconURI = convertWeatherIcons(icon);
 
                             return (
                                 <fieldset
@@ -244,6 +249,7 @@ const SevenSlotsSearchForm = ({
                                                             ) : (
                                                                 `${legitPrefix}___`
                                                             )}
+                                                            {icon ? <Image src={`/image/weatherIcons/animated/${iconURI}.svg`} alt={iconURI} width={24} height={24} /> : null}
                                                         </FormLabel>
                                                         <FormControl>
                                                             <Input

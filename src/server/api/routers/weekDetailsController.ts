@@ -4,7 +4,10 @@ import moment from 'moment';
 import { z } from 'zod';
 
 import { clerkMetaProcedure, createTRPCRouter } from '~/server/api/trpc';
-import { type DateDetailsWithSequences, type WeatherForecast } from '~/utils/customTypes';
+import {
+    type DateDetailsWithSequences,
+    type WeatherForecast
+} from '~/utils/customTypes';
 import {
     combineDateWithSequence,
     getDateDetailFromId,
@@ -83,15 +86,22 @@ export const weekDetailsRouter = createTRPCRouter({
                     `Y年WW期`
                 )}${tc}更行序${rowInQuery + 1}`;
 
-                const hkoUri =
+                const forecastURL =
                     'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
 
                 const { weatherForecast } = await getResponseWithType(
-                    hkoUri,
+                    forecastURL,
                     weatherSchema
                 );
 
                 type Weather = WeatherForecast['weatherForecast'][0];
+
+                // const currentWeatherURL =
+                //     'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc';
+                // const currentWeather = await getResponseWithType(
+                //     currentWeatherURL,
+                //     weatherSchema
+                // );
 
                 const detailsWithWeather = combinedDetails.reduce<
                     (DateDetailsWithSequences & {
@@ -115,5 +125,5 @@ export const weekDetailsRouter = createTRPCRouter({
 
                 return { detailsWithWeather, articulatedTitle };
             }
-        ),
+        )
 });

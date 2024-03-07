@@ -22,9 +22,7 @@ import {
 import moment from 'moment';
 import { Input } from '../ui/input';
 
-import {
-    convertDurationDecimal
-} from '~/utils/helper';
+import { convertDurationDecimal, convertWeatherIcons } from '~/utils/helper';
 import { api } from '~/utils/api';
 import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
@@ -35,6 +33,8 @@ import toast from 'react-hot-toast';
 import DutyDetailsPDF from '../DutyDetailsPDF';
 import { type AppRouter } from '~/server/api/root';
 import { cn } from '~/lib/utils';
+import Image from 'next/image';
+import { Label } from '../ui/label';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -200,35 +200,50 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         //     cell: DateCell
         // }),
 
-        columnHelper.accessor((row) => {
-            const weather = row.weather;
-            const hTemp = weather?.forecastMaxtemp.value;
-            const lTemp = weather?.forecastMintemp.value;
-            const rowDate = moment(row.date, 'YYYYMMDD ddd');
+        columnHelper.accessor(
+            (row) => {
+                const weather = row.weather;
+                const hTemp = weather?.forecastMaxtemp.value;
+                const lTemp = weather?.forecastMintemp.value;
+                const rowDate = moment(row.date, 'YYYYMMDD ddd');
 
-            const icon = weather?.ForecastIcon
+                const icon = weather?.ForecastIcon.toString();
+                const iconURI = convertWeatherIcons(icon);
 
-            return (
-                <div>
-                    <div className="flex items-center justify-center gap-1">
-                        <section>
-                            <p className="text-sm">{rowDate.format('M')}</p>
-                            <p className="text-lg font-bold">{rowDate.format('DD')}</p>
-                        </section>
-                        <p>{rowDate.format('dd')}</p>
+                return (
+                    <div className='flex justify-center items-center gap-1'>
+                        <div className="flex items-center justify-center gap-1">
+                            <section className='flex flex-col justify-center items-center'>
+                                <Label className="text-sm">{rowDate.format('M')}</Label>
+                                <Label className="text-lg font-bold">
+                                    {rowDate.format('DD')}
+                                </Label>
+                            </section>
+                            <Label>{rowDate.format('dd')}</Label>
+                        </div>
+                        {weather ? (
+                            <div className="flex font-extralight flex-col justify-center items-center">
+                                <Label className="dark:text-indigo-300 text-indigo-700">{lTemp}℃</Label>
+                                <Label className="dark:text-rose-300 text-rose-700">{hTemp}℃</Label>
+                            </div>
+                        ) : null}
+                        {icon ? (
+                            <Image
+                                src={`/image/weatherIcons/animated/${iconURI}.svg`}
+                                alt={`${iconURI}`}
+                                width={30}
+                                height={30}
+                            />
+                        ) : null}
                     </div>
-                    {weather ?
-                        <div className='flex font-extralight'>
-                            <p className='text-indigo-300'>{lTemp}℃</p>
-                            <p> - </p>
-                            <p className='text-rose-300'>{hTemp}℃</p>
-                        </div> : null}
-                </div>
-            )
-        }, {
-            id: 'date',
-            header: '日期', cell: props => props.getValue()
-        }),
+                );
+            },
+            {
+                id: 'date',
+                header: '日期',
+                cell: (props) => props.getValue()
+            }
+        ),
         columnHelper.accessor((row) => row.timetable?.prefix, {
             id: 'prefix',
             header: '時間表'
@@ -372,7 +387,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                     </TableRow>
                 </TableFooter>
             </Table>
-            {/* <pre>{JSON.stringify(data, null, '\t')}</pre> */}
             <Button
                 variant={'outline'}
                 size={'sm'}
@@ -385,9 +399,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             >
                 更新更份
             </Button>
-            {actualDuties ? (
-                <DutyDetailsPDF dutyDetails={actualDuties} />
-            ) : null}
         </>
     );
 };
