@@ -50,4 +50,4 @@ export type StaffId = z.infer<typeof staffIdSchema>;
 
 export type Rosta = z.infer<typeof rostaSchema>;
 
-export type CurrentWeather = string;
+export type Weather = WeatherForecast['weatherForecast'][0];

@@ -43,13 +43,9 @@ declare module '@tanstack/table-core' {
     }
 }
 
-// export type Rota = NonNullable<ReturnType<typeof combineDateWithSequence>>[0];
 export type Rota = inferProcedureOutput<
     AppRouter['weekDetailsController']['getDetails']
 >['detailsWithWeather'][0];
-// type WeatherRota = inferProcedureOutput<
-//     AppRouter['weekDetailsController']['getDetails']
-// >['detailsWithWeather'];
 
 type CellProps = CellContext<Rota, unknown>;
 

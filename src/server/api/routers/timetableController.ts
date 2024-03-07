@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import moment from 'moment';
 
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { type WeatherForecast } from '~/utils/customTypes';
+import { Weather, type WeatherForecast } from '~/utils/customTypes';
 import {
     type DateDetail,
     getDateDetailFromId,
@@ -55,7 +55,7 @@ export const timetableControllerRouter = createTRPCRouter({
                 weatherSchema
             );
 
-            type Weather = WeatherForecast['weatherForecast'][0];
+
 
             const testWeather = datePrefix.reduce<
                 (DateDetail & {
