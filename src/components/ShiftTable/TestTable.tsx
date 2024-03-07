@@ -76,7 +76,7 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 
 const columnHelper = createColumnHelper<Rota>();
 
-const DateCell = ({ getValue }: CellProps) => {
+const DateCell = ({ getValue, row, column, table }: CellProps) => {
     const rowDate = moment(getValue() as string, 'YYYYMMDD ddd');
     return (
         <div className="flex items-center justify-center gap-1">
@@ -195,19 +195,40 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     }, 0);
 
     const columns = [
-        columnHelper.accessor('date', {
+        // columnHelper.accessor('date', {
+        //     id: 'date',
+        //     header: '日期',
+        //     cell: DateCell
+        // }),
+
+        columnHelper.accessor((row) => {
+            const weather = row.weather;
+            const hTemp = weather?.forecastMaxtemp.value;
+            const lTemp = weather?.forecastMintemp.value;
+            const rowDate = moment(row.date, 'YYYYMMDD ddd');
+
+            console.log({ rowDate, hTemp, lTemp });
+            // return { rowDate, hTemp, lTemp };
+            return (
+                <div>
+                    <div className="flex items-center justify-center gap-1">
+                        <section>
+                            <p className="text-sm">{rowDate.format('M')}</p>
+                            <p className="text-lg font-bold">{rowDate.format('DD')}</p>
+                        </section>
+                        <p>{rowDate.format('dd')}</p>
+                    </div>
+                    {weather ?
+                        <div className='flex font-extralight'>
+                            <p className='text-indigo-300'>{lTemp}℃</p>
+                            <p> - </p>
+                            <p className='text-rose-300'>{hTemp}℃</p>
+                        </div> : null}
+                </div>
+            )
+        }, {
             id: 'date',
-            header: '日期',
-            cell: DateCell
-        }),
-        columnHelper.accessor((row) => row.weather, {
-            id: 'Weather',
-            header: 'Weather',
-            cell: ({ getValue, row, column, table }: CellProps) => {
-                // const obj = getValue() as WeatherRota[0]['weather'];
-                const obj = getValue() as Rota['weather'];
-                return obj?.forecastMintemp.value;
-            }
+            header: '日期', cell: props => props.getValue()
         }),
         columnHelper.accessor((row) => row.timetable?.prefix, {
             id: 'prefix',
@@ -261,9 +282,9 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(
-                                              header.column.columnDef.header,
-                                              header.getContext()
-                                          )}
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
                                 </TableHead>
                             ))}
                         </TableRow>
