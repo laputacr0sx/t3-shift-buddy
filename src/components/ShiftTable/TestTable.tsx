@@ -23,7 +23,6 @@ import moment from 'moment';
 import { Input } from '../ui/input';
 
 import {
-    type combineDateWithSequence,
     convertDurationDecimal
 } from '~/utils/helper';
 import { api } from '~/utils/api';
@@ -76,7 +75,7 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 
 const columnHelper = createColumnHelper<Rota>();
 
-const DateCell = ({ getValue, row, column, table }: CellProps) => {
+const DateCell = ({ getValue }: CellProps) => {
     const rowDate = moment(getValue() as string, 'YYYYMMDD ddd');
     return (
         <div className="flex items-center justify-center gap-1">
@@ -207,8 +206,8 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
             const lTemp = weather?.forecastMintemp.value;
             const rowDate = moment(row.date, 'YYYYMMDD ddd');
 
-            console.log({ rowDate, hTemp, lTemp });
-            // return { rowDate, hTemp, lTemp };
+            const icon = weather?.ForecastIcon
+
             return (
                 <div>
                     <div className="flex items-center justify-center gap-1">

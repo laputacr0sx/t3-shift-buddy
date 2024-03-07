@@ -1,12 +1,11 @@
-import { Timetable } from '@prisma/client';
+import { type Timetable } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import moment from 'moment';
 import { z } from 'zod';
 
-import { clerkMetaProcedure, createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { DateDetailsWithSequences, WeatherForecast } from '~/utils/customTypes';
+import { clerkMetaProcedure, createTRPCRouter } from '~/server/api/trpc';
+import { type DateDetailsWithSequences, type WeatherForecast } from '~/utils/customTypes';
 import {
-    type DateDetail,
     combineDateWithSequence,
     getDateDetailFromId,
     getFitTimetable,
