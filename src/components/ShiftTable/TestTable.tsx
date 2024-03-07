@@ -30,7 +30,6 @@ import { Button } from '../ui/button';
 import { rotaSchema } from '~/utils/zodSchemas';
 import { TRPCError, type inferProcedureOutput } from '@trpc/server';
 import toast from 'react-hot-toast';
-import DutyDetailsPDF from '../DutyDetailsPDF';
 import { type AppRouter } from '~/server/api/root';
 import { cn } from '~/lib/utils';
 import Image from 'next/image';
@@ -61,6 +60,7 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 
     return (
         <Input
+            width={12}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={onBlur}
@@ -70,19 +70,6 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 };
 
 const columnHelper = createColumnHelper<Rota>();
-
-const DateCell = ({ getValue }: CellProps) => {
-    const rowDate = moment(getValue() as string, 'YYYYMMDD ddd');
-    return (
-        <div className="flex items-center justify-center gap-1">
-            <section>
-                <p className="text-sm">{rowDate.format('M')}</p>
-                <p className="text-lg font-bold">{rowDate.format('DD')}</p>
-            </section>
-            <p>{rowDate.format('dd')}</p>
-        </div>
-    );
-};
 
 const OddHours = ({
     duties
@@ -155,7 +142,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 if (!actualRotaParser.success) {
                     toast.error('Error input', { duration: 1300 });
                     return 'RD';
-                    // throw new TRPCError({ code: 'PARSE_ERROR' });
                 }
 
                 return actualRotaParser.data;
@@ -190,21 +176,15 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
     }, 0);
 
     const columns = [
-        // columnHelper.accessor('date', {
-        //     id: 'date',
-        //     header: '日期',
-        //     cell: DateCell
-        // }),
-
         columnHelper.accessor(
             (row) => {
                 const weather = row.weather;
                 const hTemp = weather?.forecastMaxtemp.value;
                 const lTemp = weather?.forecastMintemp.value;
-                const rowDate = moment(row.date, 'YYYYMMDD ddd');
-
                 const icon = weather?.ForecastIcon.toString();
                 const iconURI = convertWeatherIcons(icon);
+
+                const rowDate = moment(row.date, 'YYYYMMDD ddd');
 
                 return (
                     <div className='flex justify-center items-center gap-1'>
@@ -313,14 +293,14 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                             return (
                                 <TableRow
                                     key={row.id}
-                                    className={cn(isToday && 'bg-accent')}
+                                    className={cn(isToday && 'bg-accent', '')}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <TableCell
                                                 key={cell.id}
                                                 className={cn(
-                                                    'items-center justify-center whitespace-nowrap text-center'
+                                                    'items-center justify-center whitespace-nowrap text-center w-fit'
                                                 )}
                                             >
                                                 {flexRender(

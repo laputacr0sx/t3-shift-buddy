@@ -211,11 +211,11 @@ const SevenSlotsSearchForm = ({
                                         name={`${dayDetailName}[${i}].shiftCode`}
                                         render={({ field }) => {
                                             return (
-                                                <FormItem className="w-content flex flex-col xs:w-full">
-                                                    <div className="w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-around xs:gap-0">
+                                                <FormItem className="w-auto flex flex-col xs:w-full">
+                                                    <div className="mx-8 w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
                                                         <FormLabel
                                                             className={cn(
-                                                                'w-fit items-center rounded px-1 font-mono text-sm xs:text-base',
+                                                                'w-fit flex gap-2 items-center rounded px-1 font-mono text-sm xs:text-base',
                                                                 isRedDay &&
                                                                 'bg-rose-500/40 dark:bg-rose-300/40',
                                                                 getRacingStyle(
@@ -305,7 +305,7 @@ const SevenSlotsSearchForm = ({
                     </h1>
                     <Button
                         onClick={async () => {
-                            await router.push('top-bar');
+                            await router.push('#top-bar');
                         }}
                         className="absolute right-0 top-1"
                     >
