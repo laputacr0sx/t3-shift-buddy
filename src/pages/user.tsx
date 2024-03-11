@@ -1,4 +1,5 @@
 import React from 'react';
+import { getAuth, buildClerkProps, clerkClient } from "@clerk/nextjs/server";
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -23,8 +24,7 @@ import moment from 'moment';
 import { type UserPrivateMetadata } from '~/utils/customTypes';
 import { GetServerSideProps, InferGetStaticPropsType } from 'next';
 
-function UserMetadataForm() {
-    const userData = useGetUsermeta();
+function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata }) {
     const correspondingMoment = moment();
 
     const { mutate } = api.userController.setUserMetadata.useMutation({
@@ -40,7 +40,7 @@ function UserMetadataForm() {
             staffId: '',
             weekNumber: 0
         },
-        values: userData ?? { row: '', staffId: '', weekNumber: 0 }
+        values: userMetadata ?? { row: '', staffId: '', weekNumber: 0 }
     });
 
     function metadataHandler(values: UserPrivateMetadata) {
@@ -123,19 +123,30 @@ function UserMetadataForm() {
     );
 }
 
-const User = ({ name }: InferGetStaticPropsType<typeof getServerSideProps>) => (
+const User = ({ metaData }: InferGetStaticPropsType<typeof getServerSideProps>) => (
     <React.Fragment>
-        <PageTitle>用戶資料{name}</PageTitle>
-        <UserMetadataForm />
+        <PageTitle>用戶資料</PageTitle>
+        <UserMetadataForm userMetadata={metaData} />
     </React.Fragment>
 );
 
 
-export const getServerSideProps = (async () => {
-    return {
-        props: { name: 'Felix' }
+export const getServerSideProps = (async (ctx) => {
+    let { userId } = getAuth(ctx.req);
+    if (!userId) {
+        userId = ''
     }
-}) satisfies GetServerSideProps<{ name: string }>
+    const metadata = await clerkClient.users
+        .getUser(userId)
+        .then((user) => user.privateMetadata as UserPrivateMetadata);
+
+    console.log(metadata);
+
+
+    return {
+        props: { metaData: metadata }
+    }
+}) satisfies GetServerSideProps<{ metaData: UserPrivateMetadata }>
 
 
 export default User;
