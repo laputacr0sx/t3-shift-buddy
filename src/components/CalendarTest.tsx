@@ -99,39 +99,31 @@ function initializeGSTC(element: HTMLDivElement) {
 }
 
 export default function CalendarTest() {
-    return <div>Hello This is it</div>
-    // const [doc, setDoc] = useState<null | HTMLDivElement>(null);
-    // // const callback = useCallback((element: HTMLDivElement | null) => {
-    //     if (element) initializeGSTC(element);
-    // }, []);
+    const callback = useCallback((element: HTMLDivElement | null) => {
+        if (element) initializeGSTC(element);
+    }, []);
 
-    // useEffect(() => {
-    //     setDoc(document.getElementById("gstc") as HTMLDivElement);
+    useEffect(() => {
+        return () => {
+            if (gstc) {
+                gstc.destroy();
+            }
+        };
+    }, []);
 
+    function updateFirstRow() {
+        if (!GSTC || !state) return;
+        state.update(`config.list.rows.${GSTC.api.GSTCID("0")}`, (row: GanntRow) => {
+            row.label = "Changed dynamically";
+            return row;
+        });
+    }
 
-
-
-
-    //     return () => {
-    //         if (gstc) {
-    //             gstc.destroy();
-    //         }
-    //     };
-    // }, []);
-
-    //     function updateFirstRow() {
-    //         if (!GSTC || !state) return;
-    //         state.update(`config.list.rows.${GSTC.api.GSTCID("0")}`, (row: GanntRow) => {
-    //             row.label = "Changed dynamically";
-    //             return row;
-    //         });
-    //     }
-
-    // <button onClick={updateFirstRow}>Change row 1 label</button>
+    <button onClick={updateFirstRow}>Change row 1 label</button>
     return (
         <div className="container">
             <hr />
-            <div id="gstc" />
+            <div id="gstc" ref={callback} />
 
             <style jsx global>{`
         html,

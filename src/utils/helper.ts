@@ -145,7 +145,10 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
  * @param selectedShifts The selected shifts to copy to the clipboard.
  */
 export async function tableCopyHandler(selectedShifts: DayDetail[]) {
-    if (navigator?.clipboard) throw Error('找不到剪貼簿');
+    if (!navigator?.clipboard) {
+        toast.error('找不到剪貼簿');
+        return
+    }
 
     const completeString = getSelectedShiftsString(selectedShifts);
 

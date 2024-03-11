@@ -1,4 +1,4 @@
-import React, { type ReactElement } from 'react';
+import React from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,13 +16,12 @@ import {
 import { api } from '~/utils/api';
 import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
 import { Input } from '~/components/ui/input';
-import { type NextPageWithLayout } from './_app';
-import Layout from '~/components/ui/layouts/AppLayout';
 import toast from 'react-hot-toast';
 import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
 import moment from 'moment';
 import { type UserPrivateMetadata } from '~/utils/customTypes';
+import { GetServerSideProps, InferGetStaticPropsType } from 'next';
 
 function UserMetadataForm() {
     const userData = useGetUsermeta();
@@ -110,7 +109,7 @@ function UserMetadataForm() {
                         <Button
                             type="submit"
                             variant={'outline'}
-                            // disabled={!!userData}
+                        // disabled={!!userData}
                         >
                             更改
                         </Button>
@@ -124,15 +123,19 @@ function UserMetadataForm() {
     );
 }
 
-const User: NextPageWithLayout = () => (
+const User = ({ name }: InferGetStaticPropsType<typeof getServerSideProps>) => (
     <React.Fragment>
-        <PageTitle>用戶資料</PageTitle>
+        <PageTitle>用戶資料{name}</PageTitle>
         <UserMetadataForm />
     </React.Fragment>
 );
 
-User.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>;
-};
+
+export const getServerSideProps = (async () => {
+    return {
+        props: { name: 'Felix' }
+    }
+}) satisfies GetServerSideProps<{ name: string }>
+
 
 export default User;
