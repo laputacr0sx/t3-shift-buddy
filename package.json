@@ -67,6 +67,7 @@
         "class-variance-authority": "^0.6.1",
         "clsx": "^1.2.1",
         "date-fns": "^2.30.0",
+        "deep-state-observer": "^5.5.13",
         "gantt-schedule-timeline-calendar": "^3.35.2",
         "ical-generator": "^5.0.1",
         "ics": "^3.5.0",

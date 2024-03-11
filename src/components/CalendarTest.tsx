@@ -1,10 +1,10 @@
-import GSTC, { type GSTCResult } from "gantt-schedule-timeline-calendar";
-import { useEffect, useCallback } from "react";
+import GSTC, { type GSTCResult, type Config, } from "gantt-schedule-timeline-calendar";
+import { useEffect, useCallback, useState } from "react";
+import type DeepState from 'deep-state-observer';
 
 interface GanntRow { id: string, label: string }
 
-
-let gstc: GSTCResult
+let gstc: GSTCResult, state: DeepState
 
 function initializeGSTC(element: HTMLDivElement) {
     const rowsFromDB: GanntRow[] = [
@@ -72,7 +72,7 @@ function initializeGSTC(element: HTMLDivElement) {
     ];
 
     // Configuration object
-    const config = {
+    const config: Config = {
         // for free key for your domain please visit https://gstc.neuronet.io/free-key
         // if you need commercial license please visit https://gantt-schedule-timeline-calendar.neuronet.io/pricing
         licenseKey:
@@ -89,46 +89,49 @@ function initializeGSTC(element: HTMLDivElement) {
         },
     };
 
-
-
-
-    // Generate GSTC state from configuration object
-    const state = GSTC.api.stateFromConfig(config);
+    state = GSTC.api.stateFromConfig(config);
 
     gstc = GSTC({
         element,
-        // document.getElementById("gstc") as HTMLElement,
         state,
     });
 
 }
 
 export default function CalendarTest() {
-    const callback = useCallback((element: HTMLDivElement | null) => {
-        if (element) initializeGSTC(element);
-    }, []);
+    return <div>Hello This is it</div>
+    // const [doc, setDoc] = useState<null | HTMLDivElement>(null);
+    // // const callback = useCallback((element: HTMLDivElement | null) => {
+    //     if (element) initializeGSTC(element);
+    // }, []);
 
-    useEffect(() => {
-        return () => {
-            if (gstc) {
-                gstc.destroy();
-            }
-        };
-    });
+    // useEffect(() => {
+    //     setDoc(document.getElementById("gstc") as HTMLDivElement);
 
-    function updateFirstRow() {
-        if (!GSTC || !state) return;
-        state.update(`config.list.rows.${GSTC.api.GSTCID("0")}`, (row: GanntRow) => {
-            row.label = "Changed dynamically";
-            return row;
-        });
-    }
 
+
+
+
+    //     return () => {
+    //         if (gstc) {
+    //             gstc.destroy();
+    //         }
+    //     };
+    // }, []);
+
+    //     function updateFirstRow() {
+    //         if (!GSTC || !state) return;
+    //         state.update(`config.list.rows.${GSTC.api.GSTCID("0")}`, (row: GanntRow) => {
+    //             row.label = "Changed dynamically";
+    //             return row;
+    //         });
+    //     }
+
+    // <button onClick={updateFirstRow}>Change row 1 label</button>
     return (
         <div className="container">
-            <button onClick={updateFirstRow}>Change row 1 label</button>
             <hr />
-            <div id="gstc" ref={callback} />
+            <div id="gstc" />
 
             <style jsx global>{`
         html,
