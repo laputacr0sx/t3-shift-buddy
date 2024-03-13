@@ -45,7 +45,8 @@ export const staffIdSchema = z
 export const userPrivateMetadataSchema = z.object({
     staffId: staffIdSchema,
     row: z.coerce.string().regex(rowSequenceRegex),
-    weekNumber: z.coerce.number().min(1).max(53)
+    weekNumber: z.coerce.number().min(1).max(53),
+    updatedAt: z.string().datetime()
 });
 
 export const shiftSequenceSchema = z.string();

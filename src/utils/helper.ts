@@ -487,7 +487,7 @@ export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
     );
 }
 
-export function getRosterRow(
+export function getDefaultRosterRow(
     rotaArray: Rota,
     rowNumberWithCategory: string | undefined,
     rowDifference: number
@@ -497,6 +497,7 @@ export function getRosterRow(
     if (!rowNumberWithCategory) {
         return { sequence: new Array<string>(7).fill(''), rowInQuery: 0 };
     }
+
     const rowNumber = rowNumberWithCategory.match(/\d+/)?.[0];
     if (!rowNumber) {
         return {
@@ -511,8 +512,8 @@ export function getRosterRow(
         };
     }
 
-    const rowInQuery = Math.abs(+rowNumber - 1 + rowDifference) % rotaLength;
 
+    const rowInQuery = Math.abs(+rowNumber - 1) % rotaLength;
     const sequence = rotaArray[rowInQuery];
     if (!sequence) {
         return {
@@ -524,13 +525,71 @@ export function getRosterRow(
     return { sequence, rowInQuery };
 }
 
+interface DefaultRosterDetail {
+    sequence: string[];
+    rowInQuery: number;
+    sequenceId: string;
+}
+
+export function defaultRosterDetail(
+    rowId: string,
+    updatedAt: string,
+    correspondingMoment: moment.Moment
+): DefaultRosterDetail {
+    const { tc, en } = translateRow(rowId)
+    const rotaArray = getRota(en);
+    const weekOfCorrespondingMoment = correspondingMoment.isoWeek();
+    const weekOfUpdatedAt = moment(updatedAt).isoWeek();
+
+    const weekDiff = weekOfCorrespondingMoment - weekOfUpdatedAt
+    const rotaLength = rotaArray.length;
+
+    const rowNumber = rowId.slice(1)
+    const updatedRowNumber = Math.abs(+rowNumber + weekDiff) % rotaLength;
+
+    const latestRow = rowId
+        .slice(0, 1)
+        .concat(updatedRowNumber.toString())
+
+    const sequenceId = `${correspondingMoment.format(
+        '[Y]YYYY[W]WW'
+    )}${latestRow}`;
+
+    const defaultRosterDetail: DefaultRosterDetail = {
+        sequence: [],
+        rowInQuery: 0,
+        sequenceId: '',
+    }
+
+    if (!updatedRowNumber) {
+        return {
+            ...defaultRosterDetail,
+            sequence: ['行', '序', '錯', '誤', '!', '!', '!'],
+
+        }
+    }
+
+    if (+updatedRowNumber > rotaLength || +updatedRowNumber < 1) {
+        return { ...defaultRosterDetail, sequence: ['行', '序', '出', '錯', '!', '!', '!'] }
+    }
+
+    const sequence = rotaArray[updatedRowNumber - 1];
+
+    if (!sequence) {
+        return { ...defaultRosterDetail, sequence: ['找', '不', '到', '行', '序', '!', '!'] }
+    }
+
+    console.log({ sequence, rowInQuery: updatedRowNumber - 1, sequenceId })
+    return { ...defaultRosterDetail, sequence, rowInQuery: updatedRowNumber - 1, sequenceId }
+}
+
 interface CategoryName {
     tc: string;
     en: string;
 }
 
-export function stringifyCategory(category: string | undefined): CategoryName {
-    if (!category) {
+export function translateRow(rowID: string | undefined): CategoryName {
+    if (!rowID) {
         return { tc: '', en: '' };
     }
     const categoryName = {
@@ -540,7 +599,7 @@ export function stringifyCategory(category: string | undefined): CategoryName {
         S: { tc: '特別', en: 'SPC' }
     };
 
-    const prefix = category.slice(0, 1) as keyof typeof categoryName;
+    const prefix = rowID.slice(0, 1) as keyof typeof categoryName;
     return categoryName[prefix];
 }
 

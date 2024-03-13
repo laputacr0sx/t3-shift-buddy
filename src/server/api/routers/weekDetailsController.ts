@@ -13,9 +13,8 @@ import {
     getDateDetailFromId,
     getFitTimetable,
     getResponseWithType,
-    getRosterRow,
-    getRota,
-    stringifyCategory
+    defaultRosterDetail,
+    translateRow
 } from '~/utils/helper';
 import { weatherSchema } from '~/utils/zodSchemas';
 
@@ -27,10 +26,11 @@ export const weekDetailsRouter = createTRPCRouter({
                 input: { weekDifference },
                 ctx: {
                     prisma,
-                    clerkMeta: { row, staffId }
+                    clerkMeta: { row, staffId, updatedAt }
                 }
             }) => {
                 const correspondingMoment = moment().add(weekDifference, 'w');
+                const weekDiff = correspondingMoment.diff(moment(updatedAt), 'w')
                 const dateDetails = getDateDetailFromId(
                     correspondingMoment.format(`[Y]Y[W]w`)
                 );
@@ -42,31 +42,38 @@ export const weekDetailsRouter = createTRPCRouter({
                     .catch(() => {
                         throw new TRPCError({
                             code: 'BAD_REQUEST',
-                            message: 'Cannot find timetables!'
+                            message: '找到不時間表'
                         });
                     });
 
                 const datePrefix = getFitTimetable(timetables, dateDetails);
 
-                const { tc, en } = stringifyCategory(row);
-                const rotaCat = getRota(en);
+                const { sequenceId, sequence } = defaultRosterDetail(
+                    row, updatedAt, correspondingMoment
+                )
 
-                const sequenceIdInQuery = `${correspondingMoment.format(
-                    '[Y]YYYY[W]WW'
-                )}${row}`;
+                const stringifySequenceId = (sequenceId: string): string => {
+                    // Y2024W11A101
+                    const year = sequenceId.slice(1, 5);
+                    const week = sequenceId.slice(6, 8);
+                    const category = sequenceId.slice(8, 9);
+                    const row = sequenceId.slice(9);
 
-                const { sequence, rowInQuery } = getRosterRow(
-                    rotaCat,
-                    row,
-                    weekDifference
-                );
+                    const chineseCategory = translateRow(category).tc;
+                    const out = `${year}年${week}期${chineseCategory}更${row}行序`
+                    return out
+                }
+
+                const articulatedTitle = stringifySequenceId(sequenceId);
+
 
                 let dutyNumbers: { dutyNumbers: string[] };
+
                 try {
                     dutyNumbers = await prisma.sequence.findUniqueOrThrow({
                         select: { dutyNumbers: true },
                         where: {
-                            id: sequenceIdInQuery,
+                            id: sequenceId,
                             staffId: staffId
                         }
                     });
@@ -82,10 +89,6 @@ export const weekDetailsRouter = createTRPCRouter({
                     dutyNumbers.dutyNumbers
                 );
 
-                const articulatedTitle = `${correspondingMoment.format(
-                    `Y年WW期`
-                )}${tc}更行序${rowInQuery + 1}`;
-
                 const forecastURL =
                     'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
 
@@ -95,13 +98,6 @@ export const weekDetailsRouter = createTRPCRouter({
                 );
 
                 type Weather = WeatherForecast['weatherForecast'][0];
-
-                // const currentWeatherURL =
-                //     'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc';
-                // const currentWeather = await getResponseWithType(
-                //     currentWeatherURL,
-                //     weatherSchema
-                // );
 
                 const detailsWithWeather = combinedDetails.reduce<
                     (DateDetailsWithSequences & {
@@ -121,7 +117,6 @@ export const weekDetailsRouter = createTRPCRouter({
                     return [...weatherDate, { ...date, weather }];
                 }, []);
 
-                // console.log(testWeather);
 
                 return { detailsWithWeather, articulatedTitle };
             }

@@ -91,8 +91,6 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
         .getUser(user.id)
         .then((user) => user.privateMetadata);
 
-    console.log(metadata);
-
     const validMetadata = userPrivateMetadataSchema.safeParse(metadata);
 
     if (!validMetadata.success) {
@@ -107,7 +105,6 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
         ? validMetadata.data
         : ({ row: '', staffId: '', weekNumber: 0 } as UserPrivateMetadata);
 
-    // const staffMeta = metadata;
 
     return next({
         ctx: {

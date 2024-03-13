@@ -28,7 +28,7 @@ import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from '../ui/button';
 import { rotaSchema } from '~/utils/zodSchemas';
-import { TRPCError, type inferProcedureOutput } from '@trpc/server';
+import { type inferProcedureOutput } from '@trpc/server';
 import toast from 'react-hot-toast';
 import { type AppRouter } from '~/server/api/root';
 import { cn } from '~/lib/utils';
@@ -50,7 +50,7 @@ type CellProps = CellContext<Rota, unknown>;
 
 const EditCell = ({ getValue, row, column, table }: CellProps) => {
     const initialValue = getValue() as string;
-    const [value, setValue] = useState(initialValue);
+    const [value, setValue] = useState(initialValue)
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
@@ -118,14 +118,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         const rawStandardDuty = standardDuty.match(abbreviatedDutyNumber)
             ? `${timetable.prefix}${standardDuty}`
             : `${standardDuty}`;
-
-        const standardRotaParser = rotaSchema.safeParse(rawStandardDuty);
-
-        if (!standardRotaParser.success) {
-            throw new TRPCError({ code: 'PARSE_ERROR' });
-        }
-
-        return standardRotaParser.data;
+        return rawStandardDuty;
     });
 
     const actualRotaSequence: string[] = useMemo(
@@ -183,7 +176,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 const lTemp = weather?.forecastMintemp.value;
                 const icon = weather?.ForecastIcon.toString();
                 const iconURI = convertWeatherIcons(icon);
-
                 const rowDate = moment(row.date, 'YYYYMMDD ddd');
 
                 return (
@@ -197,13 +189,13 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                             </section>
                             <Label>{rowDate.format('dd')}</Label>
                         </div>
-                        {weather ? (
+                        {!!weather ? (
                             <div className="flex font-extralight flex-col justify-center items-center">
                                 <Label className="dark:text-indigo-300 text-indigo-700">{lTemp}℃</Label>
                                 <Label className="dark:text-rose-300 text-rose-700">{hTemp}℃</Label>
                             </div>
                         ) : null}
-                        {icon ? (
+                        {!!icon ? (
                             <Image
                                 src={`/image/weatherIcons/animated/${iconURI}.svg`}
                                 alt={`${iconURI}`}
@@ -223,6 +215,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         columnHelper.accessor((row) => row.timetable?.prefix, {
             id: 'prefix',
             header: '時間表'
+            , cell: (props) => props.getValue()
         }),
         columnHelper.accessor('standardDuty', {
             id: 'standardDuty',
@@ -378,3 +371,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
         </>
     );
 };
+
+export const getServerSideProps = () => {
+    return
+}

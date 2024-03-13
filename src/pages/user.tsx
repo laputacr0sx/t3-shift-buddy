@@ -18,11 +18,10 @@ import { api } from '~/utils/api';
 import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
 import { Input } from '~/components/ui/input';
 import toast from 'react-hot-toast';
-import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
 import moment from 'moment';
 import { type UserPrivateMetadata } from '~/utils/customTypes';
-import { GetServerSideProps, InferGetStaticPropsType } from 'next';
+import type { GetServerSideProps, InferGetStaticPropsType } from 'next';
 
 function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata }) {
     const correspondingMoment = moment();
@@ -38,13 +37,15 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
         defaultValues: {
             row: '',
             staffId: '',
-            weekNumber: 0
+            weekNumber: 0,
+            updatedAt: new Date().toISOString()
         },
-        values: userMetadata ?? { row: '', staffId: '', weekNumber: 0 }
+        values: userMetadata ?? { row: '', staffId: '', weekNumber: 0, updatedAt: new Date().toISOString() }
     });
 
     function metadataHandler(values: UserPrivateMetadata) {
-        return mutate(values);
+        console.log(values);
+        return mutate({ ...values, updatedAt: new Date().toISOString() });
     }
 
     return (
@@ -79,10 +80,7 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
                             <FormItem>
                                 <FormLabel>行序編號</FormLabel>
                                 <FormDescription>
-                                    {correspondingMoment.format(
-                                        `YYYY-MM-DD第W週`
-                                    )}
-                                    的行序編號。
+                                    {moment(userMetadata?.updatedAt).format('更新於YYYY-MM-DDTHH:mm:ss')}
                                 </FormDescription>
                                 <FormControl>
                                     <Input {...field} />
@@ -116,17 +114,14 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
                     </div>
                 </form>
             </Form>
-            {/* {userData?.staffId ? (
-                <ChineseCalendars staffId={userData.staffId} />
-            ) : null} */}
         </>
     );
 }
 
-const User = ({ metaData }: InferGetStaticPropsType<typeof getServerSideProps>) => (
+const User = ({ userData }: InferGetStaticPropsType<typeof getServerSideProps>) => (
     <React.Fragment>
         <PageTitle>用戶資料</PageTitle>
-        <UserMetadataForm userMetadata={metaData} />
+        <UserMetadataForm userMetadata={userData} />
     </React.Fragment>
 );
 
@@ -140,13 +135,24 @@ export const getServerSideProps = (async (ctx) => {
         .getUser(userId)
         .then((user) => user.privateMetadata as UserPrivateMetadata);
 
-    console.log(metadata);
+    const parseResult = userPrivateMetadataSchema.safeParse(metadata);
 
+
+    if (!parseResult.success) {
+
+        console.log(parseResult.error.issues)
+
+        return {
+            props: {
+                userData: { row: '', staffId: '', weekNumber: 0, updatedAt: new Date().toISOString() } as UserPrivateMetadata
+            }
+        }
+    }
 
     return {
-        props: { metaData: metadata }
+        props: { userData: metadata }
     }
-}) satisfies GetServerSideProps<{ metaData: UserPrivateMetadata }>
+}) satisfies GetServerSideProps<{ userData: UserPrivateMetadata }>
 
 
 export default User;
