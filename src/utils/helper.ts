@@ -119,14 +119,6 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
             const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
                 dayDetail;
             const date = moment(dayDetail.date)
-                // .locale("zh-hk")
-                // .calendar({
-                //   nextDay(m, now) {
-                //     console.log({ m, now });
-                //     return "";
-                //   },
-                // });
-
                 // const date = moment(dayDetail.date)
                 .locale('zh-hk')
                 .format('DD/MM(dd)');
@@ -147,7 +139,7 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
 export async function tableCopyHandler(selectedShifts: DayDetail[]) {
     if (!navigator?.clipboard) {
         toast.error('找不到剪貼簿');
-        return
+        return;
     }
 
     const completeString = getSelectedShiftsString(selectedShifts);
@@ -269,7 +261,6 @@ function draftPrefix(
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
     const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
-    console.log(nextWeekNumber);
 
     const correspondingDates = moreDays
         ? getDatesTillSunday()
@@ -512,7 +503,6 @@ export function getDefaultRosterRow(
         };
     }
 
-
     const rowInQuery = Math.abs(+rowNumber - 1) % rotaLength;
     const sequence = rotaArray[rowInQuery];
     if (!sequence) {
@@ -536,20 +526,18 @@ export function defaultRosterDetail(
     updatedAt: string,
     correspondingMoment: moment.Moment
 ): DefaultRosterDetail {
-    const { tc, en } = translateRow(rowId)
+    const { tc, en } = translateRow(rowId);
     const rotaArray = getRota(en);
     const weekOfCorrespondingMoment = correspondingMoment.isoWeek();
     const weekOfUpdatedAt = moment(updatedAt).isoWeek();
 
-    const weekDiff = weekOfCorrespondingMoment - weekOfUpdatedAt
+    const weekDiff = weekOfCorrespondingMoment - weekOfUpdatedAt;
     const rotaLength = rotaArray.length;
 
-    const rowNumber = rowId.slice(1)
+    const rowNumber = rowId.slice(1);
     const updatedRowNumber = Math.abs(+rowNumber + weekDiff) % rotaLength;
 
-    const latestRow = rowId
-        .slice(0, 1)
-        .concat(updatedRowNumber.toString())
+    const latestRow = rowId.slice(0, 1).concat(updatedRowNumber.toString());
 
     const sequenceId = `${correspondingMoment.format(
         '[Y]YYYY[W]WW'
@@ -558,29 +546,38 @@ export function defaultRosterDetail(
     const defaultRosterDetail: DefaultRosterDetail = {
         sequence: [],
         rowInQuery: 0,
-        sequenceId: '',
-    }
+        sequenceId: ''
+    };
 
     if (!updatedRowNumber) {
         return {
             ...defaultRosterDetail,
-            sequence: ['行', '序', '錯', '誤', '!', '!', '!'],
-
-        }
+            sequence: ['行', '序', '錯', '誤', '!', '!', '!']
+        };
     }
 
     if (+updatedRowNumber > rotaLength || +updatedRowNumber < 1) {
-        return { ...defaultRosterDetail, sequence: ['行', '序', '出', '錯', '!', '!', '!'] }
+        return {
+            ...defaultRosterDetail,
+            sequence: ['行', '序', '出', '錯', '!', '!', '!']
+        };
     }
 
     const sequence = rotaArray[updatedRowNumber - 1];
 
     if (!sequence) {
-        return { ...defaultRosterDetail, sequence: ['找', '不', '到', '行', '序', '!', '!'] }
+        return {
+            ...defaultRosterDetail,
+            sequence: ['找', '不', '到', '行', '序', '!', '!']
+        };
     }
 
-    console.log({ sequence, rowInQuery: updatedRowNumber - 1, sequenceId })
-    return { ...defaultRosterDetail, sequence, rowInQuery: updatedRowNumber - 1, sequenceId }
+    return {
+        ...defaultRosterDetail,
+        sequence,
+        rowInQuery: updatedRowNumber - 1,
+        sequenceId
+    };
 }
 
 interface CategoryName {
@@ -685,7 +682,9 @@ export function getRacingStyle(racingDetail: Fixture | null) {
 }
 
 export function convertWeatherIcons(iconId: string | undefined): string {
-    if (!iconId) { return ''; }
+    if (!iconId) {
+        return '';
+    }
 
     const iconTable: Record<string, string> = {
         '50': 'sunny-day',
@@ -717,7 +716,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
         '91': `warm`,
         '92': `cool`,
         '93': `cold`,
-        'unavailable': `exceptional`
-    }
+        unavailable: `exceptional`
+    };
     return iconTable[iconId] as string;
 }

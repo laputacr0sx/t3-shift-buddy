@@ -34,6 +34,7 @@ import { type AppRouter } from '~/server/api/root';
 import { cn } from '~/lib/utils';
 import Image from 'next/image';
 import { Label } from '../ui/label';
+import DutyDetailsPDF from '../DutyDetailsPDF';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -50,7 +51,7 @@ type CellProps = CellContext<Rota, unknown>;
 
 const EditCell = ({ getValue, row, column, table }: CellProps) => {
     const initialValue = getValue() as string;
-    const [value, setValue] = useState(initialValue)
+    const [value, setValue] = useState(initialValue);
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
@@ -87,7 +88,7 @@ const OddHours = ({
     const oddHours = actualHours === 0 ? 0 : actualHours - STANDARD_HOURS;
 
     if (oddHours < 0) {
-        return <p className=""> {oddHours}</p>;
+        return <p>{oddHours}</p>;
     }
     if (oddHours > 0) {
         return <p>+{oddHours}</p>;
@@ -97,18 +98,14 @@ const OddHours = ({
 
 interface TestTableProps<TData> {
     defaultData: TData[];
+    sequenceId: string;
 }
 
-export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
+export const TestTable = ({
+    defaultData,
+    sequenceId
+}: TestTableProps<Rota>) => {
     const [data, setData] = useState<Rota[]>([]);
-
-    const rosterId = useMemo(
-        () =>
-            moment(defaultData.at(0)?.date, 'YYYYMMDD ddd').format(
-                `[Y]YYYY[W]WW`
-            ),
-        [defaultData]
-    );
 
     useEffect(() => {
         setData(defaultData);
@@ -133,7 +130,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 const actualRotaParser = rotaSchema.safeParse(rawActualDuty);
 
                 if (!actualRotaParser.success) {
-                    toast.error('Error input', { duration: 1300 });
+                    toast.error('Error input', { position: 'bottom-center' });
                     return 'RD';
                 }
 
@@ -164,7 +161,6 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
 
     const standardHours = standardDuties?.reduce((hours, duty) => {
         const duration = +convertDurationDecimal(duty.duration);
-
         return hours + duration;
     }, 0);
 
@@ -174,15 +170,17 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 const weather = row.weather;
                 const hTemp = weather?.forecastMaxtemp.value;
                 const lTemp = weather?.forecastMintemp.value;
-                const icon = weather?.ForecastIcon.toString();
-                const iconURI = convertWeatherIcons(icon);
+                // const icon = weather?.ForecastIcon.toString();
+                // const iconURI = convertWeatherIcons(icon);
                 const rowDate = moment(row.date, 'YYYYMMDD ddd');
 
                 return (
-                    <div className='flex justify-center items-center gap-1'>
+                    <div className="flex items-center justify-center gap-1">
                         <div className="flex items-center justify-center gap-1">
-                            <section className='flex flex-col justify-center items-center'>
-                                <Label className="text-sm">{rowDate.format('M')}</Label>
+                            <section className="flex flex-col items-center justify-center">
+                                <Label className="text-sm">
+                                    {rowDate.format('M')}
+                                </Label>
                                 <Label className="text-lg font-bold">
                                     {rowDate.format('DD')}
                                 </Label>
@@ -190,19 +188,16 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                             <Label>{rowDate.format('dd')}</Label>
                         </div>
                         {!!weather ? (
-                            <div className="flex font-extralight flex-col justify-center items-center">
-                                <Label className="dark:text-indigo-300 text-indigo-700">{lTemp}℃</Label>
-                                <Label className="dark:text-rose-300 text-rose-700">{hTemp}℃</Label>
+                            <div className="flex flex-col items-center justify-center font-extralight">
+                                <Label className="text-indigo-700 dark:text-indigo-300">
+                                    {lTemp}℃
+                                </Label>
+                                <Label className="text-rose-700 dark:text-rose-300">
+                                    {hTemp}℃
+                                </Label>
                             </div>
                         ) : null}
-                        {!!icon ? (
-                            <Image
-                                src={`/image/weatherIcons/animated/${iconURI}.svg`}
-                                alt={`${iconURI}`}
-                                width={30}
-                                height={30}
-                            />
-                        ) : null}
+                        {/*!!icon ? ( <Image src = {`/image/weatherIcons/animated/${iconURI}.svg`} alt={`${iconURI}`} width={30} height={30} />) : null*/}
                     </div>
                 );
             },
@@ -212,18 +207,25 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 cell: (props) => props.getValue()
             }
         ),
-        columnHelper.accessor((row) => row.timetable?.prefix, {
-            id: 'prefix',
-            header: '時間表'
-            , cell: (props) => props.getValue()
-        }),
+        columnHelper.accessor(
+            (row) => {
+                const prefix = row.timetable.prefix;
+
+                return <p>{prefix}</p>;
+            },
+            {
+                id: 'prefix',
+                header: '時間表',
+                cell: (props) => props.getValue()
+            }
+        ),
         columnHelper.accessor('standardDuty', {
             id: 'standardDuty',
             header: '標準更'
         }),
         columnHelper.accessor((row) => row.actualDuty, {
             id: 'actualDuty',
-            header: '真實更',
+            header: '實際更',
             cell: EditCell,
             footer: 'hello'
         })
@@ -286,14 +288,17 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                             return (
                                 <TableRow
                                     key={row.id}
-                                    className={cn(isToday && 'bg-accent', '')}
+                                    className={cn(
+                                        isToday && 'bg-slate-700',
+                                        ''
+                                    )}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         return (
                                             <TableCell
                                                 key={cell.id}
                                                 className={cn(
-                                                    'items-center justify-center whitespace-nowrap text-center w-fit'
+                                                    'w-fit items-center justify-center whitespace-nowrap text-center'
                                                 )}
                                             >
                                                 {flexRender(
@@ -361,7 +366,7 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
                 size={'sm'}
                 onClick={() => {
                     mutateSequence({
-                        rosterId: rosterId,
+                        sequenceId: sequenceId,
                         sequence: data.map(({ actualDuty }) => actualDuty)
                     });
                 }}
@@ -373,5 +378,5 @@ export const TestTable = ({ defaultData }: TestTableProps<Rota>) => {
 };
 
 export const getServerSideProps = () => {
-    return
-}
+    return;
+};

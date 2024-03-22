@@ -25,7 +25,7 @@ export const userControllerRouter = createTRPCRouter({
                 });
             }
 
-            console.log(input)
+            console.log(input);
 
             return clerkClient.users.updateUserMetadata(user.id, {
                 privateMetadata: {

@@ -30,7 +30,6 @@ export const weekDetailsRouter = createTRPCRouter({
                 }
             }) => {
                 const correspondingMoment = moment().add(weekDifference, 'w');
-                const weekDiff = correspondingMoment.diff(moment(updatedAt), 'w')
                 const dateDetails = getDateDetailFromId(
                     correspondingMoment.format(`[Y]Y[W]w`)
                 );
@@ -49,8 +48,10 @@ export const weekDetailsRouter = createTRPCRouter({
                 const datePrefix = getFitTimetable(timetables, dateDetails);
 
                 const { sequenceId, sequence } = defaultRosterDetail(
-                    row, updatedAt, correspondingMoment
-                )
+                    row,
+                    updatedAt,
+                    correspondingMoment
+                );
 
                 const stringifySequenceId = (sequenceId: string): string => {
                     // Y2024W11A101
@@ -60,13 +61,11 @@ export const weekDetailsRouter = createTRPCRouter({
                     const row = sequenceId.slice(9);
 
                     const chineseCategory = translateRow(category).tc;
-                    const out = `${year}年${week}期${chineseCategory}更${row}行序`
-                    return out
-                }
+                    const out = `${year}年${week}期${chineseCategory}更${row}行序`;
+                    return out;
+                };
 
                 const articulatedTitle = stringifySequenceId(sequenceId);
-
-
                 let dutyNumbers: { dutyNumbers: string[] };
 
                 try {
@@ -117,8 +116,7 @@ export const weekDetailsRouter = createTRPCRouter({
                     return [...weatherDate, { ...date, weather }];
                 }, []);
 
-
-                return { detailsWithWeather, articulatedTitle };
+                return { detailsWithWeather, articulatedTitle, sequenceId };
             }
         )
 });

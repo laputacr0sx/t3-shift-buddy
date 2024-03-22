@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAuth, buildClerkProps, clerkClient } from "@clerk/nextjs/server";
+import { getAuth, buildClerkProps, clerkClient } from '@clerk/nextjs/server';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -23,9 +23,11 @@ import moment from 'moment';
 import { type UserPrivateMetadata } from '~/utils/customTypes';
 import type { GetServerSideProps, InferGetStaticPropsType } from 'next';
 
-function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata }) {
-    const correspondingMoment = moment();
-
+function UserMetadataForm({
+    userMetadata
+}: {
+    userMetadata?: UserPrivateMetadata;
+}) {
     const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () =>
             toast.success('保存成功', { position: 'bottom-center' }),
@@ -40,7 +42,12 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
             weekNumber: 0,
             updatedAt: new Date().toISOString()
         },
-        values: userMetadata ?? { row: '', staffId: '', weekNumber: 0, updatedAt: new Date().toISOString() }
+        values: userMetadata ?? {
+            row: '',
+            staffId: '',
+            weekNumber: 0,
+            updatedAt: new Date().toISOString()
+        }
     });
 
     function metadataHandler(values: UserPrivateMetadata) {
@@ -80,7 +87,9 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
                             <FormItem>
                                 <FormLabel>行序編號</FormLabel>
                                 <FormDescription>
-                                    {moment(userMetadata?.updatedAt).format('更新於YYYY-MM-DDTHH:mm:ss')}
+                                    {moment(userMetadata?.updatedAt).format(
+                                        '更新於YYYY-MM-DDTHH:mm:ss'
+                                    )}
                                 </FormDescription>
                                 <FormControl>
                                     <Input {...field} />
@@ -107,7 +116,7 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
                         <Button
                             type="submit"
                             variant={'outline'}
-                        // disabled={!!userData}
+                            // disabled={!!userData}
                         >
                             更改
                         </Button>
@@ -118,18 +127,19 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
     );
 }
 
-const User = ({ userData }: InferGetStaticPropsType<typeof getServerSideProps>) => (
+const User = ({
+    userData
+}: InferGetStaticPropsType<typeof getServerSideProps>) => (
     <React.Fragment>
         <PageTitle>用戶資料</PageTitle>
         <UserMetadataForm userMetadata={userData} />
     </React.Fragment>
 );
 
-
 export const getServerSideProps = (async (ctx) => {
     let { userId } = getAuth(ctx.req);
     if (!userId) {
-        userId = ''
+        userId = '';
     }
     const metadata = await clerkClient.users
         .getUser(userId)
@@ -137,22 +147,22 @@ export const getServerSideProps = (async (ctx) => {
 
     const parseResult = userPrivateMetadataSchema.safeParse(metadata);
 
-
     if (!parseResult.success) {
-
-        console.log(parseResult.error.issues)
-
         return {
             props: {
-                userData: { row: '', staffId: '', weekNumber: 0, updatedAt: new Date().toISOString() } as UserPrivateMetadata
+                userData: {
+                    row: '',
+                    staffId: '',
+                    weekNumber: 0,
+                    updatedAt: new Date().toISOString()
+                } as UserPrivateMetadata
             }
-        }
+        };
     }
 
     return {
         props: { userData: metadata }
-    }
-}) satisfies GetServerSideProps<{ userData: UserPrivateMetadata }>
-
+    };
+}) satisfies GetServerSideProps<{ userData: UserPrivateMetadata }>;
 
 export default User;

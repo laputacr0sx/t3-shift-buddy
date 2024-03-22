@@ -33,8 +33,8 @@ export const dutyInputRegExValidator =
     /((?:1|3|5|6)(?:[0-5])(?:\d))|((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))(?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?)|(?:9|8)(?:\d{5})(?:\w?))/;
 
 export const completeShiftNameRegex =
-    /((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))((?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?))|(?:9|8)(?:\d{5})(?:\w?))|(GH|CL|DC|AL|RD|RC|HC)/gim;
+    /((?:(?:[A-Z])(?:1[3|4|5]|7[1|5]))((?:1|3|5|6)(?:[0-5])(?:\d)(?:\w?))|(?:9|8)(?:\d{5})(?:\w?))|(SH|GH|CL|DC|AL|RD|RC|HC)/gim;
 
 export const rowSequenceRegex = /[ABCS]\d{1,3}/gim;
 
-export const rostaRegex = /GH|CL|DC|AL|RD|RC|HC|\d{3}/gim;
+export const rostaRegex = /GH|CL|DC|AL|RD|RC|HC|SH|\d{3}/gim;

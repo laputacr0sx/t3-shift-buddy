@@ -11,7 +11,7 @@ export const sequenceControllerRouter = createTRPCRouter({
         .input(
             z.object({
                 sequence: z.string().array(),
-                rosterId: z.string()
+                sequenceId: z.string()
             })
         )
         .mutation(
@@ -21,18 +21,20 @@ export const sequenceControllerRouter = createTRPCRouter({
                     clerkMeta: { row, staffId },
                     user
                 },
-                input: { sequence, rosterId }
+                input: { sequence, sequenceId }
             }) => {
                 if (!staffId) throw new TRPCError({ code: 'NOT_FOUND' });
 
+                const rosterId = sequenceId.slice(0, 8);
+
                 const upsertSequence = await prisma.sequence.upsert({
                     where: {
-                        id: `${rosterId}${row}`,
+                        id: sequenceId,
                         staffId: staffId
                     },
                     update: { dutyNumbers: sequence },
                     create: {
-                        id: `${rosterId}${row}`,
+                        id: sequenceId,
                         dutyNumbers: sequence,
                         createdAt: new Date(),
                         updatedAt: new Date(),

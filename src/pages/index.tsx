@@ -12,7 +12,6 @@ const LandingPage = () => {
         error: weekDetailsError
     } = api.timetableController.getSuitableTimetables.useQuery();
 
-
     if (weekDetailsLoading) return <TableLoading />;
     if (weekDetailsError) return <>Something Went Wrong</>;
 

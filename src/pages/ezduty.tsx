@@ -19,13 +19,13 @@ function EasyDuty() {
     if (weekDetailsLoading) return <TableLoading />;
     if (weekDetailsError) return <>Something Went Wrong</>;
 
-    const { detailsWithWeather, articulatedTitle } = weekDetails;
+    const { detailsWithWeather, articulatedTitle, sequenceId } = weekDetails;
 
     return (
         <div className="flex h-full w-screen flex-col gap-4 px-4">
             <PageTitle>{articulatedTitle}</PageTitle>
             <WeekControlButton setWeekDifference={setWeekDifference} />
-            <TestTable defaultData={detailsWithWeather} />
+            <TestTable defaultData={detailsWithWeather} sequenceId={sequenceId} />
         </div>
     );
 }
