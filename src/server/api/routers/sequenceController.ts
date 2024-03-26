@@ -18,7 +18,7 @@ export const sequenceControllerRouter = createTRPCRouter({
             async ({
                 ctx: {
                     prisma,
-                    clerkMeta: { row, staffId },
+                    clerkMeta: { staffId },
                     user
                 },
                 input: { sequence, sequenceId }
@@ -32,7 +32,7 @@ export const sequenceControllerRouter = createTRPCRouter({
                         id: sequenceId,
                         staffId: staffId
                     },
-                    update: { dutyNumbers: sequence },
+                    update: { dutyNumbers: sequence, staffId: staffId },
                     create: {
                         id: sequenceId,
                         dutyNumbers: sequence,
@@ -40,7 +40,7 @@ export const sequenceControllerRouter = createTRPCRouter({
                         updatedAt: new Date(),
                         Roster: {
                             connectOrCreate: {
-                                create: { id: rosterId },
+                                create: { id: rosterId, publisherId: staffId },
                                 where: { id: rosterId }
                             }
                         },

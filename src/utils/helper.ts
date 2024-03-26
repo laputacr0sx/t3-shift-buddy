@@ -526,16 +526,19 @@ export function defaultRosterDetail(
     updatedAt: string,
     correspondingMoment: moment.Moment
 ): DefaultRosterDetail {
-    const { tc, en } = translateRow(rowId);
+    const { en } = translateRow(rowId);
     const rotaArray = getRota(en);
     const weekOfCorrespondingMoment = correspondingMoment.isoWeek();
     const weekOfUpdatedAt = moment(updatedAt).isoWeek();
 
     const weekDiff = weekOfCorrespondingMoment - weekOfUpdatedAt;
     const rotaLength = rotaArray.length;
-
     const rowNumber = rowId.slice(1);
-    const updatedRowNumber = Math.abs(+rowNumber + weekDiff) % rotaLength;
+
+    const updatedRowNumber =
+        Math.abs(+rowNumber + weekDiff) % rotaLength === 0
+            ? rotaLength
+            : Math.abs(+rowNumber + weekDiff) % rotaLength;
 
     const latestRow = rowId.slice(0, 1).concat(updatedRowNumber.toString());
 
@@ -556,7 +559,7 @@ export function defaultRosterDetail(
         };
     }
 
-    if (+updatedRowNumber > rotaLength || +updatedRowNumber < 1) {
+    if (updatedRowNumber > rotaLength || updatedRowNumber < 1) {
         return {
             ...defaultRosterDetail,
             sequence: ['行', '序', '出', '錯', '!', '!', '!']

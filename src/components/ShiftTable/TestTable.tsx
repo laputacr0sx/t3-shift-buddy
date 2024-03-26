@@ -34,7 +34,7 @@ import { type AppRouter } from '~/server/api/root';
 import { cn } from '~/lib/utils';
 import Image from 'next/image';
 import { Label } from '../ui/label';
-import DutyDetailsPDF from '../DutyDetailsPDF';
+import { Checkbox } from '../ui/checkbox';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -106,6 +106,7 @@ export const TestTable = ({
     sequenceId
 }: TestTableProps<Rota>) => {
     const [data, setData] = useState<Rota[]>([]);
+    const [rowSelection, setRowSelection] = useState({});
 
     useEffect(() => {
         setData(defaultData);
@@ -165,14 +166,49 @@ export const TestTable = ({
     }, 0);
 
     const columns = [
+        // columnHelper.accessor(
+        //     () => {
+        //         return;
+        //     },
+        //     {
+        //         id: 'select',
+        //         header: ({ table }) => (
+        //             <div className="block text-center align-middle">
+        //                 <Checkbox
+        //                     checked={table.getIsAllPageRowsSelected()}
+        //                     onCheckedChange={(value: boolean) =>
+        //                         table.toggleAllPageRowsSelected(!!value)
+        //                     }
+        //                     aria-label="Select all"
+        //                     className="border-secondary"
+        //                 />
+        //             </div>
+        //         ),
+        //         cell: ({ row }) => {
+        //             return (
+        //                 <Checkbox
+        //                     checked={row.getIsSelected()}
+        //                     onCheckedChange={(value: boolean) =>
+        //                         row.toggleSelected(!!value)
+        //                     }
+        //                     aria-label="Select row"
+        //                     className="border-secondary"
+        //                 />
+        //             );
+        //         },
+        //         enableSorting: false,
+        //         enableHiding: false
+        //     }
+        // ),
         columnHelper.accessor(
             (row) => {
                 const weather = row.weather;
                 const hTemp = weather?.forecastMaxtemp.value;
                 const lTemp = weather?.forecastMintemp.value;
-                // const icon = weather?.ForecastIcon.toString();
-                // const iconURI = convertWeatherIcons(icon);
+                const icon = weather?.ForecastIcon.toString();
+                const iconURI = convertWeatherIcons(icon);
                 const rowDate = moment(row.date, 'YYYYMMDD ddd');
+                const prefix = row.timetable.prefix;
 
                 return (
                     <div className="flex items-center justify-center gap-1">
@@ -187,7 +223,7 @@ export const TestTable = ({
                             </section>
                             <Label>{rowDate.format('dd')}</Label>
                         </div>
-                        {!!weather ? (
+                        {/*!!weather ? (
                             <div className="flex flex-col items-center justify-center font-extralight">
                                 <Label className="text-indigo-700 dark:text-indigo-300">
                                     {lTemp}℃
@@ -196,29 +232,37 @@ export const TestTable = ({
                                     {hTemp}℃
                                 </Label>
                             </div>
-                        ) : null}
-                        {/*!!icon ? ( <Image src = {`/image/weatherIcons/animated/${iconURI}.svg`} alt={`${iconURI}`} width={30} height={30} />) : null*/}
+                        ) : null*/}
+                        {/* !!icon ? (
+                            <Image
+                                src={`/image/weatherIcons/animated/${iconURI}.svg`}
+                                alt={`${iconURI}`}
+                                width={30}
+                                height={30}
+                            />
+                        ) : null*/}
+                        <p>{prefix}</p>
                     </div>
                 );
             },
             {
                 id: 'date',
-                header: '日期',
+                header: '明細',
                 cell: (props) => props.getValue()
             }
         ),
-        columnHelper.accessor(
-            (row) => {
-                const prefix = row.timetable.prefix;
+        // columnHelper.accessor(
+        //     (row) => {
+        //         const prefix = row.timetable.prefix;
 
-                return <p>{prefix}</p>;
-            },
-            {
-                id: 'prefix',
-                header: '時間表',
-                cell: (props) => props.getValue()
-            }
-        ),
+        //         return <p>{prefix}</p>;
+        //     },
+        //     {
+        //         id: 'prefix',
+        //         header: '時間表',
+        //         cell: (props) => props.getValue()
+        //     }
+        // ),
         columnHelper.accessor('standardDuty', {
             id: 'standardDuty',
             header: '標準更'
@@ -234,6 +278,10 @@ export const TestTable = ({
     const table = useReactTable({
         data,
         columns,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection
+        },
         getCoreRowModel: getCoreRowModel(),
         meta: {
             updateData: (rowIndex: number, columnId: string, value: string) => {
@@ -251,6 +299,14 @@ export const TestTable = ({
             }
         }
     });
+
+    const isSomeRowSelected = table.getIsSomeRowsSelected();
+    const selectedShifts = table
+        .getSelectedRowModel()
+        .flatRows.map((shift) => shift.original);
+    const allShifts = table
+        .getRowModel()
+        .flatRows.flatMap((shift) => shift.original);
 
     return (
         <>
@@ -288,10 +344,10 @@ export const TestTable = ({
                             return (
                                 <TableRow
                                     key={row.id}
-                                    className={cn(
-                                        isToday && 'bg-slate-700',
-                                        ''
-                                    )}
+                                    className={cn(isToday && 'bg-accent')}
+                                    data-state={
+                                        row.getIsSelected() && 'selected'
+                                    }
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         return (
@@ -371,12 +427,8 @@ export const TestTable = ({
                     });
                 }}
             >
-                更新更份
+                儲存更份
             </Button>
         </>
     );
-};
-
-export const getServerSideProps = () => {
-    return;
 };

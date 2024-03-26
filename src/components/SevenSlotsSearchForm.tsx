@@ -159,11 +159,10 @@ const SevenSlotsSearchForm = ({
                     )}
                     className="flex min-h-screen w-full flex-col items-center space-y-1"
                 >
-                    <FormDescription className="pb-2 text-xs">
+                    <FormDescription className="px-8 pb-2 text-xs">
                         <p>於輸入框內輸入更號，例：</p>
                         <p>
-                            J15101則輸入101；
-                            991104則輸入991104；881113則輸入881113；如此類推。
+                            J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
 
@@ -192,7 +191,6 @@ const SevenSlotsSearchForm = ({
 
                             const legitPrefix = prefix;
 
-
                             return (
                                 <fieldset
                                     key={date}
@@ -211,11 +209,11 @@ const SevenSlotsSearchForm = ({
                                         name={`${dayDetailName}[${i}].shiftCode`}
                                         render={({ field }) => {
                                             return (
-                                                <FormItem className="w-auto flex flex-col xs:w-full">
-                                                    <div className="mx-8 w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
+                                                <FormItem className="flex w-auto flex-col xs:w-full">
+                                                    <div className="w-content mx-8 flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
                                                         <FormLabel
                                                             className={cn(
-                                                                'w-fit flex gap-2 items-center rounded px-1 font-mono text-sm xs:text-base',
+                                                                'flex w-fit items-center gap-2 rounded px-1 font-mono text-sm xs:text-base',
                                                                 isRedDay &&
                                                                 'bg-rose-500/40 dark:bg-rose-300/40',
                                                                 getRacingStyle(
@@ -247,7 +245,11 @@ const SevenSlotsSearchForm = ({
                                                             ) : (
                                                                 `${legitPrefix}___`
                                                             )}
-                                                            <WeatherIconDisplay weather={weather} />
+                                                            <WeatherIconDisplay
+                                                                weather={
+                                                                    weather
+                                                                }
+                                                            />
                                                         </FormLabel>
                                                         <FormControl>
                                                             <Input

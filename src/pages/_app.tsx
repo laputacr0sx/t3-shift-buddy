@@ -56,7 +56,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 disableTransitionOnChange
             >
                 <Toaster />
-                <ReactQueryDevtools />
+                {/* <ReactQueryDevtools />*/}
 
                 <NavigationBar />
                 <Component {...pageProps} />
