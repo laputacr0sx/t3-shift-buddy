@@ -9,6 +9,7 @@ import {
     TableHeader,
     TableRow
 } from '~/components/ui/table';
+import Image from 'next/image';
 
 import {
     type CellContext,
@@ -20,19 +21,19 @@ import {
 } from '@tanstack/react-table';
 
 import moment from 'moment';
-import { Input } from '../ui/input';
+import toast from 'react-hot-toast';
 
 import { convertDurationDecimal, convertWeatherIcons } from '~/utils/helper';
 import { api } from '~/utils/api';
-import { Skeleton } from '../ui/skeleton';
 import { abbreviatedDutyNumber } from '~/utils/regex';
-import { Button } from '../ui/button';
+import { cn } from '~/lib/utils';
 import { rotaSchema } from '~/utils/zodSchemas';
 import { type inferProcedureOutput } from '@trpc/server';
-import toast from 'react-hot-toast';
 import { type AppRouter } from '~/server/api/root';
-import { cn } from '~/lib/utils';
-import Image from 'next/image';
+
+import { Input } from '../ui/input';
+import { Skeleton } from '../ui/skeleton';
+import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
 
@@ -55,9 +56,10 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
-    const onBlur = () => {
+
+    function onBlur() {
         table.options.meta?.updateData(row.index, column.id, value);
-    };
+    }
 
     return (
         <Input
@@ -303,7 +305,7 @@ export const TestTable = ({
     const isSomeRowSelected = table.getIsSomeRowsSelected();
     const selectedShifts = table
         .getSelectedRowModel()
-        .flatRows.map((shift) => shift.original);
+        .flatRows.map((shift) => shift.original.actualDuty);
     const allShifts = table
         .getRowModel()
         .flatRows.flatMap((shift) => shift.original);

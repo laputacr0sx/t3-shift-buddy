@@ -4,6 +4,7 @@ import React from 'react';
 import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
 import { api } from '~/utils/api';
 import TableLoading from '~/components/TableLoading';
+import CalendarTest from '~/components/CalendarTest';
 
 const LandingPage = () => {
     const {
@@ -19,6 +20,7 @@ const LandingPage = () => {
         <>
             <PageTitle>出更易</PageTitle>
             <SevenSlotsSearchForm defaultData={weekDetails} />
+            <CalendarTest />
         </>
     );
 };
