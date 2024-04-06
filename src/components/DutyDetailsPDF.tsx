@@ -16,8 +16,8 @@ function DutyDetailsPDF({
         AppRouter['dutyController']['getDutiesBySequence']
     >;
 }) {
+    if (!dutyDetails) return null;
     return (
-        // <div className="flex h-screen w-screen items-center justify-center">
         <PDFViewer
             width={'80%'}
             height={'100%'}
@@ -25,7 +25,7 @@ function DutyDetailsPDF({
             className="flex h-screen w-screen items-center justify-center"
         >
             <Document style={{ width: '50' }}>
-                <Page size="LETTER" style={styles.body}>
+                <Page size="A4" style={styles.body}>
                     {dutyDetails.map((duty, i) => (
                         <View
                             style={styles.page}
@@ -53,7 +53,6 @@ function DutyDetailsPDF({
                 </Page>
             </Document>
         </PDFViewer>
-        // </div>
     );
 }
 

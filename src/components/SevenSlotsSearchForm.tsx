@@ -55,6 +55,12 @@ const SevenSlotsSearchForm = ({
 }: {
     defaultData: DefaultData;
 }) => {
+    const dataLength = defaultData.length;
+
+    function createDefaultFormData(len: number) {
+        return new Array<{ shiftCode: string }>(len).fill({ shiftCode: '' });
+    }
+
     const prefixData = defaultData.map((day) => day.prefix);
     const [parent] = useAutoAnimate();
 
@@ -104,21 +110,9 @@ const SevenSlotsSearchForm = ({
 
             return zodResolved;
         },
-        mode: 'onChange',
+        mode: 'onBlur',
         defaultValues: {
-            [dayDetailName]: [
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' }
-            ]
+            [dayDetailName]: createDefaultFormData(dataLength)
         }
     });
 
@@ -159,11 +153,10 @@ const SevenSlotsSearchForm = ({
                     )}
                     className="flex min-h-screen w-full flex-col items-center space-y-1"
                 >
-                    <FormDescription className="pb-2 text-xs">
+                    <FormDescription className="px-8 pb-2 text-xs">
                         <p>於輸入框內輸入更號，例：</p>
                         <p>
-                            J15101則輸入101；
-                            991104則輸入991104；881113則輸入881113；如此類推。
+                            J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
 
@@ -192,7 +185,6 @@ const SevenSlotsSearchForm = ({
 
                             const legitPrefix = prefix;
 
-
                             return (
                                 <fieldset
                                     key={date}
@@ -203,7 +195,11 @@ const SevenSlotsSearchForm = ({
                                             variant={'outline'}
                                             className="w-fit border-green-700 dark:border-green-400 "
                                         >
-                                            <Label>{`Y${correspondingDate.year()}W${correspondingDate.isoWeek()}`}</Label>
+                                            <Label>
+                                                {correspondingDate.format(
+                                                    '[Y]YYYY[W]WW'
+                                                )}
+                                            </Label>
                                         </Badge>
                                     )}
                                     <FormField
@@ -211,11 +207,11 @@ const SevenSlotsSearchForm = ({
                                         name={`${dayDetailName}[${i}].shiftCode`}
                                         render={({ field }) => {
                                             return (
-                                                <FormItem className="w-auto flex flex-col xs:w-full">
-                                                    <div className="mx-8 w-content flex flex-col gap-2 space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
+                                                <FormItem className="flex w-auto flex-col xs:w-full">
+                                                    <div className="w-content mx-8 flex flex-col space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
                                                         <FormLabel
                                                             className={cn(
-                                                                'w-fit flex gap-2 items-center rounded px-1 font-mono text-sm xs:text-base',
+                                                                'flex w-fit items-center rounded px-1 font-mono text-sm xs:text-base',
                                                                 isRedDay &&
                                                                 'bg-rose-500/40 dark:bg-rose-300/40',
                                                                 getRacingStyle(
@@ -223,46 +219,59 @@ const SevenSlotsSearchForm = ({
                                                                 )
                                                             )}
                                                         >
-                                                            {formatedDate}{' '}
-                                                            {sevenSlotsSearchForm.getValues(
-                                                                field.name
-                                                            ) ? (
-                                                                sevenSlotsSearchForm.control.getFieldState(
-                                                                    field.name
-                                                                ).invalid ? (
-                                                                    `${legitPrefix}___`
-                                                                ) : (
-                                                                    <>
-                                                                        {(
-                                                                            field.value as string
-                                                                        ).match(
-                                                                            abbreviatedDutyNumber
-                                                                        )
-                                                                            ? `${legitPrefix}${field.value as string
-                                                                            }`
-                                                                            : `${field.value as string
-                                                                            }`}
-                                                                    </>
-                                                                )
-                                                            ) : (
-                                                                `${legitPrefix}___`
-                                                            )}
-                                                            <WeatherIconDisplay weather={weather} />
+                                                            {formatedDate}
+                                                        </FormLabel>
+                                                        <FormLabel className="flex flex-row items-center justify-center">
+                                                            <WeatherIconDisplay
+                                                                weather={
+                                                                    weather
+                                                                }
+                                                            />
                                                         </FormLabel>
                                                         <FormControl>
-                                                            <Input
-                                                                {...field}
-                                                                className="w-auto font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
-                                                                maxLength={7}
-                                                                placeholder={`xxx / xxxxxx`}
-                                                                autoCapitalize="characters"
-                                                                autoComplete="off"
-                                                                autoCorrect="off"
-                                                                spellCheck="false"
-                                                            />
+                                                            <div className="w-fit">
+                                                                <div className="flex flex-row items-center justify-center gap-2">
+                                                                    {sevenSlotsSearchForm.getValues(
+                                                                        field.name
+                                                                    ) ? (
+                                                                        sevenSlotsSearchForm.control.getFieldState(
+                                                                            field.name
+                                                                        )
+                                                                            .invalid ? (
+                                                                            `${legitPrefix}___`
+                                                                        ) : (
+                                                                            <>
+                                                                                {(
+                                                                                    field.value as string
+                                                                                ).match(
+                                                                                    abbreviatedDutyNumber
+                                                                                )
+                                                                                    ? `${legitPrefix}${field.value as string
+                                                                                    }`
+                                                                                    : `${field.value as string
+                                                                                    }`}
+                                                                            </>
+                                                                        )
+                                                                    ) : (
+                                                                        `${legitPrefix}___`
+                                                                    )}
+                                                                    <Input
+                                                                        {...field}
+                                                                        className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
+                                                                        maxLength={
+                                                                            7
+                                                                        }
+                                                                        placeholder={`xxx / xxxxxx`}
+                                                                        autoCapitalize="characters"
+                                                                        autoComplete="off"
+                                                                        autoCorrect="off"
+                                                                        spellCheck="false"
+                                                                    />
+                                                                </div>
+                                                                <FormMessage className="text-center text-xs" />
+                                                            </div>
                                                         </FormControl>
                                                     </div>
-                                                    <FormMessage />
                                                 </FormItem>
                                             );
                                         }}
@@ -326,6 +335,7 @@ const SevenSlotsSearchForm = ({
                     )}
                 </section>
             ) : null}
+            {/* <DutyDetailsPDF  /> */}
         </>
     );
 };

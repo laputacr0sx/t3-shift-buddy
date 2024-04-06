@@ -4,6 +4,7 @@ import React from 'react';
 import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
 import { api } from '~/utils/api';
 import TableLoading from '~/components/TableLoading';
+import DutyDetailsPDF from '~/components/DutyDetailsPDF';
 
 const LandingPage = () => {
     const {
