@@ -5,6 +5,7 @@ import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
 import { api } from '~/utils/api';
 import TableLoading from '~/components/TableLoading';
 import CalendarTest from '~/components/CalendarTest';
+import DutyDetailsPDF from '~/components/DutyDetailsPDF';
 
 const LandingPage = () => {
     const {

@@ -9,7 +9,6 @@ import {
     TableHeader,
     TableRow
 } from '~/components/ui/table';
-import Image from 'next/image';
 
 import {
     type CellContext,
@@ -311,7 +310,7 @@ export const TestTable = ({
         .flatRows.flatMap((shift) => shift.original);
 
     return (
-        <>
+        <div className="flex flex-col items-center justify-center">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -382,7 +381,7 @@ export const TestTable = ({
                 </TableBody>
                 <TableFooter className="font-thin">
                     <TableRow>
-                        <TableHead colSpan={4} className="h-8">
+                        <TableHead colSpan={3} className="h-8">
                             小結
                         </TableHead>
                     </TableRow>
@@ -390,14 +389,11 @@ export const TestTable = ({
                         <TableCell className="text-right">工時</TableCell>
                         {!standardDutyLoading && !actualDutyLoading ? (
                             standardDutyError || actualDutyError ? (
-                                <TableCell colSpan={3}>
+                                <TableCell colSpan={2}>
                                     Something went wrong
                                 </TableCell>
                             ) : (
                                 <>
-                                    <TableCell className="text-center">
-                                        {standardHours}
-                                    </TableCell>
                                     <TableCell className="text-center">
                                         <OddHours duties={standardDuties} />
                                     </TableCell>
@@ -431,6 +427,6 @@ export const TestTable = ({
             >
                 儲存更份
             </Button>
-        </>
+        </div>
     );
 };

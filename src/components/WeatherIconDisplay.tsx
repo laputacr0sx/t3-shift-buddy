@@ -1,6 +1,7 @@
 import { convertWeatherIcons } from '~/utils/helper';
 import Image from 'next/image';
 import type { Weather } from '~/utils/customTypes';
+import { Label } from './ui/label';
 
 type WeatherIconProps = {
     weather: Weather | null;
@@ -9,12 +10,21 @@ export default function WeatherIconDisplay({ weather }: WeatherIconProps) {
     if (!weather) return null;
     const iconId = weather?.ForecastIcon.toString();
     const iconURI = convertWeatherIcons(iconId);
+    const hTemp = weather.forecastMaxtemp.value;
+    const lTemp = weather.forecastMintemp.value;
+
     return iconId ? (
-        <Image
-            src={`/image/weatherIcons/static/${iconURI}.svg`}
-            alt={`${iconURI}`}
-            width={30}
-            height={30}
-        />
+        <>
+            <Image
+                src={`/image/weatherIcons/animated/${iconURI}.svg`}
+                alt={`${iconURI}`}
+                width={30}
+                height={30}
+            />
+            <Label className="text-xs">
+                <p className="text-red-700 dark:text-red-400">{hTemp}</p>
+                <p className="text-blue-700 dark:text-blue-400">{lTemp}</p>
+            </Label>
+        </>
     ) : null;
 }
