@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { api } from '~/utils/api';
+import { CustomUserPrivateMetadata } from '~/utils/customTypes';
 
 export default function useGetUsermeta() {
     const {
@@ -49,9 +50,10 @@ export default function useGetUsermeta() {
 
     return userLoading
         ? ({
-              staffId: '000000',
-              row: 'A1',
-              weekNumber: 1
-          } satisfies UserPrivateMetadata)
+            staffId: '000000',
+            row: 'A1',
+            weekNumber: 1,
+            updatedAt: new Date().toISOString()
+        } satisfies CustomUserPrivateMetadata)
         : userData;
 }

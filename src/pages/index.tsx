@@ -1,11 +1,8 @@
 import PageTitle from '~/components/PageTitle';
-
-import React from 'react';
 import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
-import { api } from '~/utils/api';
 import TableLoading from '~/components/TableLoading';
-import CalendarTest from '~/components/CalendarTest';
-import DutyDetailsPDF from '~/components/DutyDetailsPDF';
+
+import { api } from '~/utils/api';
 
 const LandingPage = () => {
     const {
@@ -21,7 +18,6 @@ const LandingPage = () => {
         <>
             <PageTitle>出更易</PageTitle>
             <SevenSlotsSearchForm defaultData={weekDetails} />
-            <CalendarTest />
         </>
     );
 };

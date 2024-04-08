@@ -1,8 +1,8 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { ZodError } from 'zod';
 
 import superjson from 'superjson';
-import { ZodError } from 'zod';
 
 import { prisma } from '~/server/db';
 
@@ -15,12 +15,12 @@ import {
     clerkClient
 } from '@clerk/nextjs/server';
 import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
-import { type UserPrivateMetadata } from '~/utils/customTypes';
+import { CustomUserPrivateMetadata } from '~/utils/customTypes';
 
 type CreateContextOptions = {
     auth: SignedInAuthObject | SignedOutAuthObject;
     user: User | null;
-    clerkMeta: null;
+    clerkMeta: CustomUserPrivateMetadata | null;
 };
 
 export const createContextInner = (opts: CreateContextOptions) => {
@@ -34,9 +34,9 @@ export const createContextInner = (opts: CreateContextOptions) => {
 
 export const createContext = (opts: CreateNextContextOptions) => {
     const { req } = opts;
-    const authSession = getAuth(req);
+    const auth = getAuth(req);
     return createContextInner({
-        auth: authSession,
+        auth,
         user: null,
         clerkMeta: null
     });
@@ -101,16 +101,20 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
         });
     }
 
-    const staffMeta = validMetadata.success
+    const clerkMeta = validMetadata.success
         ? validMetadata.data
-        : ({ row: '', staffId: '', weekNumber: 0 } as UserPrivateMetadata);
-
+        : ({
+            row: '',
+            staffId: '',
+            weekNumber: 0,
+            updatedAt: new Date().toISOString()
+        } as CustomUserPrivateMetadata);
 
     return next({
         ctx: {
             auth: ctx.auth,
             user: user,
-            clerkMeta: staffMeta
+            clerkMeta
         }
     });
 });

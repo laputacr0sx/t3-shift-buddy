@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAuth, buildClerkProps, clerkClient } from '@clerk/nextjs/server';
+import { getAuth, clerkClient } from '@clerk/nextjs/server';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,13 +20,13 @@ import { Input } from '~/components/ui/input';
 import toast from 'react-hot-toast';
 import PageTitle from '~/components/PageTitle';
 import moment from 'moment';
-import { type UserPrivateMetadata } from '~/utils/customTypes';
+import { type CustomUserPrivateMetadata } from '~/utils/customTypes';
 import type { GetServerSideProps, InferGetStaticPropsType } from 'next';
 
 function UserMetadataForm({
     userMetadata
 }: {
-    userMetadata?: UserPrivateMetadata;
+    userMetadata?: CustomUserPrivateMetadata;
 }) {
     const { mutate } = api.userController.setUserMetadata.useMutation({
         onSuccess: () =>
@@ -34,7 +34,7 @@ function UserMetadataForm({
         onError: () => toast.error('保存失敗', { position: 'bottom-center' })
     });
 
-    const userPrivateMetadataForm = useForm<UserPrivateMetadata>({
+    const userPrivateMetadataForm = useForm<CustomUserPrivateMetadata>({
         resolver: zodResolver(userPrivateMetadataSchema),
         defaultValues: {
             row: '',
@@ -50,7 +50,7 @@ function UserMetadataForm({
         }
     });
 
-    function metadataHandler(values: UserPrivateMetadata) {
+    function metadataHandler(values: CustomUserPrivateMetadata) {
         console.log(values);
         return mutate({ ...values, updatedAt: new Date().toISOString() });
     }
@@ -116,7 +116,7 @@ function UserMetadataForm({
                         <Button
                             type="submit"
                             variant={'outline'}
-                            // disabled={!!userData}
+                        // disabled={!!userData}
                         >
                             更改
                         </Button>
@@ -143,7 +143,7 @@ export const getServerSideProps = (async (ctx) => {
     }
     const metadata = await clerkClient.users
         .getUser(userId)
-        .then((user) => user.privateMetadata as UserPrivateMetadata);
+        .then((user) => user.privateMetadata as CustomUserPrivateMetadata);
 
     const parseResult = userPrivateMetadataSchema.safeParse(metadata);
 
@@ -155,7 +155,7 @@ export const getServerSideProps = (async (ctx) => {
                     staffId: '',
                     weekNumber: 0,
                     updatedAt: new Date().toISOString()
-                } as UserPrivateMetadata
+                } as CustomUserPrivateMetadata
             }
         };
     }
@@ -163,6 +163,6 @@ export const getServerSideProps = (async (ctx) => {
     return {
         props: { userData: metadata }
     };
-}) satisfies GetServerSideProps<{ userData: UserPrivateMetadata }>;
+}) satisfies GetServerSideProps<{ userData: CustomUserPrivateMetadata }>;
 
 export default User;

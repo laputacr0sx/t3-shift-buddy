@@ -7,7 +7,7 @@ import type {
     rostaSchema,
     weatherSchema
 } from './zodSchemas';
-import { getFitTimetable } from './helper';
+import type { getFitTimetable } from './helper';
 
 export const workLocation = [
     'HUH',
@@ -44,7 +44,9 @@ export type RawShiftArray = {
     legitRawShiftArray: z.infer<typeof rawShiftArraySchema>;
 };
 
-export type UserPrivateMetadata = z.infer<typeof userPrivateMetadataSchema>;
+export type CustomUserPrivateMetadata = z.infer<
+    typeof userPrivateMetadataSchema
+>;
 
 export type StaffId = z.infer<typeof staffIdSchema>;
 
