@@ -51,7 +51,6 @@ function UserMetadataForm({
     });
 
     function metadataHandler(values: CustomUserPrivateMetadata) {
-        console.log(values);
         return mutate({ ...values, updatedAt: new Date().toISOString() });
     }
 
@@ -141,11 +140,11 @@ export const getServerSideProps = (async (ctx) => {
     if (!userId) {
         userId = '';
     }
-    const metadata = await clerkClient.users
+    const userData = await clerkClient.users
         .getUser(userId)
         .then((user) => user.privateMetadata as CustomUserPrivateMetadata);
 
-    const parseResult = userPrivateMetadataSchema.safeParse(metadata);
+    const parseResult = userPrivateMetadataSchema.safeParse(userData);
 
     if (!parseResult.success) {
         return {
@@ -161,7 +160,7 @@ export const getServerSideProps = (async (ctx) => {
     }
 
     return {
-        props: { userData: metadata }
+        props: { userData }
     };
 }) satisfies GetServerSideProps<{ userData: CustomUserPrivateMetadata }>;
 

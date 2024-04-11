@@ -45,7 +45,7 @@ export async function getServerSideProps(
 type DayViewProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 export default function PostViewPage(props: DayViewProps) {
-  const { sequenceId, today } = props;
+  const { today } = props;
 
   const {
     data: weekDetails,

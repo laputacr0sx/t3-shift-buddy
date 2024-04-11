@@ -18,11 +18,24 @@ import { appRouter } from '~/server/api/root';
 import superjson from 'superjson';
 import { createContextInner } from '~/server/api/trpc';
 import type { CustomUserPrivateMetadata } from '~/utils/customTypes';
+import { useRouter } from 'next/router';
 
-function EasyDuty(
-    props: InferGetServerSidePropsType<typeof getServerSideProps>
-) {
+type EasyDutyProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+function EasyDuty(props: EasyDutyProps) {
     const [weekDifference, setWeekDifference] = useState(0);
+
+    const r = useRouter();
+
+    // r.push(`/ezduty/${weekDifference}`, undefined, {
+    //     shallow: true
+    // })
+    //     .then((v) => {
+    //         return;
+    //     })
+    //     .catch((e) => {
+    //         console.log(e);
+    //     });
 
     const {
         data: weekDetails,
@@ -52,6 +65,7 @@ export const getServerSideProps = (async (ctx: GetServerSidePropsContext) => {
 
     const helpers = createServerSideHelpers({
         router: appRouter,
+
         ctx: createContextInner({ auth: authObj, user: null, clerkMeta: null }),
         transformer: superjson
     });
@@ -65,8 +79,6 @@ export const getServerSideProps = (async (ctx: GetServerSidePropsContext) => {
     const userData = await clerkClient.users
         .getUser(userId)
         .then((user) => user.privateMetadata);
-
-    // const metadata = userObject.privateMetadata as UserPrivateMetadata;
 
     const parseResult = userPrivateMetadataSchema.safeParse(userData);
 
