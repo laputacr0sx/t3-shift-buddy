@@ -6,7 +6,6 @@ import { WeekControlButton } from '~/components/WeekControlButton';
 
 import { getAuth, clerkClient } from '@clerk/nextjs/server';
 import type {
-    GetServerSideProps,
     GetServerSidePropsContext,
     InferGetServerSidePropsType
 } from 'next';
@@ -18,14 +17,14 @@ import { appRouter } from '~/server/api/root';
 import superjson from 'superjson';
 import { createContextInner } from '~/server/api/trpc';
 import type { CustomUserPrivateMetadata } from '~/utils/customTypes';
-import { useRouter } from 'next/router';
 
 type EasyDutyProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 function EasyDuty(props: EasyDutyProps) {
+    console.log(JSON.parse(props.userData));
     const [weekDifference, setWeekDifference] = useState(0);
 
-    const r = useRouter();
+    // const r = useRouter();
 
     // r.push(`/ezduty/${weekDifference}`, undefined, {
     //     shallow: true
@@ -60,19 +59,20 @@ function EasyDuty(props: EasyDutyProps) {
     );
 }
 
-export const getServerSideProps = (async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps = async (
+    ctx: GetServerSidePropsContext<{ userData: string }>
+) => {
     const authObj = getAuth(ctx.req);
 
     const helpers = createServerSideHelpers({
         router: appRouter,
-
         ctx: createContextInner({ auth: authObj, user: null, clerkMeta: null }),
         transformer: superjson
     });
 
-    await helpers.weekDetailsController.getDetails.prefetch({
-        weekDifference: 0
-    });
+    // await helpers.weekDetailsController.getDetails.prefetch({
+    //     weekDifference: 0
+    // });
 
     const userId = !!authObj.userId ? authObj.userId : '';
 
@@ -85,19 +85,19 @@ export const getServerSideProps = (async (ctx: GetServerSidePropsContext) => {
     if (!parseResult.success) {
         return {
             props: {
-                userData: {
+                userData: JSON.stringify({
                     row: '',
                     staffId: '',
                     weekNumber: 0,
                     updatedAt: new Date().toISOString()
-                } as CustomUserPrivateMetadata
+                })
             }
         };
     }
 
     return {
-        props: { userData, trpcState: helpers.dehydrate() }
+        props: { userData: JSON.stringify(userData) }
     };
-}) satisfies GetServerSideProps<{ userData: CustomUserPrivateMetadata }>;
+};
 
 export default EasyDuty;

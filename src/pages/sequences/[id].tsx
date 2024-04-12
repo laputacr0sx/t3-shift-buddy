@@ -24,7 +24,7 @@ export async function getServerSideProps(
 
   const helpers = createServerSideHelpers({
     router: appRouter,
-    ctx: createContextInner({ auth, user, clerkMeta }),
+    ctx: createContextInner({ auth, user, clerkMeta: null }),
     transformer: superjson
   });
 
