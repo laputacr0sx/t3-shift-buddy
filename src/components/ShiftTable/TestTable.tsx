@@ -35,6 +35,9 @@ import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
+import { Edit } from 'lucide-react';
+import { o } from '@upstash/redis/zmscore-b6b93f14';
+import { ToastClose } from '@radix-ui/react-toast';
 
 declare module '@tanstack/table-core' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,11 +50,19 @@ export type Rota = inferProcedureOutput<
     AppRouter['weekDetailsController']['getDetails']
 >['detailsWithWeather'][0];
 
-type CellProps = CellContext<Rota, unknown>;
+type CellProps = {
+    props: CellContext<Rota, unknown>;
+    standardDutySequences: string[];
+};
+const EditCell = (props: CellProps) => {
+    const { getValue, row, table, column } = props.props;
+    const standardDutySequences = props.standardDutySequences;
+    const standardPlaceholder = standardDutySequences.at(row.index);
 
-const EditCell = ({ getValue, row, column, table }: CellProps) => {
     const initialValue = getValue() as string;
     const [value, setValue] = useState(initialValue);
+    console.log(initialValue);
+
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
@@ -62,11 +73,12 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 
     return (
         <Input
-            width={12}
+            className="font-mono"
+            placeholder={standardPlaceholder}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={onBlur}
-            size={7}
+            size={2}
         />
     );
 };
@@ -74,27 +86,37 @@ const EditCell = ({ getValue, row, column, table }: CellProps) => {
 const columnHelper = createColumnHelper<Rota>();
 
 const OddHours = ({
-    duties
+    duties,
+    sequence
 }: {
     duties: inferProcedureOutput<
         AppRouter['dutyController']['getDutiesBySequence']
     >;
+    sequence: string[];
 }) => {
+    const DAY_HOUR = 7;
     const STANDARD_HOURS = 42;
-    const actualHours = duties?.reduce((acc, cur) => {
-        const duration = +convertDurationDecimal(cur.duration);
-        return acc + duration;
-    }, 0);
+    let totalHour = STANDARD_HOURS;
+    const H = ['GH', 'SH', 'MA_L'];
 
-    const oddHours = actualHours === 0 ? 0 : actualHours - STANDARD_HOURS;
+    for (const duty of sequence) {
+        if (H.indexOf(duty) !== -1) {
+            totalHour += DAY_HOUR;
+        } else {
+            const actualDuty = duties.filter(
+                (actualDuty) => actualDuty.dutyNumber.slice(3) === duty
+            )[0];
 
-    if (oddHours < 0) {
-        return <p>{oddHours}</p>;
+            if (!actualDuty) break;
+
+            const duration = +convertDurationDecimal(actualDuty.duration);
+
+            const oddHour = duration - DAY_HOUR;
+
+            totalHour += oddHour;
+        }
     }
-    if (oddHours > 0) {
-        return <p>+{oddHours}</p>;
-    }
-    return <p>±0</p>;
+    return <p>{totalHour}</p>;
 };
 
 interface TestTableProps<TData> {
@@ -167,52 +189,13 @@ export const TestTable = ({
     }, 0);
 
     const columns = [
-        // columnHelper.accessor(
-        //     () => {
-        //         return;
-        //     },
-        //     {
-        //         id: 'select',
-        //         header: ({ table }) => (
-        //             <div className="block text-center align-middle">
-        //                 <Checkbox
-        //                     checked={table.getIsAllPageRowsSelected()}
-        //                     onCheckedChange={(value: boolean) =>
-        //                         table.toggleAllPageRowsSelected(!!value)
-        //                     }
-        //                     aria-label="Select all"
-        //                     className="border-secondary"
-        //                 />
-        //             </div>
-        //         ),
-        //         cell: ({ row }) => {
-        //             return (
-        //                 <Checkbox
-        //                     checked={row.getIsSelected()}
-        //                     onCheckedChange={(value: boolean) =>
-        //                         row.toggleSelected(!!value)
-        //                     }
-        //                     aria-label="Select row"
-        //                     className="border-secondary"
-        //                 />
-        //             );
-        //         },
-        //         enableSorting: false,
-        //         enableHiding: false
-        //     }
-        // ),
         columnHelper.accessor(
             (row) => {
-                const weather = row.weather;
-                const hTemp = weather?.forecastMaxtemp.value;
-                const lTemp = weather?.forecastMintemp.value;
-                const icon = weather?.ForecastIcon.toString();
-                const iconURI = convertWeatherIcons(icon);
                 const rowDate = moment(row.date, 'YYYYMMDD ddd');
                 const prefix = row.timetable.prefix;
 
                 return (
-                    <div className="flex items-center justify-center gap-1">
+                    <div className="flex items-center justify-center gap-8">
                         <div className="flex items-center justify-center gap-1">
                             <section className="flex flex-col items-center justify-center">
                                 <Label className="text-sm">
@@ -224,25 +207,7 @@ export const TestTable = ({
                             </section>
                             <Label>{rowDate.format('dd')}</Label>
                         </div>
-                        {/*!!weather ? (
-                            <div className="flex flex-col items-center justify-center font-extralight">
-                                <Label className="text-indigo-700 dark:text-indigo-300">
-                                    {lTemp}℃
-                                </Label>
-                                <Label className="text-rose-700 dark:text-rose-300">
-                                    {hTemp}℃
-                                </Label>
-                            </div>
-                        ) : null*/}
-                        {/* !!icon ? (
-                            <Image
-                                src={`/image/weatherIcons/animated/${iconURI}.svg`}
-                                alt={`${iconURI}`}
-                                width={30}
-                                height={30}
-                            />
-                        ) : null*/}
-                        <p>{prefix}</p>
+                        {prefix}
                     </div>
                 );
             },
@@ -252,27 +217,15 @@ export const TestTable = ({
                 cell: (props) => props.getValue()
             }
         ),
-        // columnHelper.accessor(
-        //     (row) => {
-        //         const prefix = row.timetable.prefix;
-
-        //         return <p>{prefix}</p>;
-        //     },
-        //     {
-        //         id: 'prefix',
-        //         header: '時間表',
-        //         cell: (props) => props.getValue()
-        //     }
-        // ),
-        columnHelper.accessor('standardDuty', {
-            id: 'standardDuty',
-            header: '標準更'
-        }),
         columnHelper.accessor((row) => row.actualDuty, {
-            id: 'actualDuty',
-            header: '實際更',
-            cell: EditCell,
-            footer: 'hello'
+            id: 'standardDuty',
+            header: '更',
+            cell: (props) => (
+                <EditCell
+                    props={props}
+                    standardDutySequences={rawStandardDuties}
+                />
+            )
         })
     ];
 
@@ -301,13 +254,15 @@ export const TestTable = ({
         }
     });
 
-    const isSomeRowSelected = table.getIsSomeRowsSelected();
-    const selectedShifts = table
-        .getSelectedRowModel()
-        .flatRows.map((shift) => shift.original.actualDuty);
-    const allShifts = table
-        .getRowModel()
-        .flatRows.flatMap((shift) => shift.original);
+    const rawStandardDuties = useMemo(
+        () => data.map((day) => day.standardDuty),
+        [data]
+    );
+
+    const rawActualDuties = useMemo(
+        () => data.map((day) => day.actualDuty),
+        [data]
+    );
 
     return (
         <div className="flex flex-col items-center justify-center">
@@ -379,14 +334,14 @@ export const TestTable = ({
                         </TableRow>
                     )}
                 </TableBody>
-                <TableFooter className="font-thin">
+                <TableFooter className="font-mono font-thin">
                     <TableRow>
-                        <TableHead colSpan={3} className="h-8">
+                        <TableHead colSpan={2} className="h-8">
                             小結
                         </TableHead>
                     </TableRow>
                     <TableRow>
-                        <TableCell className="text-right">工時</TableCell>
+                        <TableCell className="text-center">工時</TableCell>
                         {!standardDutyLoading && !actualDutyLoading ? (
                             standardDutyError || actualDutyError ? (
                                 <TableCell colSpan={2}>
@@ -394,21 +349,21 @@ export const TestTable = ({
                                 </TableCell>
                             ) : (
                                 <>
-                                    <TableCell className="text-center">
-                                        <OddHours duties={standardDuties} />
-                                    </TableCell>
                                     <TableCell>
-                                        <OddHours duties={actualDuties} />
+                                        <OddHours
+                                            duties={actualDuties}
+                                            sequence={rawActualDuties}
+                                        />
                                     </TableCell>
                                 </>
                             )
                         ) : (
                             <>
                                 <TableCell>
-                                    <Skeleton className="h-3 w-5"></Skeleton>
+                                    <Skeleton className="h-3 w-8"></Skeleton>
                                 </TableCell>
                                 <TableCell>
-                                    <Skeleton className="h-3 w-5"></Skeleton>
+                                    <Skeleton className="h-3 w-8"></Skeleton>
                                 </TableCell>
                             </>
                         )}

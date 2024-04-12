@@ -4,7 +4,6 @@ import type {
     InferGetServerSidePropsType
 } from 'next';
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function getServerSideProps(
     context: GetServerSidePropsContext<{ username: string; uName: string }>
 ) {

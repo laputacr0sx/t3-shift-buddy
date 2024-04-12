@@ -104,7 +104,7 @@ const SevenSlotsSearchForm = ({
 
             return zodResolved;
         },
-        mode: 'onChange',
+        mode: 'onBlur',
         defaultValues: {
             [dayDetailName]: [
                 { shiftCode: '' },
