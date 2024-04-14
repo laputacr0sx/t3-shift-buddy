@@ -34,13 +34,8 @@ import { Input } from '../ui/input';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
-import { Checkbox } from '../ui/checkbox';
-import { Edit } from 'lucide-react';
-import { o } from '@upstash/redis/zmscore-b6b93f14';
-import { ToastClose } from '@radix-ui/react-toast';
 
 declare module '@tanstack/table-core' {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface TableMeta<TData extends RowData> {
         updateData: (rowIndex: number, columnId: string, value: string) => void;
     }
@@ -57,11 +52,13 @@ type CellProps = {
 const EditCell = (props: CellProps) => {
     const { getValue, row, table, column } = props.props;
     const standardDutySequences = props.standardDutySequences;
+
     const standardPlaceholder = standardDutySequences.at(row.index);
 
     const initialValue = getValue() as string;
-    const [value, setValue] = useState(initialValue);
     console.log(initialValue);
+
+    const [value, setValue] = useState(initialValue);
 
     useEffect(() => {
         setValue(initialValue);
@@ -69,6 +66,7 @@ const EditCell = (props: CellProps) => {
 
     function onBlur() {
         table.options.meta?.updateData(row.index, column.id, value);
+        console.log(value);
     }
 
     return (
@@ -110,9 +108,7 @@ const OddHours = ({
             if (!actualDuty) break;
 
             const duration = +convertDurationDecimal(actualDuty.duration);
-
             const oddHour = duration - DAY_HOUR;
-
             totalHour += oddHour;
         }
     }
@@ -134,13 +130,6 @@ export const TestTable = ({
     useEffect(() => {
         setData(defaultData);
     }, [defaultData]);
-
-    const standardRotaSequence = data.map(({ timetable, standardDuty }) => {
-        const rawStandardDuty = standardDuty.match(abbreviatedDutyNumber)
-            ? `${timetable.prefix}${standardDuty}`
-            : `${standardDuty}`;
-        return rawStandardDuty;
-    });
 
     const actualRotaSequence: string[] = useMemo(
         () =>
@@ -164,12 +153,6 @@ export const TestTable = ({
     );
 
     const {
-        data: standardDuties,
-        isLoading: standardDutyLoading,
-        error: standardDutyError
-    } = api.dutyController.getDutiesBySequence.useQuery(standardRotaSequence);
-
-    const {
         data: actualDuties,
         isLoading: actualDutyLoading,
         error: actualDutyError
@@ -182,11 +165,6 @@ export const TestTable = ({
             onError: () =>
                 toast.error('更新失敗', { position: 'bottom-center' })
         });
-
-    const standardHours = standardDuties?.reduce((hours, duty) => {
-        const duration = +convertDurationDecimal(duty.duration);
-        return hours + duration;
-    }, 0);
 
     const columns = [
         columnHelper.accessor(
@@ -212,13 +190,13 @@ export const TestTable = ({
                 );
             },
             {
-                id: 'date',
+                id: 'detail',
                 header: '明細',
                 cell: (props) => props.getValue()
             }
         ),
         columnHelper.accessor((row) => row.actualDuty, {
-            id: 'standardDuty',
+            id: 'dutyDisplay',
             header: '更',
             cell: (props) => (
                 <EditCell
@@ -265,114 +243,104 @@ export const TestTable = ({
     );
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <Table>
-                <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <TableHead
-                                    key={header.id}
-                                    colSpan={header.colSpan}
-                                    className="whitespace-nowrap text-center"
-                                >
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )}
-                                </TableHead>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody className="font-mono">
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => {
-                            const rowDate = moment(
-                                row.getValue('date'),
-                                'YYYYMMDD ddd'
-                            );
-                            const today = moment();
-                            const isToday = rowDate.isSame(today, 'd');
-
-                            return (
-                                <TableRow
-                                    key={row.id}
-                                    className={cn(isToday && 'bg-accent')}
-                                    data-state={
-                                        row.getIsSelected() && 'selected'
-                                    }
-                                >
-                                    {row.getVisibleCells().map((cell) => {
-                                        return (
-                                            <TableCell
-                                                key={cell.id}
-                                                className={cn(
-                                                    'w-fit items-center justify-center whitespace-nowrap text-center'
-                                                )}
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })
-                    ) : (
-                        <TableRow>
-                            <TableCell
-                                colSpan={columns.length}
-                                className="h-24 text-center"
+        <Table>
+            <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                            <TableHead
+                                key={header.id}
+                                colSpan={header.colSpan}
+                                className="text-center"
                             >
-                                No results.
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-                <TableFooter className="font-mono font-thin">
-                    <TableRow>
-                        <TableHead colSpan={2} className="h-8">
-                            小結
-                        </TableHead>
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                    )}
+                            </TableHead>
+                        ))}
                     </TableRow>
+                ))}
+            </TableHeader>
+            <TableBody className="font-mono">
+                {table.getRowModel().rows?.length ? (
+                    table.getRowModel().rows.map((row) => {
+                        const rowDate = moment(
+                            row.getValue('date'),
+                            'YYYYMMDD ddd'
+                        );
+                        const today = moment();
+                        const isToday = rowDate.isSame(today, 'd');
+
+                        return (
+                            <TableRow
+                                key={row.id}
+                                className={cn(isToday && 'bg-accent')}
+                                data-state={row.getIsSelected() && 'selected'}
+                            >
+                                {row.getVisibleCells().map((cell) => {
+                                    return (
+                                        <TableCell
+                                            key={cell.id}
+                                            className={cn(
+                                                'w-fit items-center justify-center whitespace-nowrap text-center'
+                                            )}
+                                        >
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        );
+                    })
+                ) : (
                     <TableRow>
-                        <TableCell className="text-center">工時</TableCell>
-                        {!standardDutyLoading && !actualDutyLoading ? (
-                            standardDutyError || actualDutyError ? (
-                                <TableCell colSpan={2}>
-                                    Something went wrong
-                                </TableCell>
-                            ) : (
-                                <>
-                                    <TableCell>
-                                        <OddHours
-                                            duties={actualDuties}
-                                            sequence={rawActualDuties}
-                                        />
-                                    </TableCell>
-                                </>
-                            )
+                        <TableCell
+                            colSpan={columns.length}
+                            className="h-24 text-center"
+                        >
+                            No results.
+                        </TableCell>
+                    </TableRow>
+                )}
+            </TableBody>
+            <TableFooter className="font-mono font-thin">
+                <TableRow>
+                    <TableHead colSpan={2} className="h-8">
+                        小結
+                    </TableHead>
+                </TableRow>
+                <TableRow>
+                    <TableCell className="text-center">工時</TableCell>
+                    {!actualDutyLoading ? (
+                        actualDutyError ? (
+                            <TableCell colSpan={2}>
+                                Something went wrong
+                            </TableCell>
                         ) : (
                             <>
                                 <TableCell>
-                                    <Skeleton className="h-3 w-8"></Skeleton>
-                                </TableCell>
-                                <TableCell>
-                                    <Skeleton className="h-3 w-8"></Skeleton>
+                                    <OddHours
+                                        duties={actualDuties}
+                                        sequence={rawActualDuties}
+                                    />
                                 </TableCell>
                             </>
-                        )}
-                    </TableRow>
-                </TableFooter>
-            </Table>
+                        )
+                    ) : (
+                        <TableCell>
+                            <Skeleton className="h-3 w-8"></Skeleton>
+                        </TableCell>
+                    )}
+                </TableRow>
+            </TableFooter>
             <Button
-                variant={'outline'}
-                size={'sm'}
+                className="bg-emerald-600"
                 onClick={() => {
                     mutateSequence({
                         sequenceId: sequenceId,
@@ -382,6 +350,6 @@ export const TestTable = ({
             >
                 儲存更份
             </Button>
-        </div>
+        </Table>
     );
 };

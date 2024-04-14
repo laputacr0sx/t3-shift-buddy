@@ -16,6 +16,7 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
 import superjson from 'superjson';
 import { createContextInner } from '~/server/api/trpc';
+import { useRouter } from 'next/router';
 
 type EasyDutyProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -23,7 +24,7 @@ function EasyDuty(props: EasyDutyProps) {
     console.log(JSON.parse(props.userData));
     const [weekDifference, setWeekDifference] = useState(0);
 
-    // const r = useRouter();
+    const r = useRouter();
 
     // r.push(`/ezduty/${weekDifference}`, undefined, {
     //     shallow: true

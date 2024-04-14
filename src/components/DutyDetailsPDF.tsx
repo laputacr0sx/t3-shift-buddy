@@ -9,13 +9,9 @@ import {
 } from '@react-pdf/renderer';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
-function DutyDetailsPDF({
-    dutyDetails
-}: {
-    readonly dutyDetails: inferProcedureOutput<
-        AppRouter['dutyController']['getDutiesBySequence']
-    >;
-}) {
+import { DayDetail } from '~/utils/customTypes';
+
+function DutyDetailsPDF({ dutyDetails }: { dutyDetails: DayDetail[] }) {
     if (!dutyDetails) return null;
     return (
         <PDFViewer

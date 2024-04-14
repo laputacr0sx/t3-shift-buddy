@@ -311,7 +311,7 @@ export default function DynamicDynamicForm() {
                                                                     className={cn(
                                                                         'w-fit pl-3 text-left font-normal',
                                                                         !value &&
-                                                                            'text-muted-foreground'
+                                                                        'text-muted-foreground'
                                                                     )}
                                                                 >
                                                                     {value ? (
@@ -419,7 +419,6 @@ export default function DynamicDynamicForm() {
                         </div>
                     </Card>
                 </form>
-                {/* <DevTool control={control} /> */}
             </Form>
         </div>
     );

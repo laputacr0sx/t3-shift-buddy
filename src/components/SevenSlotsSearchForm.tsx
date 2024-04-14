@@ -104,7 +104,7 @@ const SevenSlotsSearchForm = ({
 
             return zodResolved;
         },
-        mode: 'onBlur',
+        mode: 'onChange',
         defaultValues: {
             [dayDetailName]: [
                 { shiftCode: '' },
@@ -142,6 +142,7 @@ const SevenSlotsSearchForm = ({
         <>
             {newSearchParams ? (
                 <Button
+                    variant={'outline'}
                     onClick={async () => {
                         await router.push('#query-result');
                     }}
@@ -157,7 +158,7 @@ const SevenSlotsSearchForm = ({
                         onValidPrefixFormHandler,
                         onInvalidPrefixFormHandler
                     )}
-                    className="flex min-h-screen w-full flex-col items-center space-y-1"
+                    className="flex min-h-max w-full flex-col items-center space-y-1"
                 >
                     <FormDescription className="px-8 pb-2 text-xs">
                         <p>於輸入框內輸入更號，例：</p>
@@ -165,7 +166,6 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-
                     {defaultData.map(
                         (
                             {
@@ -236,7 +236,7 @@ const SevenSlotsSearchForm = ({
                                                         </FormLabel>
                                                         <FormControl>
                                                             <div className="w-fit">
-                                                                <div className="flex flex-row items-center justify-center gap-2 font-mono">
+                                                                <div className="flex flex-row items-center justify-center gap-2 font-mono font-bold">
                                                                     {sevenSlotsSearchForm.getValues(
                                                                         field.name
                                                                     ) ? (
@@ -313,16 +313,17 @@ const SevenSlotsSearchForm = ({
                 <section
                     ref={parent}
                     id="query-result"
-                    className="h-screen min-h-screen w-full items-center justify-center"
+                    className="min-h-max w-full items-center justify-center"
                 >
                     <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
                         未來更序
                     </h1>
                     <Button
+                        variant={'outline'}
                         onClick={async () => {
                             await router.push('#top-bar');
                         }}
-                        className="absolute right-0 top-1"
+                        className="absolute right-2 top-1"
                     >
                         <ArrowUpToLine />
                     </Button>
@@ -341,7 +342,7 @@ const SevenSlotsSearchForm = ({
                     )}
                 </section>
             ) : null}
-            {/* <DutyDetailsPDF  /> */}
+            {/*  <DutyDetailsPDF dutyDetails={tableData} /> */}
         </>
     );
 };
