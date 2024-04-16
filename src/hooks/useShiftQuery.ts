@@ -14,7 +14,6 @@ import { dayDetailName } from '~/utils/zodSchemas';
 function useShiftQuery(prefixData: string[] | undefined) {
     const router = useRouter();
     const pathname = usePathname();
-    // const searchParams = useSearchParams();
 
     const handleQuery = useCallback(
         async (defaultData: DefaultData, data: SevenSlotsSearchForm) => {

@@ -44,6 +44,8 @@ import { DayDetailTable } from './ShiftTable/DayDetailTable';
 import { DayDetailColumn } from './ShiftTable/DayDetailColumn';
 import WeatherIconDisplay from './WeatherIconDisplay';
 import DutyDetailsPDF from './DutyDetailsPDF';
+import { setSeconds } from 'date-fns';
+import { s } from '@upstash/redis/zmscore-b6b93f14';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -56,12 +58,16 @@ const SevenSlotsSearchForm = ({
 }: {
     defaultData: DefaultData;
 }) => {
+    const daysLength = defaultData.length;
     const prefixData = defaultData.map((day) => day.prefix);
     const [parent] = useAutoAnimate();
 
     const { router, handleQuery } = useShiftQuery(prefixData);
     const [newSearchParams, setNewSearchParams] =
         useState<URLSearchParams | null>(null);
+    const [searchObjectArray, setSearchObjectArray] = useState<
+        Record<string, string>
+    >({});
 
     useEffect(() => {
         const queryParams = new URLSearchParams(encode(router.query));
@@ -85,6 +91,15 @@ const SevenSlotsSearchForm = ({
         shiftsFromSearchParamMemo
     );
 
+    const defaultFormValues = useMemo(() => {
+        function constructDefaultValues(len: number) {
+            return new Array<{ shiftCode: string }>(len).fill({
+                shiftCode: ''
+            });
+        }
+        return constructDefaultValues(daysLength);
+    }, [daysLength]);
+
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
             // console.log('formData', data);
@@ -106,19 +121,7 @@ const SevenSlotsSearchForm = ({
         },
         mode: 'onChange',
         defaultValues: {
-            [dayDetailName]: [
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' },
-                { shiftCode: '' }
-            ]
+            [dayDetailName]: defaultFormValues
         }
     });
 
@@ -126,6 +129,23 @@ const SevenSlotsSearchForm = ({
         SevenSlotsSearchForm
     > = async (data, event) => {
         event?.preventDefault();
+
+        data[dayDetailName]?.forEach(({ shiftCode }, i) => {
+            const date = moment(defaultData[i]?.date, 'YYYYMMDD ddd').format(
+                'YYYYMMDD'
+            );
+            const prefix = defaultData[i]?.timetable.prefix as string;
+
+            const shiftCodeWithPrefix = shiftCode.match(abbreviatedDutyNumber)
+                ? `${prefix}${shiftCode}`
+                : `${shiftCode}`;
+
+            if (!shiftCodeWithPrefix) return;
+            setSearchObjectArray((prev) => {
+                return { ...prev, [date]: shiftCodeWithPrefix };
+            });
+        });
+
         const newSearch = await handleQuery(defaultData, data);
         setNewSearchParams(newSearch);
         await router.push('#query-result');
@@ -140,6 +160,8 @@ const SevenSlotsSearchForm = ({
 
     return (
         <>
+            <pre>{JSON.stringify(searchObjectArray, null, 2)}</pre>
+
             {newSearchParams ? (
                 <Button
                     variant={'outline'}
@@ -267,7 +289,7 @@ const SevenSlotsSearchForm = ({
                                                                         maxLength={
                                                                             7
                                                                         }
-                                                                        placeholder={`xxx / xxxxxx`}
+                                                                        placeholder={`xxx`}
                                                                         autoCapitalize="characters"
                                                                         autoComplete="off"
                                                                         autoCorrect="off"
@@ -278,6 +300,20 @@ const SevenSlotsSearchForm = ({
                                                             </div>
                                                         </FormControl>
                                                     </div>
+                                                    {JSON.stringify(
+                                                        tableData?.filter(
+                                                            (dayResult) => {
+                                                                return (
+                                                                    dayResult.date ===
+                                                                    correspondingDate.format(
+                                                                        'YYYYMMDD'
+                                                                    )
+                                                                );
+                                                            }
+                                                        ),
+                                                        null,
+                                                        2
+                                                    )}
                                                 </FormItem>
                                             );
                                         }}

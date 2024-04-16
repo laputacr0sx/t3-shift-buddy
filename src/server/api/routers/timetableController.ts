@@ -55,24 +55,25 @@ export const timetableControllerRouter = createTRPCRouter({
                 weatherSchema
             );
 
-            const testWeather = datePrefix.reduce<
+            const dayDeatilsWithWeather = datePrefix.reduce<
                 (DateDetail & {
                     timetable: Timetable;
                     weather: Weather | null;
                 })[]
-            >((weatherDate, date) => {
+            >((weatherDate, detail) => {
                 const weather: Weather | undefined = weatherForecast.filter(
                     (dayWeather) =>
-                        moment(date.date, 'YYYYMMDD ddd').format('YYYYMMDD') ===
-                        dayWeather.forecastDate
+                        moment(detail.date, 'YYYYMMDD ddd').format(
+                            'YYYYMMDD'
+                        ) === dayWeather.forecastDate
                 )[0];
 
                 if (!weather)
-                    return [...weatherDate, { ...date, weather: null }];
-                return [...weatherDate, { ...date, weather }];
+                    return [...weatherDate, { ...detail, weather: null }];
+                return [...weatherDate, { ...detail, weather }];
             }, []);
 
-            return testWeather;
+            return dayDeatilsWithWeather;
         }
     )
 });
