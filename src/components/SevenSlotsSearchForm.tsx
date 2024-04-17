@@ -46,6 +46,7 @@ import WeatherIconDisplay from './WeatherIconDisplay';
 import DutyDetailsPDF from './DutyDetailsPDF';
 import { setSeconds } from 'date-fns';
 import { s } from '@upstash/redis/zmscore-b6b93f14';
+import { HomepageInput } from './HomepageInput';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -188,6 +189,12 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
+
+                    <HomepageInput
+                        defaultData={defaultData}
+                        sevenSlotsSearchForm={sevenSlotsSearchForm}
+                    />
+
                     {defaultData.map(
                         (
                             {
