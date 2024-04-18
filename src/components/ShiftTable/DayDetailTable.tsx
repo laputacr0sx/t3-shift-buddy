@@ -1,11 +1,11 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 import {
   type ColumnDef,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+  useReactTable
+} from '@tanstack/react-table';
 
 import {
   Table,
@@ -15,11 +15,11 @@ import {
   TableHeader,
   TableRow,
   TableCaption,
-  TableFooter,
-} from "~/components/ui/table";
-import TableCopyButtons from "~/components/TableCopyButtons";
+  TableFooter
+} from '~/components/ui/table';
+import TableCopyButtons from '~/components/TableCopyButtons';
 
-import { type DayDetail } from "~/utils/customTypes";
+import { type DayDetail } from '~/utils/customTypes';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
 
 export function DayDetailTable<TData, TValue>({
   columns,
-  data,
+  data
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -38,8 +38,8 @@ export function DayDetailTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
-      rowSelection,
-    },
+      rowSelection
+    }
   });
 
   const isSomeRowSelected = table.getIsSomeRowsSelected();
@@ -63,7 +63,7 @@ export function DayDetailTable<TData, TValue>({
               <Link
                 className="font-serif font-extrabold tracking-widest text-lime-800 dark:text-lime-600"
                 href={
-                  "https://play.google.com/store/apps/details?id=com.google.android.calendar&pcampaignid=web_share"
+                  'https://play.google.com/store/apps/details?id=com.google.android.calendar&pcampaignid=web_share'
                 }
               >
                 Google Calendar
@@ -84,9 +84,10 @@ export function DayDetailTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef
+                            .header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -98,10 +99,15 @@ export function DayDetailTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={
+                    row.getIsSelected() && 'selected'
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="whitespace-nowrap">
+                    <TableCell
+                      key={cell.id}
+                      className="whitespace-nowrap"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -125,13 +131,17 @@ export function DayDetailTable<TData, TValue>({
             {table.getFooterGroups().map((footerGroup) => (
               <TableRow key={footerGroup.id}>
                 {footerGroup.headers.map((header) => (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
+                  <TableHead
+                    key={header.id}
+                    colSpan={header.colSpan}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.footer,
-                          header.getContext()
-                        )}
+                        header.column.columnDef
+                          .footer,
+                        header.getContext()
+                      )}
                   </TableHead>
                 ))}
               </TableRow>

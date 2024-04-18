@@ -7,12 +7,9 @@ import {
     PDFViewer,
     Font
 } from '@react-pdf/renderer';
-import { type inferProcedureOutput } from '@trpc/server';
-import { type AppRouter } from '~/server/api/root';
-import { DayDetail } from '~/utils/customTypes';
+import { type DayDetail } from '~/utils/customTypes';
 
 function DutyDetailsPDF({ dutyDetails }: { dutyDetails: DayDetail[] }) {
-    if (!dutyDetails) return null;
     return (
         <PDFViewer
             width={'80%'}

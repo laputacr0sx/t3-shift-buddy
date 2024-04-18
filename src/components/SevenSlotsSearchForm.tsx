@@ -2,19 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { z } from 'zod';
 import moment from 'moment';
 
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '~/components/ui/form';
-import { Input } from '~/components/ui/input';
+import { Form, FormDescription } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
-
-import { Badge } from '~/components/ui/badge';
 
 import {
     type SubmitHandler,
@@ -22,30 +11,18 @@ import {
     useForm
 } from 'react-hook-form';
 
-import { getRacingStyle } from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import useShiftQuery from '~/hooks/useShiftQuery';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
-import { ArrowDownToLine, ArrowUpToLine } from 'lucide-react';
-
 import { encode } from 'querystring';
 
-import { cn } from '~/lib/utils';
-import { Label } from './ui/label';
 import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
 import { api } from '~/utils/api';
-import TableLoading from './TableLoading';
-import { DayDetailTable } from './ShiftTable/DayDetailTable';
-import { DayDetailColumn } from './ShiftTable/DayDetailColumn';
-import WeatherIconDisplay from './WeatherIconDisplay';
-import DutyDetailsPDF from './DutyDetailsPDF';
-import { setSeconds } from 'date-fns';
-import { s } from '@upstash/redis/zmscore-b6b93f14';
 import { HomepageInput } from './HomepageInput';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
@@ -61,7 +38,6 @@ const SevenSlotsSearchForm = ({
 }) => {
     const daysLength = defaultData.length;
     const prefixData = defaultData.map((day) => day.prefix);
-    const [parent] = useAutoAnimate();
 
     const { router, handleQuery } = useShiftQuery(prefixData);
     const [newSearchParams, setNewSearchParams] =
@@ -149,7 +125,7 @@ const SevenSlotsSearchForm = ({
 
         const newSearch = await handleQuery(defaultData, data);
         setNewSearchParams(newSearch);
-        await router.push('#query-result');
+        // await router.push('#query-result');
     };
 
     const onInvalidPrefixFormHandler: SubmitErrorHandler<
@@ -161,9 +137,7 @@ const SevenSlotsSearchForm = ({
 
     return (
         <>
-            <pre>{JSON.stringify(searchObjectArray, null, 2)}</pre>
-
-            {newSearchParams ? (
+            {/* newSearchParams ? (
                 <Button
                     variant={'outline'}
                     onClick={async () => {
@@ -173,10 +147,14 @@ const SevenSlotsSearchForm = ({
                 >
                     <ArrowDownToLine />
                 </Button>
-            ) : null}
+            ) : null */}
             <Form {...sevenSlotsSearchForm}>
                 <form
                     id="form"
+                    onBlur={sevenSlotsSearchForm.handleSubmit(
+                        onValidPrefixFormHandler,
+                        onInvalidPrefixFormHandler
+                    )}
                     onSubmit={sevenSlotsSearchForm.handleSubmit(
                         onValidPrefixFormHandler,
                         onInvalidPrefixFormHandler
@@ -189,146 +167,11 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-
                     <HomepageInput
                         defaultData={defaultData}
                         sevenSlotsSearchForm={sevenSlotsSearchForm}
+                        tableData={tableData}
                     />
-
-                    {defaultData.map(
-                        (
-                            {
-                                date,
-                                holidayDetail,
-                                racingDetail,
-                                timetable: { prefix },
-                                weather
-                            },
-                            i
-                        ) => {
-                            const correspondingDate = moment(
-                                date,
-                                'YYYYMMDD ddd'
-                            );
-                            const formatedDate =
-                                correspondingDate.format('DD/MM(dd)');
-                            const isRedDay =
-                                correspondingDate.isoWeekday() === 7 ||
-                                !!holidayDetail;
-                            const isMonday =
-                                correspondingDate.isoWeekday() === 1;
-
-                            const legitPrefix = prefix;
-
-                            return (
-                                <fieldset
-                                    key={date}
-                                    className="flex w-full flex-col items-center justify-center gap-2"
-                                >
-                                    {(i === 0 || isMonday) && (
-                                        <Badge
-                                            variant={'outline'}
-                                            className="w-fit border-green-700 dark:border-green-400 "
-                                        >
-                                            <Label>
-                                                {correspondingDate.format(
-                                                    '[Y]YYYY[W]WW'
-                                                )}
-                                            </Label>
-                                        </Badge>
-                                    )}
-                                    <FormField
-                                        control={sevenSlotsSearchForm.control}
-                                        name={`${dayDetailName}[${i}].shiftCode`}
-                                        render={({ field }) => {
-                                            return (
-                                                <FormItem className="flex w-auto flex-col xs:w-full">
-                                                    <div className="w-content mx-8 flex flex-col space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
-                                                        <FormLabel className="flex flex-row items-center justify-center gap-2">
-                                                            <p
-                                                                className={cn(
-                                                                    'flex items-center rounded px-1 font-mono text-sm xs:text-base',
-                                                                    isRedDay &&
-                                                                    'bg-rose-500/40 dark:bg-rose-300/40',
-                                                                    getRacingStyle(
-                                                                        racingDetail
-                                                                    )
-                                                                )}
-                                                            >
-                                                                {formatedDate}
-                                                            </p>
-                                                            <WeatherIconDisplay
-                                                                weather={
-                                                                    weather
-                                                                }
-                                                            />
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <div className="w-fit">
-                                                                <div className="flex flex-row items-center justify-center gap-2 font-mono font-bold">
-                                                                    {sevenSlotsSearchForm.getValues(
-                                                                        field.name
-                                                                    ) ? (
-                                                                        sevenSlotsSearchForm.control.getFieldState(
-                                                                            field.name
-                                                                        )
-                                                                            .invalid ? (
-                                                                            `${legitPrefix}___`
-                                                                        ) : (
-                                                                            <>
-                                                                                {(
-                                                                                    field.value as string
-                                                                                ).match(
-                                                                                    abbreviatedDutyNumber
-                                                                                )
-                                                                                    ? `${legitPrefix}${field.value as string
-                                                                                    }`
-                                                                                    : `${field.value as string
-                                                                                    }`}
-                                                                            </>
-                                                                        )
-                                                                    ) : (
-                                                                        `${legitPrefix}___`
-                                                                    )}
-                                                                    <Input
-                                                                        {...field}
-                                                                        className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
-                                                                        maxLength={
-                                                                            7
-                                                                        }
-                                                                        placeholder={`xxx`}
-                                                                        autoCapitalize="characters"
-                                                                        autoComplete="off"
-                                                                        autoCorrect="off"
-                                                                        spellCheck="false"
-                                                                    />
-                                                                </div>
-                                                                <FormMessage className="text-center text-xs" />
-                                                            </div>
-                                                        </FormControl>
-                                                    </div>
-                                                    {JSON.stringify(
-                                                        tableData?.filter(
-                                                            (dayResult) => {
-                                                                return (
-                                                                    dayResult.date ===
-                                                                    correspondingDate.format(
-                                                                        'YYYYMMDD'
-                                                                    )
-                                                                );
-                                                            }
-                                                        ),
-                                                        null,
-                                                        2
-                                                    )}
-                                                </FormItem>
-                                            );
-                                        }}
-                                    />
-                                </fieldset>
-                            );
-                        }
-                    )}
                     <div className="flex items-center justify-center gap-8">
                         <Button
                             type="submit"
@@ -352,7 +195,7 @@ const SevenSlotsSearchForm = ({
                     </div>
                 </form>
             </Form>
-            {newSearchParams ? (
+            {/* newSearchParams ? (
                 <section
                     ref={parent}
                     id="query-result"
@@ -384,8 +227,8 @@ const SevenSlotsSearchForm = ({
                         />
                     )}
                 </section>
-            ) : null}
-            {/*  <DutyDetailsPDF dutyDetails={tableData} /> */}
+            ) : null*/}
+            {/* tableData ? <DutyDetailsPDF dutyDetails={tableData} /> : null */}
         </>
     );
 };
