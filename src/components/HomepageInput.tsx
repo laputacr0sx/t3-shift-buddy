@@ -33,21 +33,20 @@ import {
 } from '~/utils/helper';
 import { dayDetailName } from '~/utils/zodSchemas';
 import { abbreviatedDutyNumber } from '~/utils/regex';
-import { CalendarPlus, Copy } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { Button } from './ui/button';
-import { atcb_action } from 'add-to-calendar-button';
 
-type TableData = inferProcedureOutput<
+export type TableData = inferProcedureOutput<
     AppRouter['dutyController']['getDutyByDateDuty']
 >;
 
-interface HomepageInputProps {
+export interface HomepageInputProps {
     defaultData: DefaultData;
     sevenSlotsSearchForm: UseFormReturn<SevenSlotsSearchForm>;
     tableData?: TableData;
 }
 
-type DutyCardProps = Pick<HomepageInputProps, 'tableData'> & {
+export type DutyCardProps = Pick<HomepageInputProps, 'tableData'> & {
     correspondingDate: moment.Moment;
     field: ControllerRenderProps<
         SevenSlotsSearchForm,
@@ -56,43 +55,8 @@ type DutyCardProps = Pick<HomepageInputProps, 'tableData'> & {
     legitPrefix: string;
 };
 
-interface AddToCalendarButtonProps {
+export interface AddToCalendarButtonProps {
     dateData: TableData[0];
-}
-function AddToCalendarButtonCustom({ dateData }: AddToCalendarButtonProps) {
-    const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks, date } =
-        dateData;
-    const bND: string = moment(date).format('YYYY-MM-DD');
-    const durationDecimal = duration
-        ? convertDurationDecimal(duration)
-        : duration;
-    const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
-        ? moment(bND).format('YYYY-MM-DD')
-        : moment(bND).add(1, 'd').format('YYYY-MM-DD');
-
-    return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
-        <Button
-            onClick={() => {
-                atcb_action({
-                    name: dutyNumber,
-                    options: ['Apple', 'Google', 'Microsoft365', 'iCal'],
-                    location: bNL,
-                    startDate: bND,
-                    endDate: bFD,
-                    startTime: bNT,
-                    description: `收工地點：${bFL}[br]工時：${durationDecimal}[br]備註：${remarks}`,
-                    endTime: bFT,
-                    hideIconButton: true,
-                    hideBackground: true,
-                    buttonStyle: 'default',
-                    timeZone: 'Asia/Hong_Kong'
-                });
-            }}
-            variant={'outline'}
-        >
-            <CalendarPlus size={16} width={18} />
-        </Button>
-    ) : null;
 }
 
 export function HomepageInput({
@@ -113,7 +77,7 @@ export function HomepageInput({
         if (!correspondingData)
             return (
                 <CardContent>
-                    <CardTitle className=" gap-2 font-mono font-bold">
+                    <CardTitle className="font-mono font-bold">
                         {sevenSlotsSearchForm.getValues(field.name) ? (
                             sevenSlotsSearchForm.control.getFieldState(
                                 field.name
@@ -140,30 +104,38 @@ export function HomepageInput({
             correspondingData;
 
         const cBNL = getChineseLocation(bNL);
-        const dDur = convertDurationDecimal(duration);
         const cBFL = getChineseLocation(bFL);
+        const dDur = +convertDurationDecimal(duration);
 
         return (
             <>
-                <CardContent className="flex items-center justify-between">
+                <CardContent className="flex items-center justify-between font-mono">
                     <section>
-                        <CardTitle className="font-mono font-bold">
+                        <CardTitle className="font-bold">
                             {dutyNumber}
                         </CardTitle>
-                        <p>
-                            {cBNL} {bNT} - {bFT} {cBFL} {dDur}
-                        </p>
+                        <span className="flex items-center gap-3 text-center">
+                            <p className="flex flex-col items-center">
+                                <span>{cBNL}</span>
+                                <span>{bNT}</span>
+                            </p>
+                            <p>-</p>
+                            <p className="flex flex-col items-center">
+                                <span>{cBFL}</span>
+                                <span>{bFT}</span>
+                            </p>
+                            {dDur}
+                        </span>
                     </section>
                     <section className="flex gap-1">
-                        <AddToCalendarButtonCustom
-                            dateData={correspondingData}
-                        />
                         <Button variant={'outline'}>
                             <Copy size={20} />
                         </Button>
                     </section>
                 </CardContent>
-                <CardFooter>{remarks}</CardFooter>
+                <CardFooter className="font-mono font-light">
+                    {remarks}
+                </CardFooter>
             </>
         );
     }
@@ -196,7 +168,7 @@ export function HomepageInput({
                             variant={'outline'}
                             className="mt-1 w-fit border-green-700 dark:border-green-400"
                         >
-                            <Label className="">
+                            <Label>
                                 {correspondingDate.format('[Y]YYYY[W]WW')}
                             </Label>
                         </Badge>
@@ -209,8 +181,7 @@ export function HomepageInput({
                                 <FormItem className="w-full">
                                     <Card
                                         className={cn(
-                                            'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border',
-                                            getRacingStyle(racingDetail)
+                                            'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border'
                                         )}
                                     >
                                         <CardHeader>
@@ -219,7 +190,10 @@ export function HomepageInput({
                                                     className={cn(
                                                         'flex items-center rounded px-1 font-mono text-sm xs:text-base',
                                                         isRedDay &&
-                                                        'bg-rose-500/40 dark:bg-rose-300/40'
+                                                        'bg-rose-500/40 dark:bg-rose-300/40',
+                                                        getRacingStyle(
+                                                            racingDetail
+                                                        )
                                                     )}
                                                 >
                                                     {formatedDate}

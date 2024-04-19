@@ -23,7 +23,11 @@ import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
 import { api } from '~/utils/api';
-import { HomepageInput } from './HomepageInput';
+import { HomepageInput, TableData } from './HomepageInput';
+import { CalendarPlus, Eraser } from 'lucide-react';
+import { DayDetail } from '~/utils/customTypes';
+import { atcb_action } from 'add-to-calendar-button';
+import { convertDurationDecimal } from '~/utils/helper';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -31,6 +35,72 @@ export type DefaultData = inferProcedureOutput<
     AppRouter['timetableController']['getSuitableTimetables']
 >;
 
+type DetailsOfEvent = {
+    name?: string;
+    description?: string;
+    startDate?: string;
+    startTime?: string;
+    endDate?: string;
+    endTime?: string;
+    timeZone?: string;
+    location?: string;
+    status?: 'TENTATIVE' | 'CONFIRMED' | 'CANCELLED';
+    sequence?: number;
+    uid?: string;
+    organizer?: string;
+    attendee?: string;
+};
+
+function AddToCalendarButtonCustom({ dateData }: { dateData?: TableData }) {
+    let resultEvents: DetailsOfEvent[] = [];
+
+    if (!dateData) return null;
+
+    for (const d of dateData) {
+        const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks, date } = d;
+        const bND: string = moment(date).format('YYYY-MM-DD');
+        const durationDecimal = duration
+            ? convertDurationDecimal(duration)
+            : duration;
+        const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
+            ? moment(bND).format('YYYY-MM-DD')
+            : moment(bND).add(1, 'd').format('YYYY-MM-DD');
+
+        resultEvents = [
+            ...resultEvents,
+            {
+                name: dutyNumber,
+                location: bNL,
+                startDate: bND,
+                endDate: bFD,
+                startTime: bNT,
+                endTime: bFT,
+                description: `收工地點：${bFL}[br]工時：${durationDecimal}[br]備註：${remarks}`
+            }
+        ];
+    }
+
+    return (
+        <Button
+            onClick={() => {
+                atcb_action({
+                    name: 'testing',
+                    dates: resultEvents,
+                    options: ['Apple', 'Google', 'Microsoft365', 'iCal'],
+                    hideIconButton: true,
+                    hideBackground: true,
+                    buttonStyle: 'default',
+                    timeZone: 'Asia/Hong_Kong'
+                });
+            }}
+            className="flex gap-2"
+            variant={'outline'}
+        >
+            <CalendarPlus />
+            <p>加入所有更份</p>
+        </Button>
+    );
+}
 const SevenSlotsSearchForm = ({
     defaultData
 }: {
@@ -60,11 +130,7 @@ const SevenSlotsSearchForm = ({
         return dateAndShifts;
     }, [newSearchParams]);
 
-    const {
-        data: tableData,
-        isLoading: tableDataIsLoading,
-        error: tableDataError
-    } = api.dutyController.getDutyByDateDuty.useQuery(
+    const { data: tableData } = api.dutyController.getDutyByDateDuty.useQuery(
         shiftsFromSearchParamMemo
     );
 
@@ -137,17 +203,6 @@ const SevenSlotsSearchForm = ({
 
     return (
         <>
-            {/* newSearchParams ? (
-                <Button
-                    variant={'outline'}
-                    onClick={async () => {
-                        await router.push('#query-result');
-                    }}
-                    className="absolute right-2 top-6"
-                >
-                    <ArrowDownToLine />
-                </Button>
-            ) : null */}
             <Form {...sevenSlotsSearchForm}>
                 <form
                     id="form"
@@ -167,20 +222,9 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-                    <HomepageInput
-                        defaultData={defaultData}
-                        sevenSlotsSearchForm={sevenSlotsSearchForm}
-                        tableData={tableData}
-                    />
-                    <div className="flex items-center justify-center gap-8">
+                    <section className="flex w-full items-center justify-center gap-2">
                         <Button
-                            type="submit"
-                            variant={'secondary'}
                             disabled={!sevenSlotsSearchForm.formState.isDirty}
-                        >
-                            查資料
-                        </Button>
-                        <Button
                             type="reset"
                             variant={'destructive'}
                             onClick={async () => {
@@ -189,45 +233,20 @@ const SevenSlotsSearchForm = ({
                                 await router.replace('/');
                                 router.reload();
                             }}
+                            className="flex gap-2"
                         >
-                            重置
+                            <Eraser />
+                            <p>重設表格</p>
                         </Button>
-                    </div>
+                        <AddToCalendarButtonCustom dateData={tableData} />
+                    </section>
+                    <HomepageInput
+                        defaultData={defaultData}
+                        sevenSlotsSearchForm={sevenSlotsSearchForm}
+                        tableData={tableData}
+                    />
                 </form>
             </Form>
-            {/* newSearchParams ? (
-                <section
-                    ref={parent}
-                    id="query-result"
-                    className="min-h-max w-full items-center justify-center"
-                >
-                    <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
-                        未來更序
-                    </h1>
-                    <Button
-                        variant={'outline'}
-                        onClick={async () => {
-                            await router.push('#top-bar');
-                        }}
-                        className="absolute right-2 top-1"
-                    >
-                        <ArrowUpToLine />
-                    </Button>
-                    <br />
-                    {tableDataIsLoading ? (
-                        <div className="flex flex-col items-center justify-center gap-5 pt-5">
-                            <TableLoading />
-                        </div>
-                    ) : tableDataError ? (
-                        <p>{tableDataError.message}</p>
-                    ) : (
-                        <DayDetailTable
-                            columns={DayDetailColumn}
-                            data={tableData}
-                        />
-                    )}
-                </section>
-            ) : null*/}
             {/* tableData ? <DutyDetailsPDF dutyDetails={tableData} /> : null */}
         </>
     );
