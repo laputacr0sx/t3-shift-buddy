@@ -29,9 +29,13 @@ function UserMetadataForm({
     userMetadata?: CustomUserPrivateMetadata;
 }) {
     const { mutate } = api.userController.setUserMetadata.useMutation({
-        onSuccess: () =>
-            toast.success('保存成功', { position: 'bottom-center' }),
-        onError: () => toast.error('保存失敗', { position: 'bottom-center' })
+        onSuccess: () => {
+            toast.success('保存成功', { position: 'bottom-center' });
+        },
+        onError: (e) => {
+            console.error(e);
+            toast.error('保存失敗', { position: 'bottom-center' });
+        }
     });
 
     const userPrivateMetadataForm = useForm<CustomUserPrivateMetadata>({
@@ -51,7 +55,12 @@ function UserMetadataForm({
     });
 
     function metadataHandler(values: CustomUserPrivateMetadata) {
-        return mutate({ ...values, updatedAt: new Date().toISOString() });
+        const currentDate = new Date();
+        return mutate({
+            ...values,
+            updatedAt: currentDate.toISOString(),
+            weekNumber: +moment(currentDate).format('WW')
+        });
     }
 
     return (
@@ -61,7 +70,7 @@ function UserMetadataForm({
                     onSubmit={userPrivateMetadataForm.handleSubmit(
                         metadataHandler
                     )}
-                    className="space-y-8"
+                    className="flex flex-col space-y-8 px-8"
                 >
                     <FormField
                         control={userPrivateMetadataForm.control}
@@ -70,7 +79,7 @@ function UserMetadataForm({
                             <FormItem>
                                 <FormLabel>職員號碼</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input {...field} size={6} />
                                 </FormControl>
                                 <FormDescription>
                                     職員號碼一經輸入，不可更改。
@@ -79,43 +88,50 @@ function UserMetadataForm({
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={userPrivateMetadataForm.control}
-                        name="row"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>行序編號</FormLabel>
-                                <FormDescription>
-                                    {moment(userMetadata?.updatedAt).format(
-                                        '更新於YYYY-MM-DDTHH:mm:ss'
-                                    )}
-                                </FormDescription>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={userPrivateMetadataForm.control}
-                        name="weekNumber"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>週份</FormLabel>
-                                <FormDescription></FormDescription>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-8 ">
+                            <FormField
+                                control={userPrivateMetadataForm.control}
+                                name="row"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>行序編號</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} size={8} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={userPrivateMetadataForm.control}
+                                name="weekNumber"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>週份</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                disabled
+                                                size={6}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <FormDescription>
+                            {moment(userMetadata?.updatedAt).format(
+                                '更新於YYYY年WW週M月DD日HH時mm分ss秒'
+                            )}
+                        </FormDescription>
+                    </div>
                     <div className="flex flex-col gap-2">
                         <Button
+                            className="bg-emerald-800"
                             type="submit"
                             variant={'outline'}
-                        // disabled={!!userData}
                         >
                             更改
                         </Button>

@@ -34,6 +34,13 @@ import { Input } from '../ui/input';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
+<<<<<<< HEAD
+import { Checkbox } from '../ui/checkbox';
+import { Edit } from 'lucide-react';
+import { o } from '@upstash/redis/zmscore-b6b93f14';
+import { ToastClose } from '@radix-ui/react-toast';
+=======
+>>>>>>> serverside
 
 declare module '@tanstack/table-core' {
     interface TableMeta<TData extends RowData> {
@@ -52,13 +59,20 @@ type CellProps = {
 const EditCell = (props: CellProps) => {
     const { getValue, row, table, column } = props.props;
     const standardDutySequences = props.standardDutySequences;
+<<<<<<< HEAD
+=======
 
+>>>>>>> serverside
     const standardPlaceholder = standardDutySequences.at(row.index);
 
     const initialValue = getValue() as string;
     console.log(initialValue);
 
     const [value, setValue] = useState(initialValue);
+<<<<<<< HEAD
+    console.log(initialValue);
+=======
+>>>>>>> serverside
 
     useEffect(() => {
         setValue(initialValue);
@@ -108,7 +122,13 @@ const OddHours = ({
             if (!actualDuty) break;
 
             const duration = +convertDurationDecimal(actualDuty.duration);
+<<<<<<< HEAD
+
             const oddHour = duration - DAY_HOUR;
+
+=======
+            const oddHour = duration - DAY_HOUR;
+>>>>>>> serverside
             totalHour += oddHour;
         }
     }
@@ -196,7 +216,11 @@ export const TestTable = ({
             }
         ),
         columnHelper.accessor((row) => row.actualDuty, {
+<<<<<<< HEAD
+            id: 'standardDuty',
+=======
             id: 'dutyDisplay',
+>>>>>>> serverside
             header: '更',
             cell: (props) => (
                 <EditCell
@@ -253,6 +277,18 @@ export const TestTable = ({
                                 colSpan={header.colSpan}
                                 className="text-center"
                             >
+<<<<<<< HEAD
+                                No results.
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+                <TableFooter className="font-mono font-thin">
+                    <TableRow>
+                        <TableHead colSpan={2} className="h-8">
+                            小結
+                        </TableHead>
+=======
                                 {header.isPlaceholder
                                     ? null
                                     : flexRender(
@@ -261,6 +297,7 @@ export const TestTable = ({
                                     )}
                             </TableHead>
                         ))}
+>>>>>>> serverside
                     </TableRow>
                 ))}
             </TableHeader>
@@ -300,6 +337,31 @@ export const TestTable = ({
                     })
                 ) : (
                     <TableRow>
+<<<<<<< HEAD
+                        <TableCell className="text-center">工時</TableCell>
+                        {!standardDutyLoading && !actualDutyLoading ? (
+                            standardDutyError || actualDutyError ? (
+                                <TableCell colSpan={2}>
+                                    Something went wrong
+                                </TableCell>
+                            ) : (
+                                <>
+                                    <TableCell>
+                                        <OddHours
+                                            duties={actualDuties}
+                                            sequence={rawActualDuties}
+                                        />
+                                    </TableCell>
+                                </>
+                            )
+                        ) : (
+                            <>
+                                <TableCell>
+                                    <Skeleton className="h-3 w-8"></Skeleton>
+                                </TableCell>
+                                <TableCell>
+                                    <Skeleton className="h-3 w-8"></Skeleton>
+=======
                         <TableCell
                             colSpan={columns.length}
                             className="h-24 text-center"
@@ -329,6 +391,7 @@ export const TestTable = ({
                                         duties={actualDuties}
                                         sequence={rawActualDuties}
                                     />
+>>>>>>> serverside
                                 </TableCell>
                             </>
                         )

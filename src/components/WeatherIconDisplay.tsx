@@ -13,6 +13,9 @@ export default function WeatherIconDisplay({ weather }: WeatherIconProps) {
     const hTemp = weather.forecastMaxtemp.value;
     const lTemp = weather.forecastMintemp.value;
 
+    const hHum = weather.forecastMaxrh.value;
+    const lHum = weather.forecastMinrh.value;
+
     return iconId ? (
         <>
             <Image
@@ -21,9 +24,11 @@ export default function WeatherIconDisplay({ weather }: WeatherIconProps) {
                 width={30}
                 height={30}
             />
-            <Label className="text-xs">
-                <p className="text-red-700 dark:text-red-400">{hTemp}</p>
-                <p className="text-blue-700 dark:text-blue-400">{lTemp}</p>
+            <Label className="flex justify-between text-xs">
+                <div>
+                    <p className="text-red-700 dark:text-red-400">{hTemp}</p>
+                    <p className="text-blue-700 dark:text-blue-400">{lTemp}</p>
+                </div>
             </Label>
         </>
     ) : null;

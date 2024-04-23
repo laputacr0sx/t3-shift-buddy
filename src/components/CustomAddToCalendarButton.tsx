@@ -1,0 +1,85 @@
+import moment from 'moment';
+import { atcb_action } from 'add-to-calendar-button';
+import { CalendarPlus } from 'lucide-react';
+
+import { type TableData } from './HomepageInput';
+import { Button } from './ui/button';
+import { convertDurationDecimal } from '~/utils/helper';
+import { Skeleton } from './ui/skeleton';
+
+type DetailsOfEvent = {
+    name?: string;
+    description?: string;
+    startDate?: string;
+    startTime?: string;
+    endDate?: string;
+    endTime?: string;
+    timeZone?: string;
+    location?: string;
+    status?: 'TENTATIVE' | 'CONFIRMED' | 'CANCELLED';
+    sequence?: number;
+    uid?: string;
+    organizer?: string;
+    attendee?: string;
+};
+
+export default function AddToCalendarButtonCustom({
+    dateData
+}: {
+    dateData?: TableData;
+}) {
+    let resultEvents: DetailsOfEvent[] = [];
+
+    if (!dateData)
+        return (
+            <Skeleton className="flex gap-2 ">
+                <Skeleton className="h-4 w-8" />
+                <Skeleton />
+            </Skeleton>
+        );
+
+    for (const d of dateData) {
+        const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks, date } = d;
+        const bND: string = moment(date).format('YYYY-MM-DD');
+        const durationDecimal = duration
+            ? convertDurationDecimal(duration)
+            : duration;
+        const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
+            ? moment(bND).format('YYYY-MM-DD')
+            : moment(bND).add(1, 'd').format('YYYY-MM-DD');
+
+        resultEvents = [
+            ...resultEvents,
+            {
+                name: dutyNumber,
+                location: bNL,
+                startDate: bND,
+                endDate: bFD,
+                startTime: bNT,
+                endTime: bFT,
+                description: `收工地點：${bFL}[br]工時：${durationDecimal}[br]備註：${remarks}`
+            }
+        ];
+    }
+
+    return (
+        <Button
+            onClick={() => {
+                atcb_action({
+                    name: 'testing',
+                    dates: resultEvents,
+                    options: ['Apple', 'Google', 'Microsoft365', 'iCal'],
+                    hideIconButton: true,
+                    hideBackground: true,
+                    buttonStyle: 'default',
+                    timeZone: 'Asia/Hong_Kong'
+                });
+            }}
+            className="flex gap-2"
+            variant={'outline'}
+        >
+            <CalendarPlus strokeWidth={1} />
+            <p>加入所有更份</p>
+        </Button>
+    );
+}

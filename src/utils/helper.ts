@@ -97,6 +97,37 @@ export function convertDurationDecimal(rawDuration: string): string {
     return `${parseInt(wHour) + minuteDecimal}`;
 }
 
+export function stringifyDuty(duty: DayDetail): string {
+    let completeString = '```\n';
+    let dayString = '';
+
+    if (!duty.title.match(completeShiftNameRegex)) {
+        const { dutyNumber } = duty;
+        const date = moment(duty.date).locale('zh-hk').format('DD/MM(dd)');
+        dayString = `${date} ${dutyNumber}\n`;
+    } else {
+        const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } = duty;
+        const date = moment(duty.date).locale('zh-hk').format('DD/MM(dd)');
+        const durationDecimal = convertDurationDecimal(duration);
+        dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}] <${remarks}> \n`;
+    }
+    completeString = completeString + dayString;
+
+    completeString = completeString + '```';
+
+    return completeString;
+}
+
+export async function copyStringToClipboard(str: string) {
+    if (!navigator?.clipboard) {
+        toast.error('找不到剪貼簿');
+        return;
+    }
+
+    await navigator.clipboard.writeText(str);
+    toast.success('已複製資料');
+}
+
 /**
  * Returns a string representation of the selected shifts, wrapped in code blocks.
  * @param selectedShifts The selected shifts to convert to a string representation.
@@ -119,7 +150,6 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
             const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
                 dayDetail;
             const date = moment(dayDetail.date)
-                // const date = moment(dayDetail.date)
                 .locale('zh-hk')
                 .format('DD/MM(dd)');
             const durationDecimal = convertDurationDecimal(duration);
@@ -136,7 +166,8 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
  * Copies the given selected shifts to the clipboard as a code block.
  * @param selectedShifts The selected shifts to copy to the clipboard.
  */
-export async function tableCopyHandler(selectedShifts: DayDetail[]) {
+export async function tableCopyHandler(selectedShifts?: DayDetail[]) {
+    if (!selectedShifts) return;
     if (!navigator?.clipboard) {
         toast.error('找不到剪貼簿');
         return;
@@ -722,4 +753,34 @@ export function convertWeatherIcons(iconId: string | undefined): string {
         unavailable: `exceptional`
     };
     return iconTable[iconId] as string;
+}
+
+/**
+ * 將時間轉換成 00:00 格式
+ **/
+export function checkDeadDuty(detail: DayDetail): boolean {
+    const { date, bNT, bFT } = detail;
+
+    const d = moment(date, 'YYYYMMDD').format('YYYY-MM-DD');
+    const DEAD_EARLY = moment(`${d} 06:15`);
+    const DEAD_LATE = moment(`${d} 00:30`).add(1, 'd');
+
+    const start = moment.utc(`${d} ${bNT}`);
+    const end = moment(`${d} ${bFT}`).isAfter(moment(`${d} ${bNT}`))
+        ? moment(`${d} ${bFT}`)
+        : moment(`${d} ${bFT}`).add(1, 'd');
+
+    let isDead = false;
+    if (start.isBefore(DEAD_EARLY)) {
+        isDead = true;
+    }
+    if (end.isAfter(DEAD_LATE)) {
+        isDead = true;
+    }
+
+    return isDead;
+}
+
+export function getDeadDutyStyle(isDead: boolean): string {
+    return '';
 }
