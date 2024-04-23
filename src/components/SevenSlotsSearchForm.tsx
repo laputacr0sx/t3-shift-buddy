@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { z } from 'zod';
 import moment from 'moment';
 
-import { Form, FormDescription } from '~/components/ui/form';
+import { Form, FormControl, FormDescription } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
 
 import {
@@ -15,7 +15,6 @@ import { abbreviatedDutyNumber } from '~/utils/regex';
 import useShiftQuery from '~/hooks/useShiftQuery';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 import { encode } from 'querystring';
 
@@ -23,11 +22,11 @@ import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
 import { api } from '~/utils/api';
-import { HomepageInput, TableData } from './HomepageInput';
-import { CalendarPlus, Eraser } from 'lucide-react';
-import { DayDetail } from '~/utils/customTypes';
-import { atcb_action } from 'add-to-calendar-button';
-import { convertDurationDecimal } from '~/utils/helper';
+import { HomepageInput } from './HomepageInput';
+import { Eraser } from 'lucide-react';
+import { tableCopyHandler } from '~/utils/helper';
+import { Textarea } from './ui/textarea';
+import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -35,72 +34,6 @@ export type DefaultData = inferProcedureOutput<
     AppRouter['timetableController']['getSuitableTimetables']
 >;
 
-type DetailsOfEvent = {
-    name?: string;
-    description?: string;
-    startDate?: string;
-    startTime?: string;
-    endDate?: string;
-    endTime?: string;
-    timeZone?: string;
-    location?: string;
-    status?: 'TENTATIVE' | 'CONFIRMED' | 'CANCELLED';
-    sequence?: number;
-    uid?: string;
-    organizer?: string;
-    attendee?: string;
-};
-
-function AddToCalendarButtonCustom({ dateData }: { dateData?: TableData }) {
-    let resultEvents: DetailsOfEvent[] = [];
-
-    if (!dateData) return null;
-
-    for (const d of dateData) {
-        const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks, date } = d;
-        const bND: string = moment(date).format('YYYY-MM-DD');
-        const durationDecimal = duration
-            ? convertDurationDecimal(duration)
-            : duration;
-        const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
-            ? moment(bND).format('YYYY-MM-DD')
-            : moment(bND).add(1, 'd').format('YYYY-MM-DD');
-
-        resultEvents = [
-            ...resultEvents,
-            {
-                name: dutyNumber,
-                location: bNL,
-                startDate: bND,
-                endDate: bFD,
-                startTime: bNT,
-                endTime: bFT,
-                description: `收工地點：${bFL}[br]工時：${durationDecimal}[br]備註：${remarks}`
-            }
-        ];
-    }
-
-    return (
-        <Button
-            onClick={() => {
-                atcb_action({
-                    name: 'testing',
-                    dates: resultEvents,
-                    options: ['Apple', 'Google', 'Microsoft365', 'iCal'],
-                    hideIconButton: true,
-                    hideBackground: true,
-                    buttonStyle: 'default',
-                    timeZone: 'Asia/Hong_Kong'
-                });
-            }}
-            className="flex gap-2"
-            variant={'outline'}
-        >
-            <CalendarPlus />
-            <p>加入所有更份</p>
-        </Button>
-    );
-}
 const SevenSlotsSearchForm = ({
     defaultData
 }: {
@@ -136,9 +69,7 @@ const SevenSlotsSearchForm = ({
 
     const defaultFormValues = useMemo(() => {
         function constructDefaultValues(len: number) {
-            return new Array<{ shiftCode: string }>(len).fill({
-                shiftCode: ''
-            });
+            return new Array<string>(len).fill('');
         }
         return constructDefaultValues(daysLength);
     }, [daysLength]);
@@ -173,7 +104,9 @@ const SevenSlotsSearchForm = ({
     > = async (data, event) => {
         event?.preventDefault();
 
-        data[dayDetailName]?.forEach(({ shiftCode }, i) => {
+        console.log(data);
+
+        data[dayDetailName]?.forEach((shiftCode, i) => {
             const date = moment(defaultData[i]?.date, 'YYYYMMDD ddd').format(
                 'YYYYMMDD'
             );
@@ -190,6 +123,7 @@ const SevenSlotsSearchForm = ({
         });
 
         const newSearch = await handleQuery(defaultData, data);
+        SetCopyText(JSON.stringify(tableData, null, 2));
         setNewSearchParams(newSearch);
         // await router.push('#query-result');
     };
@@ -201,16 +135,14 @@ const SevenSlotsSearchForm = ({
         console.error({ error });
     };
 
+    const [copyText, SetCopyText] = useState('');
+
     return (
         <>
             <Form {...sevenSlotsSearchForm}>
                 <form
                     id="form"
                     onBlur={sevenSlotsSearchForm.handleSubmit(
-                        onValidPrefixFormHandler,
-                        onInvalidPrefixFormHandler
-                    )}
-                    onSubmit={sevenSlotsSearchForm.handleSubmit(
                         onValidPrefixFormHandler,
                         onInvalidPrefixFormHandler
                     )}
@@ -222,6 +154,26 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
+                    <div className="mx-4 grid h-max w-full gap-2 px-4">
+                        <Textarea
+                            className="font-mono font-normal tracking-wider"
+                            placeholder="Type your message here."
+                            onChange={(e) => {
+                                SetCopyText(e.target.value);
+                            }}
+                            value={copyText}
+                        />
+                        <Button
+                            variant={'default'}
+                            onClick={async () => {
+                                await tableCopyHandler(tableData);
+                            }}
+                        >
+                            <p className="text-emerald-700 dark:text-emerald-200">
+                                Open WhatsAPP
+                            </p>
+                        </Button>
+                    </div>
                     <section className="flex w-full items-center justify-center gap-2">
                         <Button
                             disabled={!sevenSlotsSearchForm.formState.isDirty}

@@ -119,7 +119,6 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
             const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
                 dayDetail;
             const date = moment(dayDetail.date)
-                // const date = moment(dayDetail.date)
                 .locale('zh-hk')
                 .format('DD/MM(dd)');
             const durationDecimal = convertDurationDecimal(duration);
@@ -136,7 +135,8 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
  * Copies the given selected shifts to the clipboard as a code block.
  * @param selectedShifts The selected shifts to copy to the clipboard.
  */
-export async function tableCopyHandler(selectedShifts: DayDetail[]) {
+export async function tableCopyHandler(selectedShifts?: DayDetail[]) {
+    if (!selectedShifts) return;
     if (!navigator?.clipboard) {
         toast.error('找不到剪貼簿');
         return;
@@ -722,4 +722,34 @@ export function convertWeatherIcons(iconId: string | undefined): string {
         unavailable: `exceptional`
     };
     return iconTable[iconId] as string;
+}
+
+/*
+ * 將時間轉換成 00:00 格式
+ **/
+export function checkDeadDuty(detail: DayDetail): boolean {
+    const { date, bNT, bFT } = detail;
+
+    const d = moment(date, 'YYYYMMDD').format('YYYY-MM-DD');
+    const DEAD_EARLY = moment(`${d} 06:15`);
+    const DEAD_LATE = moment(`${d} 00:30`).add(1, 'd');
+
+    const start = moment.utc(`${d} ${bNT}`);
+    const end = moment(`${d} ${bFT}`).isAfter(moment(`${d} ${bNT}`))
+        ? moment(`${d} ${bFT}`)
+        : moment(`${d} ${bFT}`).add(1, 'd');
+
+    let isDead = false;
+    if (start.isBefore(DEAD_EARLY)) {
+        isDead = true;
+    }
+    if (end.isAfter(DEAD_LATE)) {
+        isDead = true;
+    }
+
+    return isDead;
+}
+
+export function getDeadDutyStyle(isDead: boolean): string {
+    return '';
 }

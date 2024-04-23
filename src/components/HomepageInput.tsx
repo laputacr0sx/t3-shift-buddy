@@ -4,9 +4,12 @@ import type { inferProcedureOutput } from '@trpc/server';
 
 import type { AppRouter } from '~/server/api/root';
 import type { DefaultData, SevenSlotsSearchForm } from './SevenSlotsSearchForm';
+import WeatherIconDisplay from './WeatherIconDisplay';
+
 import { Badge } from './ui/badge';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
+import { Checkbox } from './ui/checkbox';
 import {
     Card,
     CardContent,
@@ -23,22 +26,17 @@ import {
     FormMessage
 } from './ui/form';
 
-import WeatherIconDisplay from './WeatherIconDisplay';
-
 import { cn } from '~/lib/utils';
 import {
+    checkDeadDuty,
     convertDurationDecimal,
     getChineseLocation,
     getRacingStyle
 } from '~/utils/helper';
 import { dayDetailName } from '~/utils/zodSchemas';
 import { abbreviatedDutyNumber } from '~/utils/regex';
-import { Copy } from 'lucide-react';
 import { Button } from './ui/button';
-
-export type TableData = inferProcedureOutput<
-    AppRouter['dutyController']['getDutyByDateDuty']
->;
+import { Copy } from 'lucide-react';
 
 export interface HomepageInputProps {
     defaultData: DefaultData;
@@ -48,97 +46,145 @@ export interface HomepageInputProps {
 
 export type DutyCardProps = Pick<HomepageInputProps, 'tableData'> & {
     correspondingDate: moment.Moment;
-    field: ControllerRenderProps<
-        SevenSlotsSearchForm,
-        `${string}[${number}].shiftCode`
-    >;
+    field: ControllerRenderProps<SevenSlotsSearchForm, `${string}[${number}]`>;
     legitPrefix: string;
+    form: UseFormReturn<SevenSlotsSearchForm>;
+    idx: number;
 };
 
-export interface AddToCalendarButtonProps {
-    dateData: TableData[0];
+function DutyContentCard({
+    legitPrefix,
+    tableData,
+    correspondingDate,
+    field,
+    form,
+    idx
+}: DutyCardProps) {
+    const correspondingData = tableData?.filter(
+        (d) => d.date === correspondingDate.format('YYYYMMDD')
+    )[0];
+
+    const userInputStr = field.value.toString();
+
+    const formName = field.name;
+    const {
+        getValues,
+        control: { getFieldState }
+    } = form;
+
+    if (!correspondingData)
+        return (
+            <CardContent>
+                <CardTitle className="font-mono font-bold">
+                    {getValues(formName) ? (
+                        getFieldState(formName).invalid ? (
+                            `${legitPrefix}___`
+                        ) : (
+                            <>
+                                {userInputStr.match(abbreviatedDutyNumber)
+                                    ? `${legitPrefix}${userInputStr}`
+                                    : `${userInputStr}`}
+                            </>
+                        )
+                    ) : (
+                        `${legitPrefix}___`
+                    )}
+                </CardTitle>
+            </CardContent>
+        );
+
+    const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } =
+        correspondingData;
+
+    const cBNL = getChineseLocation(bNL);
+    const cBFL = getChineseLocation(bFL);
+    const dDur = +convertDurationDecimal(duration);
+
+    return (
+        <>
+            <CardContent className="flex items-center justify-between font-mono">
+                <section>
+                    <CardTitle className="font-bold">{dutyNumber}</CardTitle>
+                    <span className="flex items-center gap-3 text-center">
+                        <p className="flex flex-col items-center">
+                            <span>{cBNL}</span>
+                            <span>{bNT}</span>
+                        </p>
+                        <p>-</p>
+                        <p className="flex flex-col items-center">
+                            <span>{cBFL}</span>
+                            <span>{bFT}</span>
+                        </p>
+                        <p>{dDur}</p>
+                    </span>
+                </section>
+                <section className="flex flex-col gap-1">
+                    <FormField
+                        control={form.control}
+                        name={dayDetailName}
+                        render={({ field }) => {
+                            return (
+                                <FormItem className="flex w-full items-end justify-center self-center align-middle">
+                                    <FormControl>
+                                        <Checkbox
+                                            className="border-slate-600 dark:border-slate-100"
+                                            checked={
+                                                !!field.value.filter((d) => {
+                                                    d ===
+                                                        correspondingData.dutyNumber.slice(
+                                                            3
+                                                        );
+                                                })
+                                            }
+                                            onCheckedChange={(checked) => {
+                                                return checked
+                                                    ? field.onChange([
+                                                        ...field.value,
+                                                        {
+                                                            shiftCode:
+                                                                correspondingData.dutyNumber.slice(
+                                                                    3
+                                                                )
+                                                        }
+                                                    ])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                            (value) =>
+                                                                value !==
+                                                                correspondingData.dutyNumber.slice(
+                                                                    3
+                                                                )
+                                                        )
+                                                    );
+                                            }}
+                                        />
+                                    </FormControl>
+                                    <FormLabel className="tracking-wider text-slate-600 dark:text-slate-100">
+                                        加入調更字串
+                                    </FormLabel>
+                                </FormItem>
+                            );
+                        }}
+                    />
+                    <Button>
+                        <Copy size={14} />
+                    </Button>
+                </section>
+            </CardContent>
+            <CardFooter className="font-mono font-light">{remarks}</CardFooter>
+        </>
+    );
 }
+
+export type TableData = inferProcedureOutput<
+    AppRouter['dutyController']['getDutyByDateDuty']
+>;
 
 export function HomepageInput({
     defaultData,
     sevenSlotsSearchForm,
     tableData
 }: HomepageInputProps) {
-    function DutyCard({
-        legitPrefix,
-        tableData,
-        correspondingDate,
-        field
-    }: DutyCardProps) {
-        const correspondingData = tableData?.filter(
-            (d) => d.date === correspondingDate.format('YYYYMMDD')
-        )[0];
-
-        if (!correspondingData)
-            return (
-                <CardContent>
-                    <CardTitle className="font-mono font-bold">
-                        {sevenSlotsSearchForm.getValues(field.name) ? (
-                            sevenSlotsSearchForm.control.getFieldState(
-                                field.name
-                            ).invalid ? (
-                                `${legitPrefix}___`
-                            ) : (
-                                <>
-                                    {(field.value as string).match(
-                                        abbreviatedDutyNumber
-                                    )
-                                        ? `${legitPrefix}${field.value as string
-                                        }`
-                                        : `${field.value as string}`}
-                                </>
-                            )
-                        ) : (
-                            `${legitPrefix}___`
-                        )}
-                    </CardTitle>
-                </CardContent>
-            );
-
-        const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } =
-            correspondingData;
-
-        const cBNL = getChineseLocation(bNL);
-        const cBFL = getChineseLocation(bFL);
-        const dDur = +convertDurationDecimal(duration);
-
-        return (
-            <>
-                <CardContent className="flex items-center justify-between font-mono">
-                    <section>
-                        <CardTitle className="font-bold">
-                            {dutyNumber}
-                        </CardTitle>
-                        <span className="flex items-center gap-3 text-center">
-                            <p className="flex flex-col items-center">
-                                <span>{cBNL}</span>
-                                <span>{bNT}</span>
-                            </p>
-                            <p>-</p>
-                            <p className="flex flex-col items-center">
-                                <span>{cBFL}</span>
-                                <span>{bFT}</span>
-                            </p>
-                            {dDur}
-                        </span>
-                    </section>
-                    <section className="flex gap-1">
-                        <Button variant={'outline'}>
-                            <Copy size={20} />
-                        </Button>
-                    </section>
-                </CardContent>
-                <CardFooter className="font-mono font-light">
-                    {remarks}
-                </CardFooter>
-            </>
-        );
-    }
     return defaultData.map(
         (
             {
@@ -148,7 +194,7 @@ export function HomepageInput({
                 timetable: { prefix },
                 weather
             },
-            i
+            idx
         ) => {
             const correspondingDate = moment(date, 'YYYYMMDD ddd');
             const formatedDate = correspondingDate.format('DD/MM(dd)');
@@ -163,7 +209,7 @@ export function HomepageInput({
                     key={date}
                     className="flex w-full flex-col items-center justify-center gap-2"
                 >
-                    {(i === 0 || isMonday) && (
+                    {(idx === 0 || isMonday) && (
                         <Badge
                             variant={'outline'}
                             className="mt-1 w-fit border-green-700 dark:border-green-400"
@@ -175,7 +221,7 @@ export function HomepageInput({
                     )}
                     <FormField
                         control={sevenSlotsSearchForm.control}
-                        name={`${dayDetailName}[${i}].shiftCode`}
+                        name={`${dayDetailName}[${idx}]`}
                         render={({ field }) => {
                             return (
                                 <FormItem className="w-full">
@@ -218,13 +264,15 @@ export function HomepageInput({
                                                 <FormMessage className="text-right text-lg" />
                                             </CardDescription>
                                         </CardHeader>
-                                        <DutyCard
+                                        <DutyContentCard
+                                            form={sevenSlotsSearchForm}
                                             tableData={tableData}
                                             correspondingDate={
                                                 correspondingDate
                                             }
                                             legitPrefix={legitPrefix}
                                             field={field}
+                                            idx={idx}
                                         />
                                     </Card>
                                 </FormItem>

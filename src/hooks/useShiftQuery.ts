@@ -21,7 +21,7 @@ function useShiftQuery(prefixData: string[] | undefined) {
 
             if (typeof prefixData === 'undefined') return newParams;
 
-            data[dayDetailName]?.forEach(({ shiftCode }, i) => {
+            data[dayDetailName]?.forEach((shiftCode, i) => {
                 const date = moment(
                     defaultData[i]?.date,
                     'YYYYMMDD ddd'
