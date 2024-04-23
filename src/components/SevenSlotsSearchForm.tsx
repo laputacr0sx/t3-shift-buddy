@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { z } from 'zod';
 import moment from 'moment';
 
-import { Form, FormControl, FormDescription } from '~/components/ui/form';
+import { Form, FormDescription } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
 
 import {
@@ -24,7 +24,7 @@ import { type AppRouter } from '~/server/api/root';
 import { api } from '~/utils/api';
 import { HomepageInput } from './HomepageInput';
 import { Eraser } from 'lucide-react';
-import { tableCopyHandler } from '~/utils/helper';
+import { copyStringToClipboard, getSelectedShiftsString } from '~/utils/helper';
 import { Textarea } from './ui/textarea';
 import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
 
@@ -45,9 +45,6 @@ const SevenSlotsSearchForm = ({
     const { router, handleQuery } = useShiftQuery(prefixData);
     const [newSearchParams, setNewSearchParams] =
         useState<URLSearchParams | null>(null);
-    const [searchObjectArray, setSearchObjectArray] = useState<
-        Record<string, string>
-    >({});
 
     useEffect(() => {
         const queryParams = new URLSearchParams(encode(router.query));
@@ -93,7 +90,7 @@ const SevenSlotsSearchForm = ({
 
             return zodResolved;
         },
-        mode: 'onChange',
+        mode: 'onBlur',
         defaultValues: {
             [dayDetailName]: defaultFormValues
         }
@@ -103,8 +100,6 @@ const SevenSlotsSearchForm = ({
         SevenSlotsSearchForm
     > = async (data, event) => {
         event?.preventDefault();
-
-        console.log(data);
 
         data[dayDetailName]?.forEach((shiftCode, i) => {
             const date = moment(defaultData[i]?.date, 'YYYYMMDD ddd').format(
@@ -117,15 +112,12 @@ const SevenSlotsSearchForm = ({
                 : `${shiftCode}`;
 
             if (!shiftCodeWithPrefix) return;
-            setSearchObjectArray((prev) => {
-                return { ...prev, [date]: shiftCodeWithPrefix };
-            });
         });
 
         const newSearch = await handleQuery(defaultData, data);
-        SetCopyText(JSON.stringify(tableData, null, 2));
         setNewSearchParams(newSearch);
-        // await router.push('#query-result');
+
+        // if (tableData) SetCopyText(getSelectedShiftsString(tableData));
     };
 
     const onInvalidPrefixFormHandler: SubmitErrorHandler<
@@ -156,7 +148,7 @@ const SevenSlotsSearchForm = ({
                     </FormDescription>
                     <div className="mx-4 grid h-max w-full gap-2 px-4">
                         <Textarea
-                            className="font-mono font-normal tracking-wider"
+                            className="min-h-[240px] font-mono font-normal tracking-wider"
                             placeholder="Type your message here."
                             onChange={(e) => {
                                 SetCopyText(e.target.value);
@@ -164,9 +156,9 @@ const SevenSlotsSearchForm = ({
                             value={copyText}
                         />
                         <Button
-                            variant={'default'}
+                            variant={'outline'}
                             onClick={async () => {
-                                await tableCopyHandler(tableData);
+                                await copyStringToClipboard(copyText);
                             }}
                         >
                             <p className="text-emerald-700 dark:text-emerald-200">

@@ -5,6 +5,7 @@ import { CalendarPlus } from 'lucide-react';
 import { type TableData } from './HomepageInput';
 import { Button } from './ui/button';
 import { convertDurationDecimal } from '~/utils/helper';
+import { Skeleton } from './ui/skeleton';
 
 type DetailsOfEvent = {
     name?: string;
@@ -29,7 +30,13 @@ export default function AddToCalendarButtonCustom({
 }) {
     let resultEvents: DetailsOfEvent[] = [];
 
-    if (!dateData) return null;
+    if (!dateData)
+        return (
+            <Skeleton className="flex gap-2 ">
+                <Skeleton className="h-4 w-8" />
+                <Skeleton />
+            </Skeleton>
+        );
 
     for (const d of dateData) {
         const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks, date } = d;
@@ -71,7 +78,7 @@ export default function AddToCalendarButtonCustom({
             className="flex gap-2"
             variant={'outline'}
         >
-            <CalendarPlus />
+            <CalendarPlus strokeWidth={1} />
             <p>加入所有更份</p>
         </Button>
     );

@@ -49,7 +49,6 @@ export type DutyCardProps = Pick<HomepageInputProps, 'tableData'> & {
     field: ControllerRenderProps<SevenSlotsSearchForm, `${string}[${number}]`>;
     legitPrefix: string;
     form: UseFormReturn<SevenSlotsSearchForm>;
-    idx: number;
 };
 
 function DutyContentCard({
@@ -57,15 +56,12 @@ function DutyContentCard({
     tableData,
     correspondingDate,
     field,
-    form,
-    idx
+    form
 }: DutyCardProps) {
     const correspondingData = tableData?.filter(
         (d) => d.date === correspondingDate.format('YYYYMMDD')
     )[0];
-
     const userInputStr = field.value.toString();
-
     const formName = field.name;
     const {
         getValues,
@@ -128,24 +124,18 @@ function DutyContentCard({
                                     <FormControl>
                                         <Checkbox
                                             className="border-slate-600 dark:border-slate-100"
-                                            checked={
-                                                !!field.value.filter((d) => {
-                                                    d ===
-                                                        correspondingData.dutyNumber.slice(
-                                                            3
-                                                        );
-                                                })
-                                            }
+                                            checked={field.value.includes(
+                                                correspondingData.dutyNumber.slice(
+                                                    3
+                                                )
+                                            )}
                                             onCheckedChange={(checked) => {
                                                 return checked
                                                     ? field.onChange([
                                                         ...field.value,
-                                                        {
-                                                            shiftCode:
-                                                                correspondingData.dutyNumber.slice(
-                                                                    3
-                                                                )
-                                                        }
+                                                        correspondingData.dutyNumber.slice(
+                                                            3
+                                                        )
                                                     ])
                                                     : field.onChange(
                                                         field.value?.filter(
@@ -201,7 +191,6 @@ export function HomepageInput({
             const isRedDay =
                 correspondingDate.isoWeekday() === 7 || !!holidayDetail;
             const isMonday = correspondingDate.isoWeekday() === 1;
-
             const legitPrefix = prefix;
 
             return (
@@ -260,9 +249,7 @@ export function HomepageInput({
                                                     />
                                                 </FormControl>
                                             </FormLabel>
-                                            <CardDescription>
-                                                <FormMessage className="text-right text-lg" />
-                                            </CardDescription>
+                                            <FormMessage className="text-right text-lg" />
                                         </CardHeader>
                                         <DutyContentCard
                                             form={sevenSlotsSearchForm}
@@ -272,7 +259,6 @@ export function HomepageInput({
                                             }
                                             legitPrefix={legitPrefix}
                                             field={field}
-                                            idx={idx}
                                         />
                                     </Card>
                                 </FormItem>

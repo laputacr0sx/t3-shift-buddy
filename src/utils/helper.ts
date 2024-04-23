@@ -97,6 +97,37 @@ export function convertDurationDecimal(rawDuration: string): string {
     return `${parseInt(wHour) + minuteDecimal}`;
 }
 
+export function stringifyDuty(duty: DayDetail): string {
+    let completeString = '```\n';
+    let dayString = '';
+
+    if (!duty.title.match(completeShiftNameRegex)) {
+        const { dutyNumber } = duty;
+        const date = moment(duty.date).locale('zh-hk').format('DD/MM(dd)');
+        dayString = `${date} ${dutyNumber}\n`;
+    } else {
+        const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } = duty;
+        const date = moment(duty.date).locale('zh-hk').format('DD/MM(dd)');
+        const durationDecimal = convertDurationDecimal(duration);
+        dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}] <${remarks}> \n`;
+    }
+    completeString = completeString + dayString;
+
+    completeString = completeString + '```';
+
+    return completeString;
+}
+
+export async function copyStringToClipboard(str: string) {
+    if (!navigator?.clipboard) {
+        toast.error('找不到剪貼簿');
+        return;
+    }
+
+    await navigator.clipboard.writeText(str);
+    toast.success('已複製資料');
+}
+
 /**
  * Returns a string representation of the selected shifts, wrapped in code blocks.
  * @param selectedShifts The selected shifts to convert to a string representation.
@@ -724,7 +755,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
     return iconTable[iconId] as string;
 }
 
-/*
+/**
  * 將時間轉換成 00:00 格式
  **/
 export function checkDeadDuty(detail: DayDetail): boolean {
