@@ -90,7 +90,7 @@ const SevenSlotsSearchForm = ({
 
             return zodResolved;
         },
-        mode: 'onBlur',
+        mode: 'onChange',
         defaultValues: {
             [dayDetailName]: defaultFormValues
         }
@@ -146,7 +146,7 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-                    <div className="mx-4 grid h-max w-full gap-2 px-4">
+                    {/* <div className="mx-4 grid h-max w-full gap-2 px-4">
                         <Textarea
                             className="min-h-[240px] font-mono font-normal tracking-wider"
                             placeholder="Type your message here."
@@ -165,7 +165,7 @@ const SevenSlotsSearchForm = ({
                                 Open WhatsAPP
                             </p>
                         </Button>
-                    </div>
+                    </div> */}
                     <section className="flex w-full items-center justify-center gap-2">
                         <Button
                             disabled={!sevenSlotsSearchForm.formState.isDirty}
