@@ -2,11 +2,12 @@ import { z } from 'zod';
 import {
     dutyInputRegExValidator,
     inputShiftCodeRegex,
+    proShiftNameRegex,
     rostaRegex,
     rowSequenceRegex,
     shiftNameRegex
 } from './regex';
-import { workLocation } from './customTypes';
+import { DutyQueryArray, workLocation } from './customTypes';
 import moment from 'moment';
 
 export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
@@ -127,3 +128,23 @@ export const weatherSchema = z.object({
 export const rostaSchema = z.string().regex(rostaRegex).array().length(7);
 
 export const rotaSchema = z.string().regex(rostaRegex);
+
+export const dutyQueryArraySchema = z
+    .object({
+        date: z.string().regex(/\d{8}/gim),
+        shiftCode: z.string().regex(proShiftNameRegex)
+    })
+    .array();
+
+export const queryStringSchema = z
+    .string()
+    .regex(/[\\?&]([^&=]+)=([^&=]+)/gi)
+    .transform((v) =>
+        v.split('&').map((q) => {
+            const v = q.split('=');
+            return {
+                date: v[0] as string,
+                shiftCode: v[1] as string
+            };
+        })
+    );
