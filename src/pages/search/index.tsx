@@ -23,7 +23,10 @@ import {
     sevenSlotsSearchFormSchema
 } from '~/utils/zodSchemas';
 import { cn } from '~/lib/utils';
-import { getRacingStyle } from '~/utils/helper';
+import {
+    convertTableDatatoExchangeString,
+    getRacingStyle
+} from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 
 import { Button } from '~/components/ui/button';
@@ -49,6 +52,15 @@ import { Badge } from '~/components/ui/badge';
 import { Label } from '~/components/ui/label';
 import DutyContentCard from '~/components/DutyContentCard';
 import type { TableData } from '~/components/HomepageInput';
+import CardDateLabel from '~/components/CardDateParagraph';
+import AddToCalendarButtonCustom from '~/components/CustomAddToCalendarButton';
+import { Textarea } from '~/components/ui/textarea';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionTrigger
+} from '~/components/ui/accordion';
+import { AccordionItem } from '@radix-ui/react-accordion';
 
 function queryStringToArrayObject(str: string) {
     const validQueryStr = queryStringSchema.safeParse(str);
@@ -168,7 +180,9 @@ function TestServerSideForm({
                 out[date] = shiftCodeWithPrefix;
             }
         });
-        await r.replace({ pathname: '/search', query: out });
+        await r.replace({ pathname: '/search', query: out }, undefined, {
+            scroll: false
+        });
     }
 
     return (
@@ -176,7 +190,9 @@ function TestServerSideForm({
             <Form {...sevenSlotsSearchForm}>
                 <form
                     id="form"
-                    onBlur={sevenSlotsSearchForm.handleSubmit(onSubmitHandler)}
+                    onChange={sevenSlotsSearchForm.handleSubmit(
+                        onSubmitHandler
+                    )}
                     className="flex min-h-max w-full flex-col items-center space-y-1"
                 >
                     <FormDescription className="px-8 pb-2 text-xs">
@@ -185,6 +201,13 @@ function TestServerSideForm({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
+                    <Textarea
+                        className="min-h-[240px] font-mono font-normal tracking-wider"
+                        defaultValue={convertTableDatatoExchangeString(
+                            tableData
+                        )}
+                        placeholder="exchange string"
+                    />
                     {details.map(
                         (
                             {
@@ -214,87 +237,100 @@ function TestServerSideForm({
                                     key={date}
                                     className="flex w-full flex-col items-center justify-center gap-2"
                                 >
-                                    <WeekBadgeDisplay
-                                        idx={idx}
-                                        correspondingDate={correspondingDate}
-                                        isMonday={isMonday}
-                                    />
-                                    <FormField
-                                        control={sevenSlotsSearchForm.control}
-                                        name={`${dayDetailName}[${idx}]`}
-                                        render={({ field }) => {
-                                            return (
-                                                <FormItem className="w-full">
-                                                    <Card
-                                                        className={cn(
-                                                            'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border'
-                                                        )}
-                                                    >
-                                                        <CardHeader>
-                                                            <FormLabel className="flex flex-row items-center justify-between">
-                                                                <p
-                                                                    className={cn(
-                                                                        'flex items-center rounded px-1 font-mono text-sm xs:text-base',
-                                                                        isRedDay &&
-                                                                        'bg-rose-500/40 dark:bg-rose-300/40',
-                                                                        getRacingStyle(
-                                                                            racingDetail
-                                                                        )
-                                                                    )}
-                                                                >
-                                                                    {
-                                                                        formatedDate
+                                    <Accordion type="single" collapsible>
+                                        <AccordionItem value="item-1">
+                                            {(idx === 0 || isMonday) && (
+                                                <AccordionTrigger>
+                                                    <WeekBadgeDisplay
+                                                        idx={idx}
+                                                        correspondingDate={
+                                                            correspondingDate
+                                                        }
+                                                        isMonday={isMonday}
+                                                    />
+                                                </AccordionTrigger>
+                                            )}
+                                            <AccordionContent></AccordionContent>
+                                            <FormField
+                                                control={
+                                                    sevenSlotsSearchForm.control
+                                                }
+                                                name={`${dayDetailName}[${idx}]`}
+                                                render={({ field }) => {
+                                                    return (
+                                                        <FormItem className="w-full">
+                                                            <Card
+                                                                className={cn(
+                                                                    'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border'
+                                                                )}
+                                                            >
+                                                                <CardHeader>
+                                                                    <FormLabel className="flex flex-row items-center justify-between">
+                                                                        <CardDateLabel
+                                                                            isRedDay={
+                                                                                isRedDay
+                                                                            }
+                                                                            racingDetail={
+                                                                                racingDetail
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                formatedDate
+                                                                            }
+                                                                        </CardDateLabel>
+                                                                        <WeatherIconDisplay
+                                                                            weather={
+                                                                                weather
+                                                                            }
+                                                                        />
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                {...field}
+                                                                                className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
+                                                                                maxLength={
+                                                                                    7
+                                                                                }
+                                                                                placeholder="xxx"
+                                                                                autoCapitalize="characters"
+                                                                                autoComplete="off"
+                                                                                autoCorrect="off"
+                                                                                spellCheck="false"
+                                                                            />
+                                                                        </FormControl>
+                                                                    </FormLabel>
+                                                                    <FormMessage className="text-right text-lg" />
+                                                                </CardHeader>
+                                                                <DutyContentCard
+                                                                    form={
+                                                                        sevenSlotsSearchForm
                                                                     }
-                                                                </p>
-                                                                <WeatherIconDisplay
-                                                                    weather={
-                                                                        weather
+                                                                    tableData={
+                                                                        tableData
+                                                                    }
+                                                                    correspondingDate={
+                                                                        correspondingDate
+                                                                    }
+                                                                    legitPrefix={
+                                                                        legitPrefix
+                                                                    }
+                                                                    field={
+                                                                        field
                                                                     }
                                                                 />
-                                                                <FormControl>
-                                                                    <Input
-                                                                        {...field}
-                                                                        className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
-                                                                        maxLength={
-                                                                            7
-                                                                        }
-                                                                        placeholder="xxx"
-                                                                        autoCapitalize="characters"
-                                                                        autoComplete="off"
-                                                                        autoCorrect="off"
-                                                                        spellCheck="false"
-                                                                    />
-                                                                </FormControl>
-                                                            </FormLabel>
-                                                            <FormMessage className="text-right text-lg" />
-                                                        </CardHeader>
-                                                        <DutyContentCard
-                                                            form={
-                                                                sevenSlotsSearchForm
-                                                            }
-                                                            tableData={
-                                                                tableData
-                                                            }
-                                                            correspondingDate={
-                                                                correspondingDate
-                                                            }
-                                                            legitPrefix={
-                                                                legitPrefix
-                                                            }
-                                                            field={field}
-                                                        />
-                                                    </Card>
-                                                </FormItem>
-                                            );
-                                        }}
-                                    />
+                                                            </Card>
+                                                        </FormItem>
+                                                    );
+                                                }}
+                                            />
+                                        </AccordionItem>
+                                    </Accordion>
                                 </fieldset>
                             );
                         }
                     )}
                     <section className="flex w-full items-center justify-center gap-2">
                         <Button
-                            disabled={!sevenSlotsSearchForm.formState.isDirty}
+                            // disabled={!sevenSlotsSearchForm.formState.isDirty}
                             type="reset"
                             variant={'destructive'}
                             onClick={async () => {
@@ -306,6 +342,7 @@ function TestServerSideForm({
                             <Eraser />
                             <p>重設表格</p>
                         </Button>
+                        <AddToCalendarButtonCustom tableData={tableData} />
                     </section>
                 </form>
             </Form>

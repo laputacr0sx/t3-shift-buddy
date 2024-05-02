@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import moment from 'moment';
 import { atcb_action } from 'add-to-calendar-button';
 import { CalendarPlus } from 'lucide-react';
@@ -24,21 +25,14 @@ type DetailsOfEvent = {
 };
 
 export default function AddToCalendarButtonCustom({
-    dateData
+    tableData
 }: {
-    dateData?: TableData;
+    tableData?: TableData;
 }) {
+    if (!tableData) return null;
+
     let resultEvents: DetailsOfEvent[] = [];
-
-    if (!dateData)
-        return (
-            <Skeleton className="flex gap-2 ">
-                <Skeleton className="h-4 w-8" />
-                <Skeleton />
-            </Skeleton>
-        );
-
-    for (const d of dateData) {
+    for (const d of tableData) {
         const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks, date } = d;
         const bND: string = moment(date).format('YYYY-MM-DD');
         const durationDecimal = duration
@@ -64,13 +58,12 @@ export default function AddToCalendarButtonCustom({
 
     return (
         <Button
-            onClick={() => {
+            onClick={(e) => {
+                e.preventDefault();
                 atcb_action({
-                    name: 'testing',
+                    name: 'dutyEvents',
                     dates: resultEvents,
                     options: ['Apple', 'Google', 'Microsoft365', 'iCal'],
-                    hideIconButton: true,
-                    hideBackground: true,
                     buttonStyle: 'default',
                     timeZone: 'Asia/Hong_Kong'
                 });

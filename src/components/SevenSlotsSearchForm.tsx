@@ -182,7 +182,7 @@ const SevenSlotsSearchForm = ({
                             <Eraser />
                             <p>重設表格</p>
                         </Button>
-                        <AddToCalendarButtonCustom dateData={tableData} />
+                        <AddToCalendarButtonCustom tableData={tableData} />
                     </section>
                     <HomepageInput
                         defaultData={defaultData}

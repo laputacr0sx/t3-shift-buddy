@@ -15,7 +15,7 @@ type CardDateParagraphProps = {
     racingDetail: Fixture | null;
 } & BaseButtonAttributes;
 
-function CardDateParagraph({
+function CardDateLabel({
     isRedDay,
     racingDetail,
     children,
@@ -35,4 +35,4 @@ function CardDateParagraph({
     );
 }
 
-export default CardDateParagraph;
+export default CardDateLabel;

@@ -18,6 +18,7 @@ import { type Rota } from './standardRosters';
 import { type ValueOf } from 'next/dist/shared/lib/constants';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 import type { Timetable } from '@prisma/client';
+import type { TableData } from '~/components/HomepageInput';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -783,4 +784,40 @@ export function checkDeadDuty(detail: DayDetail): boolean {
 
 export function getDeadDutyStyle(isDead: boolean): string {
     return '';
+}
+
+export function convertTableDatatoExchangeString(
+    tableData?: TableData,
+    isMono = false
+): string {
+    if (!tableData) {
+        return '';
+    }
+
+    let completeString = isMono ? '```\n' : '';
+    for (const dayDetail of tableData) {
+        let dayString = '';
+
+        if (!dayDetail.title.match(completeShiftNameRegex)) {
+            const { dutyNumber } = dayDetail;
+
+            const date = moment(dayDetail.date)
+                .locale('zh-hk')
+                .format('DD/MM(dd)');
+
+            dayString = `${date} ${dutyNumber}\n`;
+        } else {
+            const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+                dayDetail;
+            const date = moment(dayDetail.date)
+                .locale('zh-hk')
+                .format('DD/MM(dd)');
+            const durationDecimal = convertDurationDecimal(duration);
+            dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}] <${remarks}> \n`;
+        }
+        completeString = completeString + dayString;
+    }
+    completeString = completeString + (isMono ? '```' : '');
+
+    return completeString;
 }

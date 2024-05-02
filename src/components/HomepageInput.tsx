@@ -37,7 +37,7 @@ import { dayDetailName } from '~/utils/zodSchemas';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { Button } from './ui/button';
 import { Copy } from 'lucide-react';
-import CardDateParagraph from './CardDateParagraph';
+import CardDateLabel from './CardDateParagraph';
 import DutyContentCard from './DutyContentCard';
 
 export interface HomepageInputProps {
@@ -101,12 +101,12 @@ export function HomepageInput({
                                     >
                                         <CardHeader>
                                             <FormLabel className="flex flex-row items-center justify-between">
-                                                <CardDateParagraph
+                                                <CardDateLabel
                                                     isRedDay={isRedDay}
                                                     racingDetail={racingDetail}
                                                 >
                                                     {formatedDate}
-                                                </CardDateParagraph>
+                                                </CardDateLabel>
                                                 <WeatherIconDisplay
                                                     weather={weather}
                                                 />

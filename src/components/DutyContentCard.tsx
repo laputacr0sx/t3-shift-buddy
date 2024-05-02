@@ -125,13 +125,13 @@ function DutyContentCard({
                             );
                         }}
                     />
-                    <Button
+                    {/* <Button
                         onClick={(e) => {
                             e.preventDefault();
                         }}
                     >
                         <Copy size={14} />
-                    </Button>
+                    </Button> */}
                 </section>
             </CardContent>
             <CardFooter className="font-mono font-light">{remarks}</CardFooter>
