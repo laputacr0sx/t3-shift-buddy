@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import moment from 'moment';
 import superjson from 'superjson';
 import { useForm } from 'react-hook-form';
+import useFormPersist from 'react-hook-form-persist';
 import { Eraser } from 'lucide-react';
 import { encode } from 'querystring';
 
@@ -23,10 +24,7 @@ import {
     sevenSlotsSearchFormSchema
 } from '~/utils/zodSchemas';
 import { cn } from '~/lib/utils';
-import {
-    convertTableDatatoExchangeString,
-    getRacingStyle
-} from '~/utils/helper';
+import { convertTableDatatoExchangeString } from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 
 import { Button } from '~/components/ui/button';
@@ -55,12 +53,6 @@ import type { TableData } from '~/components/HomepageInput';
 import CardDateLabel from '~/components/CardDateParagraph';
 import AddToCalendarButtonCustom from '~/components/CustomAddToCalendarButton';
 import { Textarea } from '~/components/ui/textarea';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionTrigger
-} from '~/components/ui/accordion';
-import { AccordionItem } from '@radix-ui/react-accordion';
 
 function queryStringToArrayObject(str: string) {
     const validQueryStr = queryStringSchema.safeParse(str);
@@ -71,26 +63,29 @@ function queryStringToArrayObject(str: string) {
     return validQueryStr.data;
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const userQuery = encode(context.query);
+    const { req, query } = context;
+
+    const userQuery = encode(query);
     const queryArray = queryStringToArrayObject(userQuery);
 
-    const auth = getAuth(context.req);
-    const today = moment().format('YYYYMMDD ddd');
+    console.log(JSON.stringify(queryArray, null, 2));
 
-    const helpers = createServerSideHelpers({
+    const auth = getAuth(req);
+    const today = moment().toISOString();
+
+    const ssgHelper = createServerSideHelpers({
         router: appRouter,
         ctx: createContextInner({ auth, user: null, clerkMeta: null }),
         transformer: superjson
     });
 
-    await helpers.dutyController.getDutyByDateDuty.prefetch(queryArray);
-    await helpers.timetableController.getSuitableTimetables.prefetch();
+    await ssgHelper.dutyController.getDutyByDateDuty.prefetch(queryArray);
+    await ssgHelper.timetableController.getSuitableTimetables.prefetch();
 
     return {
         props: {
-            trpcState: helpers.dehydrate(),
+            trpcState: ssgHelper.dehydrate(),
             today,
             userQuery
         }
@@ -119,7 +114,7 @@ function WeekBadgeDisplay({
     );
 }
 
-function TestServerSideForm({
+function SearchDutyForm({
     details,
     r,
     tableData
@@ -139,15 +134,6 @@ function TestServerSideForm({
 
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
-            // console.log('formData', data);
-            // console.log(
-            //     'validation result',
-            //     await zodResolver(sevenSlotsSearchFormSchema)(
-            //         data,
-            //         context,
-            //         options
-            //     )
-            // );
             const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
                 data,
                 context,
@@ -156,11 +142,13 @@ function TestServerSideForm({
 
             return zodResolved;
         },
-        mode: 'onChange',
+        mode: 'onBlur',
         defaultValues: {
             [dayDetailName]: defaultFormValues
         }
     });
+
+    useFormPersist('sevenSlotsSearchForm', { ...sevenSlotsSearchForm });
 
     async function onSubmitHandler(data: SevenSlotsSearchForm) {
         const out: Record<string, string> = {};
@@ -180,6 +168,7 @@ function TestServerSideForm({
                 out[date] = shiftCodeWithPrefix;
             }
         });
+
         await r.replace({ pathname: '/search', query: out }, undefined, {
             scroll: false
         });
@@ -201,13 +190,13 @@ function TestServerSideForm({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-                    <Textarea
-                        className="min-h-[240px] font-mono font-normal tracking-wider"
-                        defaultValue={convertTableDatatoExchangeString(
-                            tableData
-                        )}
-                        placeholder="exchange string"
-                    />
+                    {/* <Textarea */}
+                    {/*   className="min-h-[240px] font-mono font-normal tracking-wider" */}
+                    {/*   defaultValue={convertTableDatatoExchangeString( */}
+                    {/*     tableData */}
+                    {/*   )} */}
+                    {/*   placeholder="exchange string" */}
+                    {/* /> */}
                     {details.map(
                         (
                             {
@@ -237,93 +226,78 @@ function TestServerSideForm({
                                     key={date}
                                     className="flex w-full flex-col items-center justify-center gap-2"
                                 >
-                                    <Accordion type="single" collapsible>
-                                        <AccordionItem value="item-1">
-                                            {(idx === 0 || isMonday) && (
-                                                <AccordionTrigger>
-                                                    <WeekBadgeDisplay
-                                                        idx={idx}
-                                                        correspondingDate={
-                                                            correspondingDate
-                                                        }
-                                                        isMonday={isMonday}
-                                                    />
-                                                </AccordionTrigger>
-                                            )}
-                                            <AccordionContent></AccordionContent>
-                                            <FormField
-                                                control={
-                                                    sevenSlotsSearchForm.control
-                                                }
-                                                name={`${dayDetailName}[${idx}]`}
-                                                render={({ field }) => {
-                                                    return (
-                                                        <FormItem className="w-full">
-                                                            <Card
-                                                                className={cn(
-                                                                    'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border'
-                                                                )}
-                                                            >
-                                                                <CardHeader>
-                                                                    <FormLabel className="flex flex-row items-center justify-between">
-                                                                        <CardDateLabel
-                                                                            isRedDay={
-                                                                                isRedDay
-                                                                            }
-                                                                            racingDetail={
-                                                                                racingDetail
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                formatedDate
-                                                                            }
-                                                                        </CardDateLabel>
-                                                                        <WeatherIconDisplay
-                                                                            weather={
-                                                                                weather
-                                                                            }
-                                                                        />
-                                                                        <FormControl>
-                                                                            <Input
-                                                                                {...field}
-                                                                                className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
-                                                                                maxLength={
-                                                                                    7
-                                                                                }
-                                                                                placeholder="xxx"
-                                                                                autoCapitalize="characters"
-                                                                                autoComplete="off"
-                                                                                autoCorrect="off"
-                                                                                spellCheck="false"
-                                                                            />
-                                                                        </FormControl>
-                                                                    </FormLabel>
-                                                                    <FormMessage className="text-right text-lg" />
-                                                                </CardHeader>
-                                                                <DutyContentCard
-                                                                    form={
-                                                                        sevenSlotsSearchForm
+                                    <WeekBadgeDisplay
+                                        idx={idx}
+                                        correspondingDate={correspondingDate}
+                                        isMonday={isMonday}
+                                    />
+                                    <FormField
+                                        control={sevenSlotsSearchForm.control}
+                                        name={`${dayDetailName}[${idx}]`}
+                                        render={({ field }) => {
+                                            return (
+                                                <FormItem className="w-full">
+                                                    <Card
+                                                        className={cn(
+                                                            'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border'
+                                                        )}
+                                                    >
+                                                        <CardHeader>
+                                                            <FormLabel className="flex flex-row items-center justify-between">
+                                                                <CardDateLabel
+                                                                    isRedDay={
+                                                                        isRedDay
                                                                     }
-                                                                    tableData={
-                                                                        tableData
+                                                                    racingDetail={
+                                                                        racingDetail
                                                                     }
-                                                                    correspondingDate={
-                                                                        correspondingDate
+                                                                >
+                                                                    {
+                                                                        formatedDate
                                                                     }
-                                                                    legitPrefix={
-                                                                        legitPrefix
-                                                                    }
-                                                                    field={
-                                                                        field
+                                                                </CardDateLabel>
+                                                                <WeatherIconDisplay
+                                                                    weather={
+                                                                        weather
                                                                     }
                                                                 />
-                                                            </Card>
-                                                        </FormItem>
-                                                    );
-                                                }}
-                                            />
-                                        </AccordionItem>
-                                    </Accordion>
+                                                                <FormControl>
+                                                                    <Input
+                                                                        {...field}
+                                                                        className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
+                                                                        maxLength={
+                                                                            7
+                                                                        }
+                                                                        placeholder="xxx"
+                                                                        autoCapitalize="characters"
+                                                                        autoComplete="off"
+                                                                        autoCorrect="off"
+                                                                        spellCheck="false"
+                                                                    />
+                                                                </FormControl>
+                                                            </FormLabel>
+                                                            <FormMessage className="text-right text-lg" />
+                                                        </CardHeader>
+                                                        <DutyContentCard
+                                                            form={
+                                                                sevenSlotsSearchForm
+                                                            }
+                                                            tableData={
+                                                                tableData
+                                                            }
+                                                            correspondingDate={
+                                                                correspondingDate
+                                                            }
+                                                            legitPrefix={
+                                                                legitPrefix
+                                                            }
+                                                            field={field}
+                                                        />
+                                                    </Card>
+                                                </FormItem>
+                                            );
+                                        }}
+                                    />
                                 </fieldset>
                             );
                         }
@@ -355,13 +329,16 @@ type DayViewProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 export default function PostViewPage(props: DayViewProps) {
     const { today, userQuery: serverSideQuery } = props;
     const r = useRouter();
-    //   const clientSideQuery = encode(r.query);
 
+    //   const clientSideQuery = encode(r.query);
     // const clientSideQueryArray = queryStringToArrayObject(clientSideQuery);
+
     const serverSideQueryArray = queryStringToArrayObject(serverSideQuery);
 
-    const { data: tableData } =
-        api.dutyController.getDutyByDateDuty.useQuery(serverSideQueryArray);
+    const { data: tableData } = api.dutyController.getDutyByDateDuty.useQuery(
+        serverSideQueryArray,
+        { enabled: !!serverSideQueryArray.length }
+    );
 
     const {
         data: weekDetails,
@@ -374,12 +351,8 @@ export default function PostViewPage(props: DayViewProps) {
 
     return (
         <>
-            <PageTitle>{today}</PageTitle>
-            <TestServerSideForm
-                details={weekDetails}
-                r={r}
-                tableData={tableData}
-            />
+            <PageTitle>{moment(today).format('YYYYMMDD ddd')}</PageTitle>
+            <SearchDutyForm details={weekDetails} r={r} tableData={tableData} />
             {/* <pre>{JSON.stringify(serverSideQueryArray, null, 2)}</pre>
             <pre>{JSON.stringify(clientSideQueryArray, null, 2)}</pre> */}
         </>

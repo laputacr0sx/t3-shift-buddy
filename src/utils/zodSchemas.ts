@@ -7,10 +7,11 @@ import {
     rowSequenceRegex,
     shiftNameRegex
 } from './regex';
-import { DutyQueryArray, workLocation } from './customTypes';
+import { workLocation } from './customTypes';
 import moment from 'moment';
 
-export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
+// export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
+export const dayDetailName = `${moment().format('YYYYMMDD')}`;
 
 export const sevenSlotsSearchFormSchema = z.object({
     [dayDetailName]: z

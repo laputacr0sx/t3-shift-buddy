@@ -2,12 +2,10 @@ import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 
 import type { HomepageInputProps } from './HomepageInput';
 import type { SevenSlotsSearchForm } from './SevenSlotsSearchForm';
-import { Copy } from 'lucide-react';
 
 import { CardContent, CardFooter, CardTitle } from './ui/card';
 import { FormControl, FormField, FormItem, FormLabel } from './ui/form';
 import { Checkbox } from './ui/checkbox';
-import { Button } from './ui/button';
 
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { convertDurationDecimal, getChineseLocation } from '~/utils/helper';
