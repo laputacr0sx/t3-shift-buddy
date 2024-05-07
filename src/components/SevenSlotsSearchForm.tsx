@@ -3,13 +3,13 @@ import type { z } from 'zod';
 import moment from 'moment';
 
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
@@ -17,9 +17,9 @@ import { Button } from '~/components/ui/button';
 import { Badge } from '~/components/ui/badge';
 
 import {
-    type SubmitHandler,
-    type SubmitErrorHandler,
-    useForm
+  type SubmitHandler,
+  type SubmitErrorHandler,
+  useForm
 } from 'react-hook-form';
 
 import { getRacingStyle } from '~/utils/helper';
@@ -47,297 +47,297 @@ import WeatherIconDisplay from './WeatherIconDisplay';
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
 export type DefaultData = inferProcedureOutput<
-    AppRouter['timetableController']['getSuitableTimetables']
+  AppRouter['timetableController']['getSuitableTimetables']
 >;
 
 const SevenSlotsSearchForm = ({
-    defaultData
+  defaultData
 }: {
-    defaultData: DefaultData;
+  defaultData: DefaultData;
 }) => {
-    const dataLength = defaultData.length;
+  const dataLength = defaultData.length;
 
-    function createDefaultFormData(len: number) {
-        return new Array<{ shiftCode: string }>(len).fill({ shiftCode: '' });
+  function createDefaultFormData(len: number) {
+    return new Array<{ shiftCode: string }>(len).fill({ shiftCode: '' });
+  }
+
+  const prefixData = defaultData.map((day) => day.prefix);
+  const [parent] = useAutoAnimate();
+
+  const { router, handleQuery } = useShiftQuery(prefixData);
+  const [newSearchParams, setNewSearchParams] =
+    useState<URLSearchParams | null>(null);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(encode(router.query));
+    !!queryParams.size && setNewSearchParams(queryParams);
+  }, [router.query]);
+
+  // use to set search param and fetch api for data
+  const shiftsFromSearchParamMemo = useMemo(() => {
+    const dateAndShifts: { date: string; shiftCode: string }[] = [];
+    if (newSearchParams === null) return dateAndShifts;
+    for (const [date, shiftCode] of newSearchParams) {
+      dateAndShifts.push({ date, shiftCode });
     }
+    return dateAndShifts;
+  }, [newSearchParams]);
 
-    const prefixData = defaultData.map((day) => day.prefix);
-    const [parent] = useAutoAnimate();
+  const {
+    data: tableData,
+    isLoading: tableDataIsLoading,
+    error: tableDataError
+  } = api.dutyController.getDutyByDateDuty.useQuery(
+    shiftsFromSearchParamMemo
+  );
 
-    const { router, handleQuery } = useShiftQuery(prefixData);
-    const [newSearchParams, setNewSearchParams] =
-        useState<URLSearchParams | null>(null);
+  const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
+    resolver: async (data, context, options) => {
+      // console.log('formData', data);
+      // console.log(
+      //     'validation result',
+      //     await zodResolver(sevenSlotsSearchFormSchema)(
+      //         data,
+      //         context,
+      //         options
+      //     )
+      // );
+      const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
+        data,
+        context,
+        options
+      );
 
-    useEffect(() => {
-        const queryParams = new URLSearchParams(encode(router.query));
-        !!queryParams.size && setNewSearchParams(queryParams);
-    }, [router.query]);
+      return zodResolved;
+    },
+    mode: 'onBlur',
+    defaultValues: {
+      [dayDetailName]: createDefaultFormData(dataLength)
+    }
+  });
 
-    // use to set search param and fetch api for data
-    const shiftsFromSearchParamMemo = useMemo(() => {
-        const dateAndShifts: { date: string; shiftCode: string }[] = [];
-        if (newSearchParams === null) return dateAndShifts;
-        for (const [date, shiftCode] of newSearchParams) {
-            dateAndShifts.push({ date, shiftCode });
-        }
-        return dateAndShifts;
-    }, [newSearchParams]);
+  const onValidPrefixFormHandler: SubmitHandler<
+    SevenSlotsSearchForm
+  > = async (data, event) => {
+    event?.preventDefault();
+    const newSearch = await handleQuery(defaultData, data);
+    setNewSearchParams(newSearch);
+    await router.push('#query-result');
+  };
 
-    const {
-        data: tableData,
-        isLoading: tableDataIsLoading,
-        error: tableDataError
-    } = api.dutyController.getDutyByDateDuty.useQuery(
-        shiftsFromSearchParamMemo
-    );
+  const onInvalidPrefixFormHandler: SubmitErrorHandler<
+    SevenSlotsSearchForm
+  > = (error, event) => {
+    event?.preventDefault();
+    console.error({ error });
+  };
 
-    const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
-        resolver: async (data, context, options) => {
-            // console.log('formData', data);
-            // console.log(
-            //     'validation result',
-            //     await zodResolver(sevenSlotsSearchFormSchema)(
-            //         data,
-            //         context,
-            //         options
-            //     )
-            // );
-            const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
-                data,
-                context,
-                options
-            );
+  return (
+    <>
+      {newSearchParams ? (
+        <Button
+          onClick={async () => {
+            await router.push('#query-result');
+          }}
+          className="absolute right-2 top-6"
+        >
+          <ArrowDownToLine />
+        </Button>
+      ) : null}
+      <Form {...sevenSlotsSearchForm}>
+        <form
+          id="form"
+          onSubmit={sevenSlotsSearchForm.handleSubmit(
+            onValidPrefixFormHandler,
+            onInvalidPrefixFormHandler
+          )}
+          className="flex min-h-screen w-full flex-col items-center space-y-1"
+        >
+          <FormDescription className="px-8 pb-2 text-xs">
+            <p>於輸入框內輸入更號，例：</p>
+            <p>
+              J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
+            </p>
+          </FormDescription>
 
-            return zodResolved;
-        },
-        mode: 'onBlur',
-        defaultValues: {
-            [dayDetailName]: createDefaultFormData(dataLength)
-        }
-    });
+          {defaultData.map(
+            (
+              {
+                date,
+                holidayDetail,
+                racingDetail,
+                timetable: { prefix },
+                weather
+              },
+              i
+            ) => {
+              const correspondingDate = moment(
+                date,
+                'YYYYMMDD ddd'
+              );
+              const formatedDate =
+                correspondingDate.format('DD/MM(dd)');
+              const isRedDay =
+                correspondingDate.isoWeekday() === 7 ||
+                !!holidayDetail;
+              const isMonday =
+                correspondingDate.isoWeekday() === 1;
 
-    const onValidPrefixFormHandler: SubmitHandler<
-        SevenSlotsSearchForm
-    > = async (data, event) => {
-        event?.preventDefault();
-        const newSearch = await handleQuery(defaultData, data);
-        setNewSearchParams(newSearch);
-        await router.push('#query-result');
-    };
+              const legitPrefix = prefix;
 
-    const onInvalidPrefixFormHandler: SubmitErrorHandler<
-        SevenSlotsSearchForm
-    > = (error, event) => {
-        event?.preventDefault();
-        console.error({ error });
-    };
-
-    return (
-        <>
-            {newSearchParams ? (
-                <Button
-                    onClick={async () => {
-                        await router.push('#query-result');
-                    }}
-                    className="absolute right-2 top-6"
+              return (
+                <fieldset
+                  key={date}
+                  className="flex w-full flex-col items-center justify-center gap-2"
                 >
-                    <ArrowDownToLine />
-                </Button>
-            ) : null}
-            <Form {...sevenSlotsSearchForm}>
-                <form
-                    id="form"
-                    onSubmit={sevenSlotsSearchForm.handleSubmit(
-                        onValidPrefixFormHandler,
-                        onInvalidPrefixFormHandler
-                    )}
-                    className="flex min-h-screen w-full flex-col items-center space-y-1"
-                >
-                    <FormDescription className="px-8 pb-2 text-xs">
-                        <p>於輸入框內輸入更號，例：</p>
-                        <p>
-                            J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
-                        </p>
-                    </FormDescription>
-
-                    {defaultData.map(
-                        (
-                            {
-                                date,
-                                holidayDetail,
-                                racingDetail,
-                                timetable: { prefix },
-                                weather
-                            },
-                            i
-                        ) => {
-                            const correspondingDate = moment(
-                                date,
-                                'YYYYMMDD ddd'
-                            );
-                            const formatedDate =
-                                correspondingDate.format('DD/MM(dd)');
-                            const isRedDay =
-                                correspondingDate.isoWeekday() === 7 ||
-                                !!holidayDetail;
-                            const isMonday =
-                                correspondingDate.isoWeekday() === 1;
-
-                            const legitPrefix = prefix;
-
-                            return (
-                                <fieldset
-                                    key={date}
-                                    className="flex w-full flex-col items-center justify-center gap-2"
-                                >
-                                    {(i === 0 || isMonday) && (
-                                        <Badge
-                                            variant={'outline'}
-                                            className="w-fit border-green-700 dark:border-green-400 "
-                                        >
-                                            <Label>
-                                                {correspondingDate.format(
-                                                    '[Y]YYYY[W]WW'
-                                                )}
-                                            </Label>
-                                        </Badge>
-                                    )}
-                                    <FormField
-                                        control={sevenSlotsSearchForm.control}
-                                        name={`${dayDetailName}[${i}].shiftCode`}
-                                        render={({ field }) => {
-                                            return (
-                                                <FormItem className="flex w-auto flex-col xs:w-full">
-                                                    <div className="w-content mx-8 flex flex-col space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
-                                                        <FormLabel
-                                                            className={cn(
-                                                                'flex w-fit items-center rounded px-1 font-mono text-sm xs:text-base',
-                                                                isRedDay &&
-                                                                'bg-rose-500/40 dark:bg-rose-300/40',
-                                                                getRacingStyle(
-                                                                    racingDetail
-                                                                )
-                                                            )}
-                                                        >
-                                                            {formatedDate}
-                                                        </FormLabel>
-                                                        <FormLabel className="flex flex-row items-center justify-center">
-                                                            <WeatherIconDisplay
-                                                                weather={
-                                                                    weather
-                                                                }
-                                                            />
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <div className="w-fit">
-                                                                <div className="flex flex-row items-center justify-center gap-2">
-                                                                    {sevenSlotsSearchForm.getValues(
-                                                                        field.name
-                                                                    ) ? (
-                                                                        sevenSlotsSearchForm.control.getFieldState(
-                                                                            field.name
-                                                                        )
-                                                                            .invalid ? (
-                                                                            `${legitPrefix}___`
-                                                                        ) : (
-                                                                            <>
-                                                                                {(
-                                                                                    field.value as string
-                                                                                ).match(
-                                                                                    abbreviatedDutyNumber
-                                                                                )
-                                                                                    ? `${legitPrefix}${field.value as string
-                                                                                    }`
-                                                                                    : `${field.value as string
-                                                                                    }`}
-                                                                            </>
-                                                                        )
-                                                                    ) : (
-                                                                        `${legitPrefix}___`
-                                                                    )}
-                                                                    <Input
-                                                                        {...field}
-                                                                        className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
-                                                                        maxLength={
-                                                                            7
-                                                                        }
-                                                                        placeholder={`xxx / xxxxxx`}
-                                                                        autoCapitalize="characters"
-                                                                        autoComplete="off"
-                                                                        autoCorrect="off"
-                                                                        spellCheck="false"
-                                                                    />
-                                                                </div>
-                                                                <FormMessage className="text-center text-xs" />
-                                                            </div>
-                                                        </FormControl>
-                                                    </div>
-                                                </FormItem>
-                                            );
-                                        }}
-                                    />
-                                </fieldset>
-                            );
-                        }
-                    )}
-                    <div className="flex items-center justify-center gap-8">
-                        <Button
-                            type="submit"
-                            variant={'secondary'}
-                            disabled={!sevenSlotsSearchForm.formState.isDirty}
-                        >
-                            查資料
-                        </Button>
-                        <Button
-                            type="reset"
-                            variant={'destructive'}
-                            onClick={async () => {
-                                sevenSlotsSearchForm.reset();
-                                setNewSearchParams(null);
-                                await router.replace('/');
-                                router.reload();
-                            }}
-                        >
-                            重置
-                        </Button>
-                    </div>
-                </form>
-            </Form>
-            {newSearchParams ? (
-                <section
-                    ref={parent}
-                    id="query-result"
-                    className="h-screen min-h-screen w-full items-center justify-center"
-                >
-                    <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
-                        未來更序
-                    </h1>
-                    <Button
-                        onClick={async () => {
-                            await router.push('#top-bar');
-                        }}
-                        className="absolute right-0 top-1"
+                  {(i === 0 || isMonday) && (
+                    <Badge
+                      variant={'outline'}
+                      className="w-fit border-green-700 dark:border-green-400 "
                     >
-                        <ArrowUpToLine />
-                    </Button>
-                    <br />
-                    {tableDataIsLoading ? (
-                        <div className="flex flex-col items-center justify-center gap-5 pt-5">
-                            <TableLoading />
-                        </div>
-                    ) : tableDataError ? (
-                        <p>{tableDataError.message}</p>
-                    ) : (
-                        <DayDetailTable
-                            columns={DayDetailColumn}
-                            data={tableData}
-                        />
-                    )}
-                </section>
-            ) : null}
-            {/* <DutyDetailsPDF  /> */}
-        </>
-    );
+                      <Label>
+                        {correspondingDate.format(
+                          '[Y]YYYY[W]WW'
+                        )}
+                      </Label>
+                    </Badge>
+                  )}
+                  <FormField
+                    control={sevenSlotsSearchForm.control}
+                    name={`${dayDetailName}[${i}].shiftCode`}
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="flex w-auto flex-col xs:w-full">
+                          <div className="w-content mx-8 flex flex-col space-y-0 xs:flex-row xs:items-center xs:justify-between xs:gap-0">
+                            <FormLabel
+                              className={cn(
+                                'flex w-fit items-center rounded px-1 font-mono text-sm xs:text-base',
+                                isRedDay &&
+                                'bg-rose-500/40 dark:bg-rose-300/40',
+                                getRacingStyle(
+                                  racingDetail
+                                )
+                              )}
+                            >
+                              {formatedDate}
+                            </FormLabel>
+                            <FormLabel className="flex flex-row items-center justify-center">
+                              <WeatherIconDisplay
+                                weather={
+                                  weather
+                                }
+                              />
+                            </FormLabel>
+                            <FormControl>
+                              <div className="w-fit">
+                                <div className="flex flex-row items-center justify-center gap-2">
+                                  {sevenSlotsSearchForm.getValues(
+                                    field.name
+                                  ) ? (
+                                    sevenSlotsSearchForm.control.getFieldState(
+                                      field.name
+                                    )
+                                      .invalid ? (
+                                      `${legitPrefix}___`
+                                    ) : (
+                                      <>
+                                        {(
+                                          field.value as string
+                                        ).match(
+                                          abbreviatedDutyNumber
+                                        )
+                                          ? `${legitPrefix}${field.value as string
+                                          }`
+                                          : `${field.value as string
+                                          }`}
+                                      </>
+                                    )
+                                  ) : (
+                                    `${legitPrefix}___`
+                                  )}
+                                  <Input
+                                    {...field}
+                                    className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
+                                    maxLength={
+                                      7
+                                    }
+                                    placeholder={`xxx / xxxxxx`}
+                                    autoCapitalize="characters"
+                                    autoComplete="off"
+                                    autoCorrect="off"
+                                    spellCheck="false"
+                                  />
+                                </div>
+                                <FormMessage className="text-center text-xs" />
+                              </div>
+                            </FormControl>
+                          </div>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </fieldset>
+              );
+            }
+          )}
+          <div className="flex items-center justify-center gap-8">
+            <Button
+              type="submit"
+              variant={'secondary'}
+              disabled={!sevenSlotsSearchForm.formState.isDirty}
+            >
+              查資料
+            </Button>
+            <Button
+              type="reset"
+              variant={'destructive'}
+              onClick={async () => {
+                sevenSlotsSearchForm.reset();
+                setNewSearchParams(null);
+                await router.replace('/');
+                router.reload();
+              }}
+            >
+              重置
+            </Button>
+          </div>
+        </form>
+      </Form>
+      {newSearchParams ? (
+        <section
+          ref={parent}
+          id="query-result"
+          className="h-screen min-h-screen w-full items-center justify-center"
+        >
+          <h1 className="justify-center py-2 text-center text-2xl font-medium text-foreground">
+            未來更序
+          </h1>
+          <Button
+            onClick={async () => {
+              await router.push('#top-bar');
+            }}
+            className="absolute right-0 top-1"
+          >
+            <ArrowUpToLine />
+          </Button>
+          <br />
+          {tableDataIsLoading ? (
+            <div className="flex flex-col items-center justify-center gap-5 pt-5">
+              <TableLoading />
+            </div>
+          ) : tableDataError ? (
+            <p>{tableDataError.message}</p>
+          ) : (
+            <DayDetailTable
+              columns={DayDetailColumn}
+              data={tableData}
+            />
+          )}
+        </section>
+      ) : null}
+      {/* <DutyDetailsPDF  /> */}
+    </>
+  );
 };
 
 export default SevenSlotsSearchForm;

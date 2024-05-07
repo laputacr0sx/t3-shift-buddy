@@ -11,63 +11,63 @@ import { CalendarPlus } from 'lucide-react';
 const columnHelper = createColumnHelper<DayDetail>();
 
 export const DayDetailColumn: ColumnDef<DayDetail>[] = [
-    {
-        id: 'add_to_calendar',
-        header: () => (
-            <span className="block text-center align-middle text-stone-700 dark:text-stone-300">
-                加到日曆
-            </span>
-        ),
-
-        cell: ({ row }) => {
-            const dutyNumber: string = row.getValue('dutyNumber');
-            const bNL: string = getChineseLocation(row.getValue('bNL'));
-            const bND: string = moment(row.getValue('date')).format(
-                'YYYY-MM-DD'
-            );
-            const bNT: string = row.getValue('bNT');
-            const bFL: string = getChineseLocation(row.getValue('bFL'));
-            const bFT: string = row.getValue('bFT');
-            const duration: string = row.getValue('duration');
-            const durationDecimal = duration
-                ? convertDurationDecimal(duration)
-                : duration;
-            const remarks: string = row.getValue('remarks');
-            const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
-                ? moment(bND).format('YYYY-MM-DD')
-                : moment(bND).add(1, 'd').format('YYYY-MM-DD');
-
-            return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
-                <Button
-                    onClick={() => {
-                        atcb_action({
-                            name: dutyNumber,
-                            options: [
-                                'Apple',
-                                'Google',
-                                'Microsoft365',
-                                'iCal'
-                            ],
-                            location: bNL,
-                            startDate: bND,
-                            endDate: bFD,
-                            startTime: bNT,
-                            description: `收工地點：${bFL}[br]工時：${durationDecimal}[br]備註：${remarks}`,
-                            endTime: bFT,
-                            hideIconButton: true,
-                            hideBackground: true,
-                            label: '加至日曆',
-                            buttonStyle: 'default',
-                            timeZone: 'Asia/Hong_Kong'
-                        });
-                    }}
-                    variant={'outline'}
-                >
-                    <CalendarPlus size={16} width={18} />
-                </Button>
-            ) : null;
-        }
-    },
+    // {
+    //     id: 'add_to_calendar',
+    //     header: () => (
+    //         <span className="block text-center align-middle text-stone-700 dark:text-stone-300">
+    //             加到日曆
+    //         </span>
+    //     ),
+    //
+    //     cell: ({ row }) => {
+    //         const dutyNumber: string = row.getValue('dutyNumber');
+    //         const bNL: string = getChineseLocation(row.getValue('bNL'));
+    //         const bND: string = moment(row.getValue('date')).format(
+    //             'YYYY-MM-DD'
+    //         );
+    //         const bNT: string = row.getValue('bNT');
+    //         const bFL: string = getChineseLocation(row.getValue('bFL'));
+    //         const bFT: string = row.getValue('bFT');
+    //         const duration: string = row.getValue('duration');
+    //         const durationDecimal = duration
+    //             ? convertDurationDecimal(duration)
+    //             : duration;
+    //         const remarks: string = row.getValue('remarks');
+    //         const bFD = moment(`${bND} ${bFT}`).isAfter(moment(`${bND} ${bNT}`))
+    //             ? moment(bND).format('YYYY-MM-DD')
+    //             : moment(bND).add(1, 'd').format('YYYY-MM-DD');
+    //
+    //         return !dutyNumber.match(/(RD|CL|AL|GH|SH)/gim) ? (
+    //             <Button
+    //                 onClick={() => {
+    //                     atcb_action({
+    //                         name: dutyNumber,
+    //                         options: [
+    //                             'Apple',
+    //                             'Google',
+    //                             'Microsoft365',
+    //                             'iCal'
+    //                         ],
+    //                         location: bNL,
+    //                         startDate: bND,
+    //                         endDate: bFD,
+    //                         startTime: bNT,
+    //                         description: `收工地點：${bFL}[br]工時：${durationDecimal}[br]備註：${remarks}`,
+    //                         endTime: bFT,
+    //                         hideIconButton: true,
+    //                         hideBackground: true,
+    //                         label: '加至日曆',
+    //                         buttonStyle: 'default',
+    //                         timeZone: 'Asia/Hong_Kong'
+    //                     });
+    //                 }}
+    //                 variant={'outline'}
+    //             >
+    //                 <CalendarPlus size={16} width={18} />
+    //             </Button>
+    //         ) : null;
+    //     }
+    // },
     {
         id: 'select',
         header: ({ table }) => (
@@ -133,22 +133,22 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
                     );
                 }
             }),
-            columnHelper.accessor('dutyNumber', {
-                header: () => (
-                    <span className="block text-center align-middle text-slate-700 dark:text-slate-300">
-                        更號
-                    </span>
-                ),
-                cell: ({ row }) => {
-                    const dutyNumber: string = row.getValue('dutyNumber');
-                    return (
-                        <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
-                            {dutyNumber}
-                        </span>
-                    );
-                },
-                footer: () => <p>TotalHours:</p>
-            }),
+            // columnHelper.accessor('dutyNumber', {
+            //     header: () => (
+            //         <span className="block text-center align-middle text-slate-700 dark:text-slate-300">
+            //             更號
+            //         </span>
+            //     ),
+            //     cell: ({ row }) => {
+            //         const dutyNumber: string = row.getValue('dutyNumber');
+            //         return (
+            //             <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
+            //                 {dutyNumber}
+            //             </span>
+            //         );
+            //     },
+            //     footer: () => <p>TotalHours:</p>
+            // }),
             {
                 accessorKey: 'duration',
                 header: () => (
