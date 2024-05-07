@@ -1,10 +1,7 @@
 import PageTitle from '~/components/PageTitle';
-
-import React from 'react';
 import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
-import { api } from '~/utils/api';
 import TableLoading from '~/components/TableLoading';
-import DutyDetailsPDF from '~/components/DutyDetailsPDF';
+import { api } from '~/utils/api';
 
 const LandingPage = () => {
     const {
@@ -12,8 +9,6 @@ const LandingPage = () => {
         isLoading: weekDetailsLoading,
         error: weekDetailsError
     } = api.timetableController.getSuitableTimetables.useQuery();
-
-    console.log(weekDetails);
 
     if (weekDetailsLoading) return <TableLoading />;
     if (weekDetailsError) return <>Something Went Wrong</>;
@@ -25,5 +20,20 @@ const LandingPage = () => {
         </>
     );
 };
+
+// eslint-disable-next-line @typescript-eslint/require-await
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//     const auth = getAuth(context.req);
+//
+//     const ssgHelper = createServerSideHelpers({
+//         router: appRouter,
+//         ctx: createContextInner({ auth, user: null }),
+//         transformer: superjson
+//     });
+//     // await ssgHelper.timetableController.getSuitableTimetables.prefetch();
+//
+//     return { props: { testing: 'hi' } };
+//     // trpcState: ssgHelper.dehydrate()
+// }
 
 export default LandingPage;

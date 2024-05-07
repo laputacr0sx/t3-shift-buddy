@@ -133,22 +133,21 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
                     );
                 }
             }),
-            // columnHelper.accessor('dutyNumber', {
-            //     header: () => (
-            //         <span className="block text-center align-middle text-slate-700 dark:text-slate-300">
-            //             更號
-            //         </span>
-            //     ),
-            //     cell: ({ row }) => {
-            //         const dutyNumber: string = row.getValue('dutyNumber');
-            //         return (
-            //             <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
-            //                 {dutyNumber}
-            //             </span>
-            //         );
-            //     },
-            //     footer: () => <p>TotalHours:</p>
-            // }),
+            columnHelper.accessor('dutyNumber', {
+                header: () => (
+                    <span className="block text-center align-middle text-slate-700 dark:text-slate-300">
+                        更號
+                    </span>
+                ),
+                cell: ({ row }) => {
+                    const dutyNumber: string = row.getValue('dutyNumber');
+                    return (
+                        <span className="block py-2 text-center align-middle text-slate-600 dark:text-slate-200">
+                            {dutyNumber}
+                        </span>
+                    );
+                }
+            }),
             {
                 accessorKey: 'duration',
                 header: () => (
@@ -166,23 +165,23 @@ export const DayDetailColumn: ColumnDef<DayDetail>[] = [
                             {durationDecimal}
                         </span>
                     );
-                },
-                footer: (props) => {
-                    const totalHours = props.table
-                        .getFilteredRowModel()
-                        .rows.reduce((sum, row) => {
-                            const duration: string = row.getValue('duration');
-                            const durationDecimal = duration
-                                ? convertDurationDecimal(duration)
-                                : '0';
-                            // const durationInt: number = parseFloat(durationDecimal);
-                            const durationInt = +durationDecimal;
-
-                            return sum + durationInt;
-                        }, 0);
-
-                    return <p>{totalHours}</p>;
                 }
+                // footer: (props) => {
+                //     const totalHours = props.table
+                //         .getFilteredRowModel()
+                //         .rows.reduce((sum, row) => {
+                //             const duration: string = row.getValue('duration');
+                //             const durationDecimal = duration
+                //                 ? convertDurationDecimal(duration)
+                //                 : '0';
+                //             // const durationInt: number = parseFloat(durationDecimal);
+                //             const durationInt = +durationDecimal;
+                //
+                //             return sum + durationInt;
+                //         }, 0);
+                //
+                //     return <p>{totalHours}</p>;
+                // }
             }
         ]
     }),
