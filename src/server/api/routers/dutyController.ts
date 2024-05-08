@@ -8,6 +8,7 @@ import {
     dayOffRegex,
     proShiftNameRegex
 } from '~/utils/regex';
+import { dutyQueryArraySchema } from '~/utils/zodSchemas';
 
 export const dutyControllerRouter = createTRPCRouter({
     getDutiesBySequence: publicProcedure
@@ -28,6 +29,7 @@ export const dutyControllerRouter = createTRPCRouter({
             if (!foundDuty) throw new TRPCError({ code: 'NOT_FOUND' });
             return foundDuty;
         }),
+
     getDutyByDateDuty: publicProcedure
         .input(
             z

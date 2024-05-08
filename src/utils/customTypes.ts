@@ -5,7 +5,8 @@ import type {
     rawShiftArraySchema,
     userPrivateMetadataSchema,
     rostaSchema,
-    weatherSchema
+    weatherSchema,
+    dutyQueryArraySchema
 } from './zodSchemas';
 import type { getFitTimetable } from './helper';
 
@@ -49,6 +50,8 @@ export type CustomUserPrivateMetadata = z.infer<
 >;
 
 export type StaffId = z.infer<typeof staffIdSchema>;
+
+export type DutyQueryArray = z.infer<typeof dutyQueryArraySchema>;
 
 export type Rosta = z.infer<typeof rostaSchema>;
 
