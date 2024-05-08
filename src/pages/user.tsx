@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAuth, buildClerkProps, clerkClient } from "@clerk/nextjs/server";
+import { getAuth, buildClerkProps, clerkClient } from '@clerk/nextjs/server';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -22,9 +22,13 @@ import useGetUsermeta from '~/hooks/useGetUsermeta';
 import PageTitle from '~/components/PageTitle';
 import moment from 'moment';
 import { type UserPrivateMetadata } from '~/utils/customTypes';
-import { GetServerSideProps, InferGetStaticPropsType } from 'next';
+import { type GetServerSideProps, type InferGetStaticPropsType } from 'next';
 
-function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata }) {
+function UserMetadataForm({
+    userMetadata
+}: {
+    userMetadata?: UserPrivateMetadata;
+}) {
     const correspondingMoment = moment();
 
     const { mutate } = api.userController.setUserMetadata.useMutation({
@@ -109,7 +113,7 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
                         <Button
                             type="submit"
                             variant={'outline'}
-                        // disabled={!!userData}
+                            // disabled={!!userData}
                         >
                             更改
                         </Button>
@@ -123,30 +127,27 @@ function UserMetadataForm({ userMetadata }: { userMetadata?: UserPrivateMetadata
     );
 }
 
-const User = ({ metaData }: InferGetStaticPropsType<typeof getServerSideProps>) => (
+const User = ({
+    metaData
+}: InferGetStaticPropsType<typeof getServerSideProps>) => (
     <React.Fragment>
         <PageTitle>用戶資料</PageTitle>
         <UserMetadataForm userMetadata={metaData} />
     </React.Fragment>
 );
 
-
 export const getServerSideProps = (async (ctx) => {
     let { userId } = getAuth(ctx.req);
     if (!userId) {
-        userId = ''
+        userId = '';
     }
     const metadata = await clerkClient.users
         .getUser(userId)
         .then((user) => user.privateMetadata as UserPrivateMetadata);
 
-    console.log(metadata);
-
-
     return {
         props: { metaData: metadata }
-    }
-}) satisfies GetServerSideProps<{ metaData: UserPrivateMetadata }>
-
+    };
+}) satisfies GetServerSideProps<{ metaData: UserPrivateMetadata }>;
 
 export default User;

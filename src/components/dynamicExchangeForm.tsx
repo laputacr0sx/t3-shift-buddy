@@ -74,7 +74,6 @@ const Display = ({ control, index }: DisplayProps) => {
         name: `${fieldArrayName}.${index}`
     });
 
-    console.log(data);
     if (!data.staffID) return null;
 
     return (
@@ -315,7 +314,6 @@ export default function DynamicDynamicForm() {
                                                                     )}
                                                                 >
                                                                     {value ? (
-                                                                        // format(value, "dd-MM-yyyy E")
                                                                         moment(
                                                                             value
                                                                         ).format(

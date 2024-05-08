@@ -56,10 +56,8 @@ export const calendarControllerRouter = createTRPCRouter({
             const webICSEvents = getWebICSEvents(webICSEventString);
 
             const updatedICSEvents = getICSObject(input);
-            console.log(updatedICSEvents);
 
             const oldICSEvents = convertToICSEvents(webICSEvents);
-            console.log(oldICSEvents);
 
             // const combinedICSEvents = oldICSEvents.reduce<EventAttributes[]>(
             //   (allEvents, currOldEvent) => {
@@ -104,7 +102,6 @@ export const calendarControllerRouter = createTRPCRouter({
                 ...updatedICSEvents
             ]);
             // const awaitingEventBlob = convertICSEventsToBlob(combinedICSEvents);
-            console.log(awaitingEventBlob);
 
             const eventsBlob = await awaitingEventBlob;
 

@@ -91,8 +91,6 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
         .getUser(user.id)
         .then((user) => user.privateMetadata);
 
-    console.log(metadata);
-
     const validMetadata = userPrivateMetadataSchema.safeParse(metadata);
 
     if (!validMetadata.success) {

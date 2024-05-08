@@ -147,7 +147,7 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
 export async function tableCopyHandler(selectedShifts: DayDetail[]) {
     if (!navigator?.clipboard) {
         toast.error('找不到剪貼簿');
-        return
+        return;
     }
 
     const completeString = getSelectedShiftsString(selectedShifts);
@@ -269,7 +269,6 @@ function draftPrefix(
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
     const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
-    console.log(nextWeekNumber);
 
     const correspondingDates = moreDays
         ? getDatesTillSunday()
@@ -626,7 +625,9 @@ export function getRacingStyle(racingDetail: Fixture | null) {
 }
 
 export function convertWeatherIcons(iconId: string | undefined): string {
-    if (!iconId) { return ''; }
+    if (!iconId) {
+        return '';
+    }
 
     const iconTable: Record<string, string> = {
         '50': 'sunny-day',
@@ -658,7 +659,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
         '91': `warm`,
         '92': `cool`,
         '93': `cold`,
-        'unavailable': `exceptional`
-    }
+        unavailable: `exceptional`
+    };
     return iconTable[iconId] as string;
 }
