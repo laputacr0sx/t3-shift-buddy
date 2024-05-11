@@ -73,7 +73,6 @@ const SevenSlotsSearchForm = ({
         !!queryParams.size && setNewSearchParams(queryParams);
     }, [router.query]);
 
-    // use to set search param and fetch api for data
     const shiftsFromSearchParamMemo = useMemo(() => {
         const dateAndShifts: { date: string; shiftCode: string }[] = [];
         if (newSearchParams === null) return dateAndShifts;

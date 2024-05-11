@@ -1,12 +1,15 @@
 import { Fragment, useMemo } from 'react';
 import { ExchangeColumn } from '~/components/Exchange/ExchangeColumn';
 import { ExchangeTable } from '~/components/Exchange/ExchangeTable';
+import Form from '~/components/Exchange/Form';
 import { autoPrefix } from '~/utils/helper';
 
 export default function DemoExchangeForm() {
     const days = useMemo(() => {
         return autoPrefix(true);
     }, []);
+
+    return <Form />;
 
     return (
         <>
