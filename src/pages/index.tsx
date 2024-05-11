@@ -21,19 +21,4 @@ const LandingPage = () => {
     );
 };
 
-// eslint-disable-next-line @typescript-eslint/require-await
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//     const auth = getAuth(context.req);
-//
-//     const ssgHelper = createServerSideHelpers({
-//         router: appRouter,
-//         ctx: createContextInner({ auth, user: null }),
-//         transformer: superjson
-//     });
-//     // await ssgHelper.timetableController.getSuitableTimetables.prefetch();
-//
-//     return { props: { testing: 'hi' } };
-//     // trpcState: ssgHelper.dehydrate()
-// }
-
 export default LandingPage;

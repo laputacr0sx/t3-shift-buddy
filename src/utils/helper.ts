@@ -213,12 +213,6 @@ export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
     return events;
 }
 
-/**
- * Converts an array of iCal events to a Blob containing the iCal data.
- *
- * @param {EventAttributes[]} calEvents - An array of iCal event objects.
- * @returns {Promise<Blob>} A Promise that resolves to a Blob containing the iCal data.
- */
 export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
     return new Promise<Blob>((resolve, reject) => {
         createEvents(calEvents, (error, value) => {
@@ -242,7 +236,7 @@ type Prefix = '75' | '71' | '15' | '13' | '14';
  * @param isHoliday A boolean value indicating whether the given date is a holiday.
  * @returns {Prefix} The draft prefix for the given fixture, weekday number, and holiday status.
  */
-function draftPrefix(
+export function draftPrefix(
     raceFixture: Fixture | undefined,
     weekdayNumber: number,
     isHoliday: boolean
@@ -252,20 +246,24 @@ function draftPrefix(
             ? '75'
             : '15';
     }
-    if (raceFixture.nightRacing === 0) {
-        return '71';
-    } else
-        return raceFixture.nightRacing === 1 && raceFixture.venue === 'H'
-            ? '14'
-            : '13';
-}
+    switch (raceFixture.nightRacing) {
+        case 0:
+            return '71';
+        case 1:
+            if (raceFixture.venue === 'H') return '14';
+        case 2:
+            return '71';
+        default:
+            return '13';
+    }
 
-/**
- * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
- * @param moreDays {boolean} Set to true if you want to get days from tomorrow onwards until next Sunday. Defaults to false.
- * @param weekNumber The week number to get the details for. Defaults to the current week number.
- * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
- */
+    // if (raceFixture.nightRacing === 0) {
+    //     return '71';
+    // } else
+    //     return raceFixture.nightRacing === 1 && raceFixture.venue === 'H'
+    //         ? '14'
+    //         : '13';
+}
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
     const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();

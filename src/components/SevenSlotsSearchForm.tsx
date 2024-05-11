@@ -61,8 +61,8 @@ const SevenSlotsSearchForm = ({
         return new Array<{ shiftCode: string }>(len).fill({ shiftCode: '' });
     }
 
-    const prefixData = defaultData.map((day) => day.prefix);
     const [parent] = useAutoAnimate();
+    const prefixData = defaultData.map((day) => day.prefix);
 
     const { router, handleQuery } = useShiftQuery(prefixData);
     const [newSearchParams, setNewSearchParams] =
@@ -73,7 +73,6 @@ const SevenSlotsSearchForm = ({
         !!queryParams.size && setNewSearchParams(queryParams);
     }, [router.query]);
 
-    // use to set search param and fetch api for data
     const shiftsFromSearchParamMemo = useMemo(() => {
         const dateAndShifts: { date: string; shiftCode: string }[] = [];
         if (newSearchParams === null) return dateAndShifts;
