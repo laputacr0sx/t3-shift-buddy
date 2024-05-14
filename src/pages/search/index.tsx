@@ -8,7 +8,7 @@ import moment from 'moment';
 import superjson from 'superjson';
 import { useForm } from 'react-hook-form';
 import useFormPersist from 'react-hook-form-persist';
-import { Eraser } from 'lucide-react';
+import { Copy, Eraser } from 'lucide-react';
 import { encode } from 'querystring';
 
 import { getAuth } from '@clerk/nextjs/server';
@@ -24,7 +24,10 @@ import {
     sevenSlotsSearchFormSchema
 } from '~/utils/zodSchemas';
 import { cn } from '~/lib/utils';
-import { convertTableDatatoExchangeString } from '~/utils/helper';
+import {
+    convertTableDatatoExchangeString,
+    stringifyDuty
+} from '~/utils/helper';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 
 import { Button } from '~/components/ui/button';
@@ -53,6 +56,10 @@ import type { TableData } from '~/components/HomepageInput';
 import CardDateLabel from '~/components/CardDateParagraph';
 import AddToCalendarButtonCustom from '~/components/CustomAddToCalendarButton';
 import { Textarea } from '~/components/ui/textarea';
+import { useClipboard } from '~/hooks/useClipboard';
+import toast from 'react-hot-toast';
+import CopyButton from '~/components/CopyButton';
+import { w } from '@upstash/redis/zmscore-b6b93f14';
 
 function queryStringToArrayObject(str: string) {
     const validQueryStr = queryStringSchema.safeParse(str);
@@ -68,8 +75,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const userQuery = encode(query);
     const queryArray = queryStringToArrayObject(userQuery);
-
-    console.log(JSON.stringify(queryArray, null, 2));
 
     const auth = getAuth(req);
     const today = moment().toISOString();
@@ -114,16 +119,14 @@ function WeekBadgeDisplay({
     );
 }
 
-function SearchDutyForm({
-    details,
-    r,
-    tableData
-}: {
+type SearchDutyFormProps = {
     details: DefaultData;
     tableData?: TableData;
     r: NextRouter;
-}) {
+};
+function SearchDutyForm({ details, r, tableData }: SearchDutyFormProps) {
     const daysLength = details.length;
+    const exchangeString = convertTableDatatoExchangeString(tableData);
 
     const defaultFormValues = useMemo(() => {
         function constructDefaultValues(len: number) {
@@ -132,7 +135,7 @@ function SearchDutyForm({
         return constructDefaultValues(daysLength);
     }, [daysLength]);
 
-    const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
+    const sevenSlotsFormComplex = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
             const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
                 data,
@@ -148,15 +151,15 @@ function SearchDutyForm({
         }
     });
 
-    useFormPersist('sevenSlotsSearchForm', { ...sevenSlotsSearchForm });
+    useFormPersist('sevenSlotsSearchForm', { ...sevenSlotsFormComplex });
 
-    async function onSubmitHandler(data: SevenSlotsSearchForm) {
+    async function onSubmitHandler(values: SevenSlotsSearchForm) {
         const out: Record<string, string> = {};
-        data[dayDetailName]?.forEach((shiftCode, i) => {
-            const date = moment(details[i]?.date, 'YYYYMMDD ddd').format(
+        values[dayDetailName]?.forEach((shiftCode, idx) => {
+            const date = moment(details[idx]?.date, 'YYYYMMDD ddd').format(
                 'YYYYMMDD'
             );
-            const prefix = details[i]?.timetable.prefix as string;
+            const prefix = details[idx]?.timetable.prefix as string;
 
             const shiftCodeWithPrefix = shiftCode.match(abbreviatedDutyNumber)
                 ? `${prefix}${shiftCode}`
@@ -176,13 +179,12 @@ function SearchDutyForm({
 
     return (
         <>
-            <Form {...sevenSlotsSearchForm}>
+            <Form {...sevenSlotsFormComplex}>
                 <form
                     id="form"
-                    onChange={sevenSlotsSearchForm.handleSubmit(
-                        onSubmitHandler
-                    )}
-                    className="flex min-h-max w-full flex-col items-center space-y-1"
+                    onBlur={sevenSlotsFormComplex.handleSubmit(onSubmitHandler)}
+                    className="flex min-h-max w-full flex-col items-center space-y-1 py-2"
+                    onSubmit={(e) => e.preventDefault()}
                 >
                     <FormDescription className="px-8 pb-2 text-xs">
                         <p>於輸入框內輸入更號，例：</p>
@@ -232,7 +234,7 @@ function SearchDutyForm({
                                         isMonday={isMonday}
                                     />
                                     <FormField
-                                        control={sevenSlotsSearchForm.control}
+                                        control={sevenSlotsFormComplex.control}
                                         name={`${dayDetailName}[${idx}]`}
                                         render={({ field }) => {
                                             return (
@@ -280,7 +282,7 @@ function SearchDutyForm({
                                                         </CardHeader>
                                                         <DutyContentCard
                                                             form={
-                                                                sevenSlotsSearchForm
+                                                                sevenSlotsFormComplex
                                                             }
                                                             tableData={
                                                                 tableData
@@ -303,12 +305,14 @@ function SearchDutyForm({
                         }
                     )}
                     <section className="flex w-full items-center justify-center gap-2">
+                        <AddToCalendarButtonCustom tableData={tableData} />
+                        <CopyButton str={exchangeString} />
                         <Button
-                            // disabled={!sevenSlotsSearchForm.formState.isDirty}
                             type="reset"
+                            size={'sm'}
                             variant={'destructive'}
                             onClick={async () => {
-                                sevenSlotsSearchForm.reset();
+                                sevenSlotsFormComplex.reset();
                                 await r.replace({ pathname: 'search' });
                             }}
                             className="flex gap-2"
@@ -316,7 +320,6 @@ function SearchDutyForm({
                             <Eraser />
                             <p>重設表格</p>
                         </Button>
-                        <AddToCalendarButtonCustom tableData={tableData} />
                     </section>
                 </form>
             </Form>

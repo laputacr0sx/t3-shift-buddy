@@ -81,56 +81,56 @@ function DutyContentCard({
                         <p>{dDur}</p>
                     </span>
                 </section>
-                <section className="flex flex-col gap-1">
-                    <FormField
-                        control={form.control}
-                        name={dayDetailName}
-                        render={({ field }) => {
-                            return (
-                                <FormItem className="flex w-full items-end justify-center self-center align-middle">
-                                    <FormControl>
-                                        <Checkbox
-                                            className="border-slate-600 dark:border-slate-100"
-                                            checked={field.value.includes(
-                                                correspondingData.dutyNumber.slice(
-                                                    3
-                                                )
-                                            )}
-                                            onCheckedChange={(checked) => {
-                                                return checked
-                                                    ? field.onChange([
-                                                        ...field.value,
-                                                        correspondingData.dutyNumber.slice(
-                                                            3
-                                                        )
-                                                    ])
-                                                    : field.onChange(
-                                                        field.value?.filter(
-                                                            (value) =>
-                                                                value !==
-                                                                correspondingData.dutyNumber.slice(
-                                                                    3
-                                                                )
-                                                        )
-                                                    );
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormLabel className="tracking-wider text-slate-600 dark:text-slate-100">
-                                        加入調更字串
-                                    </FormLabel>
-                                </FormItem>
-                            );
-                        }}
-                    />
-                    {/* <Button
-                        onClick={(e) => {
-                            e.preventDefault();
-                        }}
-                    >
-                        <Copy size={14} />
-                    </Button> */}
-                </section>
+                {/* <section className="flex flex-col gap-1"> */}
+                {/*     <FormField */}
+                {/*         control={form.control} */}
+                {/*         name={dayDetailName} */}
+                {/*         render={({ field }) => { */}
+                {/*             return ( */}
+                {/*                 <FormItem className="flex w-full items-end justify-center self-center align-middle"> */}
+                {/*                     <FormControl> */}
+                {/*                         <Checkbox */}
+                {/*                             className="border-slate-600 dark:border-slate-100" */}
+                {/*                             checked={field.value.includes( */}
+                {/*                                 correspondingData.dutyNumber.slice( */}
+                {/*                                     3 */}
+                {/*                                 ) */}
+                {/*                             )} */}
+                {/*                             onCheckedChange={(checked) => { */}
+                {/*                                 return checked */}
+                {/*                                     ? field.onChange([ */}
+                {/*                                         ...field.value, */}
+                {/*                                         correspondingData.dutyNumber.slice( */}
+                {/*                                             3 */}
+                {/*                                         ) */}
+                {/*                                     ]) */}
+                {/*                                     : field.onChange( */}
+                {/*                                         field.value?.filter( */}
+                {/*                                             (value) => */}
+                {/*                                                 value !== */}
+                {/*                                                 correspondingData.dutyNumber.slice( */}
+                {/*                                                     3 */}
+                {/*                                                 ) */}
+                {/*                                         ) */}
+                {/*                                     ); */}
+                {/*                             }} */}
+                {/*                         /> */}
+                {/*                     </FormControl> */}
+                {/*                     <FormLabel className="tracking-wider text-slate-600 dark:text-slate-100"> */}
+                {/*                         加入調更字串 */}
+                {/*                     </FormLabel> */}
+                {/*                 </FormItem> */}
+                {/*             ); */}
+                {/*         }} */}
+                {/*     /> */}
+                {/*     {/* <Button */}
+                {/*         onClick={(e) => { */}
+                {/*             e.preventDefault(); */}
+                {/*         }} */}
+                {/*     > */}
+                {/*         <Copy size={14} /> */}
+                {/*     </Button> */}
+                {/* </section> */}
             </CardContent>
             <CardFooter className="font-mono font-light">{remarks}</CardFooter>
         </>

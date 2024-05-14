@@ -87,7 +87,7 @@ export const getNextWeekDates = (year?: string, weekNumber?: string) => {
 };
 
 /**
- * Converts a raw duration string (e.g. "01:30") to a decimal representation (e.g. "0.83").
+ * Converts a raw duration string (e.g. "7:30") to a decimal representation (e.g. "7.5").
  * @param rawDuration The raw duration string to convert.
  * @returns The converted decimal representation of the duration string.
  */
@@ -163,10 +163,6 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
     return completeString;
 }
 
-/**
- * Copies the given selected shifts to the clipboard as a code block.
- * @param selectedShifts The selected shifts to copy to the clipboard.
- */
 export async function tableCopyHandler(selectedShifts?: DayDetail[]) {
     if (!selectedShifts) return;
     if (!navigator?.clipboard) {

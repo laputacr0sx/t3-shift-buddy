@@ -23,10 +23,16 @@ import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
 import { api } from '~/utils/api';
 import { HomepageInput } from './HomepageInput';
-import { Eraser } from 'lucide-react';
-import { copyStringToClipboard, getSelectedShiftsString } from '~/utils/helper';
+import { Eraser, MessageCircle } from 'lucide-react';
+import {
+    convertTableDatatoExchangeString,
+    copyStringToClipboard,
+    getSelectedShiftsString
+} from '~/utils/helper';
 import { Textarea } from './ui/textarea';
 import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
+import CopyButton from './CopyButton';
+import Link from 'next/link';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -63,6 +69,8 @@ const SevenSlotsSearchForm = ({
     const { data: tableData } = api.dutyController.getDutyByDateDuty.useQuery(
         shiftsFromSearchParamMemo
     );
+
+    const exchangeString = convertTableDatatoExchangeString(tableData);
 
     const defaultFormValues = useMemo(() => {
         function constructDefaultValues(len: number) {
@@ -127,8 +135,6 @@ const SevenSlotsSearchForm = ({
         console.error({ error });
     };
 
-    const [copyText, SetCopyText] = useState('');
-
     return (
         <>
             <Form {...sevenSlotsSearchForm}>
@@ -168,7 +174,7 @@ const SevenSlotsSearchForm = ({
                     </div> */}
                     <section className="flex w-full items-center justify-center gap-2">
                         <Button
-                            disabled={!sevenSlotsSearchForm.formState.isDirty}
+                            // disabled={!sevenSlotsSearchForm.formState.isDirty}
                             type="reset"
                             variant={'destructive'}
                             onClick={async () => {
@@ -180,9 +186,20 @@ const SevenSlotsSearchForm = ({
                             className="flex gap-2"
                         >
                             <Eraser />
-                            <p>重設表格</p>
                         </Button>
                         <AddToCalendarButtonCustom tableData={tableData} />
+                        <CopyButton str={exchangeString} />
+                        <Link
+                            href={`whatsapp://send?text=${encodeURIComponent(
+                                exchangeString
+                            )}`}
+                            className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
+                        >
+                            <MessageCircle className="m-2 h-4 w-4 self-center" />
+                            <p className={'self-center text-center text-xs '}>
+                                開啟WhatsApp
+                            </p>
+                        </Link>
                     </section>
                     <HomepageInput
                         defaultData={defaultData}
