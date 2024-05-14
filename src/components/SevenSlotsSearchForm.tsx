@@ -72,15 +72,6 @@ const SevenSlotsSearchForm = ({
 
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
-            // console.log('formData', data);
-            // console.log(
-            //     'validation result',
-            //     await zodResolver(sevenSlotsSearchFormSchema)(
-            //         data,
-            //         context,
-            //         options
-            //     )
-            // );
             const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
                 data,
                 context,
@@ -112,8 +103,6 @@ const SevenSlotsSearchForm = ({
 
         const newSearch = await handleQuery(defaultData, data);
         setNewSearchParams(newSearch);
-
-        // if (tableData) SetCopyText(getSelectedShiftsString(tableData));
     };
 
     const onInvalidPrefixFormHandler: SubmitErrorHandler<
@@ -140,29 +129,8 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-                    {/* <div className="mx-4 grid h-max w-full gap-2 px-4">
-                        <Textarea
-                            className="min-h-[240px] font-mono font-normal tracking-wider"
-                            placeholder="Type your message here."
-                            onChange={(e) => {
-                                SetCopyText(e.target.value);
-                            }}
-                            value={copyText}
-                        />
-                        <Button
-                            variant={'outline'}
-                            onClick={async () => {
-                                await copyStringToClipboard(copyText);
-                            }}
-                        >
-                            <p className="text-emerald-700 dark:text-emerald-200">
-                                Open WhatsAPP
-                            </p>
-                        </Button>
-                    </div> */}
                     <section className="flex w-full items-center justify-center gap-2">
                         <Button
-                            // disabled={!sevenSlotsSearchForm.formState.isDirty}
                             type="reset"
                             variant={'destructive'}
                             onClick={async () => {
@@ -196,7 +164,6 @@ const SevenSlotsSearchForm = ({
                     />
                 </form>
             </Form>
-            {/* tableData ? <DutyDetailsPDF dutyDetails={tableData} /> : null */}
         </>
     );
 };

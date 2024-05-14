@@ -20,6 +20,7 @@ const LandingPage = () => {
     return (
         <>
             <Alert variant="destructive" className="text-center">
+                {<Terminal />}
                 <AlertTitle>此乃開發中網頁</AlertTitle>
                 <AlertDescription>尚未正式上線，請勿使用。</AlertDescription>
                 <Link
