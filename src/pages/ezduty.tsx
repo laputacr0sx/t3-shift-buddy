@@ -24,7 +24,7 @@ function EasyDuty(props: EasyDutyProps) {
     console.log(JSON.parse(props.userData));
     const [weekDifference, setWeekDifference] = useState(0);
 
-    const r = useRouter();
+    // const r = useRouter();
 
     // r.push(`/ezduty/${weekDifference}`, undefined, {
     //     shallow: true
