@@ -1,38 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { z } from 'zod';
-import moment from 'moment';
-
-import { Form, FormDescription } from '~/components/ui/form';
-import { Button } from '~/components/ui/button';
-
+import { type inferProcedureOutput } from '@trpc/server';
+import { type AppRouter } from '~/server/api/root';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { encode } from 'querystring';
 import {
     type SubmitHandler,
     type SubmitErrorHandler,
     useForm
 } from 'react-hook-form';
+import { Eraser } from 'lucide-react';
 
-import { abbreviatedDutyNumber } from '~/utils/regex';
+import { Form, FormDescription } from '~/components/ui/form';
+import { Button } from '~/components/ui/button';
+import { Textarea } from './ui/textarea';
+import { HomepageInput } from './HomepageInput';
+import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
+
 import useShiftQuery from '~/hooks/useShiftQuery';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { encode } from 'querystring';
-
+import { abbreviatedDutyNumber } from '~/utils/regex';
 import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
-import { type inferProcedureOutput } from '@trpc/server';
-import { type AppRouter } from '~/server/api/root';
 import { api } from '~/utils/api';
-import { HomepageInput } from './HomepageInput';
-import { Eraser, MessageCircle } from 'lucide-react';
-import {
-    convertTableDatatoExchangeString,
-    copyStringToClipboard,
-    getSelectedShiftsString
-} from '~/utils/helper';
-import { Textarea } from './ui/textarea';
-import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
-import CopyButton from './CopyButton';
-import Link from 'next/link';
+import { copyStringToClipboard } from '~/utils/helper';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -110,9 +100,6 @@ const SevenSlotsSearchForm = ({
         event?.preventDefault();
 
         data[dayDetailName]?.forEach((shiftCode, i) => {
-            const date = moment(defaultData[i]?.date, 'YYYYMMDD ddd').format(
-                'YYYYMMDD'
-            );
             const prefix = defaultData[i]?.timetable.prefix as string;
 
             const shiftCodeWithPrefix = shiftCode.match(abbreviatedDutyNumber)
