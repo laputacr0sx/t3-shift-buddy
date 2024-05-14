@@ -9,11 +9,10 @@ import {
     type SubmitErrorHandler,
     useForm
 } from 'react-hook-form';
-import { Eraser } from 'lucide-react';
+import { Eraser, MessageCircle } from 'lucide-react';
 
 import { Form, FormDescription } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
-import { Textarea } from './ui/textarea';
 import { HomepageInput } from './HomepageInput';
 import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
 
@@ -22,7 +21,9 @@ import useShiftQuery from '~/hooks/useShiftQuery';
 import { abbreviatedDutyNumber } from '~/utils/regex';
 import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { api } from '~/utils/api';
-import { copyStringToClipboard } from '~/utils/helper';
+import { convertTableDatatoExchangeString } from '~/utils/helper';
+import CopyButton from './CopyButton';
+import Link from 'next/link';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
