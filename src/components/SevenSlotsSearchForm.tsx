@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import type { z } from 'zod';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
@@ -23,7 +24,7 @@ import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { api } from '~/utils/api';
 import { convertTableDatatoExchangeString } from '~/utils/helper';
 import CopyButton from './CopyButton';
-import Link from 'next/link';
+import WhatsappIcon from './icons/WhatsappIcon';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -130,32 +131,33 @@ const SevenSlotsSearchForm = ({
                         </p>
                     </FormDescription>
                     <section className="flex w-full items-center justify-center gap-2">
+                        <AddToCalendarButtonCustom tableData={tableData} />
+                        <CopyButton str={exchangeString} />
+
+                        <Link
+                            href={`whatsapp://send?text=${encodeURIComponent(
+                                exchangeString
+                            )}`}
+                        >
+                            <WhatsappIcon
+                                className="mx-2 text-emerald-700 dark:text-emerald-400"
+                                width={'24px'}
+                                height={'24px'}
+                            />
+                        </Link>
                         <Button
                             type="reset"
-                            variant={'destructive'}
+                            // variant={'destructive'}
                             onClick={async () => {
                                 sevenSlotsSearchForm.reset();
                                 setNewSearchParams(null);
                                 await router.replace('/');
                                 router.reload();
                             }}
-                            className="flex gap-2"
+                            className="dark:text-red-400"
                         >
                             <Eraser />
                         </Button>
-                        <AddToCalendarButtonCustom tableData={tableData} />
-                        <CopyButton str={exchangeString} />
-                        <Link
-                            href={`whatsapp://send?text=${encodeURIComponent(
-                                exchangeString
-                            )}`}
-                            className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
-                        >
-                            <MessageCircle className="m-2 h-4 w-4 self-center" />
-                            <p className={'self-center text-center text-xs '}>
-                                開啟WhatsApp
-                            </p>
-                        </Link>
                     </section>
                     <HomepageInput
                         defaultData={defaultData}

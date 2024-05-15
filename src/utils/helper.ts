@@ -1,6 +1,10 @@
 import moment from 'moment';
+import type { Timetable } from '@prisma/client';
 import { type z } from 'zod';
 import { toast } from 'react-hot-toast';
+import type * as icalParser from 'node-ical';
+import { type DateArray, createEvents, type EventAttributes } from 'ics';
+
 import type {
     StaffId,
     DayDetail,
@@ -9,15 +13,12 @@ import type {
     DateDetailsWithSequences
 } from './customTypes';
 import { completeShiftNameRegex, specialDutyRegex } from './regex';
-import holidayJson, { type Holiday } from '~/utils/holidayHK';
-import fixtures, { type Fixture } from '~/utils/hkjcFixture';
-import type * as icalParser from 'node-ical';
-import { type DateArray, createEvents, type EventAttributes } from 'ics';
 import { type Rota } from './standardRosters';
 
-import { type ValueOf } from 'next/dist/shared/lib/constants';
+import holidayJson, { type Holiday } from '~/utils/holidayHK';
+import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
-import type { Timetable } from '@prisma/client';
+
 import type { TableData } from '~/components/HomepageInput';
 
 moment.updateLocale('zh-hk', {
@@ -436,15 +437,7 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
     return mapResult;
 }
 
-/**
- * Returns the Chinese location name for the given location code.
- *
- * @param {unknown} location - The location code to get the name for.
- * @returns {ChineseKey} The Chinese location name for the given location code.
- */
-export function getChineseLocation(
-    location: unknown
-): ValueOf<typeof chineseLocation> {
+export function getChineseLocation(location: unknown) {
     type ChineseKey = keyof typeof chineseLocation;
 
     const chineseLocation = {
@@ -456,7 +449,7 @@ export function getChineseLocation(
         TAW: '大圍',
         TWD: '大圍車廠',
         FTRH: '火炭大樓'
-    };
+    } as const;
 
     return chineseLocation[location as ChineseKey];
 }

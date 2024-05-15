@@ -68,7 +68,7 @@ export default function AddToCalendarButtonCustom({
                 });
             }}
             className="flex gap-2"
-            variant={'outline'}
+            variant={'ghost'}
         >
             <CalendarPlus strokeWidth={2} />
             {/* <p>加入所有更份</p> */}

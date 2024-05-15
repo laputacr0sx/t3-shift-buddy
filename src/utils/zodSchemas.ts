@@ -7,7 +7,7 @@ import {
     rowSequenceRegex,
     shiftNameRegex
 } from './regex';
-import { workLocation } from './customTypes';
+import { WorkLocation } from './customTypes';
 import moment from 'moment';
 
 // export const dayDetailName = `Y${moment().year()}W${moment().week() + 1}`;
@@ -78,10 +78,10 @@ export const dayDetailSchema = z.object({
     title: z.string(),
     id: z.string().uuid(),
     dutyNumber: z.string().regex(dutyInputRegExValidator),
-    bNL: z.enum(workLocation),
+    bNL: z.enum(WorkLocation),
     bNT: z.string(),
     bFT: z.string(),
-    bFL: z.enum(workLocation),
+    bFL: z.enum(WorkLocation),
     duration: z.string(),
     remarks: z.string(),
     staffId: z.string().nullable()
