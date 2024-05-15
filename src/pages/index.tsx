@@ -4,7 +4,6 @@ import PageTitle from '~/components/PageTitle';
 import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
 import TableLoading from '~/components/TableLoading';
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert';
-
 import { api } from '~/utils/api';
 
 const LandingPage = () => {
@@ -20,8 +19,10 @@ const LandingPage = () => {
     return (
         <>
             <Alert variant="destructive" className="text-center">
-                {<Terminal />}
-                <AlertTitle>此乃開發中網頁</AlertTitle>
+                <AlertTitle>
+                    <Terminal className="absolute" />
+                    此乃開發中網頁
+                </AlertTitle>
                 <AlertDescription>尚未正式上線，請勿使用。</AlertDescription>
                 <Link
                     href="https://shuddy.one"

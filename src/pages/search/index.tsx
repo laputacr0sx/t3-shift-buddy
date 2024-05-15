@@ -268,6 +268,7 @@ function SearchDutyForm({ details, r, tableData }: SearchDutyFormProps) {
                                                                         autoComplete="off"
                                                                         autoCorrect="off"
                                                                         spellCheck="false"
+                                                                        autoFocus
                                                                     />
                                                                 </FormControl>
                                                             </FormLabel>

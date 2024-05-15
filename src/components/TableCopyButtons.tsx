@@ -1,100 +1,106 @@
-import React from 'react';
-import { Button } from './ui/button';
 import Link from 'next/link';
 import { MessageCircle } from 'lucide-react';
-import { getSelectedShiftsString, tableCopyHandler } from '~/utils/helper';
+
+import AddToCalendarButtonCustom from './CustomAddToCalendarButton';
+
+import { Button } from './ui/button';
 import { type DayDetail } from '~/utils/customTypes';
-
-import { useUser } from '@clerk/nextjs';
-
-import { atcb_action } from 'add-to-calendar-button';
-
-import { api } from '~/utils/api';
+import { getSelectedShiftsString, tableCopyHandler } from '~/utils/helper';
 
 type TableCopyButtonsProps<TData> = {
+    isAllRowSelected: boolean;
     isSomeRowSelected: boolean;
     selectedShifts: TData[];
+    allShifts: TData[];
 };
 
 function TableCopyButtons({
-    selectedShifts
+    isAllRowSelected,
+    selectedShifts,
+    allShifts,
+    isSomeRowSelected
 }: TableCopyButtonsProps<DayDetail>) {
-    const user = useUser();
+    // const user = useUser();
     // console.log(user.user?.id);
+
+    const numberOfSelectedShifts = selectedShifts.length;
+    const numberOfAllShifts = allShifts.length;
+
+    const correspondingShifts = isSomeRowSelected ? selectedShifts : allShifts;
 
     const completeShiftsString = getSelectedShiftsString(selectedShifts);
     const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
-    const numberOfSelectedShifts = selectedShifts.length;
 
-    const {
-        data: calendarData,
-        isLoading: calendarLoading,
-        error: calendarError,
-        refetch: fetchCalendar
-    } = api.calendarController.getCurrentEvents.useQuery(selectedShifts, {
-        enabled: false,
-        refetchOnWindowFocus: false
-    });
+    const countString =
+        numberOfSelectedShifts === numberOfAllShifts ||
+        numberOfSelectedShifts === 0
+            ? '全部'
+            : numberOfSelectedShifts.toString();
+    // const {
+    //     data: calendarData,
+    //     isLoading: calendarLoading,
+    //     error: calendarError,
+    //     refetch: fetchCalendar
+    // } = api.calendarController.getCurrentEvents.useQuery(selectedShifts, {
+    //     enabled: false,
+    //     refetchOnWindowFocus: false
+    // });
 
     return (
         <>
             <div className="flex items-center justify-around gap-4">
-                {(user.user?.id === 'user_2Z48mfJ1WNbgJygUNvP7QcDI24K' ||
-                    user.user?.id === 'user_2WeQPNGu9T7ZDKJj0HqqplTnKz8') && (
-                    <Button
-                        onClick={async () => {
-                            await fetchCalendar();
-                        }}
-                    >
-                        Update Events in Calendar
-                    </Button>
-                )}
+                {/* {(user.user?.id === 'user_2Z48mfJ1WNbgJygUNvP7QcDI24K' || */}
+                {/*     user.user?.id === 'user_2WeQPNGu9T7ZDKJj0HqqplTnKz8') && ( */}
+                {/*     <Button */}
+                {/*         onClick={async () => { */}
+                {/*             await fetchCalendar(); */}
+                {/*         }} */}
+                {/*     > */}
+                {/*         Update Events in Calendar */}
+                {/*     </Button> */}
+                {/* )} */}
                 <Button
                     className="my-2 self-center align-middle font-light"
                     variant={'secondary'}
-                    disabled={!numberOfSelectedShifts}
-                    onClick={() => tableCopyHandler(selectedShifts)}
+                    onClick={() => tableCopyHandler(correspondingShifts)}
                 >
-                    {!!numberOfSelectedShifts ? (
-                        <p className="tracking-widest">
-                            <span>複製</span>
-                            <span className="font-mono font-extrabold">
-                                {`${numberOfSelectedShifts}`}
-                            </span>
-                            <span>更資料</span>
-                        </p>
-                    ) : (
-                        '未選取任何更份'
-                    )}
+                    <p className="tracking-widest">
+                        <span>複製</span>
+                        <span className="font-mono font-extrabold">
+                            {countString}
+                        </span>
+                        <span>更資料</span>
+                    </p>
                 </Button>
-                {user.isSignedIn && !calendarLoading && !calendarError ? (
-                    <>
-                        <Button
-                            className="my-2 self-center align-middle font-light"
-                            variant={'secondary'}
-                            disabled={calendarLoading && calendarData}
-                            onClick={(event) => {
-                                event.preventDefault();
-
-                                atcb_action({
-                                    subscribe: true,
-                                    startDate: '1992-07-04',
-                                    icsFile: calendarData.url,
-                                    name: 'ICS file',
-                                    options: [
-                                        'Apple',
-                                        'Google',
-                                        'Microsoft365',
-                                        'iCal'
-                                    ],
-                                    timeZone: 'currentBrowser'
-                                });
-                            }}
-                        >
-                            {calendarLoading ? 'loading events...' : '訂閱日厝'}
-                        </Button>
-                    </>
-                ) : null}
+                <AddToCalendarButtonCustom tableData={correspondingShifts} />
+                {/* {user.isSignedIn && !calendarLoading && !calendarError ? ( */}
+                {/*     <> */}
+                {/*         <Button */}
+                {/*             className="my-2 self-center align-middle font-light" */}
+                {/*             variant={'secondary'} */}
+                {/*             disabled={calendarLoading && calendarData} */}
+                {/*             onClick={(event) => { */}
+                {/*                 event.preventDefault(); */}
+                {/**/}
+                {/*                 atcb_action({ */}
+                {/*                     subscribe: true, */}
+                {/*                     startDate: '1992-07-04', */}
+                {/*                     icsFile: calendarData.url, */}
+                {/*                     name: 'ICS file', */}
+                {/*                     options: [ */}
+                {/*                         'Apple', */}
+                {/*                         'Google', */}
+                {/*                         'Microsoft365', */}
+                {/*                         'iCal' */}
+                {/*                     ], */}
+                {/*                     timeZone: 'currentBrowser' */}
+                {/*                 }); */}
+                {/*             }} */}
+                {/*         > */}
+                {/*             {calendarLoading ? 'loading events...' : '訂閱日厝'} */}
+                {/*         </Button> */}
+                {/*     </> */}
+                {/* ) : null} */}
             </div>
             <Link
                 href={`whatsapp://send?text=${encodedShiftsStringURI}`}

@@ -116,6 +116,7 @@ export function HomepageInput({
                                                         className="w-10 font-mono tracking-tight focus-visible:ring-cyan-700 focus-visible:dark:ring-cyan-300 xs:w-24"
                                                         maxLength={7}
                                                         placeholder="xxx"
+                                                        autoFocus
                                                         autoCapitalize="characters"
                                                         autoComplete="off"
                                                         autoCorrect="off"

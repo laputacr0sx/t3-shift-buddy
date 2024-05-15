@@ -39,11 +39,6 @@ const dutyAppPages: DutyAppPages[] = [
         description: '紀錄各週份Standard Roster。',
         href: '/ezduty'
     },
-    // {
-    //     title: '搵更易',
-    //     description: '列出現行更表明細。',
-    //     href: '/allShifts'
-    // },
     {
         title: '用戶資料',
         description: '查詢或更改用戶資料。',

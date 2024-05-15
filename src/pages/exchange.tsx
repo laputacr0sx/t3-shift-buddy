@@ -1,21 +1,32 @@
-import React, { type ReactElement } from "react";
+import React from 'react';
+import { ExchangeColumn } from '~/components/Exchange/ExchangeColumn';
+import { VerticalExchangeTable } from '~/components/Exchange/VerticalExchangeTable';
 
-import ExchangeForm from "~/components/ExchangeForm";
-import Layout from "~/components/ui/layouts/AppLayout";
+import ExchangeForm from '~/components/ExchangeForm';
+import PageTitle from '~/components/PageTitle';
+import { autoPrefix } from '~/utils/helper';
 
 function Exchange() {
-  return (
-    <div>
-      <h1 className="justify-center py-5 text-center text-4xl font-semibold text-foreground">
-        調更易
-      </h1>
-      <ExchangeForm />
-    </div>
-  );
+    return (
+        <div>
+            <PageTitle>調更易</PageTitle>
+            <ExchangeForm />
+            <VerticalExchangeTable
+                columns={ExchangeColumn}
+                data={[
+                    {
+                        name: 'test',
+                        staffId: '6029XX',
+                        grade: 'G50',
+                        weekNumber: '19',
+                        exchangeDetails: {},
+                        rowSequence: 'A2'
+                    }
+                ]}
+                daysDetails={autoPrefix(true)}
+            />
+        </div>
+    );
 }
-
-Exchange.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 export default Exchange;

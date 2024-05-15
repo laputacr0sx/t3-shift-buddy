@@ -117,7 +117,7 @@ const SevenSlotsSearchForm = ({
             <Form {...sevenSlotsSearchForm}>
                 <form
                     id="form"
-                    onBlur={sevenSlotsSearchForm.handleSubmit(
+                    onChange={sevenSlotsSearchForm.handleSubmit(
                         onValidPrefixFormHandler,
                         onInvalidPrefixFormHandler
                     )}

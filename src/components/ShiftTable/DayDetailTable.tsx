@@ -14,10 +14,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-    TableCaption,
-    TableFooter
+    TableCaption
 } from '~/components/ui/table';
-import TableCopyButtons from '~/components/TableCopyButtons';
+import TableActions from '~/components/TableCopyButtons';
 
 import { type DayDetail } from '~/utils/customTypes';
 
@@ -32,7 +31,7 @@ export function DayDetailTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({});
 
-    const table = useReactTable({
+    const table = useReactTable<TData>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
@@ -42,6 +41,7 @@ export function DayDetailTable<TData, TValue>({
         }
     });
 
+    const isAllRowSelected = table.getIsAllRowsSelected();
     const isSomeRowSelected = table.getIsSomeRowsSelected();
     const selectedShifts = table
         .getSelectedRowModel()
@@ -127,32 +127,34 @@ export function DayDetailTable<TData, TValue>({
                             </TableRow>
                         )}
                     </TableBody>
-                    <TableFooter>
-                        {table.getFooterGroups().map((footerGroup) => (
-                            <TableRow key={footerGroup.id}>
-                                {footerGroup.headers.map((header) => (
-                                    <TableHead
-                                        key={header.id}
-                                        colSpan={header.colSpan}
-                                    >
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                  header.column.columnDef
-                                                      .footer,
-                                                  header.getContext()
-                                              )}
-                                    </TableHead>
-                                ))}
-                            </TableRow>
-                        ))}
-                    </TableFooter>
+                    {/* <TableFooter> */}
+                    {/*     {table.getFooterGroups().map((footerGroup) => ( */}
+                    {/*         <TableRow key={footerGroup.id}> */}
+                    {/*             {footerGroup.headers.map((header) => ( */}
+                    {/*                 <TableHead */}
+                    {/*                     key={header.id} */}
+                    {/*                     colSpan={header.colSpan} */}
+                    {/*                 > */}
+                    {/*                     {header.isPlaceholder */}
+                    {/*                         ? null */}
+                    {/*                         : flexRender( */}
+                    {/*                               header.column.columnDef */}
+                    {/*                                   .footer, */}
+                    {/*                               header.getContext() */}
+                    {/*                           )} */}
+                    {/*                 </TableHead> */}
+                    {/*             ))} */}
+                    {/*         </TableRow> */}
+                    {/*     ))} */}
+                    {/* </TableFooter> */}
                 </Table>
             </div>
 
-            <TableCopyButtons
+            <TableActions
+                isAllRowSelected={isAllRowSelected}
                 isSomeRowSelected={isSomeRowSelected}
-                selectedShifts={(selectedShifts || allShifts) as DayDetail[]}
+                selectedShifts={selectedShifts as DayDetail[]}
+                allShifts={allShifts as DayDetail[]}
             />
         </div>
     );
