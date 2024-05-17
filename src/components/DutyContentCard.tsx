@@ -5,10 +5,11 @@ import type { SevenSlotsSearchForm } from './SevenSlotsSearchForm';
 
 import { CardContent, CardFooter, CardTitle } from './ui/card';
 
-import { abbreviatedDutyNumber } from '~/utils/regex';
+import { abbreviatedDutyNumber, dayOffRegex } from '~/utils/regex';
 import { convertDurationDecimal, getChineseLocation } from '~/utils/helper';
 import { Accordion, AccordionContent, AccordionTrigger } from './ui/accordion';
 import { AccordionItem } from '@radix-ui/react-accordion';
+import Image from 'next/image';
 
 export type DutyContentCardProps = Pick<HomepageInputProps, 'tableData'> & {
     correspondingDate: moment.Moment;
@@ -55,6 +56,16 @@ function DutyContentCard({
             </CardContent>
         );
 
+    if (correspondingData.dutyNumber.match(dayOffRegex)) {
+        return (
+            <CardContent className="flex items-center justify-between font-mono">
+                <CardTitle className="font-bold">
+                    <p className="font-bold">{correspondingData.dutyNumber}</p>
+                </CardTitle>
+            </CardContent>
+        );
+    }
+
     const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } =
         correspondingData;
 
@@ -72,24 +83,36 @@ function DutyContentCard({
                 <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="CardContent-1">
                         <CardTitle className="font-bold">
-                            <AccordionTrigger className="font-bold">
-                                {dutyNumber}
+                            <AccordionTrigger className="flex">
+                                <p className="font-bold">{dutyNumber}</p>
+                                <p className="flex items-center gap-3 text-center">
+                                    <p className="flex flex-col items-center">
+                                        <span className={notHUH(bNL)}>
+                                            {cBNL}
+                                        </span>
+                                        <span>{bNT}</span>
+                                    </p>
+                                    <p>-</p>
+                                    <p className="flex flex-col items-center">
+                                        <span className={notHUH(bFL)}>
+                                            {cBFL}
+                                        </span>
+                                        <span>{bFT}</span>
+                                    </p>
+                                    <p>{dDur}</p>
+                                </p>
                             </AccordionTrigger>
                         </CardTitle>
                         <AccordionContent>
-                            <p className="flex items-center gap-3 text-center">
-                                <p className="flex flex-col items-center">
-                                    <span className={notHUH(bNL)}>{cBNL}</span>
-                                    <span>{bNT}</span>
-                                </p>
-                                <p>-</p>
-                                <p className="flex flex-col items-center">
-                                    <span className={notHUH(bFL)}>{cBFL}</span>
-                                    <span>{bFT}</span>
-                                </p>
-                                <p>{dDur}</p>
-                            </p>
                             <p className="font-mono font-light">{remarks}</p>
+                        </AccordionContent>
+                        <AccordionContent>
+                            <Image
+                                src={`/image/duties/${dutyNumber}.png`}
+                                alt={`${dutyNumber}`}
+                                height={600}
+                                width={400}
+                            />
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>

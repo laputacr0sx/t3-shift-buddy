@@ -1,22 +1,22 @@
-import React from 'react';
-import Link from 'next/link';
 import {
-    type ColumnDef,
     flexRender,
     getCoreRowModel,
-    useReactTable
+    useReactTable,
+    type ColumnDef
 } from '@tanstack/react-table';
+import Link from 'next/link';
+import React from 'react';
 
+import TableActions from '~/components/TableCopyButtons';
 import {
     Table,
     TableBody,
+    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
-    TableCaption
+    TableRow
 } from '~/components/ui/table';
-import TableActions from '~/components/TableCopyButtons';
 
 import { type DayDetail } from '~/utils/customTypes';
 

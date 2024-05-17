@@ -65,39 +65,39 @@ export function NavigationBar() {
     return (
         <NavigationMenu className="mx-2 my-1" id="top-bar">
             <NavigationMenuList>
-                <NavigationMenuItem>
-                    <SignedOut>
-                        <SignInButton afterSignInUrl="/ezduty">
-                            <User className="m-2" size={18} />
-                        </SignInButton>
-                    </SignedOut>
-                    <SignedIn>
-                        <UserButton afterSignOutUrl="/" />
-                    </SignedIn>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    {isSignedIn ? (
-                        <p className="font-sans font-semibold">
-                            {user.username}
-                        </p>
-                    ) : null}
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>功能</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {dutyAppPages.map((page) => (
-                                <ListItem
-                                    key={page.title}
-                                    title={page.title}
-                                    href={page.href}
-                                >
-                                    {page.description}
-                                </ListItem>
-                            ))}
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
+                {/* <NavigationMenuItem> */}
+                {/*     <SignedOut> */}
+                {/*         <SignInButton afterSignInUrl="/ezduty"> */}
+                {/*             <User className="m-2" size={18} /> */}
+                {/*         </SignInButton> */}
+                {/*     </SignedOut> */}
+                {/*     <SignedIn> */}
+                {/*         <UserButton afterSignOutUrl="/" /> */}
+                {/*     </SignedIn> */}
+                {/* </NavigationMenuItem> */}
+                {/* <NavigationMenuItem> */}
+                {/*     {isSignedIn ? ( */}
+                {/*         <p className="font-sans font-semibold"> */}
+                {/*             {user.username} */}
+                {/*         </p> */}
+                {/*     ) : null} */}
+                {/* </NavigationMenuItem> */}
+                {/* <NavigationMenuItem> */}
+                {/*     <NavigationMenuTrigger>功能</NavigationMenuTrigger> */}
+                {/*     <NavigationMenuContent> */}
+                {/*         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] "> */}
+                {/*             {dutyAppPages.map((page) => ( */}
+                {/*                 <ListItem */}
+                {/*                     key={page.title} */}
+                {/*                     title={page.title} */}
+                {/*                     href={page.href} */}
+                {/*                 > */}
+                {/*                     {page.description} */}
+                {/*                 </ListItem> */}
+                {/*             ))} */}
+                {/*         </ul> */}
+                {/*     </NavigationMenuContent> */}
+                {/* </NavigationMenuItem> */}
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>外部連結</NavigationMenuTrigger>
                     <NavigationMenuContent>

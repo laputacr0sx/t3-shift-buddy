@@ -133,7 +133,6 @@ const SevenSlotsSearchForm = ({
                     <section className="flex w-full items-center justify-center gap-2">
                         <AddToCalendarButtonCustom tableData={tableData} />
                         <CopyButton str={exchangeString} />
-
                         <Link
                             href={`whatsapp://send?text=${encodeURIComponent(
                                 exchangeString
@@ -147,14 +146,13 @@ const SevenSlotsSearchForm = ({
                         </Link>
                         <Button
                             type="reset"
-                            // variant={'destructive'}
                             onClick={async () => {
                                 sevenSlotsSearchForm.reset();
                                 setNewSearchParams(null);
                                 await router.replace('/');
                                 router.reload();
                             }}
-                            className="dark:text-red-400"
+                            className="text-red-700 dark:text-red-400"
                         >
                             <Eraser />
                         </Button>

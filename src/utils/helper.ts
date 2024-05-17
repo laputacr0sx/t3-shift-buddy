@@ -12,7 +12,11 @@ import type {
     DateDetails,
     DateDetailsWithSequences
 } from './customTypes';
-import { completeShiftNameRegex, specialDutyRegex } from './regex';
+import {
+    completeShiftNameRegex,
+    shiftNameWithoutDayoff,
+    specialDutyRegex
+} from './regex';
 import { type Rota } from './standardRosters';
 
 import holidayJson, { type Holiday } from '~/utils/holidayHK';
@@ -93,6 +97,8 @@ export const getNextWeekDates = (year?: string, weekNumber?: string) => {
  * @returns The converted decimal representation of the duration string.
  */
 export function convertDurationDecimal(rawDuration: string): string {
+    if (!rawDuration) return '';
+
     const [wHour, wMinute] = rawDuration.split(':');
     if (!wMinute || !wHour) return '0';
     const minuteDecimal = parseInt(wMinute) / 60;
@@ -787,7 +793,7 @@ export function convertTableDatatoExchangeString(
     for (const dayDetail of tableData) {
         let dayString = '';
 
-        if (!dayDetail.title.match(completeShiftNameRegex)) {
+        if (!dayDetail.title.match(shiftNameWithoutDayoff)) {
             const { dutyNumber } = dayDetail;
 
             const date = moment(dayDetail.date)
