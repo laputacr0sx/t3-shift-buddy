@@ -25,6 +25,7 @@ import { api } from '~/utils/api';
 import { convertTableDatatoExchangeString } from '~/utils/helper';
 import CopyButton from './CopyButton';
 import WhatsappIcon from './icons/WhatsappIcon';
+import IconTable from './icons/IconTable';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -144,6 +145,20 @@ const SevenSlotsSearchForm = ({
                                 height={'24px'}
                             />
                         </Link>
+                        <Link
+                            href={`/table-output/${
+                                newSearchParams
+                                    ? newSearchParams?.toString()
+                                    : ''
+                            }`}
+                            target="_blank"
+                        >
+                            <IconTable
+                                className="mx-2 text-lime-700 dark:text-lime-400"
+                                width={'24px'}
+                                height={'24px'}
+                            />
+                        </Link>
                         <Button
                             type="reset"
                             onClick={async () => {
@@ -152,7 +167,7 @@ const SevenSlotsSearchForm = ({
                                 await router.replace('/');
                                 router.reload();
                             }}
-                            className="text-red-700 dark:text-red-400"
+                            className="px-2 text-red-700 dark:text-red-400"
                         >
                             <Eraser />
                         </Button>

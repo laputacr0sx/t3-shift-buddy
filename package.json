@@ -111,6 +111,7 @@
         "dayjs": "^1.11.8",
         "eslint": "^8.40.0",
         "eslint-config-next": "^13.4.2",
+        "http-status-codes": "^2.3.0",
         "moment": "^2.29.4",
         "moment-timezone": "^0.5.43",
         "postcss": "^8.4.21",

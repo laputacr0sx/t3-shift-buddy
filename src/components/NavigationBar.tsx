@@ -65,16 +65,16 @@ export function NavigationBar() {
     return (
         <NavigationMenu className="mx-2 my-1" id="top-bar">
             <NavigationMenuList>
-                {/* <NavigationMenuItem> */}
-                {/*     <SignedOut> */}
-                {/*         <SignInButton afterSignInUrl="/ezduty"> */}
-                {/*             <User className="m-2" size={18} /> */}
-                {/*         </SignInButton> */}
-                {/*     </SignedOut> */}
-                {/*     <SignedIn> */}
-                {/*         <UserButton afterSignOutUrl="/" /> */}
-                {/*     </SignedIn> */}
-                {/* </NavigationMenuItem> */}
+                <NavigationMenuItem>
+                    <SignedOut>
+                        <SignInButton afterSignInUrl="/">
+                            <User className="m-2" size={18} />
+                        </SignInButton>
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton afterSignOutUrl="/" />
+                    </SignedIn>
+                </NavigationMenuItem>
                 {/* <NavigationMenuItem> */}
                 {/*     {isSignedIn ? ( */}
                 {/*         <p className="font-sans font-semibold"> */}

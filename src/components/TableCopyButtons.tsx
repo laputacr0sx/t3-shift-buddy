@@ -102,15 +102,31 @@ function TableCopyButtons({
                 {/*     </> */}
                 {/* ) : null} */}
             </div>
-            <Link
-                href={`whatsapp://send?text=${encodedShiftsStringURI}`}
-                className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
-            >
-                <MessageCircle className="m-2 h-4 w-4 self-center" />
-                <p className={'self-center text-center text-xs '}>
-                    開啟WhatsApp
-                </p>
-            </Link>
+            <section className="flex flex-row justify-around gap-4">
+                <Link
+                    href={`whatsapp://send?text=${encodedShiftsStringURI}`}
+                    className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
+                >
+                    <MessageCircle className="m-2 h-4 w-4 self-center" />
+                    <p className={'self-center text-center text-xs '}>
+                        開啟WhatsApp
+                    </p>
+                </Link>
+                <Button
+                    onClick={() => {
+                        function close_window() {
+                            // if (confirm('關閉並返回調更易？')) {
+                            // }
+                            close();
+                        }
+                        close_window();
+                        return false;
+                    }}
+                    variant={'destructive'}
+                >
+                    關閉並返回首頁
+                </Button>
+            </section>
         </>
     );
 }
