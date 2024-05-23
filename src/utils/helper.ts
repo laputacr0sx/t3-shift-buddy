@@ -229,13 +229,6 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
 }
 
 type Prefix = '75' | '71' | '15' | '13' | '14';
-/**
- * Returns the draft prefix for the given fixture, weekday number, and holiday status.
- * @param raceFixture The fixture object.
- * @param weekdayNumber The weekday number (0-6).
- * @param isHoliday A boolean value indicating whether the given date is a holiday.
- * @returns {Prefix} The draft prefix for the given fixture, weekday number, and holiday status.
- */
 export function draftPrefix(
     raceFixture: Fixture | undefined,
     weekdayNumber: number,
@@ -246,23 +239,9 @@ export function draftPrefix(
             ? '75'
             : '15';
     }
-    switch (raceFixture.nightRacing) {
-        case 0:
-            return '71';
-        case 1:
-            if (raceFixture.venue === 'H') return '14';
-        case 2:
-            return '71';
-        default:
-            return '13';
-    }
-
-    // if (raceFixture.nightRacing === 0) {
-    //     return '71';
-    // } else
-    //     return raceFixture.nightRacing === 1 && raceFixture.venue === 'H'
-    //         ? '14'
-    //         : '13';
+    if (raceFixture.nightRacing === 1) {
+        return raceFixture.venue === 'H' ? '14' : '13';
+    } else return '71';
 }
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
@@ -299,16 +278,6 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
         )[0];
 
         const prefix = draftPrefix(racingDetails, weekDayNum, isHoliday);
-
-        // const prefix = racingDetails
-        //     ? racingDetails.nightRacing === 0
-        //         ? '71'
-        //         : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
-        //         ? '14'
-        //         : '13'
-        //     : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-        //     ? '75'
-        //     : '15';
 
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),
