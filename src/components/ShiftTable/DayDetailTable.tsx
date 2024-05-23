@@ -127,26 +127,6 @@ export function DayDetailTable<TData, TValue>({
                             </TableRow>
                         )}
                     </TableBody>
-                    {/* <TableFooter> */}
-                    {/*     {table.getFooterGroups().map((footerGroup) => ( */}
-                    {/*         <TableRow key={footerGroup.id}> */}
-                    {/*             {footerGroup.headers.map((header) => ( */}
-                    {/*                 <TableHead */}
-                    {/*                     key={header.id} */}
-                    {/*                     colSpan={header.colSpan} */}
-                    {/*                 > */}
-                    {/*                     {header.isPlaceholder */}
-                    {/*                         ? null */}
-                    {/*                         : flexRender( */}
-                    {/*                               header.column.columnDef */}
-                    {/*                                   .footer, */}
-                    {/*                               header.getContext() */}
-                    {/*                           )} */}
-                    {/*                 </TableHead> */}
-                    {/*             ))} */}
-                    {/*         </TableRow> */}
-                    {/*     ))} */}
-                    {/* </TableFooter> */}
                 </Table>
             </div>
 

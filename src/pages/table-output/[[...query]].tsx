@@ -13,7 +13,7 @@ import { QueryArray } from '~/utils/customTypes';
 import { DayDetailTable } from '~/components/ShiftTable/DayDetailTable';
 import { DayDetailColumn } from '~/components/ShiftTable/DayDetailColumn';
 
-export function getServerSideProps(
+export async function getServerSideProps(
     context: GetServerSidePropsContext<{ query: string }>
 ) {
     const helpers = createServerSideHelpers({
@@ -27,11 +27,11 @@ export function getServerSideProps(
     if (queryRoute) {
         const dates = queryRoute.toString().split('&');
         const queryArray: QueryArray = [];
-        for (const eachDay in dates) {
+        for (const eachDay of dates) {
             const [day, duty] = eachDay.split('=');
             queryArray.push({ date: day as string, shiftCode: duty as string });
         }
-        helpers.dutyController.getDutyByDateDuty.prefetch(queryArray);
+        await helpers.dutyController.getDutyByDateDuty.prefetch(queryArray);
     }
 
     const statusCode = queryRoute ? StatusCodes.OK : StatusCodes.NOT_FOUND;

@@ -24,6 +24,7 @@ import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 import type { TableData } from '~/components/HomepageInput';
+import { a1 } from '@upstash/redis/zmscore-b6b93f14';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -279,12 +280,9 @@ function draftPrefix(
             ? '75'
             : '15';
     }
-    if (raceFixture.nightRacing === 0) {
-        return '71';
-    } else
-        return raceFixture.nightRacing === 1 && raceFixture.venue === 'H'
-            ? '14'
-            : '13';
+    if (raceFixture.nightRacing === 1) {
+        return raceFixture.venue === 'H' ? '14' : '13';
+    } else return '71';
 }
 
 /**
