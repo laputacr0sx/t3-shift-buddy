@@ -28,7 +28,7 @@ function TableCopyButtons({
 
     const correspondingShifts = isSomeRowSelected ? selectedShifts : allShifts;
 
-    const completeShiftsString = getSelectedShiftsString(selectedShifts);
+    const completeShiftsString = getSelectedShiftsString(correspondingShifts);
     const encodedShiftsStringURI = encodeURIComponent(completeShiftsString);
 
     const countString =
@@ -63,6 +63,7 @@ function TableCopyButtons({
                     className="my-2 self-center align-middle font-light"
                     variant={'secondary'}
                     onClick={() => tableCopyHandler(correspondingShifts)}
+                    disabled={countString.length === 0}
                 >
                     <p className="tracking-widest">
                         <span>複製</span>
@@ -115,8 +116,6 @@ function TableCopyButtons({
                 <Button
                     onClick={() => {
                         function close_window() {
-                            // if (confirm('關閉並返回調更易？')) {
-                            // }
                             close();
                         }
                         close_window();

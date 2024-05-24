@@ -241,12 +241,6 @@ export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
     return events;
 }
 
-/**
- * Converts an array of iCal events to a Blob containing the iCal data.
- *
- * @param {EventAttributes[]} calEvents - An array of iCal event objects.
- * @returns {Promise<Blob>} A Promise that resolves to a Blob containing the iCal data.
- */
 export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
     return new Promise<Blob>((resolve, reject) => {
         createEvents(calEvents, (error, value) => {
@@ -263,14 +257,7 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
 }
 
 type Prefix = '75' | '71' | '15' | '13' | '14';
-/**
- * Returns the draft prefix for the given fixture, weekday number, and holiday status.
- * @param raceFixture The fixture object.
- * @param weekdayNumber The weekday number (0-6).
- * @param isHoliday A boolean value indicating whether the given date is a holiday.
- * @returns {Prefix} The draft prefix for the given fixture, weekday number, and holiday status.
- */
-function draftPrefix(
+export function draftPrefix(
     raceFixture: Fixture | undefined,
     weekdayNumber: number,
     isHoliday: boolean
@@ -284,13 +271,6 @@ function draftPrefix(
         return raceFixture.venue === 'H' ? '14' : '13';
     } else return '71';
 }
-
-/**
- * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
- * @param moreDays {boolean} Set to true if you want to get days from tomorrow onwards until next Sunday. Defaults to false.
- * @param weekNumber The week number to get the details for. Defaults to the current week number.
- * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
- */
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
     const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
@@ -326,16 +306,6 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
         )[0];
 
         const prefix = draftPrefix(racingDetails, weekDayNum, isHoliday);
-
-        // const prefix = racingDetails
-        //     ? racingDetails.nightRacing === 0
-        //         ? '71'
-        //         : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
-        //         ? '14'
-        //         : '13'
-        //     : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-        //     ? '75'
-        //     : '15';
 
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),

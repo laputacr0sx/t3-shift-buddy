@@ -1,12 +1,13 @@
 import React from 'react';
 import PageTitle from '~/components/PageTitle';
-import DynamicExchangeForm from '~/components/dynamicExchangeForm';
+import BestExchangeForm from '~/components/Exchange/BestExchangeForm';
 
 const Feature = () => {
     return (
         <>
             <PageTitle>調更易</PageTitle>
-            <DynamicExchangeForm />
+            {/* <DynamicExchangeForm /> */}
+            <BestExchangeForm />
         </>
     );
 };

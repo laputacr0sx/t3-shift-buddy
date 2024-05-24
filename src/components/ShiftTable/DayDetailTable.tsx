@@ -7,7 +7,6 @@ import {
 import Link from 'next/link';
 import React from 'react';
 
-import TableActions from '~/components/TableCopyButtons';
 import {
     Table,
     TableBody,
@@ -17,6 +16,7 @@ import {
     TableHeader,
     TableRow
 } from '~/components/ui/table';
+import TableActions from '~/components/TableCopyButtons';
 
 import { type DayDetail } from '~/utils/customTypes';
 
