@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { useMemo } from 'react';
+import moment from 'moment';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
@@ -12,44 +14,32 @@ import {
     // type SubmitHandler,
 } from 'react-hook-form';
 
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-} from '~/components/ui/popover';
-import { Input } from '~/components/ui/input';
-import { Button } from '~/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel
-} from '~/components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form';
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle
-} from '~/components/ui/card';
-
-import { cn } from '~/lib/utils';
-import { ArrowRight, CalendarIcon, Minus, RotateCcw } from 'lucide-react';
-import moment from 'moment';
-import { getWeekNumberByDate } from '~/utils/helper';
-import { useMemo } from 'react';
+} from './ui/card';
 import { Label } from './ui/label';
 import { Calendar } from './ui/exchangeCalendar';
 
-const fieldArrayName = 'candidates' as const;
+import { cn } from '~/lib/utils';
+import { ArrowRight, CalendarIcon, Minus, RotateCcw } from 'lucide-react';
+import { getWeekNumberByDate } from '~/utils/helper';
 
-const dynamicFormSchema = z.object({
+const fieldArrayName = 'candidate' as const;
+
+const dynamicExchangeFormSchema = z.object({
     responsibleDay: z.date(),
     [fieldArrayName]: z
         .object({
             staffID: z.string().length(6, '輸入錯誤'),
-            staffName: z.string(),
+            staffName: z.string().regex(/\d{6}/, '職員號碼'),
             rowNumber: z.string().regex(/[ABC]\d{1,3}/, '請輸入正確行序'),
             assignedDuty: z
                 .string()
@@ -60,11 +50,10 @@ const dynamicFormSchema = z.object({
         })
         .array()
 });
-
-type DynamicFormData = z.infer<typeof dynamicFormSchema>;
+type DynamicExchangeForm = z.infer<typeof dynamicExchangeFormSchema>;
 
 type DisplayProps = {
-    control: Control<DynamicFormData>;
+    control: Control<DynamicExchangeForm>;
     index: number;
 };
 
@@ -74,7 +63,6 @@ const Display = ({ control, index }: DisplayProps) => {
         name: `${fieldArrayName}.${index}`
     });
 
-    console.log(data);
     if (!data.staffID) return null;
 
     return (
@@ -87,15 +75,15 @@ const Display = ({ control, index }: DisplayProps) => {
 };
 
 type EditProps = {
-    control: Control<DynamicFormData>;
+    control: Control<DynamicExchangeForm>;
     index: number;
-    update: UseFieldArrayUpdate<DynamicFormData>;
-    value: FieldArrayWithId<DynamicFormData, typeof fieldArrayName, 'id'>;
-    reset: UseFormReset<DynamicFormData>;
+    update: UseFieldArrayUpdate<DynamicExchangeForm>;
+    value: FieldArrayWithId<DynamicExchangeForm, typeof fieldArrayName, 'id'>;
+    reset: UseFormReset<DynamicExchangeForm>;
 };
 
 const Edit = ({ update, index, control, value, reset }: EditProps) => {
-    const dynamicForm = useForm<DynamicFormData>({});
+    const dynamicForm = useForm<DynamicExchangeForm>({});
 
     // const {
     //   handleSubmit: handleCandidateSubmit,
@@ -120,7 +108,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                     <div className="flex justify-between gap-2">
                         <FormField
                             control={dynamicForm.control}
-                            name={`candidates.${index}.staffID` as const}
+                            name={`candidate.${index}.staffID` as const}
                             render={({ field }) => (
                                 <FormItem className="m-0">
                                     <FormLabel>職員號碼</FormLabel>
@@ -139,14 +127,14 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                         />
                         <FormField
                             control={dynamicForm.control}
-                            name={`candidates.${index}.staffName` as const}
+                            name={`candidate.${index}.staffName` as const}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>姓名</FormLabel>
                                     <FormControl>
                                         <Input
-                                            className="w-24 font-mono tracking-wide"
                                             {...field}
+                                            className="w-24 font-mono tracking-wide"
                                             type="text"
                                             placeholder="CHANTM"
                                         />
@@ -156,7 +144,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                         />
                         <FormField
                             control={dynamicForm.control}
-                            name={`candidates.${index}.rowNumber` as const}
+                            name={`candidate.${index}.rowNumber` as const}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>編定行序</FormLabel>
@@ -175,7 +163,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                     <div className="flex items-center justify-between align-middle">
                         <FormField
                             control={dynamicForm.control}
-                            name={`candidates.${index}.assignedDuty` as const}
+                            name={`candidate.${index}.assignedDuty` as const}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>原定更</FormLabel>
@@ -195,7 +183,7 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                         </Label>
                         <FormField
                             control={dynamicForm.control}
-                            name={`candidates.${index}.targetDuty` as const}
+                            name={`candidate.${index}.targetDuty` as const}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>目標更</FormLabel>
@@ -214,12 +202,12 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
                 </CardContent>
                 <CardFooter className="flex justify-between">
                     <Button
-                        variant={'secondary'}
                         onClick={() => {
                             update(index, value);
 
                             // handleCandidateSubmit(onCandidateSubmit);
                         }}
+                        variant={'proceed'}
                         className="px-4"
                     >
                         確定調更資料
@@ -241,8 +229,8 @@ const Edit = ({ update, index, control, value, reset }: EditProps) => {
 };
 
 export default function DynamicDynamicForm() {
-    const dynamicForm = useForm<DynamicFormData>({
-        resolver: zodResolver(dynamicFormSchema),
+    const dynamicForm = useForm<DynamicExchangeForm>({
+        resolver: zodResolver(dynamicExchangeFormSchema),
         defaultValues: {
             responsibleDay: new Date(),
             [fieldArrayName]: [
@@ -267,10 +255,11 @@ export default function DynamicDynamicForm() {
 
     const { control, handleSubmit: handleFormSubmit, reset } = dynamicForm;
 
-    const { fields, append, update, remove } = useFieldArray<DynamicFormData>({
-        control,
-        name: `${fieldArrayName}`
-    });
+    const { fields, append, update, remove } =
+        useFieldArray<DynamicExchangeForm>({
+            control,
+            name: `${fieldArrayName}`
+        });
 
     const weekNumberMemoized = useMemo(() => {
         return getWeekNumberByDate(
@@ -278,7 +267,7 @@ export default function DynamicDynamicForm() {
         ).toString();
     }, [dynamicForm, dynamicForm.watch('responsibleDay')]);
 
-    const onSubmit = (values: DynamicFormData) => console.log(values);
+    const onSubmit = (values: DynamicExchangeForm) => console.log(values);
 
     return (
         <div className="h-full w-fit px-4 py-4">
@@ -315,11 +304,10 @@ export default function DynamicDynamicForm() {
                                                                     )}
                                                                 >
                                                                     {value ? (
-                                                                        // format(value, "dd-MM-yyyy E")
                                                                         moment(
                                                                             value
                                                                         ).format(
-                                                                            'DD/MM/YYYY ddd'
+                                                                            'DD/MM ddd ww'
                                                                         )
                                                                     ) : (
                                                                         <span>

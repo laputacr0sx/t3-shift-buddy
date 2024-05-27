@@ -6,11 +6,12 @@ import type {
     userPrivateMetadataSchema,
     rostaSchema,
     weatherSchema,
-    dutyQueryArraySchema
+    dutyQueryArraySchema,
+    queryStringSchema
 } from './zodSchemas';
 import type { getFitTimetable } from './helper';
 
-export const workLocation = [
+export const WorkLocation = [
     'HUH',
     'SHT',
     'SHS',
@@ -20,7 +21,7 @@ export const workLocation = [
     'TWD'
 ] as const;
 
-export const dayOff = [
+export const DayOff = [
     'RD',
     'CL',
     'AL',
@@ -55,4 +56,5 @@ export type DutyQueryArray = z.infer<typeof dutyQueryArraySchema>;
 
 export type Rosta = z.infer<typeof rostaSchema>;
 
+export type QueryArray = z.infer<typeof queryStringSchema>;
 export type Weather = WeatherForecast['weatherForecast'][0];

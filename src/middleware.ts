@@ -19,9 +19,9 @@ export default authMiddleware({
     publicRoutes: [
         '/(api|trpc)(.*)',
         '/',
-        '/search'
-        // '/((?!.+\\.[\\w]+$|_next).*)',
-        // '/api/webhooks(.*)'
+        '/table-output/',
+        '/((?!.+\\.[\\w]+$|_next).*)',
+        '/api/webhooks(.*)'
     ]
 });
 

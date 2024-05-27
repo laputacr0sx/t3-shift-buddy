@@ -63,15 +63,14 @@ export default function AddToCalendarButtonCustom({
                     name: 'dutyEvents',
                     dates: resultEvents,
                     options: ['Apple', 'Google', 'Microsoft365', 'iCal'],
-                    buttonStyle: 'default',
-                    timeZone: 'Asia/Hong_Kong'
+                    status: 'CONFIRMED',
+                    timeZone: 'Asia/Hong_Kong',
+                    availability: 'busy'
                 });
             }}
-            className="flex gap-2"
-            variant={'outline'}
+            variant={'ghost'}
         >
             <CalendarPlus strokeWidth={2} />
-            {/* <p>加入所有更份</p> */}
         </Button>
     );
 }

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { workLocation } from '~/utils/customTypes';
+import { WorkLocation } from '~/utils/customTypes';
 import { dutyInputRegExValidator } from '~/utils/regex';
 
 export const databaseControllerRouter = createTRPCRouter({
@@ -12,12 +12,12 @@ export const databaseControllerRouter = createTRPCRouter({
                     dutyNumber: z
                         .string()
                         .regex(dutyInputRegExValidator, 'invalid dutyNumber'),
-                    bNL: z.enum(workLocation, {
+                    bNL: z.enum(WorkLocation, {
                         invalid_type_error: 'workLocation not supported yet'
                     }),
                     bNT: z.string(),
                     bFT: z.string(),
-                    bFL: z.enum(workLocation, {
+                    bFL: z.enum(WorkLocation, {
                         invalid_type_error: 'workLocation not supported yet'
                     }),
                     duration: z.string(),
@@ -35,12 +35,12 @@ export const databaseControllerRouter = createTRPCRouter({
                 dutyNumber: z
                     .string()
                     .regex(dutyInputRegExValidator, 'invalid dutyNumber'),
-                bNL: z.enum(workLocation, {
+                bNL: z.enum(WorkLocation, {
                     invalid_type_error: 'workLocation not supported yet'
                 }),
                 bNT: z.string(),
                 bFT: z.string(),
-                bFL: z.enum(workLocation, {
+                bFL: z.enum(WorkLocation, {
                     invalid_type_error: 'workLocation not supported yet'
                 }),
                 duration: z.string(),

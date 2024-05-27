@@ -37,7 +37,7 @@ function CopyButton({ str }: CopyButtonProps) {
                         toast.error('Something went wrong');
                     });
             }}
-            variant={'outline'}
+            variant={'ghost'}
         >
             <Copy />
         </Button>

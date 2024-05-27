@@ -18,7 +18,7 @@ import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
 import { CustomUserPrivateMetadata } from '~/utils/customTypes';
 
 type CreateContextOptions = {
-    auth: SignedInAuthObject | SignedOutAuthObject;
+    auth: SignedInAuthObject | SignedOutAuthObject | null;
     user: User | null;
     clerkMeta: CustomUserPrivateMetadata | null;
 };
@@ -62,7 +62,7 @@ const t = initTRPC.context<Context>().create({
 
 // check if the user is signed in, otherwise throw a UNAUTHORIZED CODE
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-    if (!ctx.auth.userId) {
+    if (!ctx.auth?.userId) {
         throw new TRPCError({ code: 'UNAUTHORIZED' });
     }
 
@@ -104,11 +104,11 @@ const getClerkMeta = t.middleware(async ({ ctx, next }) => {
     const clerkMeta = validMetadata.success
         ? validMetadata.data
         : ({
-            row: '',
-            staffId: '',
-            weekNumber: 0,
-            updatedAt: new Date().toISOString()
-        } as CustomUserPrivateMetadata);
+              row: '',
+              staffId: '',
+              weekNumber: 0,
+              updatedAt: new Date().toISOString()
+          } as CustomUserPrivateMetadata);
 
     return next({
         ctx: {
