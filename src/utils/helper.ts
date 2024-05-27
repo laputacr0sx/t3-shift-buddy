@@ -24,7 +24,7 @@ import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 import type { TableData } from '~/components/HomepageInput';
-import { a1 } from '@upstash/redis/zmscore-b6b93f14';
+import type BestExchangeForm from '~/components/Exchange/BestExchangeForm';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -720,7 +720,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
 }
 
 /**
- * 將時間轉換成 00:00 格式
+ * 檢查更份是否死早夜
  **/
 export function checkDeadDuty(detail: DayDetail): boolean {
     const { date, bNT, bFT } = detail;
@@ -783,4 +783,8 @@ export function convertTableDatatoExchangeString(
     completeString = completeString + (isMono ? '```' : '');
 
     return completeString;
+}
+
+export function exchangeProcess(ctx: BestExchangeFormSchema) {
+    return;
 }
