@@ -60,10 +60,6 @@ export type BestExchangeFormSchema = z.infer<typeof bestExchangeFormSchema>;
 
 export default function BestExchangeForm() {
     const weekQuery = api.timetableController.getSuitableTimetables.useQuery();
-    if (weekQuery.status !== 'success') {
-        return <>Loading...</>;
-    }
-    const { data: weekData } = weekQuery;
 
     const formComplex = useForm<BestExchangeFormSchema>({
         resolver: zodResolver(bestExchangeFormSchema),
@@ -211,6 +207,10 @@ export default function BestExchangeForm() {
     //     </Form>
     // );
 
+    if (weekQuery.status !== 'success') {
+        return <>Loading...</>;
+    }
+    const { data: weekData } = weekQuery;
     return (
         <Form {...formComplex}>
             <form onSubmit={handleSubmit(onExchangeSubmit, onExchangeError)}>
