@@ -1,8 +1,9 @@
 {
     "name": "t3_shift_buddy",
-    "version": "0.1.0",
+    "version": "1.1.0",
     "private": true,
     "scripts": {
+        "test": "jest",
         "build": "next build",
         "dev": "next dev",
         "prisma-studio": "npx prisma studio --port 5555 --browser none",
@@ -95,10 +96,13 @@
         "svix": "^1.15.0",
         "tailwind-merge": "^1.13.2",
         "tailwindcss-animate": "^1.0.6",
+        "ts-node": "^10.9.2",
         "zod": "^3.21.4"
     },
     "devDependencies": {
         "@hookform/devtools": "^4.3.1",
+        "@testing-library/jest-dom": "^6.4.5",
+        "@testing-library/react": "^15.0.7",
         "@types/eslint": "^8.37.0",
         "@types/luxon": "^3.3.0",
         "@types/node": "^18.16.18",
@@ -111,6 +115,9 @@
         "dayjs": "^1.11.8",
         "eslint": "^8.40.0",
         "eslint-config-next": "^13.4.2",
+        "http-status-codes": "^2.3.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
         "moment": "^2.29.4",
         "moment-timezone": "^0.5.43",
         "postcss": "^8.4.21",

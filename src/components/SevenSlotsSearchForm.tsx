@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import type { z } from 'zod';
 import { type inferProcedureOutput } from '@trpc/server';
 import { type AppRouter } from '~/server/api/root';
@@ -23,7 +24,8 @@ import { dayDetailName, sevenSlotsSearchFormSchema } from '~/utils/zodSchemas';
 import { api } from '~/utils/api';
 import { convertTableDatatoExchangeString } from '~/utils/helper';
 import CopyButton from './CopyButton';
-import Link from 'next/link';
+import WhatsappIcon from './icons/WhatsappIcon';
+import IconTable from './icons/IconTable';
 
 export type SevenSlotsSearchForm = z.infer<typeof sevenSlotsSearchFormSchema>;
 
@@ -72,15 +74,6 @@ const SevenSlotsSearchForm = ({
 
     const sevenSlotsSearchForm = useForm<SevenSlotsSearchForm>({
         resolver: async (data, context, options) => {
-            // console.log('formData', data);
-            // console.log(
-            //     'validation result',
-            //     await zodResolver(sevenSlotsSearchFormSchema)(
-            //         data,
-            //         context,
-            //         options
-            //     )
-            // );
             const zodResolved = await zodResolver(sevenSlotsSearchFormSchema)(
                 data,
                 context,
@@ -112,8 +105,6 @@ const SevenSlotsSearchForm = ({
 
         const newSearch = await handleQuery(defaultData, data);
         setNewSearchParams(newSearch);
-
-        // if (tableData) SetCopyText(getSelectedShiftsString(tableData));
     };
 
     const onInvalidPrefixFormHandler: SubmitErrorHandler<
@@ -128,7 +119,7 @@ const SevenSlotsSearchForm = ({
             <Form {...sevenSlotsSearchForm}>
                 <form
                     id="form"
-                    onBlur={sevenSlotsSearchForm.handleSubmit(
+                    onChange={sevenSlotsSearchForm.handleSubmit(
                         onValidPrefixFormHandler,
                         onInvalidPrefixFormHandler
                     )}
@@ -140,54 +131,46 @@ const SevenSlotsSearchForm = ({
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-                    {/* <div className="mx-4 grid h-max w-full gap-2 px-4">
-                        <Textarea
-                            className="min-h-[240px] font-mono font-normal tracking-wider"
-                            placeholder="Type your message here."
-                            onChange={(e) => {
-                                SetCopyText(e.target.value);
-                            }}
-                            value={copyText}
-                        />
-                        <Button
-                            variant={'outline'}
-                            onClick={async () => {
-                                await copyStringToClipboard(copyText);
-                            }}
-                        >
-                            <p className="text-emerald-700 dark:text-emerald-200">
-                                Open WhatsAPP
-                            </p>
-                        </Button>
-                    </div> */}
                     <section className="flex w-full items-center justify-center gap-2">
-                        <Button
-                            // disabled={!sevenSlotsSearchForm.formState.isDirty}
-                            type="reset"
-                            variant={'destructive'}
-                            onClick={async () => {
-                                sevenSlotsSearchForm.reset();
-                                setNewSearchParams(null);
-                                await router.replace('/');
-                                router.reload();
-                            }}
-                            className="flex gap-2"
-                        >
-                            <Eraser />
-                        </Button>
                         <AddToCalendarButtonCustom tableData={tableData} />
                         <CopyButton str={exchangeString} />
                         <Link
                             href={`whatsapp://send?text=${encodeURIComponent(
                                 exchangeString
                             )}`}
-                            className="flex flex-row self-center align-middle text-emerald-700 dark:text-emerald-300"
                         >
-                            <MessageCircle className="m-2 h-4 w-4 self-center" />
-                            <p className={'self-center text-center text-xs '}>
-                                開啟WhatsApp
-                            </p>
+                            <WhatsappIcon
+                                className="mx-2 text-emerald-700 dark:text-emerald-400"
+                                width={'24px'}
+                                height={'24px'}
+                            />
                         </Link>
+                        <Link
+                            href={`/table-output/${
+                                newSearchParams
+                                    ? newSearchParams?.toString()
+                                    : ''
+                            }`}
+                            target="_blank"
+                        >
+                            <IconTable
+                                className="mx-2 text-lime-700 dark:text-lime-400"
+                                width={'24px'}
+                                height={'24px'}
+                            />
+                        </Link>
+                        <Button
+                            type="reset"
+                            onClick={async () => {
+                                sevenSlotsSearchForm.reset();
+                                setNewSearchParams(null);
+                                await router.replace('/');
+                                router.reload();
+                            }}
+                            className="px-2 text-red-700 dark:text-red-400"
+                        >
+                            <Eraser />
+                        </Button>
                     </section>
                     <HomepageInput
                         defaultData={defaultData}
@@ -196,7 +179,6 @@ const SevenSlotsSearchForm = ({
                     />
                 </form>
             </Form>
-            {/* tableData ? <DutyDetailsPDF dutyDetails={tableData} /> : null */}
         </>
     );
 };

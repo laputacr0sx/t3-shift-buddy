@@ -1,23 +1,13 @@
-import moment from 'moment';
-import type { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import type { inferProcedureOutput } from '@trpc/server';
+import moment from 'moment';
+import type { UseFormReturn } from 'react-hook-form';
 
 import type { AppRouter } from '~/server/api/root';
 import type { DefaultData, SevenSlotsSearchForm } from './SevenSlotsSearchForm';
 import WeatherIconDisplay from './WeatherIconDisplay';
 
 import { Badge } from './ui/badge';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Checkbox } from './ui/checkbox';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from './ui/card';
+import { Card, CardHeader } from './ui/card';
 import {
     FormControl,
     FormField,
@@ -25,18 +15,11 @@ import {
     FormLabel,
     FormMessage
 } from './ui/form';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 import { cn } from '~/lib/utils';
-import {
-    checkDeadDuty,
-    convertDurationDecimal,
-    getChineseLocation,
-    getRacingStyle
-} from '~/utils/helper';
 import { dayDetailName } from '~/utils/zodSchemas';
-import { abbreviatedDutyNumber } from '~/utils/regex';
-import { Button } from './ui/button';
-import { Copy } from 'lucide-react';
 import CardDateLabel from './CardDateParagraph';
 import DutyContentCard from './DutyContentCard';
 

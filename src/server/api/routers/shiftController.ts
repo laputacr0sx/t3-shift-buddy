@@ -35,8 +35,7 @@ export const shiftControllerRouter = createTRPCRouter({
         }),
 
     getAllShifts: publicProcedure.query(async ({ ctx }) => {
-        const { success } = await ratelimit.limit(ctx.auth.userId ?? '');
-
+        const { success } = await ratelimit.limit(ctx.auth?.userId ?? '');
         if (!success) throw new TRPCError({ code: 'TOO_MANY_REQUESTS' });
 
         return ctx.prisma.duty.findMany({

@@ -1,6 +1,10 @@
 import moment from 'moment';
+import type { Timetable } from '@prisma/client';
 import { type z } from 'zod';
 import { toast } from 'react-hot-toast';
+import type * as icalParser from 'node-ical';
+import { type DateArray, createEvents, type EventAttributes } from 'ics';
+
 import type {
     StaffId,
     DayDetail,
@@ -8,17 +12,19 @@ import type {
     DateDetails,
     DateDetailsWithSequences
 } from './customTypes';
-import { completeShiftNameRegex, specialDutyRegex } from './regex';
-import holidayJson, { type Holiday } from '~/utils/holidayHK';
-import fixtures, { type Fixture } from '~/utils/hkjcFixture';
-import type * as icalParser from 'node-ical';
-import { type DateArray, createEvents, type EventAttributes } from 'ics';
+import {
+    completeShiftNameRegex,
+    shiftNameWithoutDayoff,
+    specialDutyRegex
+} from './regex';
 import { type Rota } from './standardRosters';
 
-import { type ValueOf } from 'next/dist/shared/lib/constants';
+import holidayJson, { type Holiday } from '~/utils/holidayHK';
+import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
-import type { Timetable } from '@prisma/client';
+
 import type { TableData } from '~/components/HomepageInput';
+import { BestExchangeFormSchema } from '~/components/Exchange/BestExchangeForm';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -92,6 +98,8 @@ export const getNextWeekDates = (year?: string, weekNumber?: string) => {
  * @returns The converted decimal representation of the duration string.
  */
 export function convertDurationDecimal(rawDuration: string): string {
+    if (!rawDuration) return '';
+
     const [wHour, wMinute] = rawDuration.split(':');
     if (!wMinute || !wHour) return '0';
     const minuteDecimal = parseInt(wMinute) / 60;
@@ -233,12 +241,6 @@ export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
     return events;
 }
 
-/**
- * Converts an array of iCal events to a Blob containing the iCal data.
- *
- * @param {EventAttributes[]} calEvents - An array of iCal event objects.
- * @returns {Promise<Blob>} A Promise that resolves to a Blob containing the iCal data.
- */
 export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
     return new Promise<Blob>((resolve, reject) => {
         createEvents(calEvents, (error, value) => {
@@ -255,14 +257,7 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
 }
 
 type Prefix = '75' | '71' | '15' | '13' | '14';
-/**
- * Returns the draft prefix for the given fixture, weekday number, and holiday status.
- * @param raceFixture The fixture object.
- * @param weekdayNumber The weekday number (0-6).
- * @param isHoliday A boolean value indicating whether the given date is a holiday.
- * @returns {Prefix} The draft prefix for the given fixture, weekday number, and holiday status.
- */
-function draftPrefix(
+export function draftPrefix(
     raceFixture: Fixture | undefined,
     weekdayNumber: number,
     isHoliday: boolean
@@ -272,20 +267,10 @@ function draftPrefix(
             ? '75'
             : '15';
     }
-    if (raceFixture.nightRacing === 0) {
-        return '71';
-    } else
-        return raceFixture.nightRacing === 1 && raceFixture.venue === 'H'
-            ? '14'
-            : '13';
+    if (raceFixture.nightRacing === 1) {
+        return raceFixture.venue === 'H' ? '14' : '13';
+    } else return '71';
 }
-
-/**
- * Returns an array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
- * @param moreDays {boolean} Set to true if you want to get days from tomorrow onwards until next Sunday. Defaults to false.
- * @param weekNumber The week number to get the details for. Defaults to the current week number.
- * @returns An array of objects, each containing the date, prefix, and racing/holiday details for each day of the given week.
- */
 
 export function autoPrefix(moreDays = false, weekNumber?: string) {
     const nextWeekNumber = weekNumber ?? (getWeekNumberByDate() + 1).toString();
@@ -321,16 +306,6 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
         )[0];
 
         const prefix = draftPrefix(racingDetails, weekDayNum, isHoliday);
-
-        // const prefix = racingDetails
-        //     ? racingDetails.nightRacing === 0
-        //         ? '71'
-        //         : racingDetails.nightRacing === 1 && racingDetails.venue === 'H'
-        //         ? '14'
-        //         : '13'
-        //     : weekDayNum === 6 || weekDayNum === 7 || isHoliday
-        //     ? '75'
-        //     : '15';
 
         prefixes.push({
             date: moment(date).format('YYYYMMDD ddd'),
@@ -436,15 +411,7 @@ export function getJointDutyNumbers(prefixes: string[], shiftCodes: string[]) {
     return mapResult;
 }
 
-/**
- * Returns the Chinese location name for the given location code.
- *
- * @param {unknown} location - The location code to get the name for.
- * @returns {ChineseKey} The Chinese location name for the given location code.
- */
-export function getChineseLocation(
-    location: unknown
-): ValueOf<typeof chineseLocation> {
+export function getChineseLocation(location: unknown) {
     type ChineseKey = keyof typeof chineseLocation;
 
     const chineseLocation = {
@@ -456,7 +423,7 @@ export function getChineseLocation(
         TAW: '大圍',
         TWD: '大圍車廠',
         FTRH: '火炭大樓'
-    };
+    } as const;
 
     return chineseLocation[location as ChineseKey];
 }
@@ -753,7 +720,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
 }
 
 /**
- * 將時間轉換成 00:00 格式
+ * 檢查更份是否死早夜
  **/
 export function checkDeadDuty(detail: DayDetail): boolean {
     const { date, bNT, bFT } = detail;
@@ -794,7 +761,7 @@ export function convertTableDatatoExchangeString(
     for (const dayDetail of tableData) {
         let dayString = '';
 
-        if (!dayDetail.title.match(completeShiftNameRegex)) {
+        if (!dayDetail.title.match(shiftNameWithoutDayoff)) {
             const { dutyNumber } = dayDetail;
 
             const date = moment(dayDetail.date)
@@ -816,4 +783,8 @@ export function convertTableDatatoExchangeString(
     completeString = completeString + (isMono ? '```' : '');
 
     return completeString;
+}
+
+export function exchangeProcess(ctx: BestExchangeFormSchema) {
+    return;
 }

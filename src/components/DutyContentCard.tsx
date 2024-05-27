@@ -4,14 +4,14 @@ import type { HomepageInputProps } from './HomepageInput';
 import type { SevenSlotsSearchForm } from './SevenSlotsSearchForm';
 
 import { CardContent, CardFooter, CardTitle } from './ui/card';
-import { FormControl, FormField, FormItem, FormLabel } from './ui/form';
-import { Checkbox } from './ui/checkbox';
 
-import { abbreviatedDutyNumber } from '~/utils/regex';
+import { abbreviatedDutyNumber, dayOffRegex } from '~/utils/regex';
 import { convertDurationDecimal, getChineseLocation } from '~/utils/helper';
-import { dayDetailName } from '~/utils/zodSchemas';
+import { Accordion, AccordionContent, AccordionTrigger } from './ui/accordion';
+import { AccordionItem } from '@radix-ui/react-accordion';
+import Image from 'next/image';
 
-export type DutyCardProps = Pick<HomepageInputProps, 'tableData'> & {
+export type DutyContentCardProps = Pick<HomepageInputProps, 'tableData'> & {
     correspondingDate: moment.Moment;
     field: ControllerRenderProps<SevenSlotsSearchForm, `${string}[${number}]`>;
     legitPrefix: string;
@@ -24,7 +24,7 @@ function DutyContentCard({
     correspondingDate,
     field,
     form
-}: DutyCardProps) {
+}: DutyContentCardProps) {
     const correspondingData = tableData?.filter(
         (d) => d.date === correspondingDate.format('YYYYMMDD')
     )[0];
@@ -56,6 +56,16 @@ function DutyContentCard({
             </CardContent>
         );
 
+    if (correspondingData.dutyNumber.match(dayOffRegex)) {
+        return (
+            <CardContent className="flex items-center justify-between font-mono">
+                <CardTitle className="font-bold">
+                    <p className="font-bold">{correspondingData.dutyNumber}</p>
+                </CardTitle>
+            </CardContent>
+        );
+    }
+
     const { dutyNumber, bNL, bNT, bFL, bFT, duration, remarks } =
         correspondingData;
 
@@ -63,76 +73,50 @@ function DutyContentCard({
     const cBFL = getChineseLocation(bFL);
     const dDur = +convertDurationDecimal(duration);
 
+    const notHUH = (location: string): string => {
+        return location === 'HUH' ? '' : 'font-bold italic';
+    };
+
     return (
         <>
             <CardContent className="flex items-center justify-between font-mono">
-                <section>
-                    <CardTitle className="font-bold">{dutyNumber}</CardTitle>
-                    <span className="flex items-center gap-3 text-center">
-                        <p className="flex flex-col items-center">
-                            <span>{cBNL}</span>
-                            <span>{bNT}</span>
-                        </p>
-                        <p>-</p>
-                        <p className="flex flex-col items-center">
-                            <span>{cBFL}</span>
-                            <span>{bFT}</span>
-                        </p>
-                        <p>{dDur}</p>
-                    </span>
-                </section>
-                {/* <section className="flex flex-col gap-1"> */}
-                {/*     <FormField */}
-                {/*         control={form.control} */}
-                {/*         name={dayDetailName} */}
-                {/*         render={({ field }) => { */}
-                {/*             return ( */}
-                {/*                 <FormItem className="flex w-full items-end justify-center self-center align-middle"> */}
-                {/*                     <FormControl> */}
-                {/*                         <Checkbox */}
-                {/*                             className="border-slate-600 dark:border-slate-100" */}
-                {/*                             checked={field.value.includes( */}
-                {/*                                 correspondingData.dutyNumber.slice( */}
-                {/*                                     3 */}
-                {/*                                 ) */}
-                {/*                             )} */}
-                {/*                             onCheckedChange={(checked) => { */}
-                {/*                                 return checked */}
-                {/*                                     ? field.onChange([ */}
-                {/*                                         ...field.value, */}
-                {/*                                         correspondingData.dutyNumber.slice( */}
-                {/*                                             3 */}
-                {/*                                         ) */}
-                {/*                                     ]) */}
-                {/*                                     : field.onChange( */}
-                {/*                                         field.value?.filter( */}
-                {/*                                             (value) => */}
-                {/*                                                 value !== */}
-                {/*                                                 correspondingData.dutyNumber.slice( */}
-                {/*                                                     3 */}
-                {/*                                                 ) */}
-                {/*                                         ) */}
-                {/*                                     ); */}
-                {/*                             }} */}
-                {/*                         /> */}
-                {/*                     </FormControl> */}
-                {/*                     <FormLabel className="tracking-wider text-slate-600 dark:text-slate-100"> */}
-                {/*                         加入調更字串 */}
-                {/*                     </FormLabel> */}
-                {/*                 </FormItem> */}
-                {/*             ); */}
-                {/*         }} */}
-                {/*     /> */}
-                {/*     {/* <Button */}
-                {/*         onClick={(e) => { */}
-                {/*             e.preventDefault(); */}
-                {/*         }} */}
-                {/*     > */}
-                {/*         <Copy size={14} /> */}
-                {/*     </Button> */}
-                {/* </section> */}
+                <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="CardContent-1">
+                        <CardTitle className="font-bold">
+                            <AccordionTrigger className="flex">
+                                <p className="font-bold">{dutyNumber}</p>
+                                <p className="flex items-center gap-3 text-center">
+                                    <p className="flex flex-col items-center">
+                                        <span className={notHUH(bNL)}>
+                                            {cBNL}
+                                        </span>
+                                        <span>{bNT}</span>
+                                    </p>
+                                    <p>-</p>
+                                    <p className="flex flex-col items-center">
+                                        <span className={notHUH(bFL)}>
+                                            {cBFL}
+                                        </span>
+                                        <span>{bFT}</span>
+                                    </p>
+                                    <p>{dDur}</p>
+                                </p>
+                            </AccordionTrigger>
+                        </CardTitle>
+                        <AccordionContent>
+                            <p className="font-mono font-light">{remarks}</p>
+                        </AccordionContent>
+                        <AccordionContent>
+                            <Image
+                                src={`/image/duties/${dutyNumber}.png`}
+                                alt={`${dutyNumber}`}
+                                height={600}
+                                width={400}
+                            />
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
             </CardContent>
-            <CardFooter className="font-mono font-light">{remarks}</CardFooter>
         </>
     );
 }

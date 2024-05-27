@@ -37,7 +37,11 @@ function useShiftQuery(prefixData: string[] | undefined) {
                     newParams.set(date, shiftCodeWithPrefix);
                 }
             });
-            await router.push(`${pathname}?${newParams.toString()}`);
+            await router.push(
+                `${pathname}?${newParams.toString()}`,
+                undefined,
+                { scroll: false }
+            );
 
             return newParams;
         },

@@ -192,13 +192,6 @@ function SearchDutyForm({ details, r, tableData }: SearchDutyFormProps) {
                             J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
                         </p>
                     </FormDescription>
-                    {/* <Textarea */}
-                    {/*   className="min-h-[240px] font-mono font-normal tracking-wider" */}
-                    {/*   defaultValue={convertTableDatatoExchangeString( */}
-                    {/*     tableData */}
-                    {/*   )} */}
-                    {/*   placeholder="exchange string" */}
-                    {/* /> */}
                     {details.map(
                         (
                             {
@@ -275,6 +268,7 @@ function SearchDutyForm({ details, r, tableData }: SearchDutyFormProps) {
                                                                         autoComplete="off"
                                                                         autoCorrect="off"
                                                                         spellCheck="false"
+                                                                        autoFocus
                                                                     />
                                                                 </FormControl>
                                                             </FormLabel>

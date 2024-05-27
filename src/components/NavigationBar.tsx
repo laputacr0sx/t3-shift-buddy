@@ -39,11 +39,6 @@ const dutyAppPages: DutyAppPages[] = [
         description: '紀錄各週份Standard Roster。',
         href: '/ezduty'
     },
-    // {
-    //     title: '搵更易',
-    //     description: '列出現行更表明細。',
-    //     href: '/allShifts'
-    // },
     {
         title: '用戶資料',
         description: '查詢或更改用戶資料。',
@@ -72,7 +67,7 @@ export function NavigationBar() {
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <SignedOut>
-                        <SignInButton afterSignInUrl="/ezduty">
+                        <SignInButton afterSignInUrl="/">
                             <User className="m-2" size={18} />
                         </SignInButton>
                     </SignedOut>
@@ -80,29 +75,29 @@ export function NavigationBar() {
                         <UserButton afterSignOutUrl="/" />
                     </SignedIn>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                    {isSignedIn ? (
-                        <p className="font-sans font-semibold">
-                            {user.username}
-                        </p>
-                    ) : null}
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger>功能</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                            {dutyAppPages.map((page) => (
-                                <ListItem
-                                    key={page.title}
-                                    title={page.title}
-                                    href={page.href}
-                                >
-                                    {page.description}
-                                </ListItem>
-                            ))}
-                        </ul>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
+                {/* <NavigationMenuItem> */}
+                {/*     {isSignedIn ? ( */}
+                {/*         <p className="font-sans font-semibold"> */}
+                {/*             {user.username} */}
+                {/*         </p> */}
+                {/*     ) : null} */}
+                {/* </NavigationMenuItem> */}
+                {/* <NavigationMenuItem> */}
+                {/*     <NavigationMenuTrigger>功能</NavigationMenuTrigger> */}
+                {/*     <NavigationMenuContent> */}
+                {/*         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] "> */}
+                {/*             {dutyAppPages.map((page) => ( */}
+                {/*                 <ListItem */}
+                {/*                     key={page.title} */}
+                {/*                     title={page.title} */}
+                {/*                     href={page.href} */}
+                {/*                 > */}
+                {/*                     {page.description} */}
+                {/*                 </ListItem> */}
+                {/*             ))} */}
+                {/*         </ul> */}
+                {/*     </NavigationMenuContent> */}
+                {/* </NavigationMenuItem> */}
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>外部連結</NavigationMenuTrigger>
                     <NavigationMenuContent>
