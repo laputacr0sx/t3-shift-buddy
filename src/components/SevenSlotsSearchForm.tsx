@@ -139,11 +139,13 @@ const SevenSlotsSearchForm = ({
                                 exchangeString
                             )}`}
                         >
-                            <WhatsappIcon
-                                className="mx-2 text-emerald-700 dark:text-emerald-400"
-                                width={'24px'}
-                                height={'24px'}
-                            />
+                            <Button variant={'ghost'}>
+                                <WhatsappIcon
+                                    className="text-emerald-700 dark:text-emerald-400"
+                                    width={'24px'}
+                                    height={'24px'}
+                                />
+                            </Button>
                         </Link>
                         <Link
                             href={`/table-output/${
@@ -153,11 +155,13 @@ const SevenSlotsSearchForm = ({
                             }`}
                             target="_blank"
                         >
-                            <IconTable
-                                className="mx-2 text-lime-700 dark:text-lime-400"
-                                width={'24px'}
-                                height={'24px'}
-                            />
+                            <Button variant={'ghost'}>
+                                <IconTable
+                                    className=" text-lime-700 dark:text-lime-400"
+                                    width={'24px'}
+                                    height={'24px'}
+                                />
+                            </Button>
                         </Link>
                         <Button
                             type="reset"
@@ -167,7 +171,7 @@ const SevenSlotsSearchForm = ({
                                 await router.replace('/');
                                 router.reload();
                             }}
-                            className="px-2 text-red-700 dark:text-red-400"
+                            className="text-red-700 dark:text-red-400"
                         >
                             <Eraser />
                         </Button>
