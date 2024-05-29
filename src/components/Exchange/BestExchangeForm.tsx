@@ -65,7 +65,7 @@ export default function BestExchangeForm() {
         resolver: zodResolver(bestExchangeFormSchema),
         defaultValues: {
             [FIELD_ARRAY_NAME]: {
-                info: { date: undefined, sequenceId: 'Y2024W05' },
+                info: { date: new Date(), sequenceId: 'Y2024W05' },
                 swappers: [
                     {
                         staffName: 'Felix',
@@ -104,108 +104,10 @@ export default function BestExchangeForm() {
     }
 
     function onExchangeError(err: FieldErrors<BestExchangeFormSchema>) {
-        toast.error(`${JSON.stringify(err, null, 2)}`);
+        toast.error(`${JSON.stringify(err[FIELD_ARRAY_NAME]?.info, null, 2)}`);
         console.log(err);
         return err;
     }
-
-    // return (
-    //     <Form {...formComplex}>
-    //         <form onSubmit={handleSubmit(onExchangeSubmit, onExchangeError)}>
-    //             {fields.map((item, index) => {
-    //                 return (
-    //                     <li key={item.id}>
-    //                         <Controller
-    //                             name={`${FIELD_ARRAY_NAME}.${index}.firstName`}
-    //                             control={control}
-    //                             render={({ field }) => (
-    //                                 <>
-    //                                     <Label {...field}>Hello</Label>
-    //                                     <Input
-    //                                         {...field}
-    //                                         className="dark:bg-slate-700"
-    //                                     />
-    //                                 </>
-    //                             )}
-    //                         />
-    //                         <Button
-    //                             variant="destructive"
-    //                             type="button"
-    //                             onClick={() => remove(index)}
-    //                         >
-    //                             Delete
-    //                         </Button>
-    //                     </li>
-    //                 );
-    //             })}
-    //             <section>
-    //                 <Button
-    //                     type="button"
-    //                     onClick={() => {
-    //                         append({
-    //                             firstName: 'appendBill'
-    //                         });
-    //                     }}
-    //                 >
-    //                     append
-    //                 </Button>
-    //                 <Button
-    //                     type="button"
-    //                     onClick={() =>
-    //                         prepend({
-    //                             firstName: 'prependFirstName'
-    //                         })
-    //                     }
-    //                 >
-    //                     prepend
-    //                 </Button>
-    //                 <Button
-    //                     type="button"
-    //                     onClick={() =>
-    //                         insert(2, {
-    //                             firstName: 'insertFirstName'
-    //                         })
-    //                     }
-    //                 >
-    //                     insert at
-    //                 </Button>
-    //                 <Button type="button" onClick={() => swap(1, 2)}>
-    //                     Swap
-    //                 </Button>
-    //                 <Button type="button" onClick={() => move(1, 2)}>
-    //                     move
-    //                 </Button>
-    //                 <Button
-    //                     type="button"
-    //                     onClick={() =>
-    //                         replace([
-    //                             {
-    //                                 firstName: 'test1'
-    //                             },
-    //                             {
-    //                                 firstName: 'test2'
-    //                             }
-    //                         ])
-    //                     }
-    //                 >
-    //                     replace
-    //                 </Button>
-    //
-    //                 <Button type="button" onClick={() => remove(1)}>
-    //                     remove at
-    //                 </Button>
-    //
-    //               <Button type="button" onClick={() => reset()}>
-    //                     reset
-    //                 </Button>
-    //             </section>
-    //
-    //             <Button type="submit" variant="proceed">
-    //                 Submit
-    //             </Button>
-    //         </form>
-    //     </Form>
-    // );
 
     if (weekQuery.status !== 'success') {
         return <>Loading...</>;
@@ -213,7 +115,10 @@ export default function BestExchangeForm() {
     const { data: weekData } = weekQuery;
     return (
         <Form {...formComplex}>
-            <form onSubmit={handleSubmit(onExchangeSubmit, onExchangeError)}>
+            <form
+                className="min-h-screen"
+                onSubmit={handleSubmit(onExchangeSubmit, onExchangeError)}
+            >
                 <section className="flex gap-4">
                     <FormField
                         control={formComplex.control}
@@ -229,7 +134,7 @@ export default function BestExchangeForm() {
                                                     <Button
                                                         variant={'outline'}
                                                         className={cn(
-                                                            'w-[240px] pl-3 text-left font-normal',
+                                                            'w-[180px] pl-3 text-center font-normal',
                                                             !field.value &&
                                                                 'text-muted-foreground'
                                                         )}
@@ -254,21 +159,16 @@ export default function BestExchangeForm() {
                                             >
                                                 <Calendar
                                                     mode="single"
-                                                    selected={field.value}
+                                                    selected={
+                                                        field.value ||
+                                                        new Date()
+                                                    }
                                                     onSelect={field.onChange}
                                                     weekStartsOn={1}
-                                                    showOutsideDays
                                                     showWeekNumber
                                                     disableNavigation
                                                     numberOfMonths={2}
-                                                    // disabled={(date) =>
-                                                    //     date > new Date() ||
-                                                    //     date <
-                                                    //         new Date(
-                                                    //             '1900-01-01'
-                                                    //         )
-                                                    // }
-                                                    initialFocus
+                                                    // initialFocus
                                                 />
                                             </PopoverContent>
                                         </Popover>
