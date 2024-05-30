@@ -320,7 +320,7 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
 
 export type DateDetail = {
     date: string;
-    prefix: string;
+    prefix: Prefix;
     racingDetail: Fixture | null;
     holidayDetail: Holiday | null;
 };
@@ -604,18 +604,41 @@ export function getFitTimetable(
 ): (DateDetail & { timetable: Timetable })[] {
     return prefixes.map((prefix) => {
         const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
+        // const samePrefixTimetable = timetables.filter((timetable) => {
+        //     const checkSpecial =
+        //         moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
+        //         timetable.isSpecial;
+        //
+        //     const checkNormal =
+        //         !timetable.isSpecial &&
+        //         timetable.prefix.includes(prefix.prefix) &&
+        //         prefixDate.isSameOrAfter(
+        //             moment(timetable.dateOfEffective),
+        //             'isoWeek'
+        //         );
+        //
+        //     return checkSpecial || checkNormal;
+        // });
 
         const samePrefixTimetable = timetables.filter((timetable) => {
             const checkSpecial =
-                moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
-                timetable.isSpecial;
+                timetable.dateOfEffectiveN.some((v) =>
+                    moment(v).isSame(prefixDate, 'd')
+                ) && timetable.isSpecial;
+
+            // const checkNormal =
+            //     !timetable.isSpecial &&
+            //     timetable.prefix.includes(prefix.prefix) &&
+            //     prefixDate.isSameOrAfter(
+            //         moment(timetable.dateOfEffective),
+            //         'isoWeek'
+            //     );
 
             const checkNormal =
                 !timetable.isSpecial &&
                 timetable.prefix.includes(prefix.prefix) &&
-                prefixDate.isSameOrAfter(
-                    moment(timetable.dateOfEffective),
-                    'isoWeek'
+                timetable.dateOfEffectiveN.every((doe) =>
+                    moment(doe).isSameOrBefore(prefixDate, 'isoWeek')
                 );
 
             return checkSpecial || checkNormal;
