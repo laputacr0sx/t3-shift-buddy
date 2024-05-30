@@ -1,5 +1,7 @@
 import { type Config } from 'tailwindcss';
 
+import colors from 'tailwindcss/colors';
+
 import {
     fontFamily,
     screens as defaultScreens
@@ -10,7 +12,22 @@ import {
 
 export default {
     darkMode: ['class'],
+    safelist: [
+        'w-64',
+        'w-1/2',
+        'rounded-l-lg',
+        'rounded-r-lg',
+        'bg-gray-200',
+        'grid-cols-4',
+        'grid-cols-7',
+        'h-6',
+        'leading-6',
+        'h-9',
+        'leading-9',
+        'shadow-lg'
+    ],
     content: [
+        './node_modules/flowbite-react/lib/**/*.js',
         './pages/**/*.{ts,tsx}',
         './components/**/*.{ts,tsx}',
         './app/**/*.{ts,tsx}',
@@ -21,6 +38,10 @@ export default {
             xs: '320px',
             ...defaultScreens,
             '2xl': '1536px'
+        },
+        colors: {
+            red: colors.rose,
+            pink: colors.fuchsia
         },
         container: {
             center: true,
@@ -91,5 +112,5 @@ export default {
             }
         }
     },
-    plugins: [require('tailwindcss-animate')]
+    plugins: [require('tailwindcss-animate'), require('flowbite/plugin')]
 } satisfies Config;

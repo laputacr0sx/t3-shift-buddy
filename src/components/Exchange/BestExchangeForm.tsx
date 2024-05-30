@@ -81,20 +81,11 @@ export default function BestExchangeForm() {
     });
     const { control, handleSubmit, reset } = formComplex;
 
-    const {
-        fields,
-        append,
-        update,
-        prepend,
-        insert,
-        remove,
-        move,
-        replace,
-        swap
-    } = useFieldArray<BestExchangeFormSchema>({
-        control,
-        name: `${FIELD_ARRAY_NAME}.swappers`
-    });
+    const { fields, append, update, remove } =
+        useFieldArray<BestExchangeFormSchema>({
+            control,
+            name: `${FIELD_ARRAY_NAME}.swappers`
+        });
 
     function onExchangeSubmit(values: BestExchangeFormSchema) {
         console.log(values);

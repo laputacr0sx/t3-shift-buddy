@@ -16,7 +16,6 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
 import superjson from 'superjson';
 import { createContextInner } from '~/server/api/trpc';
-import { useRouter } from 'next/router';
 
 type EasyDutyProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
