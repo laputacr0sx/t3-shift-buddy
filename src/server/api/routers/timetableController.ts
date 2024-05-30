@@ -38,13 +38,9 @@ export const timetableControllerRouter = createTRPCRouter({
                 true
             );
 
-            const timetables = await prisma.timetable
-                .findMany({
-                    orderBy: { dateOfEffective: 'desc' }
-                })
-                .catch(() => {
-                    throw new TRPCError({ code: 'BAD_REQUEST' });
-                });
+            const timetables = await prisma.timetable.findMany().catch(() => {
+                throw new TRPCError({ code: 'BAD_REQUEST' });
+            });
 
             const datePrefix = getFitTimetable(timetables, dateDetails);
 
