@@ -308,7 +308,7 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
         const prefix = draftPrefix(racingDetails, weekDayNum, isHoliday);
 
         prefixes.push({
-            date: moment(date).format('YYYYMMDD ddd'),
+            date: moment(date).toISOString(),
             prefix,
             racingDetails,
             holidayDetails
@@ -366,7 +366,7 @@ export function getDateDetailFromId(
         const prefix = draftPrefix(racingDetail, weekDayNum, isHoliday);
 
         prefixes.push({
-            date: moment(date).format('YYYYMMDD ddd'),
+            date: moment(date).toISOString(),
             prefix,
             racingDetail: racingDetail ?? null,
             holidayDetail: holidayDetail ?? null
@@ -603,7 +603,7 @@ export function getFitTimetable(
     prefixes: DateDetail[]
 ): (DateDetail & { timetable: Timetable })[] {
     return prefixes.map((prefix) => {
-        const prefixDate = moment(prefix.date, 'YYYYMMDD ddd');
+        const prefixDate = moment(prefix.date);
         // const samePrefixTimetable = timetables.filter((timetable) => {
         //     const checkSpecial =
         //         moment(timetable.dateOfEffective).isSame(prefixDate, 'd') &&
@@ -808,6 +808,24 @@ export function convertTableDatatoExchangeString(
     return completeString;
 }
 
-export function exchangeProcess(ctx: BestExchangeFormSchema) {
-    return;
+interface ExchangeInfo {
+    date: Date;
+    sequenceId: string;
+}
+type ExchangeOutput = {
+    exchange: {
+        info: ExchangeInfo;
+        swapResult: null;
+    };
+};
+export function exchangeProcess(ctx: BestExchangeFormSchema): ExchangeOutput {
+    return {
+        exchange: {
+            info: {
+                date: ctx.exchange.info.date,
+                sequenceId: ctx.exchange.info.sequenceId
+            },
+            swapResult: null
+        }
+    };
 }

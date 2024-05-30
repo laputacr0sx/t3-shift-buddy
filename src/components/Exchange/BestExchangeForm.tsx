@@ -7,7 +7,10 @@ import {
     type Control,
     type FieldArrayWithId,
     type FieldErrors,
-    type UseFieldArrayUpdate
+    type UseFieldArrayUpdate,
+    UseFormReset,
+    UseFieldArrayAppend,
+    UseFormReturn
 } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -34,6 +37,8 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import moment from 'moment';
+import { Badge } from '../ui/badge';
 
 const FIELD_ARRAY_NAME = 'exchange';
 
@@ -81,20 +86,11 @@ export default function BestExchangeForm() {
     });
     const { control, handleSubmit, reset } = formComplex;
 
-    const {
-        fields,
-        append,
-        update,
-        prepend,
-        insert,
-        remove,
-        move,
-        replace,
-        swap
-    } = useFieldArray<BestExchangeFormSchema>({
-        control,
-        name: `${FIELD_ARRAY_NAME}.swappers`
-    });
+    const { fields, append, update, remove } =
+        useFieldArray<BestExchangeFormSchema>({
+            control,
+            name: `${FIELD_ARRAY_NAME}.swappers`
+        });
 
     function onExchangeSubmit(values: BestExchangeFormSchema) {
         console.log(values);
@@ -113,95 +109,18 @@ export default function BestExchangeForm() {
         return <>Loading...</>;
     }
     const { data: weekData } = weekQuery;
+    const correspondingDetail = weekData.filter(({ date }) => {
+        const targetDate = moment(formComplex.getValues('exchange.info.date'));
+        return moment(date).isSame(targetDate);
+    });
+
     return (
         <Form {...formComplex}>
             <form
                 className="min-h-screen"
                 onSubmit={handleSubmit(onExchangeSubmit, onExchangeError)}
             >
-                <section className="flex gap-4">
-                    <FormField
-                        control={formComplex.control}
-                        name="exchange.info.date"
-                        render={({ field }) => {
-                            return (
-                                <FormItem className="flex flex-col gap-2">
-                                    <FormLabel>日期</FormLabel>
-                                    <FormControl>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <FormControl>
-                                                    <Button
-                                                        variant={'outline'}
-                                                        className={cn(
-                                                            'w-[180px] pl-3 text-center font-normal',
-                                                            !field.value &&
-                                                                'text-muted-foreground'
-                                                        )}
-                                                    >
-                                                        {field.value ? (
-                                                            format(
-                                                                field.value,
-                                                                'yyyy-MM-dd'
-                                                            )
-                                                        ) : (
-                                                            <span>
-                                                                Pick a date
-                                                            </span>
-                                                        )}
-                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                    </Button>
-                                                </FormControl>
-                                            </PopoverTrigger>
-                                            <PopoverContent
-                                                className="w-auto p-0"
-                                                align="start"
-                                            >
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={
-                                                        field.value ||
-                                                        new Date()
-                                                    }
-                                                    onSelect={field.onChange}
-                                                    weekStartsOn={1}
-                                                    showWeekNumber
-                                                    disableNavigation
-                                                    numberOfMonths={2}
-                                                    // initialFocus
-                                                />
-                                            </PopoverContent>
-                                        </Popover>
-                                    </FormControl>
-                                    <FormDescription>
-                                        Please choose target date.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </FormItem>
-                            );
-                        }}
-                    />
-                    <FormField
-                        control={formComplex.control}
-                        name="exchange.info.sequenceId"
-                        render={({ field }) => {
-                            return (
-                                <FormItem>
-                                    <FormLabel>週次</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            maxLength={6}
-                                            className="w-10 "
-                                            type={'number'}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            );
-                        }}
-                    />
-                </section>
+                <ExchangeInfo formComplex={formComplex} />
                 <section className="flex w-fit flex-col items-center gap-4">
                     {fields.map((field, index) => (
                         <Edit
@@ -214,47 +133,147 @@ export default function BestExchangeForm() {
                         />
                     ))}
                 </section>
-                <section className="flex flex-col items-center justify-center gap-4">
-                    <Button
-                        className="w-max"
-                        variant="ghost"
-                        type="button"
-                        onClick={() => {
-                            append({
-                                staffName: '',
-                                staffId: '',
-                                rowId: '',
-                                targetDuty: '',
-                                currentDuty: ''
-                            });
-                        }}
-                    >
-                        <IconIconPlusCircle />
-                    </Button>
-                    <section className="flex gap-4">
-                        <Button
-                            variant={'destructive'}
-                            className="w-auto"
-                            onClick={() => reset()}
-                        >
-                            Reset
-                        </Button>
-                        <Button
-                            variant={'proceed'}
-                            type="submit"
-                            onClick={() => {
-                                return;
-                            }}
-                        >
-                            Submit
-                        </Button>
-                    </section>
-                    {/* <pre>{JSON.stringify(weekData, null, 2)}</pre> */}
-                </section>
+                <ExchangeAction append={append} reset={reset} />
             </form>
         </Form>
     );
 }
+
+type ExchangeInfoProps = {
+    formComplex: UseFormReturn<BestExchangeFormSchema, any, undefined>;
+};
+const ExchangeInfo = ({ formComplex }: ExchangeInfoProps) => {
+    return (
+        <section className="flex gap-4">
+            <FormField
+                control={formComplex.control}
+                name="exchange.info.date"
+                render={({ field }) => {
+                    return (
+                        <FormItem className="flex flex-col gap-2">
+                            <FormLabel>日期</FormLabel>
+                            <FormControl>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={'outline'}
+                                                className={cn(
+                                                    'w-[180px] pl-3 text-center font-normal',
+                                                    !field.value &&
+                                                        'text-muted-foreground'
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(
+                                                        field.value,
+                                                        'yyyy-MM-dd'
+                                                    )
+                                                ) : (
+                                                    <span>Pick a date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                        className="w-auto p-0"
+                                        align="start"
+                                    >
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value || new Date()}
+                                            onSelect={field.onChange}
+                                            weekStartsOn={1}
+                                            showWeekNumber
+                                            disableNavigation
+                                            numberOfMonths={2}
+                                            // initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </FormControl>
+                            <FormDescription>
+                                Please choose target date.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    );
+                }}
+            />
+            <FormField
+                control={formComplex.control}
+                name="exchange.info.sequenceId"
+                render={({ field }) => {
+                    return (
+                        <FormItem>
+                            <FormLabel>週次</FormLabel>
+                            <FormControl>
+                                <Input
+                                    {...field}
+                                    value={moment(
+                                        formComplex.getValues(
+                                            'exchange.info.date'
+                                        )
+                                    ).format('WW')}
+                                    disabled
+                                    maxLength={6}
+                                    className="w-12"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    );
+                }}
+            />
+        </section>
+    );
+};
+
+type ExchangeActionProps = {
+    append: UseFieldArrayAppend<BestExchangeFormSchema, `exchange.swappers`>;
+    reset: UseFormReset<BestExchangeFormSchema>;
+};
+const ExchangeAction = ({ append, reset }: ExchangeActionProps) => {
+    return (
+        <section className="flex flex-col items-center justify-center gap-4">
+            <Button
+                className="w-max"
+                variant="ghost"
+                type="button"
+                onClick={() => {
+                    append({
+                        staffName: '',
+                        staffId: '',
+                        rowId: '',
+                        targetDuty: '',
+                        currentDuty: ''
+                    });
+                }}
+            >
+                <IconIconPlusCircle />
+            </Button>
+            <section className="flex gap-4">
+                <Button
+                    variant={'destructive'}
+                    className="w-auto"
+                    onClick={() => reset()}
+                >
+                    Reset
+                </Button>
+                <Button
+                    variant={'proceed'}
+                    type="submit"
+                    onClick={() => {
+                        return;
+                    }}
+                >
+                    Submit
+                </Button>
+            </section>
+        </section>
+    );
+};
 
 type DisplayProps = { control: Control<BestExchangeFormSchema>; index: number };
 const Display = ({ control, index }: DisplayProps) => {
@@ -266,8 +285,8 @@ const Display = ({ control, index }: DisplayProps) => {
     const candidateNumber = index + 1;
     return (
         <>
-            <p>{candidateNumber}</p>
-            <p>{data?.staffName}</p>
+            <Badge variant="default">{candidateNumber}</Badge>
+            <Badge>{data?.staffName}</Badge>
         </>
     );
 };

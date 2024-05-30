@@ -49,7 +49,7 @@ export function HomepageInput({
             },
             idx
         ) => {
-            const correspondingDate = moment(date, 'YYYYMMDD ddd');
+            const correspondingDate = moment(date);
             const formatedDate = correspondingDate.format('DD/MM(dd)');
             const isRedDay =
                 correspondingDate.isoWeekday() === 7 || !!holidayDetail;
