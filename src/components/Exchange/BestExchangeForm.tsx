@@ -16,8 +16,6 @@ import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { api } from '~/utils/api';
-import { DayDetail } from '~/utils/customTypes';
-import { DefaultData } from '../SevenSlotsSearchForm';
 import IconIconPlusCircle from '../svgIcons/CirclePlus';
 
 import { format } from 'date-fns';
@@ -123,7 +121,7 @@ export default function BestExchangeForm() {
                 <ExchangeInfo formComplex={formComplex} />
                 <section className="flex w-fit flex-col items-center gap-4">
                     {fields.map((field, index) => (
-                        <Edit
+                        <CandidateInfo
                             key={field.id}
                             control={control}
                             update={update}
@@ -275,8 +273,11 @@ const ExchangeAction = ({ append, reset }: ExchangeActionProps) => {
     );
 };
 
-type DisplayProps = { control: Control<BestExchangeFormSchema>; index: number };
-const Display = ({ control, index }: DisplayProps) => {
+type CandidateHeaderProps = {
+    control: Control<BestExchangeFormSchema>;
+    index: number;
+};
+const CandidateHeader = ({ control, index }: CandidateHeaderProps) => {
     const data = useWatch({
         control,
         name: `${FIELD_ARRAY_NAME}.swappers.${index}`
@@ -291,22 +292,28 @@ const Display = ({ control, index }: DisplayProps) => {
     );
 };
 
-type EditProps = {
+type CandidateInfoProps = {
     update: UseFieldArrayUpdate<BestExchangeFormSchema>;
     index: number;
     value: FieldArrayWithId<BestExchangeFormSchema>;
     control: Control<BestExchangeFormSchema>;
     remove: UseFieldArrayRemove;
 };
-const Edit = ({ remove, update, index, value, control }: EditProps) => {
-    const { register, handleSubmit } = useForm({
+const CandidateInfo = ({
+    remove,
+    update,
+    index,
+    value,
+    control
+}: CandidateInfoProps) => {
+    const { handleSubmit } = useForm({
         defaultValues: value
     });
 
     return (
         <Card className="w-[90%]">
             <CardTitle className="flex justify-between">
-                <Display control={control} index={index} />
+                <CandidateHeader control={control} index={index} />
                 <Button
                     onClick={(e) => {
                         e.preventDefault();

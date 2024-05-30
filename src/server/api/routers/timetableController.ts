@@ -43,7 +43,6 @@ export const timetableControllerRouter = createTRPCRouter({
             });
 
             const datePrefix = getFitTimetable(timetables, dateDetails);
-            console.log(datePrefix);
 
             const hkoUri =
                 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc';
