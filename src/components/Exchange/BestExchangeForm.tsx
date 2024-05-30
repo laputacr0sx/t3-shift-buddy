@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-    UseFieldArrayRemove,
+    type UseFieldArrayRemove,
     useFieldArray,
     useForm,
     useWatch,
@@ -8,9 +8,9 @@ import {
     type FieldArrayWithId,
     type FieldErrors,
     type UseFieldArrayUpdate,
-    UseFormReset,
-    UseFieldArrayAppend,
-    UseFormReturn
+    type UseFormReset,
+    type UseFieldArrayAppend,
+    type UseFormReturn
 } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
@@ -37,10 +37,11 @@ import { Input } from '../ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import moment from 'moment';
 import { Badge } from '../ui/badge';
+import { type BestExchangeFormSchema } from '~/utils/customTypes';
 
 const FIELD_ARRAY_NAME = 'exchange';
 
-const bestExchangeFormSchema = z.object({
+export const bestExchangeFormSchema = z.object({
     [FIELD_ARRAY_NAME]: z.object({
         info: z.object({
             date: z.date({ required_error: 'A date of birth is required.' }),
@@ -59,7 +60,6 @@ const bestExchangeFormSchema = z.object({
             .array()
     })
 });
-export type BestExchangeFormSchema = z.infer<typeof bestExchangeFormSchema>;
 
 export default function BestExchangeForm() {
     const weekQuery = api.timetableController.getSuitableTimetables.useQuery();

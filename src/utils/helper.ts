@@ -10,7 +10,8 @@ import type {
     DayDetail,
     Rosta,
     DateDetails,
-    DateDetailsWithSequences
+    DateDetailsWithSequences,
+    BestExchangeFormSchema
 } from './customTypes';
 import {
     completeShiftNameRegex,
@@ -24,7 +25,6 @@ import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 import type { TableData } from '~/components/HomepageInput';
-import { BestExchangeFormSchema } from '~/components/Exchange/BestExchangeForm';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],

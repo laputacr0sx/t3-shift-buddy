@@ -10,6 +10,7 @@ import type {
     queryStringSchema
 } from './zodSchemas';
 import type { getFitTimetable } from './helper';
+import { bestExchangeFormSchema } from '~/components/Exchange/BestExchangeForm';
 
 export const WorkLocation = [
     'HUH',
@@ -58,3 +59,4 @@ export type Rosta = z.infer<typeof rostaSchema>;
 
 export type QueryArray = z.infer<typeof queryStringSchema>;
 export type Weather = WeatherForecast['weatherForecast'][0];
+export type BestExchangeFormSchema = z.infer<typeof bestExchangeFormSchema>;
