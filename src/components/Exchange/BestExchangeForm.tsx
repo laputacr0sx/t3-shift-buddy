@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     type UseFieldArrayRemove,
@@ -38,6 +39,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import moment from 'moment';
 import { Badge } from '../ui/badge';
 import { type BestExchangeFormSchema } from '~/utils/customTypes';
+import { type inferProcedureOutput } from '@trpc/server';
+import { type AppRouter } from '~/server/api/root';
 
 const FIELD_ARRAY_NAME = 'exchange';
 
@@ -82,7 +85,7 @@ export default function BestExchangeForm() {
         },
         mode: 'onChange'
     });
-    const { control, handleSubmit, reset } = formComplex;
+    const { control, handleSubmit, reset, getValues } = formComplex;
 
     const { fields, append, update, remove } =
         useFieldArray<BestExchangeFormSchema>({
@@ -107,10 +110,34 @@ export default function BestExchangeForm() {
         return <>Loading...</>;
     }
     const { data: weekData } = weekQuery;
+    const targetDate = moment(formComplex.getValues('exchange.info.date'));
     const correspondingDetail = weekData.filter(({ date }) => {
-        const targetDate = moment(formComplex.getValues('exchange.info.date'));
         return moment(date).isSame(targetDate);
     });
+
+    const desiredDuties = getValues('exchange.swappers')
+        .flatMap((u) => {
+            return [u.targetDuty, u.currentDuty];
+        })
+        .map((duty) => {
+            return {
+                date: moment(getValues('exchange.info.date')).format(
+                    'YYYYMMDD'
+                ),
+                shiftCode: correspondingDetail[0]?.timetable.prefix.concat(
+                    duty
+                ) as string
+            };
+        });
+
+    const { data: tableData } = api.dutyController.getDutyByDateDuty.useQuery(
+        desiredDuties,
+        {
+            enabled: weekData.length > 0
+        }
+    );
+
+    console.log(tableData);
 
     return (
         <Form {...formComplex}>
@@ -128,6 +155,7 @@ export default function BestExchangeForm() {
                             index={index}
                             value={field}
                             remove={remove}
+                            dutyDetail={tableData}
                         />
                     ))}
                 </section>
@@ -297,6 +325,9 @@ type CandidateInfoProps = {
     index: number;
     value: FieldArrayWithId<BestExchangeFormSchema>;
     control: Control<BestExchangeFormSchema>;
+    dutyDetail?: inferProcedureOutput<
+        AppRouter['dutyController']['getDutyByDateDuty']
+    >;
     remove: UseFieldArrayRemove;
 };
 const CandidateInfo = ({
@@ -304,7 +335,8 @@ const CandidateInfo = ({
     update,
     index,
     value,
-    control
+    control,
+    dutyDetail
 }: CandidateInfoProps) => {
     const { handleSubmit } = useForm({
         defaultValues: value
@@ -390,7 +422,7 @@ const CandidateInfo = ({
                                     />
                                 </FormControl>
                                 <FormDescription>
-                                    This is your name
+                                    This is the detail of current Duty
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
@@ -409,7 +441,7 @@ const CandidateInfo = ({
                                     />
                                 </FormControl>
                                 <FormDescription>
-                                    This is your name
+                                    This this is the detail of Target Duty
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
