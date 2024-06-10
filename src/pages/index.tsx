@@ -1,9 +1,8 @@
 import { Terminal } from 'lucide-react';
-import Link from 'next/link';
 import PageTitle from '~/components/PageTitle';
 import SevenSlotsSearchForm from '~/components/SevenSlotsSearchForm';
 import TableLoading from '~/components/TableLoading';
-import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert';
+import { Alert, AlertTitle } from '~/components/ui/alert';
 import { api } from '~/utils/api';
 
 const LandingPage = () => {

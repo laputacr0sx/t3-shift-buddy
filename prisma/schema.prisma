@@ -89,11 +89,12 @@ model Timetable {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  toc             String   @id @unique
-  dateOfEffective DateTime
-  isSpecial       Boolean
+  toc              String     @id @unique
+  dateOfEffective  DateTime
+  dateOfEffectiveN DateTime[]
+  isSpecial        Boolean
   // prefix - non-unique, J15/C75/V71/D14
-  prefix          String
+  prefix           String
 
   Duty Duty[]
 
