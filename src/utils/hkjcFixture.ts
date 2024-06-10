@@ -575,8 +575,8 @@ const fixtures: Fixture[] = [
         keyMatches: ''
     },
     {
-        date: '2024-06-16',
-        weekDay: 7,
+        date: '2024-06-15',
+        weekDay: 6,
         venue: 'S',
         nightRacing: 2,
         keyMatches: 'S'
