@@ -24,7 +24,7 @@ import fixtures, { type Fixture } from '~/utils/hkjcFixture';
 import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
 
 import type { TableData } from '~/components/HomepageInput';
-import { BestExchangeFormSchema } from '~/components/Exchange/BestExchangeForm';
+import { type BestExchangeFormSchema } from '~/components/Exchange/BestExchangeForm';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -806,8 +806,4 @@ export function convertTableDatatoExchangeString(
     completeString = completeString + (isMono ? '```' : '');
 
     return completeString;
-}
-
-export function exchangeProcess(ctx: BestExchangeFormSchema) {
-    return;
 }
