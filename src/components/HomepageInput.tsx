@@ -76,7 +76,7 @@ export function HomepageInput({
                         name={`${dayDetailName}[${idx}]`}
                         render={({ field }) => {
                             return (
-                                <FormItem className="w-full">
+                                <FormItem className="w-full xl:w-[50%]">
                                     <Card
                                         className={cn(
                                             'w-content mx-4 flex flex-col rounded-none rounded-r-2xl rounded-bl-2xl border'
