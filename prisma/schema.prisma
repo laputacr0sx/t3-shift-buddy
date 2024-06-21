@@ -1,138 +1,138 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 enum Location {
-  HUH
-  SHT
-  SHS
-  LOW
-  HTD
-  TAD
-  TWD
-  TAW
-  FTRH
+    HUH
+    SHT
+    SHS
+    LOW
+    HTD
+    TAD
+    TWD
+    TAW
+    FTRH
 }
 
 enum Category {
-  KLN
-  SHS
-  ENT
-  SPC
+    KLN
+    SHS
+    ENT
+    SPC
 }
 
 enum Grade {
-  G40
-  G50
-  S10
-  S20
-  S30
+    G40
+    G50
+    S10
+    S20
+    S30
 }
 
 enum SystemRole {
-  ADMIN
-  USER
-  POWER_USER
+    ADMIN
+    USER
+    POWER_USER
 }
 
 model Duty {
-  dutyNumber String   @id @unique
-  bNL        Location
-  bNT        String
-  bFT        String
-  bFL        Location
-  duration   String
-  remarks    String
+    dutyNumber String   @id @unique
+    bNL        Location
+    bNT        String
+    bFT        String
+    bFL        Location
+    duration   String
+    remarks    String
 
-  Timetable    Timetable? @relation(fields: [timetableToc], references: [toc])
-  timetableToc String?
+    Timetable    Timetable? @relation(fields: [timetableToc], references: [toc])
+    timetableToc String?
 }
 
 model Sequence {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  // YYYYWWAAA
-  // id = A1 / B1 / C13 / S1
-  id          String   @id @unique
-  dutyNumbers String[]
+    // YYYYWWAAA
+    // id = A1 / B1 / C13 / S1
+    id          String   @id @unique
+    dutyNumbers String[]
 
-  rosterId String
-  Roster   Roster @relation(fields: [rosterId], references: [id])
+    rosterId String
+    Roster   Roster @relation(fields: [rosterId], references: [id])
 
-  staffId String?
-  Staff   Staff?  @relation(fields: [staffId], references: [id])
+    staffId String?
+    Staff   Staff?  @relation(fields: [staffId], references: [id])
 }
 
 model Roster {
-  // YYYYWW
-  // id = Y2023W50
-  id          String   @id @unique
-  publishedAt DateTime @default(now())
-  publisherId String   @default("602949")
+    // YYYYWW
+    // id = Y2023W50
+    id          String   @id @unique
+    publishedAt DateTime @default(now())
+    publisherId String   @default("602949")
 
-  // Timetables String[]   @default(["Sepcial", "Training"])
-  Sequence Sequence[]
+    // Timetables String[]   @default(["Sepcial", "Training"])
+    Sequence Sequence[]
 
-  Timetables Timetable[]
+    Timetables Timetable[]
 
-  annualId Int?
-  Annual   Annual? @relation(fields: [annualId], references: [id])
+    annualId Int?
+    Annual   Annual? @relation(fields: [annualId], references: [id])
 }
 
 model Timetable {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  toc              String     @id @unique
-  dateOfEffective  DateTime
-  dateOfEffectiveN DateTime[]
-  isSpecial        Boolean
-  // prefix - non-unique, J15/C75/V71/D14
-  prefix           String
+    toc              String     @id @unique
+    dateOfEffective  DateTime
+    dateOfEffectiveN DateTime[]
+    isSpecial        Boolean
+    // prefix - non-unique, J15/C75/V71/D14
+    prefix           String
 
-  Duty Duty[]
+    Duty Duty[]
 
-  Roster Roster[]
+    Roster Roster[]
 }
 
 model User {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  id         String     @id @unique @default(uuid())
-  loginId    String
-  password   String
-  systemRole SystemRole @default(USER)
-  staffId    String
-  Staff      Staff?
+    id         String     @id @unique @default(uuid())
+    loginId    String
+    password   String
+    systemRole SystemRole @default(USER)
+    staffId    String
+    Staff      Staff?
 }
 
 model Staff {
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  id         String   @id @unique
-  name       String
-  email      String
-  dateOfJoin DateTime
-  grade      Grade    @default(G40)
-  category   Category @default(KLN)
+    id         String   @id @unique
+    name       String
+    email      String
+    dateOfJoin DateTime
+    grade      Grade    @default(G40)
+    category   Category @default(KLN)
 
-  Sequence Sequence[]
+    Sequence Sequence[]
 
-  userId String? @unique
-  user   User?   @relation(fields: [userId], references: [id])
+    userId String? @unique
+    user   User?   @relation(fields: [userId], references: [id])
 }
 
 model Annual {
-  // YYYY
-  id      Int      @unique
-  year    String
-  rosters Roster[]
+    // YYYY
+    id      Int      @unique
+    year    String
+    rosters Roster[]
 }

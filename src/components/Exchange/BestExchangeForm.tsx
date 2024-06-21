@@ -1,16 +1,15 @@
-import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-    type UseFieldArrayRemove,
     useFieldArray,
     useForm,
     useWatch,
     type Control,
     type FieldArrayWithId,
     type FieldErrors,
+    type UseFieldArrayAppend,
+    type UseFieldArrayRemove,
     type UseFieldArrayUpdate,
     type UseFormReset,
-    type UseFieldArrayAppend,
     type UseFormReturn
 } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -19,9 +18,13 @@ import { z } from 'zod';
 import { api } from '~/utils/api';
 import IconIconPlusCircle from '../svgIcons/CirclePlus';
 
+import { type inferProcedureOutput } from '@trpc/server';
 import { format } from 'date-fns';
 import { CalendarIcon, Minus } from 'lucide-react';
+import moment from 'moment';
 import { cn } from '~/lib/utils';
+import { type AppRouter } from '~/server/api/root';
+import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Calendar } from '../ui/calendar';
 import { Card, CardContent, CardFooter, CardTitle } from '../ui/card';
@@ -36,14 +39,10 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import moment from 'moment';
-import { Badge } from '../ui/badge';
-import { type BestExchangeFormSchema } from '~/utils/customTypes';
-import { type inferProcedureOutput } from '@trpc/server';
-import { type AppRouter } from '~/server/api/root';
 
 const FIELD_ARRAY_NAME = 'exchange';
 
+export type BestExchangeFormSchema = z.infer<typeof bestExchangeFormSchema>;
 export const bestExchangeFormSchema = z.object({
     [FIELD_ARRAY_NAME]: z.object({
         info: z.object({
@@ -136,8 +135,6 @@ export default function BestExchangeForm() {
             enabled: weekData.length > 0
         }
     );
-
-    console.log(tableData);
 
     return (
         <Form {...formComplex}>

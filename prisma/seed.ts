@@ -1,11 +1,5 @@
 import { prisma } from '../src/server/db';
 // import { timetables } from './seeds/timetables';
-import { F14 } from './seeds/timetables/F14';
-
-import { F75 } from './seeds/timetables/F75';
-import { R15 } from './seeds/timetables/R15';
-import { V13 } from './seeds/timetables/V13';
-import { Z71 } from './seeds/timetables/Z71';
 
 async function main() {
     // await prisma.user.createMany({ data: users });

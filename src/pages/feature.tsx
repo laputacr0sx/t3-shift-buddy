@@ -1,7 +1,10 @@
 import React from 'react';
 import PageTitle from '~/components/PageTitle';
 import BestExchangeForm from '~/components/Exchange/BestExchangeForm';
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import {
+    type GetServerSidePropsContext,
+    type InferGetServerSidePropsType
+} from 'next';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { appRouter } from '~/server/api/root';
 import { createContextInner } from '~/server/api/trpc';
