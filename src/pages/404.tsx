@@ -1,11 +1,11 @@
 import React from 'react';
-import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 
 interface CustomErrorProps {
     statusCode: StatusCodes;
 }
 
-export default function Custom404({ statusCode }: CustomErrorProps) {
+export default function Custom404({statusCode}: CustomErrorProps) {
     return (
         <main className="flex h-screen w-full flex-col items-center justify-center bg-red-950">
             <h1 className="text-9xl font-extrabold tracking-widest text-slate-200">
@@ -37,11 +37,13 @@ export default function Custom404({ statusCode }: CustomErrorProps) {
                         // }
                         close();
                     }
+
                     close_window();
                     return false;
                 }}
             >
-                <span className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-amber-700 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"></span>
+                <span
+                    className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-amber-700 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"></span>
                 <span className="relative block border border-current bg-rose-200 px-8 py-3">
                     返回調更易
                 </span>

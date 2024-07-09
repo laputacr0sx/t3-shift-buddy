@@ -1,12 +1,12 @@
-import { convertWeatherIcons } from '~/utils/helper';
+import {convertWeatherIcons} from '~/utils/helper';
 import Image from 'next/image';
-import type { Weather } from '~/utils/customTypes';
-import { Label } from './ui/label';
+import type {Weather} from '~/utils/customTypes';
+import {Label} from './ui/label';
 
 type WeatherIconProps = {
     weather: Weather | null;
 };
-export default function WeatherIconDisplay({ weather }: WeatherIconProps) {
+export default function WeatherIconDisplay({weather}: WeatherIconProps) {
     if (!weather) return null;
     const iconId = weather?.ForecastIcon.toString();
     const iconURI = convertWeatherIcons(iconId);
@@ -19,7 +19,7 @@ export default function WeatherIconDisplay({ weather }: WeatherIconProps) {
     return iconId ? (
         <>
             <Image
-                src={`/image/weatherIcons/animated/${iconURI}.svg`}
+                src={`/image/weatherIcons/static/${iconURI}.svg`}
                 alt={`${iconURI}`}
                 width={30}
                 height={30}

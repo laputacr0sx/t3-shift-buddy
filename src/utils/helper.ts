@@ -1,9 +1,9 @@
 import moment from 'moment';
-import type { Timetable } from '@prisma/client';
-import { type z } from 'zod';
-import { toast } from 'react-hot-toast';
+import type {Timetable} from '@prisma/client';
+import {type z} from 'zod';
+import {toast} from 'react-hot-toast';
 import type * as icalParser from 'node-ical';
-import { type DateArray, createEvents, type EventAttributes } from 'ics';
+import {type DateArray, createEvents, type EventAttributes} from 'ics';
 
 import type {
     StaffId,
@@ -17,13 +17,13 @@ import {
     shiftNameWithoutDayoff,
     specialDutyRegex
 } from './regex';
-import { type Rota } from './standardRosters';
+import {type Rota} from './standardRosters';
 
-import holidayJson, { type Holiday } from '~/utils/holidayHK';
-import fixtures, { type Fixture } from '~/utils/hkjcFixture';
-import { rotaET, rotaKLN, rotaSHS } from '~/utils/standardRosters';
+import holidayJson, {type Holiday} from '~/utils/holidayHK';
+import fixtures, {type Fixture} from '~/utils/hkjcFixture';
+import {rotaET, rotaKLN, rotaSHS} from '~/utils/standardRosters';
 
-import type { TableData } from '~/components/HomepageInput';
+import type {TableData} from '~/components/HomepageInput';
 
 moment.updateLocale('zh-hk', {
     weekdaysShort: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
@@ -110,11 +110,11 @@ export function stringifyDuty(duty: DayDetail): string {
     let dayString = '';
 
     if (!duty.title.match(completeShiftNameRegex)) {
-        const { dutyNumber } = duty;
+        const {dutyNumber} = duty;
         const date = moment(duty.date).locale('zh-hk').format('DD/MM(dd)');
         dayString = `${date} ${dutyNumber}\n`;
     } else {
-        const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } = duty;
+        const {dutyNumber, duration, bNL, bFL, bNT, bFT, remarks} = duty;
         const date = moment(duty.date).locale('zh-hk').format('DD/MM(dd)');
         const durationDecimal = convertDurationDecimal(duration);
         dayString = `${date} ${dutyNumber} ${durationDecimal}\n[${bNL}]${bNT}-${bFT}[${bFL}] <${remarks}> \n`;
@@ -147,7 +147,7 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
         let dayString = '';
 
         if (!dayDetail.title.match(completeShiftNameRegex)) {
-            const { dutyNumber } = dayDetail;
+            const {dutyNumber} = dayDetail;
 
             const date = moment(dayDetail.date)
                 .locale('zh-hk')
@@ -155,7 +155,7 @@ export function getSelectedShiftsString(selectedShifts: DayDetail[]) {
 
             dayString = `${date} ${dutyNumber}\n`;
         } else {
-            const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+            const {dutyNumber, duration, bNL, bFL, bNT, bFT, remarks} =
                 dayDetail;
             const date = moment(dayDetail.date)
                 .locale('zh-hk')
@@ -204,7 +204,7 @@ export function convertMonthNumber(
 
 export function getICSObject(selectedShifts: DayDetail[]): EventAttributes[] {
     const events = selectedShifts.map<EventAttributes>((shift) => {
-        const { date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks } =
+        const {date, bFL, bFT, bNL, bNT, duration, dutyNumber, remarks} =
             shift;
         const validDate = moment(date, 'YYYYMMDD').format('YYYY-MM-DD');
 
@@ -256,6 +256,7 @@ export function convertICSEventsToBlob(calEvents: EventAttributes[]) {
 }
 
 type Prefix = '75' | '71' | '15' | '13' | '14';
+
 export function draftPrefix(
     raceFixture: Fixture | undefined,
     weekdayNumber: number,
@@ -282,8 +283,8 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
         return moment(date).locale('zh-hk').format('YYYYMMDD');
     });
 
-    const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
-        vevent.flatMap(({ dtstart }) =>
+    const publicHolidays = holidayJson.vcalendar.flatMap(({vevent}) =>
+        vevent.flatMap(({dtstart}) =>
             dtstart.filter((date) => typeof date === 'string')
         )
     );
@@ -296,12 +297,12 @@ export function autoPrefix(moreDays = false, weekNumber?: string) {
         const weekDayNum = moment(date).isoWeekday();
 
         const racingDetails = fixtures.filter(
-            ({ date: fixtureDay }) =>
+            ({date: fixtureDay}) =>
                 moment(fixtureDay).locale('zh-hk').format('YYYYMMDD') === date
         )[0];
 
         const holidayDetails = holidayJson.vcalendar[0]?.vevent.filter(
-            ({ dtstart }) => dtstart.includes(date)
+            ({dtstart}) => dtstart.includes(date)
         )[0];
 
         const prefix = draftPrefix(racingDetails, weekDayNum, isHoliday);
@@ -323,6 +324,7 @@ export type DateDetail = {
     racingDetail: Fixture | null;
     holidayDetail: Holiday | null;
 };
+
 export function getDateDetailFromId(
     weekId: string,
     moreDays = false
@@ -340,8 +342,8 @@ export function getDateDetailFromId(
         return moment(date).locale('zh-hk').format('YYYYMMDD');
     });
 
-    const publicHolidays = holidayJson.vcalendar.flatMap(({ vevent }) =>
-        vevent.flatMap(({ dtstart }) =>
+    const publicHolidays = holidayJson.vcalendar.flatMap(({vevent}) =>
+        vevent.flatMap(({dtstart}) =>
             dtstart.filter((date) => typeof date === 'string')
         )
     );
@@ -354,12 +356,12 @@ export function getDateDetailFromId(
         const weekDayNum = moment(date).isoWeekday();
 
         const racingDetail = fixtures.filter(
-            ({ date: fixtureDay }) =>
+            ({date: fixtureDay}) =>
                 moment(fixtureDay).locale('zh-hk').format('YYYYMMDD') === date
         )[0];
 
         const holidayDetail = holidayJson.vcalendar[0]?.vevent.filter(
-            ({ dtstart }) => dtstart.includes(date)
+            ({dtstart}) => dtstart.includes(date)
         )[0];
 
         const prefix = draftPrefix(racingDetail, weekDayNum, isHoliday);
@@ -480,7 +482,7 @@ export function getDefaultRosterRow(
     const rotaLength = rotaArray.length;
 
     if (!rowNumberWithCategory) {
-        return { sequence: new Array<string>(7).fill(''), rowInQuery: 0 };
+        return {sequence: new Array<string>(7).fill(''), rowInQuery: 0};
     }
 
     const rowNumber = rowNumberWithCategory.match(/\d+/)?.[0];
@@ -506,7 +508,7 @@ export function getDefaultRosterRow(
         };
     }
 
-    return { sequence, rowInQuery };
+    return {sequence, rowInQuery};
 }
 
 interface DefaultRosterDetail {
@@ -520,7 +522,7 @@ export function defaultRosterDetail(
     updatedAt: string,
     correspondingMoment: moment.Moment
 ): DefaultRosterDetail {
-    const { en } = translateRow(rowId);
+    const {en} = translateRow(rowId);
     const rotaArray = getRota(en);
     const weekOfCorrespondingMoment = correspondingMoment.isoWeek();
     const weekOfUpdatedAt = moment(updatedAt).isoWeek();
@@ -584,13 +586,13 @@ interface CategoryName {
 
 export function translateRow(rowID: string | undefined): CategoryName {
     if (!rowID) {
-        return { tc: '', en: '' };
+        return {tc: '', en: ''};
     }
     const categoryName = {
-        A: { tc: '九龍', en: 'KLN' },
-        B: { tc: '新界', en: 'SHS' },
-        C: { tc: '柴油', en: 'ET' },
-        S: { tc: '特別', en: 'SPC' }
+        A: {tc: '九龍', en: 'KLN'},
+        B: {tc: '新界', en: 'SHS'},
+        C: {tc: '柴油', en: 'ET'},
+        S: {tc: '特別', en: 'SPC'}
     };
 
     const prefix = rowID.slice(0, 1) as keyof typeof categoryName;
@@ -657,7 +659,7 @@ export function getFitTimetable(
                     : prevTimeTable;
             }
         );
-        return { ...prefix, timetable: fittedTimetable };
+        return {...prefix, timetable: fittedTimetable};
     });
 }
 
@@ -709,8 +711,8 @@ export function convertWeatherIcons(iconId: string | undefined): string {
     const iconTable: Record<string, string> = {
         '50': 'sunny-day',
         '51': `fair-day`,
-        '52': `cloudy-day-3`,
-        '53': `fair-day-rain`,
+        '52': `cloudy-day-1`,
+        '53': `rainy-1-day`,
         '54': `rainy-3`,
         '60': `cloudy`,
         '61': `overcast`,
@@ -718,14 +720,14 @@ export function convertWeatherIcons(iconId: string | undefined): string {
         '63': `rainy-6`,
         '64': `rainy-8`,
         '65': `thunderstorms`,
-        '70': `moon-new`,
-        '71': `moon-waxing-crescent`,
-        '72': `moon-first-quarter`,
-        '73': `moon-full`,
-        '74': `moon-last-quarter`,
-        '75': `moon-waning-crescent`,
-        '76': `cloudy-day-3`,
-        '77': `fair-day`,
+        '70': `night`,
+        '71': `night`,
+        '72': `night`,
+        '73': `night`,
+        '74': `night`,
+        '75': `night`,
+        '76': `cloudy-night-1`,
+        '77': `fair-night`,
         '80': `wind`,
         '81': `dry`,
         '82': `humid`,
@@ -738,6 +740,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
         '93': `cold`,
         unavailable: `exceptional`
     };
+
     return iconTable[iconId] as string;
 }
 
@@ -745,7 +748,7 @@ export function convertWeatherIcons(iconId: string | undefined): string {
  * 檢查更份是否死早夜
  **/
 export function checkDeadDuty(detail: DayDetail): boolean {
-    const { date, bNT, bFT } = detail;
+    const {date, bNT, bFT} = detail;
 
     const d = moment(date, 'YYYYMMDD').format('YYYY-MM-DD');
     const DEAD_EARLY = moment(`${d} 06:15`);
@@ -784,7 +787,7 @@ export function convertTableDatatoExchangeString(
         let dayString = '';
 
         if (!dayDetail.title.match(shiftNameWithoutDayoff)) {
-            const { dutyNumber } = dayDetail;
+            const {dutyNumber} = dayDetail;
 
             const date = moment(dayDetail.date)
                 .locale('zh-hk')
@@ -792,7 +795,7 @@ export function convertTableDatatoExchangeString(
 
             dayString = `${date} ${dutyNumber}\n`;
         } else {
-            const { dutyNumber, duration, bNL, bFL, bNT, bFT, remarks } =
+            const {dutyNumber, duration, bNL, bFL, bNT, bFT, remarks} =
                 dayDetail;
             const date = moment(dayDetail.date)
                 .locale('zh-hk')

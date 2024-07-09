@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-    UseFieldArrayRemove,
+    type UseFieldArrayRemove,
     useFieldArray,
     useForm,
     useWatch,
@@ -13,8 +13,6 @@ import toast from 'react-hot-toast';
 import { z } from 'zod';
 
 import { api } from '~/utils/api';
-import { DayDetail } from '~/utils/customTypes';
-import { DefaultData } from '../SevenSlotsSearchForm';
 import IconIconPlusCircle from '../svgIcons/CirclePlus';
 
 import { format } from 'date-fns';
