@@ -629,6 +629,623 @@ const fixtures: Fixture[] = [
         venue: 'S',
         nightRacing: 2,
         keyMatches: 'S'
+    },
+
+    {
+        date: '2024-09-08',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-09-11',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-09-15',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-09-18',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-09-22',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-09-25',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-09-28',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-01',
+        weekDay: 2,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-06',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-09',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-13',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-16',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-20',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-23',
+        weekDay: 3,
+        venue: 'S',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-27',
+        weekDay: 7,
+        venue: 'H',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-10-30',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-03',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-06',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-09',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-13',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-17',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-20',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-24',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-11-27',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-01',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-04',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-08',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-11',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-15',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-18',
+        weekDay: 3,
+        venue: 'S',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-22',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-26',
+        weekDay: 4,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2024-12-29',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-01',
+        weekDay: 3,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-05',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-08',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-12',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-15',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-19',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-22',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-26',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-01-31',
+        weekDay: 5,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-05',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-09',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-12',
+        weekDay: 3,
+        venue: 'S',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-16',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-19',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-23',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-02-26',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-02',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-05',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-09',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-12',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-15',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-19',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-23',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-26',
+        weekDay: 3,
+        venue: 'S',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-03-30',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-02',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-06',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-09',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-13',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-16',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-20',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-23',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-27',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-04-30',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-04',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-07',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-10',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-14',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-18',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-21',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-25',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-28',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-05-31',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 0,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-04',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-08',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-11',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-14',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-22',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-25',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-06-28',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-07-01',
+        weekDay: 2,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-07-05',
+        weekDay: 6,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-07-09',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
+    },
+    {
+        date: '2025-07-13',
+        weekDay: 7,
+        venue: 'S',
+        nightRacing: 2,
+        keyMatches: ''
+    },
+    {
+        date: '2025-07-16',
+        weekDay: 3,
+        venue: 'H',
+        nightRacing: 1,
+        keyMatches: ''
     }
 ];
 
