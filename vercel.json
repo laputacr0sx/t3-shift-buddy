@@ -1,8 +1,0 @@
-{
-    "crons": [
-        {
-            "path": "/src/pages/api/cron/updateUserRowNumber",
-            "schedule": "0 0 * * 1"
-        }
-    ]
-}

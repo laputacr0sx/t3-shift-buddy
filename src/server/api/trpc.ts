@@ -6,16 +6,15 @@ import superjson from 'superjson';
 
 import { prisma } from '~/server/db';
 
-// Clerk implementation //
 import {
+    clerkClient,
     getAuth,
-    type User,
     type SignedInAuthObject,
     type SignedOutAuthObject,
-    clerkClient
+    type User
 } from '@clerk/nextjs/server';
+import { type CustomUserPrivateMetadata } from '~/utils/customTypes';
 import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
-import { CustomUserPrivateMetadata } from '~/utils/customTypes';
 
 type CreateContextOptions = {
     auth: SignedInAuthObject | SignedOutAuthObject | null;

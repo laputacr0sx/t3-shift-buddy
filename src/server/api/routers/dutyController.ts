@@ -3,21 +3,15 @@ import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import type { DayDetail } from '~/utils/customTypes';
 
-import {
-    completeShiftNameRegex,
-    dayOffRegex,
-    proShiftNameRegex
-} from '~/utils/regex';
-import { dutyQueryArraySchema } from '~/utils/zodSchemas';
+import { completeShiftNameRegex, dayOffRegex, proShiftNameRegex } from '~/utils/regex';
 
 export const dutyControllerRouter = createTRPCRouter({
     getDutiesBySequence: publicProcedure
         .input(z.string().regex(completeShiftNameRegex, '更號不正確').array())
         .query(async ({ ctx, input }) => {
-            const foundDuties = await ctx.prisma.duty.findMany({
+            return ctx.prisma.duty.findMany({
                 where: { dutyNumber: { in: input } }
             });
-            return foundDuties;
         }),
 
     getDutyByDutyNumber: publicProcedure
@@ -46,7 +40,7 @@ export const dutyControllerRouter = createTRPCRouter({
                 where: { dutyNumber: { in: dutyInQuery } }
             });
 
-            const reduceResult = input.reduce<DayDetail[]>(
+            return input.reduce<DayDetail[]>(
                 (accumulatedDays, day) => {
                     if (day.shiftCode.match(dayOffRegex)) {
                         accumulatedDays.push({
@@ -73,7 +67,5 @@ export const dutyControllerRouter = createTRPCRouter({
                 },
                 []
             );
-
-            return reduceResult;
         })
 });

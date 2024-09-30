@@ -13,57 +13,57 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NavigationBar } from '~/components/NavigationBar';
 
 export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: React.ReactElement) => React.ReactNode;
+    getLayout?: (page: React.ReactElement) => React.ReactNode;
 };
 
 export type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
+    Component: NextPageWithLayout;
 };
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
-  return (
-    <ClerkProvider {...pageProps}>
-      <Head>
-        <title>出更易</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="image/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="image/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="image/favicon-16x16.png"
-        />
-        <link rel="manifest" href="image/site.webmanifest" />
-      </Head>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <Toaster />
-        <ReactQueryDevtools />
-        <NavigationBar />
-        <Component {...pageProps} />
-      </ThemeProvider>
-      <Analytics />
-      <SpeedInsights />
-    </ClerkProvider>
-  );
+    return (
+        <ClerkProvider {...pageProps}>
+            <Head>
+                <title>出更易</title>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+                />
+                <link
+                    rel="apple-touch-icon"
+                    sizes="180x180"
+                    href="image/apple-touch-icon.png"
+                />
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="32x32"
+                    href="image/favicon-32x32.png"
+                />
+                <link
+                    rel="icon"
+                    type="image/png"
+                    sizes="16x16"
+                    href="image/favicon-16x16.png"
+                />
+                <link rel="manifest" href="image/site.webmanifest" />
+                <desc></desc>
+            </Head>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+            >
+                <Toaster />
+                <ReactQueryDevtools />
+                <NavigationBar />
+                <Component {...pageProps} />
+            </ThemeProvider>
+            <Analytics />
+            <SpeedInsights />
+        </ClerkProvider>
+    );
 };
 
 export default api.withTRPC(MyApp);
