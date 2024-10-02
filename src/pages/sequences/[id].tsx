@@ -53,7 +53,10 @@ export default function PostViewPage(props: DayViewProps) {
     isLoading: weekDetailsLoading
   } = api.weekDetailsController.getDetails.useQuery({
     weekDifference: 0
-  });
+  },
+{
+  refetchOnWindowFocus: false
+});
 
   if (weekDetailsStatus !== 'success') {
     return <>Loading...</>;

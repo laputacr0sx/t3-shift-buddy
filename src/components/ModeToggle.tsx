@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTheme } from 'next-themes';
 
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Star, Sun } from 'lucide-react';
 import { Toggle } from '~/components/ui/toggle';
 
 export function ModeToggle() {

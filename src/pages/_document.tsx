@@ -4,11 +4,12 @@ export default function Document() {
   return (
     <Html
       lang="en"
-      className="scroll-smooth"
+      className="scroll-smooth h-full bg-white"
+
       style={{ scrollBehavior: "smooth" }}
     >
       <Head />
-      <body>
+      <body className="h-full">
         <Main />
         <NextScript />
       </body>
