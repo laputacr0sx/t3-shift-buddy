@@ -128,7 +128,7 @@ const SevenSlotsSearchForm = ({
                     <FormDescription className="px-8 pb-2 text-xs">
                         <p>於輸入框內輸入更號，例：</p>
                         <p>
-                            J15101則輸入101；991104則輸入991104；881113則輸入881113；如此類推。
+                            J15101則輸入101;991104則輸入991104;881113則輸入881113;如此類推。
                         </p>
                     </FormDescription>
                     <section className="flex w-full items-center justify-center gap-2">

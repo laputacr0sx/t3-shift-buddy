@@ -477,7 +477,6 @@ export function convertToICSEvents(webICSEvents: icalParser.VEvent[]) {
 export function getDefaultRosterRow(
     rotaArray: Rota,
     rowNumberWithCategory: string | undefined,
-    rowDifference: number
 ): { sequence: Rosta; rowInQuery: number } {
     const rotaLength = rotaArray.length;
 

@@ -57,7 +57,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             >
                 <Toaster />
                 <ReactQueryDevtools />
-                {/* <NavigationBar /> */}
                 <NavigationShell>
                     <Component {...pageProps} />
                 </NavigationShell>
