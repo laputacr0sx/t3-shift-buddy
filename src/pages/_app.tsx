@@ -1,16 +1,16 @@
 import { ClerkProvider } from '@clerk/nextjs';
 
-import { type AppProps } from 'next/app';
-import { api } from '~/utils/api';
-import '~/styles/globals.css';
-import { Analytics } from '@vercel/analytics/react';
-import { Toaster } from 'react-hot-toast';
-import { ThemeProvider } from '~/components/ui/theme-provider';
-import { type NextPage } from 'next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import Head from 'next/head';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { NavigationBar } from '~/components/NavigationBar';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { type NextPage } from 'next';
+import { type AppProps } from 'next/app';
+import Head from 'next/head';
+import { Toaster } from 'react-hot-toast';
+import NavigationShell from '~/components/NavigationShell';
+import { ThemeProvider } from '~/components/ui/theme-provider';
+import '~/styles/globals.css';
+import { api } from '~/utils/api';
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (page: React.ReactElement) => React.ReactNode;
@@ -58,7 +58,9 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                 <Toaster />
                 <ReactQueryDevtools />
                 {/* <NavigationBar /> */}
-                <Component {...pageProps} />
+                <NavigationShell>
+                    <Component {...pageProps} />
+                </NavigationShell>
             </ThemeProvider>
             <Analytics />
             <SpeedInsights />
