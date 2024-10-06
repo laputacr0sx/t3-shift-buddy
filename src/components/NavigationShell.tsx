@@ -11,8 +11,6 @@ import Image from 'next/image';
 import React from 'react';
 import { type ReactNode, useState } from 'react';
 import { ModeToggle } from '~/components/ModeToggle';
-import TableLoading from '~/components/TableLoading';
-import { api } from '~/utils/api';
 
 const navigation = [
     { name: '出更易', href: '/', icon: HomeIcon, current: true }

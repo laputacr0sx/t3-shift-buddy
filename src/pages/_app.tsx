@@ -47,7 +47,6 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
                     href="image/favicon-16x16.png"
                 />
                 <link rel="manifest" href="image/site.webmanifest" />
-                <desc></desc>
             </Head>
             <ThemeProvider
                 attribute="class"
