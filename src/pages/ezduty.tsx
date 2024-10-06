@@ -4,37 +4,24 @@ import { TestTable } from '~/components/ShiftTable/TestTable';
 import TableLoading from '~/components/TableLoading';
 import { WeekControlButton } from '~/components/WeekControlButton';
 
-import { getAuth, clerkClient } from '@clerk/nextjs/server';
+import { clerkClient, getAuth } from '@clerk/nextjs/server';
 import type {
     GetServerSidePropsContext,
     InferGetServerSidePropsType
 } from 'next';
 
+import { createServerSideHelpers } from '@trpc/react-query/server';
+import superjson from 'superjson';
+import { appRouter } from '~/server/api/root';
+import { createContextInner } from '~/server/api/trpc';
 import { api } from '~/utils/api';
 import { userPrivateMetadataSchema } from '~/utils/zodSchemas';
-import { createServerSideHelpers } from '@trpc/react-query/server';
-import { appRouter } from '~/server/api/root';
-import superjson from 'superjson';
-import { createContextInner } from '~/server/api/trpc';
-import { useRouter } from 'next/router';
+import React from 'react';
 
 type EasyDutyProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 function EasyDuty(props: EasyDutyProps) {
-    console.log(JSON.parse(props.userData));
     const [weekDifference, setWeekDifference] = useState(0);
-
-    // const r = useRouter();
-
-    // r.push(`/ezduty/${weekDifference}`, undefined, {
-    //     shallow: true
-    // })
-    //     .then((v) => {
-    //         return;
-    //     })
-    //     .catch((e) => {
-    //         console.log(e);
-    //     });
 
     const {
         data: weekDetails,

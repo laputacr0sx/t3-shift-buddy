@@ -22,6 +22,7 @@ import PageTitle from '~/components/PageTitle';
 import moment from 'moment';
 import { type CustomUserPrivateMetadata } from '~/utils/customTypes';
 import type { GetServerSideProps, InferGetStaticPropsType } from 'next';
+import UserDetailsForm from '~/components/UserDetailsForm';
 
 function UserMetadataForm({
     userMetadata
@@ -147,7 +148,8 @@ const User = ({
 }: InferGetStaticPropsType<typeof getServerSideProps>) => (
     <React.Fragment>
         <PageTitle>用戶資料</PageTitle>
-        <UserMetadataForm userMetadata={userData} />
+        {/* <UserMetadataForm userMetadata={userData} /> */}
+        <UserDetailsForm/>
     </React.Fragment>
 );
 
